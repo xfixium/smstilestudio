@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{697182DC-F468-448F-AE58-FAF71CDF7306}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SMSTileStudio</RootNamespace>
+    <AssemblyName>SMSTileStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=6.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.6.0.5\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\AssetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetDialogControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetDialogControl.Designer.cs">
+      <DependentUpon>AssetDialogControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssetPaletteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetPaletteControl.Designer.cs">
+      <DependentUpon>AssetPaletteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssetMetaSpriteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetMetaSpriteControl.Designer.cs">
+      <DependentUpon>AssetMetaSpriteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssetMetaTilemapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetMetaTilemapControl.Designer.cs">
+      <DependentUpon>AssetMetaTilemapControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssetTilemapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetTilemapControl.Designer.cs">
+      <DependentUpon>AssetTilemapControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CharacterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CharacterControl.Designer.cs">
+      <DependentUpon>CharacterControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CharacterItemControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CharacterItemControl.Designer.cs">
+      <DependentUpon>CharacterItemControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ColorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ColorControl.Designer.cs">
+      <DependentUpon>ColorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssetDataEntryControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetDataEntryControl.Designer.cs">
+      <DependentUpon>AssetDataEntryControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImageControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ImageControl.Designer.cs">
+      <DependentUpon>ImageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ListBoxControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ListBoxControl.Designer.cs">
+      <DependentUpon>ListBoxControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MetaSpriteControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\MetaSpriteControl.Designer.cs">
+      <DependentUpon>MetaSpriteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MetaSpriteSelectControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\MetaSpriteSelectControl.Designer.cs">
+      <DependentUpon>MetaSpriteSelectControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MetaTilemapControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\MetaTilemapControl.Designer.cs">
+      <DependentUpon>MetaTilemapControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaletteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PaletteControl.Designer.cs">
+      <DependentUpon>PaletteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaletteSpriteControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PaletteSpriteControl.Designer.cs">
+      <DependentUpon>PaletteSpriteControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaletteTilemapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PaletteTilemapControl.Designer.cs">
+      <DependentUpon>PaletteTilemapControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PixelTileControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\PixelTileControl.Designer.cs">
+      <DependentUpon>PixelTileControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SpriteImageControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SpriteImageControl.Designer.cs">
+      <DependentUpon>SpriteImageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TileControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TileControl.Designer.cs">
+      <DependentUpon>TileControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TilemapControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TilemapControl.Designer.cs">
+      <DependentUpon>TilemapControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TilemapImageControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TilemapImageControl.Designer.cs">
+      <DependentUpon>TilemapImageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TilesControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TilesControl.Designer.cs">
+      <DependentUpon>TilesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TileSelectControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TileSelectControl.Designer.cs">
+      <DependentUpon>TileSelectControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AssetTilesetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AssetTilesetControl.Designer.cs">
+      <DependentUpon>AssetTilesetControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TilesetImageControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TilesetImageControl.Designer.cs">
+      <DependentUpon>TilesetImageControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data\App.cs" />
+    <Compile Include="Data\GameAsset.cs" />
+    <Compile Include="Data\BitmapUtility.cs" />
+    <Compile Include="Data\DataEntry.cs" />
+    <Compile Include="Data\Dialog.cs" />
+    <Compile Include="Data\Enumerations.cs" />
+    <Compile Include="Data\Extensions.cs" />
+    <Compile Include="Data\MetaSpriteFrame.cs" />
+    <Compile Include="Data\MetaTile.cs" />
+    <Compile Include="Data\MetaTilemap.cs" />
+    <Compile Include="Data\Palette.cs" />
+    <Compile Include="Data\PixelTile.cs" />
+    <Compile Include="Data\Project.cs" />
+    <Compile Include="Data\MetaSprite.cs" />
+    <Compile Include="Data\Sprite.cs" />
+    <Compile Include="Data\Tile.cs" />
+    <Compile Include="Data\Tilemap.cs" />
+    <Compile Include="Data\TilemapFrame.cs" />
+    <Compile Include="Data\Tileset.cs" />
+    <Compile Include="Forms\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ImportMetaSpriteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImportMetaSpriteForm.Designer.cs">
+      <DependentUpon>ImportMetaSpriteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ImportGraphicsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImportGraphicsForm.Designer.cs">
+      <DependentUpon>ImportGraphicsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MetaTilesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MetaTilesForm.Designer.cs">
+      <DependentUpon>MetaTilesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReplaceForm.Designer.cs">
+      <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\AssetDialogControl.resx">
+      <DependentUpon>AssetDialogControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AssetPaletteControl.resx">
+      <DependentUpon>AssetPaletteControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AssetMetaSpriteControl.resx">
+      <DependentUpon>AssetMetaSpriteControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AssetMetaTilemapControl.resx">
+      <DependentUpon>AssetMetaTilemapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AssetTilemapControl.resx">
+      <DependentUpon>AssetTilemapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AssetDataEntryControl.resx">
+      <DependentUpon>AssetDataEntryControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CharacterControl.resx">
+      <DependentUpon>CharacterControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CharacterItemControl.resx">
+      <DependentUpon>CharacterItemControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PaletteControl.resx">
+      <DependentUpon>PaletteControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PaletteSpriteControl.resx">
+      <DependentUpon>PaletteSpriteControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PaletteTilemapControl.resx">
+      <DependentUpon>PaletteTilemapControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AssetTilesetControl.resx">
+      <DependentUpon>AssetTilesetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImportMetaSpriteForm.resx">
+      <DependentUpon>ImportMetaSpriteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImportGraphicsForm.resx">
+      <DependentUpon>ImportGraphicsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MetaTilesForm.resx">
+      <DependentUpon>MetaTilesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReplaceForm.resx">
+      <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\swatch_aseprite.png" />
+    <Content Include="Resources\swatch_consecutive.png" />
+    <Content Include="Resources\swatch_six.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets'))" />
+  </Target>
+</Project>
