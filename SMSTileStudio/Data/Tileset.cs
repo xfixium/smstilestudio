@@ -93,11 +93,11 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets assembly string
+        /// Gets tileset data in assembly or hex string
         /// </summary>
         /// <param name="hex">If only getting raw hex values</param>
         /// <returns>Object assembly string</returns>
-        public string GetASMString(bool hex)
+        public string GetDataString(bool hex)
         {
             StringBuilder sb = new StringBuilder();
             byte[] data = GetTilesetData(true, 0, TileCount);

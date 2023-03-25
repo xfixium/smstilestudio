@@ -103,6 +103,17 @@ namespace SMSTileStudio.Data
     }
 
     /// <summary>
+    /// Describes tileset edit type
+    /// </summary>
+    public enum TilesetEditType
+    {
+        [Description("Select")]
+        Select = 0,
+        [Description("Swap")]
+        Swap = 1
+    }
+
+    /// <summary>
     /// Describes the swatch types
     /// </summary>
     public enum PaletteModeType
@@ -130,8 +141,14 @@ namespace SMSTileStudio.Data
         PaletteIndex = 4,
         [Description("Tile Select")]
         Selection = 5,
-        [Description("Unused Bits")]
-        Bits = 6
+        [Description("Collisions")]
+        Collisions = 6,
+        [Description("Entities")]
+        Entities = 7,
+        [Description("Type")]
+        Bits = 8,
+        [Description("Blocks")]
+        Blocks = 9,
     }
 
     /// <summary>
@@ -146,18 +163,16 @@ namespace SMSTileStudio.Data
     }
 
     /// <summary>
-    /// Compression type enumeration
+    /// Block size type enumeration
     /// </summary>
-    public enum MetaTileSizeType : int
+    public enum BlockSizeType : int
     {
+        [Description("8 x 8")]
+        Eight = 0,
         [Description("16 x 16")]
-        Sixteen = 0,
+        Sixteen = 1,
         [Description("32 x 32")]
-        ThirtyTwo = 1,
-        [Description("64 x 64")]
-        SixtyFour = 2,
-        [Description("128 x 128")]
-        OneHundredTwentyEight = 3
+        ThirtyTwo = 2
     }
 
     /// <summary>

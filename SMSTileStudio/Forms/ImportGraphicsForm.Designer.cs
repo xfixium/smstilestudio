@@ -30,12 +30,6 @@
         {
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.grpOptions = new System.Windows.Forms.GroupBox();
-            this.grpDivider = new System.Windows.Forms.GroupBox();
-            this.lblRows = new System.Windows.Forms.Label();
-            this.lblColumns = new System.Windows.Forms.Label();
-            this.nudRows = new System.Windows.Forms.NumericUpDown();
-            this.nudColumns = new System.Windows.Forms.NumericUpDown();
-            this.chkTilesetOnly = new System.Windows.Forms.CheckBox();
             this.pnlSPRPalette = new SMSTileStudio.Controls.PaletteControl();
             this.pnlBGPalette = new SMSTileStudio.Controls.PaletteControl();
             this.lblSPRPalette = new System.Windows.Forms.Label();
@@ -61,8 +55,6 @@
             this.lblTileCount = new System.Windows.Forms.Label();
             this.tpnlMain.SuspendLayout();
             this.grpOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRows)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudColumns)).BeginInit();
             this.grpImage.SuspendLayout();
             this.grpTileset.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -92,12 +84,6 @@
             // 
             // grpOptions
             // 
-            this.grpOptions.Controls.Add(this.grpDivider);
-            this.grpOptions.Controls.Add(this.lblRows);
-            this.grpOptions.Controls.Add(this.lblColumns);
-            this.grpOptions.Controls.Add(this.nudRows);
-            this.grpOptions.Controls.Add(this.nudColumns);
-            this.grpOptions.Controls.Add(this.chkTilesetOnly);
             this.grpOptions.Controls.Add(this.pnlSPRPalette);
             this.grpOptions.Controls.Add(this.pnlBGPalette);
             this.grpOptions.Controls.Add(this.lblSPRPalette);
@@ -121,90 +107,6 @@
             this.grpOptions.TabIndex = 0;
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Tilemap Options";
-            // 
-            // grpDivider
-            // 
-            this.grpDivider.Location = new System.Drawing.Point(4, 392);
-            this.grpDivider.Name = "grpDivider";
-            this.grpDivider.Size = new System.Drawing.Size(176, 5);
-            this.grpDivider.TabIndex = 31;
-            this.grpDivider.TabStop = false;
-            // 
-            // lblRows
-            // 
-            this.lblRows.AutoSize = true;
-            this.lblRows.Location = new System.Drawing.Point(96, 432);
-            this.lblRows.Margin = new System.Windows.Forms.Padding(0);
-            this.lblRows.Name = "lblRows";
-            this.lblRows.Size = new System.Drawing.Size(81, 13);
-            this.lblRows.TabIndex = 28;
-            this.lblRows.Text = "Tilemap Rows:";
-            this.lblRows.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblColumns
-            // 
-            this.lblColumns.AutoSize = true;
-            this.lblColumns.Location = new System.Drawing.Point(8, 432);
-            this.lblColumns.Margin = new System.Windows.Forms.Padding(0);
-            this.lblColumns.Name = "lblColumns";
-            this.lblColumns.Size = new System.Drawing.Size(75, 13);
-            this.lblColumns.TabIndex = 27;
-            this.lblColumns.Text = "Tilemap Cols:";
-            this.lblColumns.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // nudRows
-            // 
-            this.nudRows.Location = new System.Drawing.Point(96, 448);
-            this.nudRows.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudRows.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudRows.Name = "nudRows";
-            this.nudRows.Size = new System.Drawing.Size(80, 22);
-            this.nudRows.TabIndex = 30;
-            this.nudRows.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // nudColumns
-            // 
-            this.nudColumns.Location = new System.Drawing.Point(8, 448);
-            this.nudColumns.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.nudColumns.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudColumns.Name = "nudColumns";
-            this.nudColumns.Size = new System.Drawing.Size(80, 22);
-            this.nudColumns.TabIndex = 29;
-            this.nudColumns.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // chkTilesetOnly
-            // 
-            this.chkTilesetOnly.AutoSize = true;
-            this.chkTilesetOnly.Location = new System.Drawing.Point(8, 408);
-            this.chkTilesetOnly.Name = "chkTilesetOnly";
-            this.chkTilesetOnly.Size = new System.Drawing.Size(86, 17);
-            this.chkTilesetOnly.TabIndex = 26;
-            this.chkTilesetOnly.Text = "Tileset Only";
-            this.chkTilesetOnly.UseVisualStyleBackColor = true;
             // 
             // pnlSPRPalette
             // 
@@ -376,6 +278,7 @@
             this.pnlImage.Image = null;
             this.pnlImage.ImageAlpha = 1F;
             this.pnlImage.ImageScale = 1;
+            this.pnlImage.Indexed = false;
             this.pnlImage.Location = new System.Drawing.Point(8, 23);
             this.pnlImage.MinimumScale = 1;
             this.pnlImage.Name = "pnlImage";
@@ -483,7 +386,7 @@
             this.lblTileCount.Text = "Total Tile Count: 0";
             this.lblTileCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // ImportTilemapForm
+            // ImportGraphicsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -493,7 +396,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ImportTilemapForm";
+            this.Name = "ImportGraphicsForm";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -503,8 +406,6 @@
             this.tpnlMain.PerformLayout();
             this.grpOptions.ResumeLayout(false);
             this.grpOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRows)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudColumns)).EndInit();
             this.grpImage.ResumeLayout(false);
             this.grpTileset.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
@@ -539,11 +440,5 @@
         private System.Windows.Forms.Label lblBGPalette;
         private System.Windows.Forms.ComboBox cbBGPalette;
         private System.Windows.Forms.Label lblTileCount;
-        private System.Windows.Forms.CheckBox chkTilesetOnly;
-        private System.Windows.Forms.Label lblRows;
-        private System.Windows.Forms.Label lblColumns;
-        private System.Windows.Forms.NumericUpDown nudRows;
-        private System.Windows.Forms.NumericUpDown nudColumns;
-        private System.Windows.Forms.GroupBox grpDivider;
     }
 }

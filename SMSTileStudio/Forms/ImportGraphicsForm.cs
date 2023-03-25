@@ -68,7 +68,7 @@ namespace SMSTileStudio.Forms
         /// Constructor
         /// </summary>
         /// <param name="image"></param>
-        /// <param name="assetName"></param>
+        /// <param name="assetName"></param>*
         /// <param name="bgPaletteID"></param>
         /// <param name="sprPaletteID"></param>
         /// <param name="importColors"></param>
@@ -192,15 +192,8 @@ namespace SMSTileStudio.Forms
         private void btnOK_Click(object sender, EventArgs e)
         {
             var pixelTiles = pnlTileset.GetPixelTiles(false);
-            if (chkTilesetOnly.Checked)
-            {
-                _tilemap.SetEmpty((int)nudColumns.Value, (int)nudRows.Value);
-            }
-            else
-            {
-                _tilemap.Columns = _image.Width / 8;
-                _tilemap.Rows = _image.Height / 8;
-            }
+            _tilemap.Columns = _image.Width / 8;
+            _tilemap.Rows = _image.Height / 8;
 
             foreach (Tile tile in _tilemap.Tiles)
                 for (int i = 0; i < pixelTiles.Count; i++)

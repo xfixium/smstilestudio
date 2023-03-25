@@ -240,6 +240,8 @@
       <DependentUpon>TilesetImageControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\App.cs" />
+    <Compile Include="Data\Collision.cs" />
+    <Compile Include="Data\Entity.cs" />
     <Compile Include="Data\GameAsset.cs" />
     <Compile Include="Data\BitmapUtility.cs" />
     <Compile Include="Data\DataEntry.cs" />
@@ -275,6 +277,12 @@
     </Compile>
     <Compile Include="Forms\ImportGraphicsForm.Designer.cs">
       <DependentUpon>ImportGraphicsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ImportTilesetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImportTilesetForm.Designer.cs">
+      <DependentUpon>ImportTilesetForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -341,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportGraphicsForm.resx">
       <DependentUpon>ImportGraphicsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImportTilesetForm.resx">
+      <DependentUpon>ImportTilesetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

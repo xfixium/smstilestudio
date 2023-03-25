@@ -36,6 +36,10 @@ namespace SMSTileStudio.Controls
         /// </summary>
         public event TileChangedHandler TileChanged;
         public delegate void TileChangedHandler();
+        public event CollisionsChangedHandler CollisionsChanged;
+        public delegate void CollisionsChangedHandler();
+        public event EntitiesChangedHandler EntitiesChanged;
+        public delegate void EntitiesChangedHandler();
         public event PositionChangedHandler PositionChanged;
         public delegate void PositionChangedHandler();
 
@@ -52,11 +56,19 @@ namespace SMSTileStudio.Controls
         private int _antOffset = 0;
         private Timer _antsTimer = new Timer();
         private List<Tile> _tiles = new List<Tile>();
+        private List<Collision> _collisions = new List<Collision>();
+        private List<Entity> _entities = new List<Entity>();
         private Tilemap _brush = null;
         private Rectangle _selection = Rectangle.Empty;
         private Point _selectOrigin = Point.Empty;
+        private Rectangle _collisionBounds = Rectangle.Empty;
+        private Point _collisionOrigin = Point.Empty;
+        private Rectangle _entityBounds = Rectangle.Empty;
+        private Point _entityOrigin = Point.Empty;
         private Point _brushOrigin = Point.Empty;
         private Bitmap _brushBitmap = null;
+        private Collision _selectedCollision = null;
+        private Entity _selectedEntity = null;
 
         /// <summary>
         /// Properties
@@ -66,13 +78,35 @@ namespace SMSTileStudio.Controls
             get
             {
                 List<Tile> tiles = new List<Tile>();
-                foreach (Tile tile in _tiles)
+                foreach (var tile in _tiles)
                     tiles.Add(tile.DeepClone());
                 return tiles;
             }
         }
+        public List<Collision> Collisions
+        {
+            get
+            {
+                List<Collision> collisions = new List<Collision>();
+                foreach (var rect in _collisions)
+                    collisions.Add(rect.DeepClone());
+                return collisions;
+            }
+        }
+        public List<Entity> Entities
+        {
+            get
+            {
+                List<Entity> entities = new List<Entity>();
+                foreach (var entity in _entities)
+                    entities.Add(entity.DeepClone());
+                return entities;
+            }
+        }
         public TileEditType EditMode { get { return _editMode; } set { _editMode = value; UpdateBackBuffer(); } }
         public Point Position { get; private set; }
+        public Collision SelectedCollision { set { _selectedCollision = value; UpdateBackBuffer(); } }
+        public Entity SelectedEntity { set { _selectedEntity = value; UpdateBackBuffer(); } }
         public string PositionText { get { return GetPositionText(); } }
         public int TileID { get { return _tileID; } set { _tileID = value; UpdateBackBuffer(); } }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
@@ -148,6 +182,8 @@ namespace SMSTileStudio.Controls
             DrawGrid(gfx, origin);
             DrawHighlights(gfx, origin);
             DrawSelection(gfx, origin);
+            DrawCollisions(gfx, origin);
+            DrawEntities(gfx, origin);
             DrawBrush(gfx, origin);
         }
 
@@ -188,6 +224,20 @@ namespace SMSTileStudio.Controls
                     _scrollTimer.Start();
                     _selectOrigin = new Point(x, y);
                     _selection = new Rectangle(new Point(x, y), SnapSize);
+                    break;
+                case TileEditType.Collisions:
+                    // Set default scroll position and start the auto scroll timer
+                    _scrollCapture = new Point(-AutoScrollPosition.X, -AutoScrollPosition.Y);
+                    _scrollTimer.Start();
+                    _collisionOrigin = new Point(x, y);
+                    _collisionBounds = new Rectangle(new Point(x, y), SnapSize);
+                    break;
+                case TileEditType.Entities:
+                    // Set default scroll position and start the auto scroll timer
+                    _scrollCapture = new Point(-AutoScrollPosition.X, -AutoScrollPosition.Y);
+                    _scrollTimer.Start();
+                    _entityOrigin = new Point(x, y);
+                    _entityBounds = new Rectangle(new Point(x, y), SnapSize);
                     break;
                 case TileEditType.XFlip: _tiles[index].FlipX = !_tiles[index].FlipX; break;
                 case TileEditType.YFlip: _tiles[index].FlipY = !_tiles[index].FlipY; break;
@@ -241,6 +291,36 @@ namespace SMSTileStudio.Controls
 
                     break;
 
+                case TileEditType.Collisions:
+                    if (e.Button != MouseButtons.Left || (x == _collisionBounds.X && y == _collisionBounds.Y))
+                        return;
+
+                    _collisionBounds = GetRectangle(_collisionOrigin, new Point(x, y));
+
+                    if (_collisionBounds.X >= _collisionOrigin.X)
+                        _collisionBounds.Width += SnapSize.Width;
+
+                    if (_collisionBounds.Y >= _collisionOrigin.Y)
+                        _collisionBounds.Height += SnapSize.Height;
+
+                    UpdateBackBuffer();
+                    break;
+
+                case TileEditType.Entities:
+                    if (e.Button != MouseButtons.Left || (x == _entityBounds.X && y == _entityBounds.Y))
+                        return;
+
+                    _entityBounds = GetRectangle(_entityOrigin, new Point(x, y));
+
+                    if (_entityBounds.X >= _entityOrigin.X)
+                        _entityBounds.Width += SnapSize.Width;
+
+                    if (_entityBounds.Y >= _entityOrigin.Y)
+                        _entityBounds.Height += SnapSize.Height;
+
+                    UpdateBackBuffer();
+                    break;
+
                 case TileEditType.TileID:
                     if (x == _brushOrigin.X && y == _brushOrigin.Y)
                         return;
@@ -258,6 +338,33 @@ namespace SMSTileStudio.Controls
         {
             base.OnMouseUp(e);
             _scrollTimer.Stop();
+
+            switch (EditMode)
+            {
+                case TileEditType.Collisions:
+                    if (!InBounds(e.Location))
+                        return;
+
+                    var collision = new Collision(0, _collisionBounds);
+                    _collisions.Add(collision);
+                    ClearCollision();
+                    _selectedCollision = collision;
+                    CollisionsChanged?.Invoke();
+                    UpdateBackBuffer();
+                    break;
+
+                case TileEditType.Entities:
+                    if (!InBounds(e.Location))
+                        return;
+
+                    var entity = new Entity(0, "New Entity", new Collision(0, _entityBounds));
+                    _entities.Add(entity);
+                    ClearEntity();
+                    _selectedEntity = entity;
+                    EntitiesChanged?.Invoke();
+                    UpdateBackBuffer();
+                    break;
+            }
         }
 
         /// <summary>
@@ -442,6 +549,76 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Draws all collision bounds
+        /// </summary>
+        private void DrawCollisions(Graphics gfx, Point origin)
+        {
+            if (_editMode != TileEditType.Collisions || Image == null)
+                return;
+
+            foreach (var collision in _collisions)
+                DrawCollision(gfx, collision.Bounds, origin, false);
+
+            DrawCollision(gfx, _collisionBounds, origin, false);
+            if (_selectedCollision != null)
+                DrawCollision(gfx, _selectedCollision.Bounds, origin, true);
+        }
+
+        /// <summary>
+        /// Draws a single collision
+        /// </summary>
+        void DrawCollision(Graphics gfx, Rectangle rect, Point origin, bool selected)
+        {
+            var src = rect;
+            src.X += origin.X;
+            src.Y += origin.Y;
+            gfx.DrawRectangle(Pens.Black, src);
+            src.Inflate(-1, -1);
+            gfx.DrawRectangle(selected ? Pens.White : Pens.Red, src);
+            src.Inflate(-1, -1);
+            gfx.DrawRectangle(Pens.Black, src);
+        }
+
+        /// <summary>
+        /// Draws all collision rectangles
+        /// </summary>
+        private void DrawEntities(Graphics gfx, Point origin)
+        {
+            if (_editMode != TileEditType.Entities || Image == null)
+                return;
+
+            foreach (var entity in _entities)
+                DrawEntity(gfx, entity.Collision.Bounds, origin, entity.Name, false);
+
+            DrawEntity(gfx, _entityBounds, origin, "", false);
+            if (_selectedEntity != null)
+                DrawEntity(gfx, _selectedEntity.Collision.Bounds, origin, _selectedEntity.Name, true);
+        }
+
+
+        /// <summary>
+        /// Draws entity
+        /// </summary>
+        void DrawEntity(Graphics gfx, Rectangle rect, Point origin, string name, bool selected)
+        {
+            var src = rect;
+            src.X += origin.X;
+            src.Y += origin.Y;
+            gfx.DrawRectangle(Pens.Black, src);
+            src.Inflate(-1, -1);
+            gfx.DrawRectangle(selected ? Pens.White : Pens.Lime, src);
+            src.Inflate(-1, -1);
+            gfx.DrawRectangle(Pens.Black, src);
+
+            Font font = new Font(Font.Name, 8, FontStyle.Regular);
+            RectangleF textRect = new RectangleF(src.X, src.Y - 16, 0, 0);
+            textRect.Size = gfx.MeasureString(name, font);
+            textRect.X = src.X - ((textRect.Width / 2) - (src.Width / 2));
+            BitmapUtility.DrawTextOutline(gfx, name, font, Brushes.Black, textRect);
+            gfx.DrawString(name, font, selected ? Brushes.White : Brushes.Lime, textRect);
+        }
+
+        /// <summary>
         /// Creates a brush from a selection
         /// </summary>
         public void CreateBrush(Tileset tileset, Palette bgPalette, Palette sprPalette)
@@ -504,12 +681,68 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Sets priority for the current selection
+        /// </summary>
+        /// <returns></returns>
+        public void SetPriorityForSelection(bool priority)
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return;
+
+            var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = _selection.Width / SnapSize.Width;
+            var rows = _selection.Height / SnapSize.Height;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    _tiles[((row * _columns) + offset) + col].Priority = priority;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets palette index for the current selection
+        /// </summary>
+        /// <returns></returns>
+        public void SetPaletteForSelection(bool palette)
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return;
+
+            var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = _selection.Width / SnapSize.Width;
+            var rows = _selection.Height / SnapSize.Height;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    _tiles[((row * _columns) + offset) + col].UseBGPalette = palette;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets position text
         /// </summary>
         /// <returns></returns>
         private string GetPositionText()
         {
-            return "X: " + Position.X + " | " + Position.X / 8 + " Y: " + Position.Y + " | " + Position.Y / 8;
+            return "X: " + (Position.X + 8) + " | " + (Position.X + 8) / 8 + " Y: " + (Position.Y + 8) + " | " + (Position.Y + 8) / 8;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="location"></param>
+        private bool InBounds(Point location)
+        {
+            Point origin = GetOrigin();
+            Rectangle rect = new Rectangle(origin.X * ImageScale + AutoScrollPosition.X, origin.Y * ImageScale + AutoScrollPosition.Y, Image.Width * ImageScale, Image.Height * ImageScale);
+            if (rect.Contains(location) == false)
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -535,6 +768,28 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Clear collision selection
+        /// </summary>
+        public void ClearCollision()
+        {
+            _collisionBounds = Rectangle.Empty;
+            _collisionOrigin = Point.Empty;
+            _selectedCollision = null;
+            Invalidate();
+        }
+
+        /// <summary>
+        /// Clear entity selection
+        /// </summary>
+        public void ClearEntity()
+        {
+            _entityBounds = Rectangle.Empty;
+            _entityOrigin = Point.Empty;
+            _selectedEntity = null;
+            Invalidate();
+        }
+
+        /// <summary>
         /// Sets the tile map data
         /// </summary>
         /// <param name="tilemap">The tile map data to set</param>
@@ -543,8 +798,12 @@ namespace SMSTileStudio.Controls
             _columns = tilemap.Columns;
             _rows = tilemap.Rows;
             _tiles = tilemap.Tiles.DeepClone();
+            _collisions = tilemap.Collisions.DeepClone();
+            _entities = tilemap.Entities.DeepClone();
             Offset = tilemap.Offset;
             ClearSelection();
+            ClearCollision();
+            ClearEntity();
             UpdateBackBuffer();
         }
 
@@ -556,9 +815,13 @@ namespace SMSTileStudio.Controls
             _columns = 0;
             _rows = 0;
             _tiles.Clear();
+            _collisions.Clear();
+            _entities.Clear();
             Offset = 0;
             this.Image = null;
             ClearSelection();
+            ClearCollision();
+            ClearEntity();
             UpdateBackBuffer();
         }
     }

@@ -119,9 +119,12 @@ namespace SMSTileStudio.Controls
             }
             else if (HasData && button == btnRemove)
             {
-                App.Project.RemoveAsset(_metaSprite);
-                LoadData(true);
-                lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
+                if (MessageBox.Show("Are you sure you want to remove " + _metaSprite.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    App.Project.RemoveAsset(_metaSprite);
+                    LoadData(true);
+                    lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
+                }
             }
             else if (HasData && button == btnImport)
             {
@@ -228,9 +231,9 @@ namespace SMSTileStudio.Controls
                 ExportData(mnuTilesetSingleFrame.Checked ? _frame.Tileset.GetTilesetData(true, minimum) : _metaSprite.GetAllTilesetData(true, minimum), fileName);
             }
             else if (menuItem == mnuTilesetExportHex)
-                Clipboard.SetText(HasFrameData ? _frame.Tileset.GetASMString(true) : "");
+                Clipboard.SetText(HasFrameData ? _frame.Tileset.GetDataString(true) : "");
             else if (menuItem == mnuTilesetExportAssembly && HasFrameData)
-                Clipboard.SetText(_frame.Tileset.GetASMString(true));
+                Clipboard.SetText(_frame.Tileset.GetDataString(true));
 
             else if (menuItem == mnuMetaSpriteExportBinary)
                 ExportData(_metaSprite.GetMetaSpriteData(true), _metaSprite.Name.ToLower().Replace(' ', '_') + "_sprites");

@@ -964,5 +964,17 @@ namespace SMSTileStudio.Data
             gfx.DrawString(text, font, color, top, format);
             gfx.DrawString(text, font, color, bottom, format);
         }
+
+        public static void DrawTextOutline(Graphics gfx, string text, Font font, Brush color, RectangleF rect)
+        {
+            RectangleF left = new RectangleF(rect.X - 1, rect.Y, rect.Width, rect.Height);
+            RectangleF right = new RectangleF(rect.X + 1, rect.Y, rect.Width, rect.Height);
+            RectangleF top = new RectangleF(rect.X, rect.Y - 1, rect.Width, rect.Height);
+            RectangleF bottom = new RectangleF(rect.X, rect.Y + 1, rect.Width, rect.Height);
+            gfx.DrawString(text, font, color, left);
+            gfx.DrawString(text, font, color, right);
+            gfx.DrawString(text, font, color, top);
+            gfx.DrawString(text, font, color, bottom);
+        }
     }
 }

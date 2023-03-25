@@ -58,7 +58,6 @@
             this.tabSprites = new System.Windows.Forms.TabPage();
             this.lstSprites = new SMSTileStudio.Controls.ListBoxControl();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.chkSpriteHide = new System.Windows.Forms.CheckBox();
             this.nudSpriteY = new System.Windows.Forms.NumericUpDown();
             this.lblSpriteY = new System.Windows.Forms.Label();
             this.nudSpriteX = new System.Windows.Forms.NumericUpDown();
@@ -66,8 +65,6 @@
             this.tabRects = new System.Windows.Forms.TabPage();
             this.lstCollisions = new SMSTileStudio.Controls.ListBoxControl();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.lblHeight = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
@@ -90,8 +87,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pnlMetaSpriteEdit = new SMSTileStudio.Controls.MetaSpriteControl();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.chkCollisions = new System.Windows.Forms.CheckBox();
+            this.chkSprites = new System.Windows.Forms.CheckBox();
             this.chkGridSnap = new System.Windows.Forms.CheckBox();
             this.chkGrid = new System.Windows.Forms.CheckBox();
             this.tabTilesetEdit = new System.Windows.Forms.TabPage();
@@ -130,6 +127,7 @@
             this.mnuMetaSpriteExportBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMetaSpriteExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMetaSpriteExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
+            this.nudCollisionType = new System.Windows.Forms.NumericUpDown();
             this.tpnlMain.SuspendLayout();
             this.grpSpriteList.SuspendLayout();
             this.pnlPaletteButtons.SuspendLayout();
@@ -163,6 +161,7 @@
             this.panel7.SuspendLayout();
             this.panel5.SuspendLayout();
             this.mnuExport.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudCollisionType)).BeginInit();
             this.SuspendLayout();
             // 
             // tpnlMain
@@ -489,9 +488,9 @@
             this.lstSprites.FormattingEnabled = true;
             this.lstSprites.HorizontalExtent = 154;
             this.lstSprites.IntegralHeight = false;
-            this.lstSprites.Location = new System.Drawing.Point(3, 56);
+            this.lstSprites.Location = new System.Drawing.Point(3, 40);
             this.lstSprites.Name = "lstSprites";
-            this.lstSprites.Size = new System.Drawing.Size(158, 290);
+            this.lstSprites.Size = new System.Drawing.Size(158, 306);
             this.lstSprites.TabIndex = 19;
             this.lstSprites.TextOffsetX = 2;
             this.lstSprites.TextOffsetY = 0;
@@ -499,7 +498,6 @@
             // 
             // panel6
             // 
-            this.panel6.Controls.Add(this.chkSpriteHide);
             this.panel6.Controls.Add(this.nudSpriteY);
             this.panel6.Controls.Add(this.lblSpriteY);
             this.panel6.Controls.Add(this.nudSpriteX);
@@ -507,19 +505,8 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(158, 53);
+            this.panel6.Size = new System.Drawing.Size(158, 37);
             this.panel6.TabIndex = 24;
-            // 
-            // chkSpriteHide
-            // 
-            this.chkSpriteHide.AutoSize = true;
-            this.chkSpriteHide.Location = new System.Drawing.Point(0, 32);
-            this.chkSpriteHide.Name = "chkSpriteHide";
-            this.chkSpriteHide.Size = new System.Drawing.Size(50, 17);
-            this.chkSpriteHide.TabIndex = 24;
-            this.chkSpriteHide.Text = "Hide";
-            this.chkSpriteHide.UseVisualStyleBackColor = true;
-            this.chkSpriteHide.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
             // 
             // nudSpriteY
             // 
@@ -582,7 +569,7 @@
             this.tabRects.Location = new System.Drawing.Point(4, 22);
             this.tabRects.Name = "tabRects";
             this.tabRects.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRects.Size = new System.Drawing.Size(164, 325);
+            this.tabRects.Size = new System.Drawing.Size(164, 349);
             this.tabRects.TabIndex = 1;
             this.tabRects.Text = "Collisions";
             // 
@@ -594,9 +581,9 @@
             this.lstCollisions.FormattingEnabled = true;
             this.lstCollisions.HorizontalExtent = 154;
             this.lstCollisions.IntegralHeight = false;
-            this.lstCollisions.Location = new System.Drawing.Point(3, 120);
+            this.lstCollisions.Location = new System.Drawing.Point(3, 88);
             this.lstCollisions.Name = "lstCollisions";
-            this.lstCollisions.Size = new System.Drawing.Size(158, 202);
+            this.lstCollisions.Size = new System.Drawing.Size(158, 258);
             this.lstCollisions.TabIndex = 20;
             this.lstCollisions.TextOffsetX = 2;
             this.lstCollisions.TextOffsetY = 0;
@@ -604,8 +591,7 @@
             // 
             // panel8
             // 
-            this.panel8.Controls.Add(this.comboBox1);
-            this.panel8.Controls.Add(this.checkBox2);
+            this.panel8.Controls.Add(this.nudCollisionType);
             this.panel8.Controls.Add(this.lblHeight);
             this.panel8.Controls.Add(this.label6);
             this.panel8.Controls.Add(this.numericUpDown3);
@@ -618,27 +604,8 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(3, 3);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(158, 117);
+            this.panel8.Size = new System.Drawing.Size(158, 85);
             this.panel8.TabIndex = 25;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(32, 8);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(120, 21);
-            this.comboBox1.TabIndex = 27;
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(0, 80);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(50, 17);
-            this.checkBox2.TabIndex = 26;
-            this.checkBox2.Text = "Hide";
-            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // lblHeight
             // 
@@ -913,6 +880,8 @@
             this.pnlMetaSpriteEdit.Location = new System.Drawing.Point(0, 32);
             this.pnlMetaSpriteEdit.MinimumScale = 1;
             this.pnlMetaSpriteEdit.Name = "pnlMetaSpriteEdit";
+            this.pnlMetaSpriteEdit.ShowCollisions = true;
+            this.pnlMetaSpriteEdit.ShowSprites = true;
             this.pnlMetaSpriteEdit.Size = new System.Drawing.Size(494, 487);
             this.pnlMetaSpriteEdit.SnapSize = new System.Drawing.Size(8, 8);
             this.pnlMetaSpriteEdit.SpriteMode = SMSTileStudio.Data.SpriteModeType.Normal;
@@ -924,8 +893,8 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.checkBox4);
-            this.panel4.Controls.Add(this.checkBox3);
+            this.panel4.Controls.Add(this.chkCollisions);
+            this.panel4.Controls.Add(this.chkSprites);
             this.panel4.Controls.Add(this.chkGridSnap);
             this.panel4.Controls.Add(this.chkGrid);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
@@ -934,31 +903,31 @@
             this.panel4.Size = new System.Drawing.Size(494, 32);
             this.panel4.TabIndex = 0;
             // 
-            // checkBox4
+            // chkCollisions
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Checked = true;
-            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox4.Location = new System.Drawing.Point(72, 8);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(76, 17);
-            this.checkBox4.TabIndex = 3;
-            this.checkBox4.Text = "Collisions";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            this.chkCollisions.AutoSize = true;
+            this.chkCollisions.Checked = true;
+            this.chkCollisions.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCollisions.Location = new System.Drawing.Point(72, 8);
+            this.chkCollisions.Name = "chkCollisions";
+            this.chkCollisions.Size = new System.Drawing.Size(76, 17);
+            this.chkCollisions.TabIndex = 3;
+            this.chkCollisions.Text = "Collisions";
+            this.chkCollisions.UseVisualStyleBackColor = true;
+            this.chkCollisions.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
             // 
-            // checkBox3
+            // chkSprites
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(8, 8);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(61, 17);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "Sprites";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            this.chkSprites.AutoSize = true;
+            this.chkSprites.Checked = true;
+            this.chkSprites.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSprites.Location = new System.Drawing.Point(8, 8);
+            this.chkSprites.Name = "chkSprites";
+            this.chkSprites.Size = new System.Drawing.Size(61, 17);
+            this.chkSprites.TabIndex = 2;
+            this.chkSprites.Text = "Sprites";
+            this.chkSprites.UseVisualStyleBackColor = true;
+            this.chkSprites.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
             // 
             // chkGridSnap
             // 
@@ -1356,6 +1325,18 @@
             this.mnuMetaSpriteExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuMetaSpriteExportAssembly.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
+            // nudCollisionType
+            // 
+            this.nudCollisionType.Location = new System.Drawing.Point(32, 8);
+            this.nudCollisionType.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.nudCollisionType.Name = "nudCollisionType";
+            this.nudCollisionType.Size = new System.Drawing.Size(128, 22);
+            this.nudCollisionType.TabIndex = 27;
+            // 
             // AssetMetaSpriteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1403,6 +1384,7 @@
             this.panel7.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.mnuExport.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudCollisionType)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1492,22 +1474,20 @@
         private System.Windows.Forms.Label lblSpriteFrame;
         private System.Windows.Forms.Button btnPreviousFrame;
         private System.Windows.Forms.Button btnNextFrame;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox chkSpriteHide;
         private System.Windows.Forms.NumericUpDown nudDuration;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox chkCollisions;
+        private System.Windows.Forms.CheckBox chkSprites;
         private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.ToolStripMenuItem mnuExportMetaSpriteSpriteDataOnly;
         private System.Windows.Forms.ToolStripMenuItem mnuExportMetaSpriteCollisionDataOnly;
         private System.Windows.Forms.ToolStripMenuItem mnuMetaSpriteExportImage;
         private MetaSpriteControl pnlMetaSpriteEdit;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button btnDurationAll;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.NumericUpDown nudTilesetMinimum;
         private System.Windows.Forms.Label lblTilesetMinimum;
+        private System.Windows.Forms.NumericUpDown nudCollisionType;
     }
 }

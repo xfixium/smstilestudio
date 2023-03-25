@@ -126,9 +126,12 @@ namespace SMSTileStudio.Controls
             }
             else if (HasData && button == btnRemove)
             {
-                App.Project.RemoveAsset(_dialog);
-                LoadData(true);
-                lstDialogs_SelectedIndexChanged(this, EventArgs.Empty);
+                if (MessageBox.Show("Are you sure you want to remove " + _dialog.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    App.Project.RemoveAsset(_dialog);
+                    LoadData(true);
+                    lstDialogs_SelectedIndexChanged(this, EventArgs.Empty);
+                }
             }
             else if (HasData && button == btnImport)
             {

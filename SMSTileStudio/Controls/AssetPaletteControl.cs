@@ -102,9 +102,12 @@ namespace SMSTileStudio.Controls
             }
             else if (HasData && button == btnRemove)
             {
-                App.Project.RemoveAsset(_palette);
-                LoadData(true);
-                lstPalettes_SelectedIndexChanged(this, EventArgs.Empty);
+                if (MessageBox.Show("Are you sure you want to remove " + _palette.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    App.Project.RemoveAsset(_palette);
+                    LoadData(true);
+                    lstPalettes_SelectedIndexChanged(this, EventArgs.Empty);
+                }
             }
             else if (button == btnImport)
             {
@@ -134,6 +137,12 @@ namespace SMSTileStudio.Controls
                 }
 
                 List<Color> importColors = BitmapUtility.GetColors(image);
+                if (importColors == null)
+                {
+                    MessageBox.Show("The image format: " + image.PixelFormat.ToString() + " is not supported.");
+                    return;
+                }
+
                 if (importColors.Count > 32)
                 {
                     MessageBox.Show("The image has more than 32 colors, reduce the image colors and try again.");

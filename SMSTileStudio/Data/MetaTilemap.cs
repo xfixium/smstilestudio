@@ -43,7 +43,7 @@ namespace SMSTileStudio.Data
         public Size Size { get { return new Size(Columns * 8, Rows * 8); } }                // The size of the tilemap in pixels
         public Tileset Tileset { get; set; } = null;                                        // The tileset for this tilemap
         public List<MetaTile> MetaTiles { get; set; } = new List<MetaTile>();               // Meta Tilemap tiles
-        public MetaTileSizeType MetaTileSize { get; set; } = MetaTileSizeType.ThirtyTwo;    // Meta Tile size
+        public BlockSizeType MetaTileSize { get; set; } = BlockSizeType.ThirtyTwo;    // Meta Tile size
 
         /// <summary>
         /// Constructors

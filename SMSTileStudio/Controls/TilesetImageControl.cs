@@ -52,6 +52,7 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Properties
         /// </summary>
+        public TilesetEditType EditMode { get; set; } = TilesetEditType.Select;
         public int TileID { get { return _source; } }
         public List<byte> Pixels { get { return _pixels; } }
         public List<Color> Palette { set { _palette = value; } }
@@ -129,21 +130,24 @@ namespace SMSTileStudio.Controls
                 return;
 
             _selection = selection;
-            if (e.Button == MouseButtons.Right)
+            switch (EditMode)
             {
-                _source = tileID;
-                TileSelectionChanged?.Invoke();
-                return;
-            }
-            if (_source == -1)
-            {
-                _source = tileID;
-                TileSelectionChanged?.Invoke();
-            }
-            else
-            {
-                _target = tileID;
-                SwapTiles();
+                case TilesetEditType.Select:
+                    _source = tileID;
+                    TileSelectionChanged?.Invoke();
+                    break;
+                case TilesetEditType.Swap:
+                    if (_source == -1)
+                    {
+                        _source = tileID;
+                        TileSelectionChanged?.Invoke();
+                    }
+                    else
+                    {
+                        _target = tileID;
+                        SwapTiles();
+                    }
+                    break;
             }
             UpdateBackBuffer();
         }

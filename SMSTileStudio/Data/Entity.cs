@@ -22,31 +22,32 @@
 
 using System;
 using System.Drawing;
-using System.Collections.Generic;
 
 namespace SMSTileStudio.Data
 {
     [Serializable]
-    public class MetaSpriteFrame
+    public class Entity
     {
         /// <summary>
         /// Properties
         /// </summary>
-        public Tileset Tileset { get; set; } = null;                              // Tileset for the frame
-        public Rectangle Bounds { get; set; }                                     // Frame dimensions
-        public int Duration { get; set; } = 10;                                   // Duration of frame
-        public List<Collision> Collisions { get; set; } = new List<Collision>();  // A list of collision rectangles
-        public List<Sprite> Sprites { get; set; } = new List<Sprite>();           // List of Sprites
+        public int Id { get; set; } = 0;
+        public string Name { get; set; } = "";
+        public Collision Collision { get; set; } = new Collision();
 
         /// <summary>
         /// Constructors
         /// </summary>
-        public MetaSpriteFrame() { }
-        public MetaSpriteFrame(Rectangle bounds, Tileset tileset) { Bounds = bounds; Tileset = tileset; }
+        public Entity() { }
+        public Entity(int id, string name, Collision collision) { Id = id; Name = name; Collision = collision; }
 
+        /// <summary>
+        /// Overrides
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return "Frame: " + Bounds.X + ", " + Bounds.Y + ", " + Bounds.Width + ", " + Bounds.Height;
+            return string.Format("{0}, {1}, X: {2}, Y: {3}", Id, Name, Collision.Bounds.X, Collision.Bounds.Y);
         }
     }
 }

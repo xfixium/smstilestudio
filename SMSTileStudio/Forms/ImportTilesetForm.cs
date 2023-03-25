@@ -21,32 +21,19 @@
 //
 
 using System;
+using System.Linq;
 using System.Drawing;
+using System.Windows.Forms;
 using System.Collections.Generic;
+using SMSTileStudio.Data;
 
-namespace SMSTileStudio.Data
+namespace SMSTileStudio.Forms
 {
-    [Serializable]
-    public class MetaSpriteFrame
+    public partial class ImportTilesetForm : Form
     {
-        /// <summary>
-        /// Properties
-        /// </summary>
-        public Tileset Tileset { get; set; } = null;                              // Tileset for the frame
-        public Rectangle Bounds { get; set; }                                     // Frame dimensions
-        public int Duration { get; set; } = 10;                                   // Duration of frame
-        public List<Collision> Collisions { get; set; } = new List<Collision>();  // A list of collision rectangles
-        public List<Sprite> Sprites { get; set; } = new List<Sprite>();           // List of Sprites
-
-        /// <summary>
-        /// Constructors
-        /// </summary>
-        public MetaSpriteFrame() { }
-        public MetaSpriteFrame(Rectangle bounds, Tileset tileset) { Bounds = bounds; Tileset = tileset; }
-
-        public override string ToString()
+        public ImportTilesetForm(Bitmap image, Tilemap tilemap, List<Color> importColors)
         {
-            return "Frame: " + Bounds.X + ", " + Bounds.Y + ", " + Bounds.Width + ", " + Bounds.Height;
+            InitializeComponent();
         }
     }
 }

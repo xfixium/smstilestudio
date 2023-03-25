@@ -169,17 +169,17 @@ namespace SMSTileStudio.Controls
             else if (menuItem == mnuTilesetExportBinary)
                 ExportData(_tilemap.Tileset.GetTilesetData(mnuTilesetBypassCompression.Checked, (int)nudTilesetExportStart.Value, (int)nudTilesetExportEnd.Value), _tilemap.Name.ToLower().Replace(' ', '_') + "_tiles");
             else if (menuItem == mnuTilesetExportHex)
-                Clipboard.SetText(_tilemap.Tileset.GetASMString(true));
+                Clipboard.SetText(_tilemap.Tileset.GetDataString(true));
             else if (menuItem == mnuTilesetExportAssembly)
-                Clipboard.SetText(_tilemap.Tileset.GetASMString(false));
+                Clipboard.SetText(_tilemap.Tileset.GetDataString(false));
             else if (menuItem == mnuTilemapExportImage)
                 ExportTilemap(_tilemap.Name.ToLower().Replace(' ', '_') + "_map");
             else if (menuItem == mnuTilemapExportBinary)
                 ExportData(_tilemap.GetTilemapData(mnuTilemapBypassCompression.Checked, GetTilemapExportOrientation()), _tilemap.Name.ToLower().Replace(' ', '_') + "_map");
             else if (menuItem == mnuTilemapExportHex)
-                Clipboard.SetText(_tilemap.GetASMString(true));
+                Clipboard.SetText(_tilemap.GetDataString(true));
             else if (menuItem == mnuTilemapExportAssembly)
-                Clipboard.SetText(_tilemap.GetASMString(false));
+                Clipboard.SetText(_tilemap.GetDataString(false));
             else if (menuItem == mnuCreateBrush && _tilemap.Tileset != null)
             {
                 var bgPalette = cbBgPalette.SelectedItem as Palette;

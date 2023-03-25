@@ -22,31 +22,37 @@
 
 using System;
 using System.Drawing;
-using System.Collections.Generic;
 
 namespace SMSTileStudio.Data
 {
     [Serializable]
-    public class MetaSpriteFrame
+    public class Collision
     {
         /// <summary>
         /// Properties
         /// </summary>
-        public Tileset Tileset { get; set; } = null;                              // Tileset for the frame
-        public Rectangle Bounds { get; set; }                                     // Frame dimensions
-        public int Duration { get; set; } = 10;                                   // Duration of frame
-        public List<Collision> Collisions { get; set; } = new List<Collision>();  // A list of collision rectangles
-        public List<Sprite> Sprites { get; set; } = new List<Sprite>();           // List of Sprites
+        /// 
+        private Rectangle _bounds = Rectangle.Empty;
+        public int CollisionType { get; set; } = 0;
+        public Rectangle Bounds { get { return _bounds; } set { _bounds = value; } }
+        public int X { get { return Bounds.X; } set { _bounds.X = value; } }
+        public int Y { get { return Bounds.Y; } set { _bounds.Y = value; } }
+        public int Width { get { return Bounds.Width; } set { _bounds.Width = value; } }
+        public int Height { get { return Bounds.Height; } set { _bounds.Height = value; } }
 
         /// <summary>
         /// Constructors
         /// </summary>
-        public MetaSpriteFrame() { }
-        public MetaSpriteFrame(Rectangle bounds, Tileset tileset) { Bounds = bounds; Tileset = tileset; }
+        public Collision() { }
+        public Collision(int type, Rectangle bounds) { CollisionType = type; Bounds = bounds; }
 
+        /// <summary>
+        /// Overrides
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return "Frame: " + Bounds.X + ", " + Bounds.Y + ", " + Bounds.Width + ", " + Bounds.Height;
+            return string.Format("X: {0}, Y: {1}, W: {2}, H: {3}", X, Y, Width, Height);
         }
     }
 }

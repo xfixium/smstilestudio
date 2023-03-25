@@ -39,13 +39,15 @@ namespace SMSTileStudio.Controls
         private MetaSpriteEditType _editMode = MetaSpriteEditType.Sprites;
         private SpriteModeType _spriteMode = SpriteModeType.Normal;
         private bool _useGrid = true;
+        private bool _showSprites = true;
+        private bool _showCollisions = true;
         private int _antOffset = 0;
         private Point _offset = new Point(128, 112);
         private Timer _antsTimer = new Timer();
         private MetaSpriteFrame _frame = null;
         private Sprite _selectedSprite = null;
         private Palette _palette = null;
-        private Rectangle _selectedRect = Rectangle.Empty;
+        private Collision _selectedCollision = null;
 
         /// <summary>
         /// Properties
@@ -55,6 +57,8 @@ namespace SMSTileStudio.Controls
         public MetaSpriteEditType EditMode { get { return _editMode; } set { _editMode = value; UpdateBackBuffer(); } }
         public SpriteModeType SpriteMode { get { return _spriteMode; } set { _spriteMode = value; UpdateBackBuffer(); } }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
+        public bool ShowSprites { get { return _showSprites; } set { _showSprites = value; UpdateBackBuffer(); } }
+        public bool ShowCollisions { get { return _showCollisions; } set { _showCollisions = value; UpdateBackBuffer(); } }
 
         /// <summary>
         /// Constructors
@@ -143,12 +147,13 @@ namespace SMSTileStudio.Controls
                         }
                     }
                     break;
+
                 case MetaSpriteEditType.Rects:
-                    foreach (var rect in _frame.Collisions)
+                    foreach (var collision in _frame.Collisions)
                     {
-                        if (rect.Contains(new Point(x, y)))
+                        if (collision.Bounds.Contains(new Point(x, y)))
                         {
-                            _selectedRect = rect;
+                            _selectedCollision = collision;
                             break;
                         }
                     }
@@ -183,14 +188,15 @@ namespace SMSTileStudio.Controls
                     if (_selectedSprite != null && (x != _selectedSprite.X || y != _selectedSprite.Y))
                     {
                         _selectedSprite.X = x;
-                        _selectedSprite.Y = y;
+                        _selectedSprite.Y = y; 
                     }
                     break;
+
                 case MetaSpriteEditType.Rects:
-                    if (_selectedRect != Rectangle.Empty && (x != _selectedRect.X || y != _selectedRect.Y))
+                    if (_selectedCollision != null && (x != _selectedCollision.X || y != _selectedCollision.Y))
                     {
-                        _selectedRect.X = x;
-                        _selectedRect.Y = y;
+                        _selectedCollision.X = x;
+                        _selectedCollision.Y = y;
                     }
                     break;
             }
@@ -274,7 +280,7 @@ namespace SMSTileStudio.Controls
                 }
             }
 
-            if (_selectedSprite != null)
+            if (_selectedSprite != null && _showSprites)
             {
                 var rect = new Rectangle(_selectedSprite.X + origin.X + _offset.X, _selectedSprite.Y + origin.Y + _offset.Y, 8, height);
                 gfx.DrawRectangle(Pens.Black, rect);
@@ -290,8 +296,15 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawRects(Graphics gfx, Point origin)
         {
-            if (EditMode != MetaSpriteEditType.Rects || Image == null || _frame == null)
+            if (EditMode != MetaSpriteEditType.Rects || Image == null || _frame == null || _selectedCollision == null || !_showCollisions)
                 return;
+
+            var rect = new Rectangle(_selectedCollision.Bounds.X + origin.X, _selectedCollision.Bounds.Y + origin.Y, _selectedCollision.Bounds.Width, _selectedCollision.Bounds.Height);
+            gfx.DrawRectangle(Pens.Black, rect);
+            rect.Inflate(-1, -1);
+            gfx.DrawRectangle(Pens.Red, rect);
+            rect.Inflate(-1, -1);
+            gfx.DrawRectangle(Pens.Black, rect);
         }
 
         /// <summary>
@@ -316,7 +329,7 @@ namespace SMSTileStudio.Controls
             }
             _frame = null;
             _selectedSprite = null;
-            _selectedRect = Rectangle.Empty;
+            _selectedCollision = null;
             this.Image.Dispose();
             this.Image = new Bitmap(256, 224);
             UpdateBackBuffer();
