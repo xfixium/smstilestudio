@@ -37,6 +37,7 @@ namespace SMSTileStudio.Data
         public int PaletteID { get; set; } = -2;                                          // The display SPR palette
         public Point Origin { get; set; } = Point.Empty;                                  // The starting origin of the meta sprite
         public SpriteModeType SpriteMode { get; set; } = SpriteModeType.Normal;           // Sprite mode, 8 x 8 or 8 x 16
+        public int TileMinimum { get; set; } = 0;                                         // Minimum amount of tiles, for padding
         public bool UseCollisions { get; set; } = false;                                  // If exporting collision data
         public List<MetaSpriteFrame> Frames { get; set; } = new List<MetaSpriteFrame>();  // Frames of animation
 
@@ -55,7 +56,7 @@ namespace SMSTileStudio.Data
             StringBuilder sb = new StringBuilder();
             if (!hex)
                 sb.Append(".db ");
-            byte[] data = GetMetaSpriteData(true);
+            byte[] data = GetMetaSpriteData(true, true);
             foreach (byte b in data)
                 sb.Append((hex ? "" : "$") + b.ToString("X2") + " ");
             return sb.ToString().Trim();
@@ -68,7 +69,7 @@ namespace SMSTileStudio.Data
         public string GetInfo(int frameIndex)
         {
             var frame = frameIndex >= Frames.Count || frameIndex < 0 ? null : Frames[frameIndex];
-            int length = GetMetaSpriteData(false).Length;
+            int length = GetMetaSpriteData(false, true).Length;
             var metaSpriteInfo = "ID: " + ID + " | Name: " + Name + " | Length: " + length + " | Sprite Mode: " + SpriteMode.ToString();
             var spriteInfo = frame == null ? "No Sprite information" : " | Sprite Count: " + frame.Sprites.Count;
             var tilesetInfo = frame == null ? "No Tileset information" : frame.Tileset.GetInfo();
@@ -173,31 +174,46 @@ namespace SMSTileStudio.Data
         /// Gets meta sprite data
         /// </summary>
         /// <param name="getRawData">If ignoring compression and data length limitation</param>
+        /// <param name="framed">If tile index base starts at zero, or accumulative from last frame tileset</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetMetaSpriteData(bool getRawData)
+        public byte[] GetMetaSpriteData(bool getRawData, bool framed)
         {
             List<byte> header = new List<byte>();
             List<byte> bytes = new List<byte>();
             var headerSize = Frames.Count * 2;
-            var tiles = 0;
+            var pixels = 0;
+            //var tiles = 0;
 
-            //bytes.AddRange(BitConverter.GetBytes((ushort)Offset));
+            // Data Structure:
+            // 0 = Frame count
+            // 1 - ?? Header, data start location for each frame (2 bytes each)
+            // Frame Data:
+            // 0 = Frame tileset data start location (2 bytes)
+            // 1 = Frame sprite config (1 byte)
+            // 2 = Frame duration time (1 byte)
+            // 3 = Frame sprite count (1 byte)
+            // Frame Sprite Data:
+            // 0 = Sprite X position (1 byte)
+            // 1 = Sprite Y position (1 byte)
+            // 2 = Sprite tile id (1 byte)
+            // 3 = Reserved
             bytes.Add((byte)Frames.Count);
             foreach (var frame in Frames)
             {
                 header.AddRange(GetShort((ushort)(bytes.Count + headerSize)));
-                bytes.AddRange(GetShort((ushort)(tiles)));
-                bytes.AddRange(GetShort((ushort)(frame.Tileset.Pixels.Count / 2)));
+                bytes.AddRange(GetShort((ushort)(pixels / 2)));
+                bytes.Add((byte)frame.SpriteConfig);
                 bytes.Add((byte)frame.Duration);
-                bytes.Add((byte)frame.Sprites.Count);
-                //bytes.Add((byte)frame.Collisions.Count);
-                foreach (var sprite in frame.Sprites)
-                {
-                    bytes.Add((byte)sprite.X);
-                    bytes.Add((byte)sprite.Y);
-                    bytes.AddRange(GetShort((ushort)sprite.TileID));
-                }
-                tiles += frame.Tileset.Pixels.Count / 2;
+                //bytes.Add((byte)frame.Sprites.Count);
+                //foreach (var sprite in frame.Sprites)
+                //{
+                //    bytes.Add((byte)sprite.X);
+                //    bytes.Add((byte)sprite.Y);
+                //    bytes.Add((byte)(sprite.TileID + (framed ? 0 : tiles) + Offset));
+                //    bytes.Add(0);
+                //}
+                //tiles = frame.Tileset.TileCount;
+                pixels += frame.Tileset.GetTilesetData(true, TileMinimum).Length;
             }
 
             bytes.InsertRange(1, header);

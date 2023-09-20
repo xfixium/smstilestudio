@@ -40,7 +40,8 @@ namespace SMSTileStudio.Controls
         private Tilemap _tilemap = null;
         private Palette _selectedPalette = null;
         private Tileset _copy = null;
-        private int _frame = 0;
+        private TileEditType _editType = TileEditType.TileID;
+        //private int _frame = 0;
 
         /// <summary>
         /// Properties
@@ -65,6 +66,12 @@ namespace SMSTileStudio.Controls
             cbTilesetCompression.DataSource = EnumMethods.GetEnumCollection(typeof(CompressionType));
             if (cbTilesetCompression.Items.Count > 0)
                 cbTilesetCompression.SelectedIndex = 0;
+
+            cbBlockSize.ValueMember = "Value";
+            cbBlockSize.DisplayMember = "Description";
+            cbBlockSize.DataSource = EnumMethods.GetEnumCollection(typeof(MetatileSizeType));
+            if (cbBlockSize.Items.Count > 0)
+                cbBlockSize.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -117,7 +124,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                using (var form = new ImportGraphicsForm(image, _tilemap, importColors))
+                using (var form = new ImportTilemapForm(image, _tilemap, importColors))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
                         return;
@@ -180,14 +187,6 @@ namespace SMSTileStudio.Controls
                 Clipboard.SetText(_tilemap.GetDataString(true));
             else if (menuItem == mnuTilemapExportAssembly)
                 Clipboard.SetText(_tilemap.GetDataString(false));
-
-            else if (menuItem == mnuCollisionsExportBinary)
-                ExportData(_tilemap.GetCollisionData(), _tilemap.Name.ToLower().Replace(' ', '_') + "_collisions");
-            else if (menuItem == mnuCollisionsExportHex)
-                Clipboard.SetText(_tilemap.GetCollisionDataString(true));
-            else if (menuItem == mnuCollisionsExportAsm)
-                Clipboard.SetText(_tilemap.GetCollisionDataString(false));
-
             else if (menuItem == mnuEntitiesExportBinary)
                 ExportData(_tilemap.GetEntityData(), _tilemap.Name.ToLower().Replace(' ', '_') + "_entities");
             else if (menuItem == mnuEntitiesExportHex)
@@ -216,6 +215,10 @@ namespace SMSTileStudio.Controls
             else if (menuItem == mnuClearBrush && _tilemap.Tileset != null)
             {
                 pnlTilemapEdit.ClearBrush();
+            }
+            else if (menuItem == mnuClearSelection && _tilemap.Tileset != null)
+            {
+                pnlTilemapEdit.ClearSelection();
             }
             else if (menuItem == mnuSetSelectionPriority && _tilemap.Tileset != null)
             {
@@ -250,6 +253,15 @@ namespace SMSTileStudio.Controls
                     return;
 
                 pnlTilemapEdit.SetPaletteForSelection(false);
+                _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
+                UpdateTilemap();
+            }
+            else if (menuItem == mnuSetTileType && _tilemap.Tileset != null)
+            {
+                if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
+                    return;
+
+                pnlTilemapEdit.SetTileTypeForSelection((byte)nudTileType.Value);
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
             }
@@ -291,7 +303,7 @@ namespace SMSTileStudio.Controls
             }
             else if (HasData && menuItem == mnuDeselectTile)
             {
-                pnlTilesetEdit.DeselectSelection();
+                pnlTilesetEdit.ClearSelection();
                 pnlSelectedTile.Clear();
             }
             else if (HasData && menuItem == mnuCopyTileset)
@@ -349,23 +361,15 @@ namespace SMSTileStudio.Controls
                 mnuExport.Show(btnExport, new Point(0, btnExport.Height));
                 return;
             }
+            else if (HasData && button == btnTilemapOptions && _tilemap.Tileset != null)
+            {
+                mnuTilemapOptions.Show(btnTilemapOptions, new Point(0, btnTilemapOptions.Height));
+                return;
+            }
             else if (HasData && button == btnSelectionOptions && _tilemap.Tileset != null)
             {
                 mnuSelectOptions.Show(btnSelectionOptions, new Point(0, btnSelectionOptions.Height));
                 return;
-            }
-            else if (HasData && lstCollisions.SelectedItem != null && button == btnRemoveCollision)
-            {
-                _tilemap.Collisions.Remove(lstCollisions.SelectedItem as Collision);
-                lstCollisions.Items.Remove(lstCollisions.SelectedItem);
-                UpdateTilemap();
-                UpdateImages();
-            }
-            else if (HasData && button == btnApplyTileType && _tilemap.Tileset != null && pnlTilesetEdit.TileID > -1)
-            {
-                _tilemap.SetTileType(pnlTilesetEdit.TileID, (byte)nudTileType.Value);
-                UpdateTilemap();
-                UpdateImages();
             }
             else if (HasData && button == btnTilesetOptions && _tilemap.Tileset != null)
             {
@@ -430,32 +434,21 @@ namespace SMSTileStudio.Controls
             if (nud == nudOffset)
                 _tilemap.Offset = (int)nudOffset.Value;
             else if (nud == nudColumns)
-                _tilemap.Columns = (int)nudColumns.Value;
+                _tilemap.Resize((int)nudColumns.Value, (int)nudRows.Value);
             else if (nud == nudRows)
-                _tilemap.Rows = (int)nudRows.Value;
-            else if (nud == nudTilemapTileType)
-                pnlTilemapEdit.BitsValue = (byte)nudTilemapTileType.Value;
-            else if (nud == nudCollisionType && lstCollisions.SelectedItem != null)
-                (lstCollisions.SelectedItem as Collision).CollisionType = (byte)nudCollisionX.Value;
-            else if (nud == nudCollisionX && lstCollisions.SelectedItem != null)
-                (lstCollisions.SelectedItem as Collision).X = (ushort)nudCollisionX.Value;
-            else if (nud == nudCollisionY && lstCollisions.SelectedItem != null)
-                (lstCollisions.SelectedItem as Collision).Y = (ushort)nudCollisionY.Value;
-            else if (nud == nudCollisionWidth && lstCollisions.SelectedItem != null)
-                (lstCollisions.SelectedItem as Collision).Width = (ushort)nudCollisionWidth.Value;
-            else if (nud == nudCollisionHeight && lstCollisions.SelectedItem != null)
-                (lstCollisions.SelectedItem as Collision).Height = (ushort)nudCollisionHeight.Value;
-
-            else if (nud == nudEntityId && lstEntities.SelectedItem != null)
-                (lstEntities.SelectedItem as Entity).Id = (byte)nudEntityId.Value;
-            else if (nud == nudEntityX && lstEntities.SelectedItem != null)
-                (lstEntities.SelectedItem as Entity).Collision.X = (ushort)nudEntityX.Value;
-            else if (nud == nudEntityY && lstEntities.SelectedItem != null)
-                (lstEntities.SelectedItem as Entity).Collision.Y = (ushort)nudEntityY.Value;
-            else if (nud == nudEntityWidth && lstEntities.SelectedItem != null)
-                (lstEntities.SelectedItem as Entity).Collision.Width = (ushort)nudEntityWidth.Value;
-            else if (nud == nudEntityHeight && lstEntities.SelectedItem != null)
-                (lstEntities.SelectedItem as Entity).Collision.Height = (ushort)nudEntityHeight.Value;
+                _tilemap.Resize((int)nudColumns.Value, (int)nudRows.Value);
+            else if (nud == nudTileType)
+            {
+                pnlTilemapEdit.TypeValue = (byte)nudTileType.Value;
+                pnlTilesetEdit.TypeValue =(byte)nudTileType.Value;
+                pnlTilesetEdit.ClearSelection();
+            }
+            //else if (nud == nudEntityId && lstEntities.SelectedItem != null)
+            //    (lstEntities.SelectedItem as Entity).Id = (byte)nudEntityId.Value;
+            //else if ((nud == nudEntityX || nud == nudEntityY || nud == nudEntityWidth || nud == nudEntityHeight) && lstEntities.SelectedItem != null)
+            //    (lstEntities.SelectedItem as Entity).Bounds = new Rectangle((ushort)nudEntityX.Value, (ushort)nudEntityY.Value, (ushort)nudEntityWidth.Value, (ushort)nudEntityHeight.Value);
+            //else if (nud == nudBlockType)
+            //    pnlTilemapEdit.BlockValue = (byte)nudBlockType.Value;
 
             UpdateTilemap();
         }
@@ -470,19 +463,19 @@ namespace SMSTileStudio.Controls
                 return;
 
             // Perform action based on control
-            if (comboBox.Name == cbTilemapCompression.Name)
+            if (comboBox == cbTilemapCompression)
                 _tilemap.CompressionType = (CompressionType)cbTilemapCompression.SelectedItem.GetType().GetProperty("value").GetValue(cbTilemapCompression.SelectedItem, null);
-            else if (comboBox.Name == cbTilesetCompression.Name)
+            else if (comboBox == cbTilesetCompression)
                 _tilemap.Tileset.CompressionType = (CompressionType)cbTilesetCompression.SelectedItem.GetType().GetProperty("value").GetValue(cbTilesetCompression.SelectedItem, null);
-            else if (comboBox.Name == cbTilesetCompression.Name)
-                _tilemap.BlockSize = (BlockSizeType)cbBlockSize.SelectedItem.GetType().GetProperty("value").GetValue(cbBlockSize.SelectedItem, null);
-            else if (comboBox.Name == cbBgPalette.Name)
+            else if (comboBox == cbBlockSize)
+                _tilemap.MetaTileSize = (MetatileSizeType)cbBlockSize.SelectedItem.GetType().GetProperty("value").GetValue(cbBlockSize.SelectedItem, null);
+            else if (comboBox == cbBgPalette)
             {
                 var palette = comboBox.SelectedItem as Palette;
                 _tilemap.BgPaletteID = palette.ID;
                 pnlBGPalette.SetPalette((comboBox.SelectedItem as Palette).Colors);
             }
-            else if (comboBox.Name == cbSprPalette.Name)
+            else if (comboBox == cbSprPalette)
             {
                 var palette = comboBox.SelectedItem as Palette;
                 _tilemap.SprPaletteID = palette.ID;
@@ -490,6 +483,30 @@ namespace SMSTileStudio.Controls
             }
 
             UpdateTilemap();
+        }
+
+        /// <summary>
+        /// Tab page selected index changed
+        /// </summary>
+        private void tabTilemap_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // If radio is not sender, return
+            if (!(sender is TabControl tab))
+                return;
+
+            var page = tab.SelectedTab;
+            if (page == tabEntities)
+            {
+                pnlTilemapEdit.EditMode = TileEditType.Entities;
+            }
+            else if (page == tabMetatiles)
+            {
+                pnlTilemapEdit.EditMode = TileEditType.Metatiles;
+            }
+            else
+            {
+                pnlTilemapEdit.EditMode = _editType;
+            }
         }
 
         /// <summary>
@@ -502,7 +519,19 @@ namespace SMSTileStudio.Controls
                 return;
 
             // Perform action based on control
-            if (radio == rbBrush)
+            if (radio == rbBgPalette || radio == rbSprPalette)
+            {
+                try
+                {
+                    _selectedPalette = rbBgPalette.Checked ? cbBgPalette.SelectedItem as Palette : cbSprPalette.SelectedItem as Palette;
+                    UpdateImages();
+                }
+                catch
+                {
+
+                }
+            }
+            else if (radio == rbBrush)
             {
                 pnlTilemapEdit.EditMode = TileEditType.TileID;
             }
@@ -526,18 +555,26 @@ namespace SMSTileStudio.Controls
             {
                 pnlTilemapEdit.EditMode = TileEditType.PaletteIndex;
             }
-            else if (radio == rbRects)
-            {
-                pnlTilemapEdit.EditMode = TileEditType.Collisions;
-            }
-            else if (radio == rbEntities)
-            {
-                pnlTilemapEdit.EditMode = TileEditType.Entities;
-            }
             else if (radio == rbTileType)
             {
                 pnlTilemapEdit.EditMode = TileEditType.Bits;
             }
+            else if (radio == rbTilesetSelect)
+            {
+                pnlTilesetEdit.ClearSelection();
+                pnlTilesetEdit.EditMode = TilesetEditType.Select;
+            }
+            else if (radio == rbTilesetSwap)
+            {
+                pnlTilesetEdit.ClearSelection();
+                pnlTilesetEdit.EditMode = TilesetEditType.Swap;
+            }
+            else if (radio == rbTilesetType)
+            {
+                pnlTilesetEdit.ClearSelection();
+                pnlTilesetEdit.EditMode = TilesetEditType.Type;
+            }
+            _editType = pnlTilemapEdit.EditMode;
         }
 
         /// <summary>
@@ -600,23 +637,22 @@ namespace SMSTileStudio.Controls
             UpdateTilemap();
             var bgPalette = cbBgPalette.SelectedItem as Palette;
             var sprPalette = cbSprPalette.SelectedItem as Palette;
-            pnlTilemapEdit.Image = BitmapUtility.GetSpriteImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
+            pnlTilemapEdit.Image = BitmapUtility.GetTileImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
         }
 
         /// <summary>
-        /// Collisions changed
+        /// Block value changed
         /// </summary>
-        private void pnlTilemapEdit_CollisionsChanged()
+        private void pnlTilemapEdit_MetatileChanged()
         {
-            if (_tilemap == null || _tilemap.Collisions == null)
+            if (_tilemap == null || _tilemap.Tiles == null || _tilemap.Tileset == null || _tilemap.Tileset.Pixels == null)
                 return;
 
-            _tilemap.Collisions = pnlTilemapEdit.Collisions;
-            lstCollisions.Items.Clear();
-            foreach(var collision in _tilemap.Collisions)
-                lstCollisions.Items.Add(collision);
-
+            _tilemap.Metatiles = pnlTilemapEdit.Metatiles;
             UpdateTilemap();
+            //var bgPalette = cbBgPalette.SelectedItem as Palette;
+            //var sprPalette = cbSprPalette.SelectedItem as Palette;
+            //pnlTilemapEdit.Image = BitmapUtility.GetSpriteImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
         }
 
         /// <summary>
@@ -636,25 +672,6 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// Collision selection changed
-        /// </summary>
-        private void lstCollisions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!HasData || lstCollisions.SelectedItem == null)
-                return;
-
-            Loading = true;
-            var collision = (lstCollisions.SelectedItem as Collision);
-            pnlTilemapEdit.SelectedCollision = collision;
-            nudCollisionX.Value = collision.Bounds.X;
-            nudCollisionY.Value = collision.Bounds.Y;
-            nudCollisionWidth.Value = collision.Bounds.Width;
-            nudCollisionHeight.Value = collision.Bounds.Height;
-            pnlTilemapEdit.SelectedCollision = collision;
-            Loading = false;
-        }
-
-        /// <summary>
         /// Entity selection changed
         /// </summary>
         private void lstEntities_SelectedIndexChanged(object sender, EventArgs e)
@@ -666,11 +683,11 @@ namespace SMSTileStudio.Controls
             var entity = (lstEntities.SelectedItem as Entity);
             pnlTilemapEdit.SelectedEntity = entity;
             txtEntityName.Text = entity.Name;
-            nudEntityId.Value = entity.Id;
-            nudEntityX.Value = entity.Collision.X;
-            nudEntityY.Value = entity.Collision.Y;
-            nudEntityWidth.Value = entity.Collision.Width;
-            nudEntityHeight.Value = entity.Collision.Height;
+            //nudEntityId.Value = entity.Id;
+            //nudEntityX.Value = entity.Bounds.X;
+            //nudEntityY.Value = entity.Bounds.Y;
+            //nudEntityWidth.Value = entity.Bounds.Width;
+            //nudEntityHeight.Value = entity.Bounds.Height;
             pnlTilemapEdit.SelectedEntity = entity;
             Loading = false;
         }
@@ -681,6 +698,20 @@ namespace SMSTileStudio.Controls
         private void pnlTilemapEdit_PositionChanged()
         {
             lblPosition.Text = "Position: " + pnlTilemapEdit.PositionText;
+            lblTile.Text = "Tile: " + pnlTilemapEdit.TileText;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void pnlTilesetEdit_TilesChanged()
+        {
+            if (!HasData || _tilemap.Tileset == null)
+                return;
+
+            _tilemap.Tileset.Pixels = pnlTilesetEdit.Pixels;
+            UpdateTilemap();
+            UpdateImages();
         }
 
         /// <summary>
@@ -696,6 +727,13 @@ namespace SMSTileStudio.Controls
             pnlSelectedTile.Palette = _selectedPalette.DeepClone().Colors;
             pnlSelectedTile.Pixels = _tilemap.Tileset.GetTilePixels(pnlTilesetEdit.TileID);
             pnlSelectedTile.Image = BitmapUtility.GetPixelTileImage(pnlSelectedTile.Pixels, pnlSelectedTile.Palette, pnlSelectedTile.ClientSize);
+
+            if (rbTilesetType.Checked && _tilemap.Tileset != null && pnlTilesetEdit.TileID > -1)
+            {
+                _tilemap.SetTileType(pnlTilesetEdit.TileID, (byte)nudTileType.Value);
+                UpdateTilemap();
+                UpdateImages();
+            }
         }
 
         /// <summary>
@@ -743,7 +781,7 @@ namespace SMSTileStudio.Controls
 
             var bgPalette = cbBgPalette.SelectedItem as Palette;
             var sprPalette = cbSprPalette.SelectedItem as Palette;
-            pnlTilemapEdit.Image = BitmapUtility.GetSpriteImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
+            pnlTilemapEdit.Image = BitmapUtility.GetTileImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
             pnlTilemapEdit.SetTilemap(_tilemap);
             pnlTilesetEdit.Image = BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 16);
             pnlTilesetEdit.SetTileset(_tilemap.Tileset, _selectedPalette.Colors);
@@ -878,10 +916,6 @@ namespace SMSTileStudio.Controls
             foreach (var asset in App.Project.Palettes)
                 cbSprPalette.Items.Add(asset);
 
-
-            cbBlockSize.DataSource = Enum.GetValues(typeof(BlockSizeType));
-            cbBlockSize.DisplayMember = "Description";
-
             if (loadDefault && lstTilemaps.Items.Count > 0)
                 lstTilemaps.SelectedIndex = 0;
             else if (item != null && lstTilemaps.Items.Contains(item))
@@ -899,9 +933,33 @@ namespace SMSTileStudio.Controls
         {
             tabMain.Visible = lstTilemaps.SelectedItem != null;
             _tilemap = lstTilemaps.SelectedItem == null ? null : (Tilemap)App.Project.GetAsset((lstTilemaps.SelectedItem as Tilemap).ID);
+
+            var bgPalette = (Palette)App.Project.GetAsset(_tilemap == null ? -3 : _tilemap.BgPaletteID);
+            var sprPalette = (Palette)App.Project.GetAsset(_tilemap == null ? -2 : _tilemap.SprPaletteID);
+
+            if (bgPalette == null)
+            {
+                bgPalette = (Palette)App.Project.GetAsset(-3);
+                _tilemap.BgPaletteID = -3;
+                App.Project.UpdateAsset(_tilemap);
+            }
+
+            if (sprPalette == null)
+            {
+                sprPalette = (Palette)App.Project.GetAsset(-2);
+                _tilemap.SprPaletteID = -2;
+                App.Project.UpdateAsset(_tilemap);
+            }
+
+            cbBgPalette.SelectedItem = bgPalette;
+            pnlBGPalette.SetPalette(bgPalette.Colors);
+            cbSprPalette.SelectedItem = sprPalette;
+            pnlSprPalette.SetPalette(sprPalette.Colors);
+
+            _selectedPalette = rbBgPalette.Checked ? cbBgPalette.SelectedItem as Palette : cbSprPalette.SelectedItem as Palette;
             txtName.Text = _tilemap == null ? string.Empty : _tilemap.Name;
-            cbTilemapCompression.SelectedItem = _tilemap == null ? CompressionType.None : _tilemap.CompressionType;
-            cbBlockSize.SelectedItem = _tilemap == null ? BlockSizeType.Sixteen : _tilemap.BlockSize;
+            cbTilemapCompression.SelectedValue = _tilemap == null ? CompressionType.None : _tilemap.CompressionType;
+            cbBlockSize.SelectedValue = _tilemap == null ? MetatileSizeType.Sixteen : _tilemap.MetaTileSize;
             nudOffset.Value = _tilemap == null ? 0 : _tilemap.Offset;
             nudTilesetExportStart.Value = 0;
             nudTilesetExportEnd.Maximum = _tilemap == null || _tilemap.Tileset == null ? 448 : _tilemap.Tileset.TileCount;
@@ -910,53 +968,30 @@ namespace SMSTileStudio.Controls
             nudColumns.Value = _tilemap == null ? 1 : _tilemap.Columns;
             nudRows.Value = _tilemap == null ? 1 : _tilemap.Rows;
             chkUseAttributes.Checked = _tilemap == null ? true : _tilemap.UseTileAttributes;
-            cbBgPalette.SelectedItem = (Palette)App.Project.GetAsset(_tilemap == null ? -3 : _tilemap.BgPaletteID);
-            pnlBGPalette.SetPalette(cbBgPalette.SelectedItem == null ? null : (cbBgPalette.SelectedItem as Palette).Colors);
-            cbSprPalette.SelectedItem = (Palette)App.Project.GetAsset(_tilemap == null ? -2 : _tilemap.SprPaletteID);
-            pnlSprPalette.SetPalette(cbSprPalette.SelectedItem == null ? null : (cbSprPalette.SelectedItem as Palette).Colors);
-            _selectedPalette = rbBgPalette.Checked ? cbBgPalette.SelectedItem as Palette : cbSprPalette.SelectedItem as Palette;
-            lstCollisions.Items.Clear();
             lblInfo.Text = _tilemap == null ? "No Tilemap information" : _tilemap.GetInfo();
 
             lstEntities.Items.Clear();
-            lstCollisions.Items.Clear();
 
             if (_tilemap == null)
             {
                 UpdateImages();
                 return;
             }
-            
-            foreach (var collision in _tilemap.Collisions)
-                lstCollisions.Items.Add(collision);
 
             foreach (var sprite in _tilemap.Entities)
                 lstEntities.Items.Add(sprite);
 
-            if (lstCollisions.Items.Count > 0)
-                lstCollisions.SelectedIndex = 0;
-
             if (lstEntities.Items.Count > 0)
                 lstEntities.SelectedIndex = 0;
-
-            if (lstCollisions.SelectedItem != null)
-            {
-                var collision = lstCollisions.SelectedItem as Collision;
-                nudCollisionType.Value = collision.CollisionType;
-                nudCollisionX.Value = collision.X;
-                nudCollisionY.Value = collision.Y;
-                nudCollisionWidth.Value = collision.Width;
-                nudCollisionHeight.Value = collision.Height;
-            }
 
             if (lstEntities.SelectedItem != null)
             {
                 var entity = lstEntities.SelectedItem as Entity;
-                nudEntityId.Value = entity.Id;
-                nudEntityX.Value = entity.Collision.X;
-                nudEntityY.Value = entity.Collision.Y;
-                nudEntityWidth.Value = entity.Collision.Width;
-                nudEntityHeight.Value = entity.Collision.Height;
+                //nudEntityId.Value = entity.Id;
+                //nudEntityX.Value = entity.Bounds.X;
+                //nudEntityY.Value = entity.Bounds.Y;
+                //nudEntityWidth.Value = entity.Bounds.Width;
+                //nudEntityHeight.Value = entity.Bounds.Height;
             }
 
             UpdateImages();

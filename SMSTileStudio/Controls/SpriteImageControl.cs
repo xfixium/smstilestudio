@@ -36,8 +36,8 @@ namespace SMSTileStudio.Controls
         /// </summary>
         public event TileChangedHandler TileChanged;
         public delegate void TileChangedHandler();
-        public event PositionChangedHandler PositionChanged;
-        public delegate void PositionChangedHandler();
+        //public event PositionChangedHandler PositionChanged;
+        //public delegate void PositionChangedHandler();
         private SpriteModeType _editMode = SpriteModeType.Normal;
         private int _antOffset = 0;
         private Timer _antsTimer = new Timer();

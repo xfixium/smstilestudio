@@ -35,7 +35,8 @@ namespace SMSTileStudio.Data
         public Tileset Tileset { get; set; } = null;                              // Tileset for the frame
         public Rectangle Bounds { get; set; }                                     // Frame dimensions
         public int Duration { get; set; } = 10;                                   // Duration of frame
-        public List<Collision> Collisions { get; set; } = new List<Collision>();  // A list of collision rectangles
+        public int SpriteConfig { get; set; } = 0;                                // Frame sprite configuration
+        public List<Rectangle> Collisions { get; set; } = new List<Rectangle>();  // A list of collision rectangles
         public List<Sprite> Sprites { get; set; } = new List<Sprite>();           // List of Sprites
 
         /// <summary>

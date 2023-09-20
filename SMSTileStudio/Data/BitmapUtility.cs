@@ -287,9 +287,9 @@ namespace SMSTileStudio.Data
         /// <param name="bgColors">The background palette colors to use</param>
         /// <param name="sprColors">The sprite palette colors to use</param>
         /// <returns>An image of the sprite</returns>
-        public static Bitmap GetSpriteImage(Tileset tileset, Tilemap tilemap, List<Color> bgColors, List<Color> sprColors)
+        public static Bitmap GetTileImage(Tileset tileset, Tilemap tilemap, List<Color> bgColors, List<Color> sprColors)
         {
-            return GetSpriteImage(tileset, tilemap, new Palette(bgColors), new Palette(sprColors));
+            return GetTileImage(tileset, tilemap, new Palette(bgColors), new Palette(sprColors));
         }
 
         /// <summary>
@@ -300,9 +300,22 @@ namespace SMSTileStudio.Data
         /// <param name="bgPalette">The background palette colors to use</param>
         /// <param name="sprPalette">The sprite palette colors to use</param>
         /// <returns>An image of the sprite</returns>
-        public static Bitmap GetSpriteImage(Tileset tileset, Tilemap tilemap, Palette bgPalette, Palette sprPalette)
+        public static Bitmap GetTileImage(Tileset tileset, Tilemap tilemap, Palette bgPalette, Palette sprPalette)
         {
-            int tileSize = 8;
+            return GetTileImage(tileset, tilemap, bgPalette, sprPalette, 8);
+        }
+
+        /// <summary>
+        /// Gets an image of the sprite
+        /// </summary>
+        /// <param name="tileset">The tileset to draw tiles from</param>
+        /// <param name="tilemap">The tilemap for the layout of the tiles</param>
+        /// <param name="bgPalette">The background palette colors to use</param>
+        /// <param name="sprPalette">The sprite palette colors to use</param>
+        /// <param name="tileSize">Pixel tile size, squared</param>
+        /// <returns>An image of the sprite</returns>
+        public static Bitmap GetTileImage(Tileset tileset, Tilemap tilemap, Palette bgPalette, Palette sprPalette, int tileSize)
+        {
             int width = tilemap.Columns * tileSize;
             int height = tilemap.Rows * tileSize;
             int[] tiles = new int[width * height];
@@ -386,7 +399,7 @@ namespace SMSTileStudio.Data
                     var tileset = tilemap.Tileset;
                     if (tileset == null)
                         continue;
-                    using (Bitmap temp = GetSpriteImage(tileset, tilemap, bgPalette, sprPalette))
+                    using (Bitmap temp = GetTileImage(tileset, tilemap, bgPalette, sprPalette))
                     {
                         gfx.DrawImageUnscaled(temp, new Point(index, image.Height - temp.Height));
                         index += temp.Width;
@@ -918,12 +931,27 @@ namespace SMSTileStudio.Data
         /// <returns>If valid list of colors</returns>
         public static bool CheckForSMSColors(List<Color> colors)
         {
-            List<byte> validBytes = new List<byte>() { 0, 85, 170, 255 };
+            List<byte> validBytes = new List<byte>() { 0, 17, 34, 51, 68, 85, 102, 119, 136, 153, 170, 187, 204, 221, 238, 255  };
             foreach (Color color in colors)
                 if (!validBytes.Contains(color.R) || !validBytes.Contains(color.G) || !validBytes.Contains(color.B))
                     return false;
 
             return true;
+        }
+
+        /// <summary>
+        /// Checks that the given list of colors contains game gear color
+        /// </summary>
+        /// <param name="colors">List of colors to check</param>
+        /// <returns>If color list contains a game gear color</returns>
+        public static bool CheckForGameGearColors(List<Color> colors)
+        {
+            List<byte> validBytes = new List<byte>() { 17, 34, 51, 68, 102, 119, 136, 153, 187, 204, 221, 238 };
+            foreach (Color color in colors)
+                if (validBytes.Contains(color.R) || validBytes.Contains(color.G) || validBytes.Contains(color.B))
+                    return true;
+
+            return false;
         }
 
         /// <summary>

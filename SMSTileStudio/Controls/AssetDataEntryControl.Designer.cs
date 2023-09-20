@@ -37,6 +37,11 @@
             this.pnlDataEntryOptions = new System.Windows.Forms.Panel();
             this.txtComments = new System.Windows.Forms.TextBox();
             this.pnlOptions = new System.Windows.Forms.Panel();
+            this.txtOrderByField = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnPopulateTableData = new System.Windows.Forms.Button();
+            this.lblOrderByField = new System.Windows.Forms.Label();
+            this.lstSelectedEntities = new System.Windows.Forms.CheckedListBox();
             this.lblName = new System.Windows.Forms.Label();
             this.lblDataEntryComments = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
@@ -145,22 +150,27 @@
             this.pnlDataEntryOptions.Margin = new System.Windows.Forms.Padding(0);
             this.pnlDataEntryOptions.Name = "pnlDataEntryOptions";
             this.pnlDataEntryOptions.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.pnlDataEntryOptions.Size = new System.Drawing.Size(172, 551);
+            this.pnlDataEntryOptions.Size = new System.Drawing.Size(180, 551);
             this.pnlDataEntryOptions.TabIndex = 2;
             // 
             // txtComments
             // 
             this.txtComments.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtComments.Location = new System.Drawing.Point(8, 80);
+            this.txtComments.Location = new System.Drawing.Point(8, 320);
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
             this.txtComments.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtComments.Size = new System.Drawing.Size(164, 471);
+            this.txtComments.Size = new System.Drawing.Size(172, 231);
             this.txtComments.TabIndex = 11;
             this.txtComments.TextChanged += new System.EventHandler(this.txtDataEntry_TextChanged);
             // 
             // pnlOptions
             // 
+            this.pnlOptions.Controls.Add(this.txtOrderByField);
+            this.pnlOptions.Controls.Add(this.label1);
+            this.pnlOptions.Controls.Add(this.btnPopulateTableData);
+            this.pnlOptions.Controls.Add(this.lblOrderByField);
+            this.pnlOptions.Controls.Add(this.lstSelectedEntities);
             this.pnlOptions.Controls.Add(this.lblName);
             this.pnlOptions.Controls.Add(this.lblDataEntryComments);
             this.pnlOptions.Controls.Add(this.txtName);
@@ -168,8 +178,57 @@
             this.pnlOptions.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlOptions.Location = new System.Drawing.Point(8, 0);
             this.pnlOptions.Name = "pnlOptions";
-            this.pnlOptions.Size = new System.Drawing.Size(164, 80);
+            this.pnlOptions.Size = new System.Drawing.Size(172, 320);
             this.pnlOptions.TabIndex = 12;
+            // 
+            // txtOrderByField
+            // 
+            this.txtOrderByField.Location = new System.Drawing.Point(0, 254);
+            this.txtOrderByField.MaxLength = 50;
+            this.txtOrderByField.Name = "txtOrderByField";
+            this.txtOrderByField.Size = new System.Drawing.Size(168, 22);
+            this.txtOrderByField.TabIndex = 20;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 62);
+            this.label1.Margin = new System.Windows.Forms.Padding(0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(125, 13);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Table From Entity Data:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnPopulateTableData
+            // 
+            this.btnPopulateTableData.Location = new System.Drawing.Point(0, 278);
+            this.btnPopulateTableData.Name = "btnPopulateTableData";
+            this.btnPopulateTableData.Size = new System.Drawing.Size(168, 23);
+            this.btnPopulateTableData.TabIndex = 18;
+            this.btnPopulateTableData.Text = "Populate Table Data";
+            this.btnPopulateTableData.UseVisualStyleBackColor = true;
+            this.btnPopulateTableData.Click += new System.EventHandler(this.btnDataEntry_Click);
+            // 
+            // lblOrderByField
+            // 
+            this.lblOrderByField.AutoSize = true;
+            this.lblOrderByField.Location = new System.Drawing.Point(-2, 238);
+            this.lblOrderByField.Margin = new System.Windows.Forms.Padding(0);
+            this.lblOrderByField.Name = "lblOrderByField";
+            this.lblOrderByField.Size = new System.Drawing.Size(82, 13);
+            this.lblOrderByField.TabIndex = 13;
+            this.lblOrderByField.Text = "Order By Field:";
+            this.lblOrderByField.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lstSelectedEntities
+            // 
+            this.lstSelectedEntities.CheckOnClick = true;
+            this.lstSelectedEntities.FormattingEnabled = true;
+            this.lstSelectedEntities.Location = new System.Drawing.Point(0, 78);
+            this.lstSelectedEntities.Name = "lstSelectedEntities";
+            this.lstSelectedEntities.Size = new System.Drawing.Size(168, 157);
+            this.lstSelectedEntities.TabIndex = 12;
             // 
             // lblName
             // 
@@ -183,7 +242,7 @@
             // lblDataEntryComments
             // 
             this.lblDataEntryComments.AutoSize = true;
-            this.lblDataEntryComments.Location = new System.Drawing.Point(0, 64);
+            this.lblDataEntryComments.Location = new System.Drawing.Point(0, 303);
             this.lblDataEntryComments.Name = "lblDataEntryComments";
             this.lblDataEntryComments.Size = new System.Drawing.Size(64, 13);
             this.lblDataEntryComments.TabIndex = 10;
@@ -194,7 +253,7 @@
             this.txtName.Location = new System.Drawing.Point(0, 16);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(160, 22);
+            this.txtName.Size = new System.Drawing.Size(168, 22);
             this.txtName.TabIndex = 5;
             this.txtName.TextChanged += new System.EventHandler(this.txtDataEntry_TextChanged);
             // 
@@ -244,9 +303,9 @@
             this.lstDataEntries.HorizontalExtent = 168;
             this.lstDataEntries.IntegralHeight = false;
             this.lstDataEntries.ItemHeight = 15;
-            this.lstDataEntries.Location = new System.Drawing.Point(12, 136);
+            this.lstDataEntries.Location = new System.Drawing.Point(12, 135);
             this.lstDataEntries.Name = "lstDataEntries";
-            this.lstDataEntries.Size = new System.Drawing.Size(172, 409);
+            this.lstDataEntries.Size = new System.Drawing.Size(172, 410);
             this.lstDataEntries.TabIndex = 1;
             this.lstDataEntries.TextOffsetX = 2;
             this.lstDataEntries.TextOffsetY = 0;
@@ -262,7 +321,7 @@
             this.pnlDataEntryButtons.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlDataEntryButtons.Location = new System.Drawing.Point(12, 19);
             this.pnlDataEntryButtons.Name = "pnlDataEntryButtons";
-            this.pnlDataEntryButtons.Size = new System.Drawing.Size(172, 117);
+            this.pnlDataEntryButtons.Size = new System.Drawing.Size(172, 116);
             this.pnlDataEntryButtons.TabIndex = 0;
             // 
             // btnExport
@@ -418,5 +477,10 @@
         private System.Windows.Forms.TableLayoutPanel tpnlDataEntry;
         private System.Windows.Forms.Panel pnlDataEntry;
         private System.Windows.Forms.Label lblCreatePalette;
+        private System.Windows.Forms.CheckedListBox lstSelectedEntities;
+        private System.Windows.Forms.Label lblOrderByField;
+        private System.Windows.Forms.Button btnPopulateTableData;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtOrderByField;
     }
 }

@@ -41,9 +41,9 @@ namespace SMSTileStudio.Data
         /// Properties
         /// </summary>
         public int TileCount { get { return Pixels.Count / 64; } }  // The number of 8 x 8 tiles the tileset has
-        public int BitsPerPixel { get; set; } = 4;                                          // Bits per pixel
-        public bool Masked { get; set; } = false;                                           // If the pixel data is offset by 2 times the value, except when the value is zero
-        public List<byte> Pixels { get; set; } = new List<byte>();                          // The raw pixel data, the byte value will be an index of 0 - 15 (16 colors)
+        public int BitsPerPixel { get; set; } = 4;                  // Bits per pixel
+        public bool Masked { get; set; } = false;                   // If the pixel data is offset by 2 times the value, except when the value is zero
+        public List<byte> Pixels { get; set; } = new List<byte>();  // The raw pixel data, the byte value will be an index of 0 - 15 (16 colors)
 
         /// <summary>
         /// Constructors
@@ -247,7 +247,7 @@ namespace SMSTileStudio.Data
             if (minimumTileCount <= 0 || minimumTileCount <= TileCount)
                 return new byte[0];
 
-            var tiles = new byte[minimumTileCount - TileCount];
+            var tiles = new byte[(minimumTileCount - TileCount) * 32];
             Array.Clear(tiles, 0, tiles.Length);
             return tiles;
         }

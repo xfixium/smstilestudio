@@ -39,6 +39,8 @@
             this.pnlDialogs = new SMSTileStudio.Controls.AssetDialogControl();
             this.tabDataEntry = new System.Windows.Forms.TabPage();
             this.pnlDataEntries = new SMSTileStudio.Controls.AssetDataEntryControl();
+            this.tabEntities = new System.Windows.Forms.TabPage();
+            this.pnlEntities = new SMSTileStudio.Controls.AssetEntityControl();
             this.mnuMain = new System.Windows.Forms.MenuStrip();
             this.mnuFile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOpenProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,31 +49,29 @@
             this.mnuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabMetaTilemaps = new System.Windows.Forms.TabPage();
-            this.pnlMetaTilemaps = new SMSTileStudio.Controls.AssetMetaTilemapControl();
             this.tabMain.SuspendLayout();
             this.tabPalettes.SuspendLayout();
             this.tabTilemap.SuspendLayout();
             this.tabMetaSprites.SuspendLayout();
             this.tabDialogs.SuspendLayout();
             this.tabDataEntry.SuspendLayout();
+            this.tabEntities.SuspendLayout();
             this.mnuMain.SuspendLayout();
-            this.tabMetaTilemaps.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
             // 
             this.tabMain.Controls.Add(this.tabPalettes);
             this.tabMain.Controls.Add(this.tabTilemap);
-            this.tabMain.Controls.Add(this.tabMetaTilemaps);
             this.tabMain.Controls.Add(this.tabMetaSprites);
             this.tabMain.Controls.Add(this.tabDialogs);
             this.tabMain.Controls.Add(this.tabDataEntry);
+            this.tabMain.Controls.Add(this.tabEntities);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 24);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(904, 615);
+            this.tabMain.Size = new System.Drawing.Size(784, 537);
             this.tabMain.TabIndex = 1;
             // 
             // tabPalettes
@@ -81,7 +81,7 @@
             this.tabPalettes.Location = new System.Drawing.Point(4, 22);
             this.tabPalettes.Name = "tabPalettes";
             this.tabPalettes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPalettes.Size = new System.Drawing.Size(896, 589);
+            this.tabPalettes.Size = new System.Drawing.Size(776, 511);
             this.tabPalettes.TabIndex = 1;
             this.tabPalettes.Text = "Palettes";
             // 
@@ -92,7 +92,7 @@
             this.pnlPalettes.Loading = true;
             this.pnlPalettes.Location = new System.Drawing.Point(3, 3);
             this.pnlPalettes.Name = "pnlPalettes";
-            this.pnlPalettes.Size = new System.Drawing.Size(890, 583);
+            this.pnlPalettes.Size = new System.Drawing.Size(770, 505);
             this.pnlPalettes.TabIndex = 0;
             this.pnlPalettes.AssetsChanged += new SMSTileStudio.Controls.AssetControl.AssetsChangedHandler(this.pnlPalette_AssetsChanged);
             // 
@@ -103,7 +103,7 @@
             this.tabTilemap.Location = new System.Drawing.Point(4, 22);
             this.tabTilemap.Name = "tabTilemap";
             this.tabTilemap.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTilemap.Size = new System.Drawing.Size(896, 589);
+            this.tabTilemap.Size = new System.Drawing.Size(776, 511);
             this.tabTilemap.TabIndex = 2;
             this.tabTilemap.Text = "Tilemaps";
             // 
@@ -114,7 +114,7 @@
             this.pnlTilemaps.Loading = true;
             this.pnlTilemaps.Location = new System.Drawing.Point(3, 3);
             this.pnlTilemaps.Name = "pnlTilemaps";
-            this.pnlTilemaps.Size = new System.Drawing.Size(890, 583);
+            this.pnlTilemaps.Size = new System.Drawing.Size(770, 505);
             this.pnlTilemaps.TabIndex = 1;
             // 
             // tabMetaSprites
@@ -124,7 +124,7 @@
             this.tabMetaSprites.Location = new System.Drawing.Point(4, 22);
             this.tabMetaSprites.Name = "tabMetaSprites";
             this.tabMetaSprites.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMetaSprites.Size = new System.Drawing.Size(896, 589);
+            this.tabMetaSprites.Size = new System.Drawing.Size(776, 511);
             this.tabMetaSprites.TabIndex = 4;
             this.tabMetaSprites.Text = "Meta Sprites";
             // 
@@ -135,7 +135,7 @@
             this.pnlMetaSprites.Loading = true;
             this.pnlMetaSprites.Location = new System.Drawing.Point(3, 3);
             this.pnlMetaSprites.Name = "pnlMetaSprites";
-            this.pnlMetaSprites.Size = new System.Drawing.Size(890, 583);
+            this.pnlMetaSprites.Size = new System.Drawing.Size(770, 505);
             this.pnlMetaSprites.TabIndex = 0;
             // 
             // tabDialogs
@@ -145,7 +145,7 @@
             this.tabDialogs.Location = new System.Drawing.Point(4, 22);
             this.tabDialogs.Name = "tabDialogs";
             this.tabDialogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDialogs.Size = new System.Drawing.Size(896, 589);
+            this.tabDialogs.Size = new System.Drawing.Size(776, 511);
             this.tabDialogs.TabIndex = 5;
             this.tabDialogs.Text = "Dialogs";
             // 
@@ -156,7 +156,7 @@
             this.pnlDialogs.Loading = true;
             this.pnlDialogs.Location = new System.Drawing.Point(3, 3);
             this.pnlDialogs.Name = "pnlDialogs";
-            this.pnlDialogs.Size = new System.Drawing.Size(890, 583);
+            this.pnlDialogs.Size = new System.Drawing.Size(770, 505);
             this.pnlDialogs.TabIndex = 0;
             // 
             // tabDataEntry
@@ -166,7 +166,7 @@
             this.tabDataEntry.Location = new System.Drawing.Point(4, 22);
             this.tabDataEntry.Name = "tabDataEntry";
             this.tabDataEntry.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDataEntry.Size = new System.Drawing.Size(896, 589);
+            this.tabDataEntry.Size = new System.Drawing.Size(776, 511);
             this.tabDataEntry.TabIndex = 6;
             this.tabDataEntry.Text = "Data Entry";
             // 
@@ -177,8 +177,29 @@
             this.pnlDataEntries.Loading = true;
             this.pnlDataEntries.Location = new System.Drawing.Point(3, 3);
             this.pnlDataEntries.Name = "pnlDataEntries";
-            this.pnlDataEntries.Size = new System.Drawing.Size(890, 583);
+            this.pnlDataEntries.Size = new System.Drawing.Size(770, 505);
             this.pnlDataEntries.TabIndex = 0;
+            // 
+            // tabEntities
+            // 
+            this.tabEntities.BackColor = System.Drawing.SystemColors.Control;
+            this.tabEntities.Controls.Add(this.pnlEntities);
+            this.tabEntities.Location = new System.Drawing.Point(4, 22);
+            this.tabEntities.Name = "tabEntities";
+            this.tabEntities.Padding = new System.Windows.Forms.Padding(3);
+            this.tabEntities.Size = new System.Drawing.Size(776, 511);
+            this.tabEntities.TabIndex = 7;
+            this.tabEntities.Text = "Entities";
+            // 
+            // pnlEntities
+            // 
+            this.pnlEntities.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlEntities.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnlEntities.Loading = true;
+            this.pnlEntities.Location = new System.Drawing.Point(3, 3);
+            this.pnlEntities.Name = "pnlEntities";
+            this.pnlEntities.Size = new System.Drawing.Size(770, 505);
+            this.pnlEntities.TabIndex = 0;
             // 
             // mnuMain
             // 
@@ -187,7 +208,7 @@
             this.mnuHelp});
             this.mnuMain.Location = new System.Drawing.Point(0, 0);
             this.mnuMain.Name = "mnuMain";
-            this.mnuMain.Size = new System.Drawing.Size(904, 24);
+            this.mnuMain.Size = new System.Drawing.Size(784, 24);
             this.mnuMain.TabIndex = 2;
             this.mnuMain.Text = "menuStrip1";
             // 
@@ -247,36 +268,15 @@
             this.mnuAbout.Text = "&About...";
             this.mnuAbout.Click += new System.EventHandler(this.mnuAbout_Click);
             // 
-            // tabMetaTilemaps
-            // 
-            this.tabMetaTilemaps.BackColor = System.Drawing.SystemColors.Control;
-            this.tabMetaTilemaps.Controls.Add(this.pnlMetaTilemaps);
-            this.tabMetaTilemaps.Location = new System.Drawing.Point(4, 22);
-            this.tabMetaTilemaps.Name = "tabMetaTilemaps";
-            this.tabMetaTilemaps.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMetaTilemaps.Size = new System.Drawing.Size(896, 589);
-            this.tabMetaTilemaps.TabIndex = 7;
-            this.tabMetaTilemaps.Text = "Meta Tilemaps";
-            // 
-            // pnlMetaTilemaps
-            // 
-            this.pnlMetaTilemaps.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMetaTilemaps.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pnlMetaTilemaps.Loading = true;
-            this.pnlMetaTilemaps.Location = new System.Drawing.Point(3, 3);
-            this.pnlMetaTilemaps.Name = "pnlMetaTilemaps";
-            this.pnlMetaTilemaps.Size = new System.Drawing.Size(890, 583);
-            this.pnlMetaTilemaps.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(904, 639);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.tabMain);
             this.Controls.Add(this.mnuMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MinimumSize = new System.Drawing.Size(920, 678);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SMS Tile Studio";
@@ -286,9 +286,9 @@
             this.tabMetaSprites.ResumeLayout(false);
             this.tabDialogs.ResumeLayout(false);
             this.tabDataEntry.ResumeLayout(false);
+            this.tabEntities.ResumeLayout(false);
             this.mnuMain.ResumeLayout(false);
             this.mnuMain.PerformLayout();
-            this.tabMetaTilemaps.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,8 +315,8 @@
         private Controls.AssetDialogControl pnlDialogs;
         private System.Windows.Forms.TabPage tabDataEntry;
         private Controls.AssetDataEntryControl pnlDataEntries;
-        private System.Windows.Forms.TabPage tabMetaTilemaps;
-        private Controls.AssetMetaTilemapControl pnlMetaTilemaps;
+        private System.Windows.Forms.TabPage tabEntities;
+        private Controls.AssetEntityControl pnlEntities;
     }
 }
 

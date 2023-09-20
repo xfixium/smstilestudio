@@ -32,8 +32,8 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Properties
         /// </summary>
-        public List<byte> Data { get; set; } = new List<byte>();  // Data to write
-        public string Comments { get; set; } = string.Empty;      // Comments for the data entry
+        public List<byte> Data { get; set; } = new List<byte>();    // Data to write
+        public string Comments { get; set; } = string.Empty;        // Comments for the data entry
 
         /// <summary>
         /// Constructors
@@ -47,7 +47,7 @@ namespace SMSTileStudio.Data
         /// <returns>Object information string</returns>
         public string GetInfo()
         {
-            return "ID: " + ID + " | " + Data.Count + " byte(s)";
+            return "ID: " + ID + " | Name: " + Name + " | " + Data.Count + " byte(s)";
         }
 
         /// <summary>

@@ -104,7 +104,18 @@ namespace SMSTileStudio.Controls
             else if (HasData && button == btnExport)
             {
                 mnuExport.Show(btnExport, new Point(0, btnExport.Height));
-                return;
+            }
+            else if (HasData && button == btnPopulateTableData)
+            {
+                List<byte> table = new List<byte>();
+                var entities = GetSortedEntities();
+                foreach (var entity in entities)
+                    table.AddRange(entity.GetEntityData(true));
+
+                _dataEntry.Data.Clear();
+                _dataEntry.Data.AddRange(table);
+                UpdateDataEntry();
+                txtDataEntry.Text = DataToText(_dataEntry.Data);
             }
         }
 
@@ -242,6 +253,28 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public List<Entity> GetSortedEntities()
+        {
+            var fieldName = txtOrderByField.Text;
+            List<Entity> entities = new List<Entity>();
+            if (fieldName == "")
+                return lstSelectedEntities.CheckedItems.Cast<Entity>().ToList();
+            else
+                entities = lstSelectedEntities.CheckedItems.Cast<Entity>().ToList().FindAll(x => x.Fields.Find(f => f.Name == fieldName) != null);
+
+            //List<KeyValuePair<int, string>> pairs = new List<KeyValuePair<int, string>>();
+            //foreach (var entity in entities)
+            //{
+            //    pairs.Add(new KeyValuePair<int, string>(entity.ID)
+            //}
+
+            return entities;
+        }
+
+        /// <summary>
         /// Loads data to UI
         /// </summary>
         public void LoadData(bool loadDefault)
@@ -251,6 +284,10 @@ namespace SMSTileStudio.Controls
             lstDataEntries.Items.Clear();
             foreach (var asset in App.Project.DataEntries.Where(x => x.ID >= 0).OrderBy(x => x.Name).ToArray())
                 lstDataEntries.Items.Add(asset);
+
+            lstSelectedEntities.Items.Clear();
+            foreach (var asset in App.Project.Entities.Where(x => x.ID >= 0).OrderBy(x => x.Name).ToArray())
+                lstSelectedEntities.Items.Add(asset);
 
             if (loadDefault && lstDataEntries.Items.Count > 0)
                 lstDataEntries.SelectedIndex = 0;

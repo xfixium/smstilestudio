@@ -124,6 +124,9 @@
   <data name="swatch_consecutive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\swatch_consecutive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="swatch_game_gear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\swatch_game_gear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="swatch_six" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\swatch_six.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

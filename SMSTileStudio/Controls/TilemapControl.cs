@@ -36,8 +36,6 @@ namespace SMSTileStudio.Controls
         /// </summary>
         public event TileChangedHandler TileChanged;
         public delegate void TileChangedHandler();
-        public event CollisionsChangedHandler CollisionsChanged;
-        public delegate void CollisionsChangedHandler();
         public event EntitiesChangedHandler EntitiesChanged;
         public delegate void EntitiesChangedHandler();
         public event PositionChangedHandler PositionChanged;
@@ -56,18 +54,15 @@ namespace SMSTileStudio.Controls
         private int _antOffset = 0;
         private Timer _antsTimer = new Timer();
         private List<Tile> _tiles = new List<Tile>();
-        private List<Collision> _collisions = new List<Collision>();
         private List<Entity> _entities = new List<Entity>();
+        private List<MetaTile> _metatiles = new List<MetaTile>();
         private Tilemap _brush = null;
         private Rectangle _selection = Rectangle.Empty;
         private Point _selectOrigin = Point.Empty;
-        private Rectangle _collisionBounds = Rectangle.Empty;
-        private Point _collisionOrigin = Point.Empty;
         private Rectangle _entityBounds = Rectangle.Empty;
         private Point _entityOrigin = Point.Empty;
         private Point _brushOrigin = Point.Empty;
         private Bitmap _brushBitmap = null;
-        private Collision _selectedCollision = null;
         private Entity _selectedEntity = null;
 
         /// <summary>
@@ -83,16 +78,6 @@ namespace SMSTileStudio.Controls
                 return tiles;
             }
         }
-        public List<Collision> Collisions
-        {
-            get
-            {
-                List<Collision> collisions = new List<Collision>();
-                foreach (var rect in _collisions)
-                    collisions.Add(rect.DeepClone());
-                return collisions;
-            }
-        }
         public List<Entity> Entities
         {
             get
@@ -103,18 +88,49 @@ namespace SMSTileStudio.Controls
                 return entities;
             }
         }
-        public TileEditType EditMode { get { return _editMode; } set { _editMode = value; UpdateBackBuffer(); } }
+        public List<MetaTile> Metatiles
+        {
+            get
+            {
+                List<MetaTile> blocks = new List<MetaTile>();
+                foreach (var block in _metatiles)
+                    blocks.Add(block.DeepClone());
+                return blocks;
+            }
+        }
+        public TileEditType EditMode
+        {
+            get { return _editMode; }
+            set 
+            {
+                _editMode = value;
+                if (value != TileEditType.TileID && value != TileEditType.Selection)
+                {
+                    MinimumScale = 1;
+                    //ImageAlpha = 0.5F;
+                }
+                else
+                {
+                    MinimumScale = _indexed ? 3 : 1;
+                    ImageScale = _indexed && ImageScale < 3 ? 3 : ImageScale;
+                    //ImageAlpha = _indexed ? 0.5F : 1F;
+                }
+                UpdateBackBuffer();
+            }
+        }
         public Point Position { get; private set; }
-        public Collision SelectedCollision { set { _selectedCollision = value; UpdateBackBuffer(); } }
         public Entity SelectedEntity { set { _selectedEntity = value; UpdateBackBuffer(); } }
         public string PositionText { get { return GetPositionText(); } }
+        public string TileText { get { return GetTileText(); } }
         public int TileID { get { return _tileID; } set { _tileID = value; UpdateBackBuffer(); } }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
         public bool Highlight { get { return _highlight; } set { _highlight = value; UpdateBackBuffer(); } }
         public int Offset { get; set; } = 0;
         public bool UseOffset { get { return _useOffset; } set { _useOffset = value; Invalidate(); } }
         public int HighlightCount { get; private set; } = 0;
-        public byte BitsValue { get; set; } = 0;
+        public byte TypeValue { get; set; } = 0;
+        public Size BlockSize { get; set; } = new Size(16, 16);
+        public byte BlockValue { get; set; } = 0;
         public bool Indexed
         {
             get { return _indexed; }
@@ -123,7 +139,7 @@ namespace SMSTileStudio.Controls
                 _indexed = value;
                 MinimumScale = _indexed ? 3 : 1;
                 ImageScale = _indexed && ImageScale < 3 ? 3 : ImageScale;
-                ImageAlpha = _indexed ? 0.5F : 1F;
+                //ImageAlpha = _indexed ? 0.5F : 1F;
                 UpdateBackBuffer();
             }
         }
@@ -161,6 +177,8 @@ namespace SMSTileStudio.Controls
 
             if (EditMode == TileEditType.Selection && _selection != Rectangle.Empty)
                 UpdateBackBuffer();
+            else if (_highlight)
+                UpdateBackBuffer();
         }
 
         /// <summary>
@@ -169,6 +187,7 @@ namespace SMSTileStudio.Controls
         protected override void OnDrawAfterOnPaint(ref PaintEventArgs e)
         {
             DrawAttributeValue(e.Graphics, GetOrigin());
+            // DrawMetatileValues(e.Graphics, GetOrigin());
         }
 
         /// <summary>
@@ -182,9 +201,9 @@ namespace SMSTileStudio.Controls
             DrawGrid(gfx, origin);
             DrawHighlights(gfx, origin);
             DrawSelection(gfx, origin);
-            DrawCollisions(gfx, origin);
             DrawEntities(gfx, origin);
             DrawBrush(gfx, origin);
+            DrawMetatiles(gfx, origin);
         }
 
         /// <summary>
@@ -206,14 +225,21 @@ namespace SMSTileStudio.Controls
             if (rect.Contains(e.Location) == false)
                 return;
 
-            int x = (e.Location.X - rect.X) / ImageScale / SnapSize.Width * SnapSize.Width;
-            int y = (e.Location.Y - rect.Y) / ImageScale / SnapSize.Height * SnapSize.Height;
-            Rectangle selection = new Rectangle(new Point(x, y), SnapSize);
-            int cols = Image.Width / SnapSize.Width;
-            int col = selection.X / SnapSize.Width;
-            int row = selection.Y / SnapSize.Height;
+            Size snap = SnapSize;
+            var count = _tiles.Count;
+            if (_editMode == TileEditType.Metatiles)
+            {
+                snap = BlockSize;
+                count = _metatiles.Count;
+            }
+            int x = (e.Location.X - rect.X) / ImageScale / snap.Width * snap.Width;
+            int y = (e.Location.Y - rect.Y) / ImageScale / snap.Height * snap.Height;
+            Rectangle selection = new Rectangle(new Point(x, y), snap);
+            int cols = Image.Width / snap.Width;
+            int col = selection.X / snap.Width;
+            int row = selection.Y / snap.Height;
             int index = (row * cols) + col;
-            if (index >= _tiles.Count)
+            if (index >= count)
                 return;
 
             switch (_editMode)
@@ -223,27 +249,21 @@ namespace SMSTileStudio.Controls
                     _scrollCapture = new Point(-AutoScrollPosition.X, -AutoScrollPosition.Y);
                     _scrollTimer.Start();
                     _selectOrigin = new Point(x, y);
-                    _selection = new Rectangle(new Point(x, y), SnapSize);
-                    break;
-                case TileEditType.Collisions:
-                    // Set default scroll position and start the auto scroll timer
-                    _scrollCapture = new Point(-AutoScrollPosition.X, -AutoScrollPosition.Y);
-                    _scrollTimer.Start();
-                    _collisionOrigin = new Point(x, y);
-                    _collisionBounds = new Rectangle(new Point(x, y), SnapSize);
+                    _selection = new Rectangle(new Point(x, y), snap);
                     break;
                 case TileEditType.Entities:
                     // Set default scroll position and start the auto scroll timer
                     _scrollCapture = new Point(-AutoScrollPosition.X, -AutoScrollPosition.Y);
                     _scrollTimer.Start();
                     _entityOrigin = new Point(x, y);
-                    _entityBounds = new Rectangle(new Point(x, y), SnapSize);
+                    _entityBounds = new Rectangle(new Point(x, y), snap);
                     break;
                 case TileEditType.XFlip: _tiles[index].FlipX = !_tiles[index].FlipX; break;
                 case TileEditType.YFlip: _tiles[index].FlipY = !_tiles[index].FlipY; break;
                 case TileEditType.Priority: _tiles[index].Priority = !_tiles[index].Priority; break;
                 case TileEditType.PaletteIndex: _tiles[index].UseBGPalette = !_tiles[index].UseBGPalette; break;
-                case TileEditType.Bits: _tiles[index].Bits = BitsValue; break;
+                case TileEditType.Bits: _tiles[index].Bits = TypeValue; break;
+                //case TileEditType.Metatiles: if (_metatiles != null) { _metatiles[index]. = BlockValue; BlockChanged?.Invoke(); } break;
                 default: if (_brush != null) { PaintBrush(col, row);  } else { _tiles[index].TileID = TileID; }  break;
             }
 
@@ -291,21 +311,6 @@ namespace SMSTileStudio.Controls
 
                     break;
 
-                case TileEditType.Collisions:
-                    if (e.Button != MouseButtons.Left || (x == _collisionBounds.X && y == _collisionBounds.Y))
-                        return;
-
-                    _collisionBounds = GetRectangle(_collisionOrigin, new Point(x, y));
-
-                    if (_collisionBounds.X >= _collisionOrigin.X)
-                        _collisionBounds.Width += SnapSize.Width;
-
-                    if (_collisionBounds.Y >= _collisionOrigin.Y)
-                        _collisionBounds.Height += SnapSize.Height;
-
-                    UpdateBackBuffer();
-                    break;
-
                 case TileEditType.Entities:
                     if (e.Button != MouseButtons.Left || (x == _entityBounds.X && y == _entityBounds.Y))
                         return;
@@ -339,32 +344,20 @@ namespace SMSTileStudio.Controls
             base.OnMouseUp(e);
             _scrollTimer.Stop();
 
-            switch (EditMode)
-            {
-                case TileEditType.Collisions:
-                    if (!InBounds(e.Location))
-                        return;
+            //switch (EditMode)
+            //{
+            //    case TileEditType.Entities:
+            //        if (!InBounds(e.Location))
+            //            return;
 
-                    var collision = new Collision(0, _collisionBounds);
-                    _collisions.Add(collision);
-                    ClearCollision();
-                    _selectedCollision = collision;
-                    CollisionsChanged?.Invoke();
-                    UpdateBackBuffer();
-                    break;
-
-                case TileEditType.Entities:
-                    if (!InBounds(e.Location))
-                        return;
-
-                    var entity = new Entity(0, "New Entity", new Collision(0, _entityBounds));
-                    _entities.Add(entity);
-                    ClearEntity();
-                    _selectedEntity = entity;
-                    EntitiesChanged?.Invoke();
-                    UpdateBackBuffer();
-                    break;
-            }
+            //        var entity = new Entity(0, "New Entity", _entityBounds);
+            //        _entities.Add(entity);
+            //        ClearEntity();
+            //        _selectedEntity = entity;
+            //        EntitiesChanged?.Invoke();
+            //        UpdateBackBuffer();
+            //        break;
+            //}
         }
 
         /// <summary>
@@ -443,11 +436,13 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// Draws tile indexes
+        /// Draws tile attributes
         /// </summary>
         private void DrawAttributeValue(Graphics gfx, Point origin)
         {
-            if (!Indexed || Image == null || _tiles.Count <= 0)
+            if (Image == null || _tiles.Count <= 0 ||
+                (!Indexed && EditMode == TileEditType.TileID) ||
+                (!Indexed && EditMode == TileEditType.Selection))
                 return;
 
             int index = 0;
@@ -467,17 +462,74 @@ namespace SMSTileStudio.Controls
                         string value = string.Empty;
                         switch (_editMode)
                         {
-                            case TileEditType.XFlip: value = _tiles[index].FlipX ? "1" : "0"; break;
-                            case TileEditType.YFlip: value = _tiles[index].FlipY ? "1" : "0"; break;
-                            case TileEditType.Priority: value = _tiles[index].Priority ? "1" : "0"; break;
+                            case TileEditType.XFlip: value = _tiles[index].FlipX ? "H" : ""; break;
+                            case TileEditType.YFlip: value = _tiles[index].FlipY ? "V" : ""; break;
+                            case TileEditType.Priority: value = _tiles[index].Priority ? "P" : ""; break;
                             case TileEditType.PaletteIndex: value = _tiles[index].UseBGPalette ? "BG" : "SPR"; break;
                             case TileEditType.Bits: value = _tiles[index].Bits.ToString(); break;
                             default: value = (_tiles[index].TileID + (_useOffset ? 0 : Offset)).ToString(); break;
                         }
+                        if (value != "")
+                        {
+                            BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, rect, format);
+                            gfx.DrawString(value, font, Brushes.White, rect, format);
+                        }
+                    }
+                    index++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draws block values
+        /// </summary>
+        private void DrawMetatileValues(Graphics gfx, Point origin)
+        {
+            if (_editMode != TileEditType.Metatiles || Image == null || _tiles.Count <= 0 || _metatiles.Count <= 0)
+                return;
+
+            int index = 0;
+            Font font = new Font(Font.Name, 5 + ImageScale, FontStyle.Regular);
+            StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip;
+            int cols = (int)Math.Ceiling(Image.Width / (double)(BlockSize.Width));
+            int rows = (int)Math.Ceiling(Image.Height / (double)(BlockSize.Height));
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    if (index < _metatiles.Count && _metatiles[index] != null)
+                    {
+                        Point point = new Point((col * BlockSize.Width * ImageScale) + (origin.X * ImageScale) + AutoScrollPosition.X, (row * BlockSize.Height * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
+                        RectangleF rect = new RectangleF(point.X, point.Y, (BlockSize.Width + 1) * ImageScale, (BlockSize.Height + 1) * ImageScale);
+                        string value = (_metatiles[index].TileID).ToString();
                         BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, rect, format);
                         gfx.DrawString(value, font, Brushes.White, rect, format);
                     }
                     index++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// raws block gri
+        /// </summary>
+        /// <param name="gfx"></param>
+        /// <param name="origin"></param>
+        private void DrawMetatiles(Graphics gfx, Point origin)
+        {
+            if (_editMode != TileEditType.Metatiles || Image == null || _tiles.Count <= 0 || _metatiles.Count <= 0)
+                return;
+
+            int cols = (int)Math.Ceiling(Image.Width / (double)(BlockSize.Width));
+            int rows = (int)Math.Ceiling(Image.Height / (double)(BlockSize.Height));
+            Rectangle cell = new Rectangle(0, 0, BlockSize.Width, BlockSize.Height);
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    gfx.DrawRectangle(Pens.White, col * BlockSize.Width + origin.X, row * BlockSize.Height + origin.Y, BlockSize.Width, BlockSize.Height);
                 }
             }
         }
@@ -494,8 +546,11 @@ namespace SMSTileStudio.Controls
             int index = 0;
             int count = 0;
             Rectangle cell = new Rectangle(0, 0, SnapSize.Width, SnapSize.Height);
-            using (Brush highlighter = new SolidBrush(Color.FromArgb(128, Color.Yellow)))
+            using (Pen pen = new Pen(Color.White, 1))
             {
+                pen.DashStyle = DashStyle.Dash;
+                pen.DashPattern = new float[2] { 4, 4 };
+                pen.DashOffset = _antOffset;
                 for (int row = 0; row < _rows; row++)
                 {
                     for (int col = 0; col < _columns; col++)
@@ -504,7 +559,8 @@ namespace SMSTileStudio.Controls
                         {
                             cell.X = (col * SnapSize.Width) + origin.X;
                             cell.Y = (row * SnapSize.Height) + origin.Y;
-                            gfx.FillRectangle(highlighter, cell);
+                            gfx.DrawRectangle(Pens.Blue, cell);
+                            gfx.DrawRectangle(pen, cell);
                             count++;
                         }
 
@@ -549,37 +605,6 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// Draws all collision bounds
-        /// </summary>
-        private void DrawCollisions(Graphics gfx, Point origin)
-        {
-            if (_editMode != TileEditType.Collisions || Image == null)
-                return;
-
-            foreach (var collision in _collisions)
-                DrawCollision(gfx, collision.Bounds, origin, false);
-
-            DrawCollision(gfx, _collisionBounds, origin, false);
-            if (_selectedCollision != null)
-                DrawCollision(gfx, _selectedCollision.Bounds, origin, true);
-        }
-
-        /// <summary>
-        /// Draws a single collision
-        /// </summary>
-        void DrawCollision(Graphics gfx, Rectangle rect, Point origin, bool selected)
-        {
-            var src = rect;
-            src.X += origin.X;
-            src.Y += origin.Y;
-            gfx.DrawRectangle(Pens.Black, src);
-            src.Inflate(-1, -1);
-            gfx.DrawRectangle(selected ? Pens.White : Pens.Red, src);
-            src.Inflate(-1, -1);
-            gfx.DrawRectangle(Pens.Black, src);
-        }
-
-        /// <summary>
         /// Draws all collision rectangles
         /// </summary>
         private void DrawEntities(Graphics gfx, Point origin)
@@ -587,12 +612,12 @@ namespace SMSTileStudio.Controls
             if (_editMode != TileEditType.Entities || Image == null)
                 return;
 
-            foreach (var entity in _entities)
-                DrawEntity(gfx, entity.Collision.Bounds, origin, entity.Name, false);
+            //foreach (var entity in _entities)
+            //    DrawEntity(gfx, entity.Bounds, origin, entity.Name, false);
 
-            DrawEntity(gfx, _entityBounds, origin, "", false);
-            if (_selectedEntity != null)
-                DrawEntity(gfx, _selectedEntity.Collision.Bounds, origin, _selectedEntity.Name, true);
+            //DrawEntity(gfx, _entityBounds, origin, "", false);
+            //if (_selectedEntity != null)
+            //    DrawEntity(gfx, _selectedEntity.Bounds, origin, _selectedEntity.Name, true);
         }
 
 
@@ -619,6 +644,14 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Draws entity
+        /// </summary>
+        void DrawMergeTiles(Graphics gfx, Rectangle rect, Point origin, string name, bool selected)
+        {
+
+        }
+
+        /// <summary>
         /// Creates a brush from a selection
         /// </summary>
         public void CreateBrush(Tileset tileset, Palette bgPalette, Palette sprPalette)
@@ -627,7 +660,7 @@ namespace SMSTileStudio.Controls
                 return;
 
             _brush = SelectionToTilemap();
-            _brushBitmap = BitmapUtility.GetSpriteImage(tileset, _brush, bgPalette, sprPalette);
+            _brushBitmap = BitmapUtility.GetTileImage(tileset, _brush, bgPalette, sprPalette);
         }
 
         /// <summary>
@@ -723,12 +756,54 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Sets tile type for the current selection
+        /// </summary>
+        /// <returns></returns>
+        public void SetTileTypeForSelection(byte type)
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return;
+
+            var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = _selection.Width / SnapSize.Width;
+            var rows = _selection.Height / SnapSize.Height;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    _tiles[((row * _columns) + offset) + col].Bits = type;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets position text
         /// </summary>
         /// <returns></returns>
         private string GetPositionText()
         {
-            return "X: " + (Position.X + 8) + " | " + (Position.X + 8) / 8 + " Y: " + (Position.Y + 8) + " | " + (Position.Y + 8) / 8;
+            return "X: " + (Position.X + 8) + " | Tile X: " + (Position.X + 8) / 8 + " | Y: " + (Position.Y + 8) + " | Tile Y: " + (Position.Y + 8) / 8;
+        }
+
+        /// <summary>
+        /// Gets tile text
+        /// </summary>
+        /// <returns></returns>
+        private string GetTileText()
+        {
+            if (_tiles == null || _tiles.Count <= 0 || Position.IsEmpty)
+                return "N/A";
+
+            int cols = Image.Width / SnapSize.Width;
+            int col = Position.X / SnapSize.Width;
+            int row = Position.Y / SnapSize.Height;
+            int index = (row * cols) + col;
+            if (index < _tiles.Count)
+            {
+                var tile = _tiles[index];
+                return tile.TileID + " | H Flip: " + (tile.FlipX ? "Yes" : "No") + " | V Flip: " + (tile.FlipY ? "Yes" : "No") + " | Priority: " + (tile.Priority ? "Yes" : "No") + " | Palette: " + (tile.UseBGPalette ? "BG" : "SPR") + " | Type: " + tile.Bits;
+            }
+            return "N/A";
         }
 
         /// <summary>
@@ -764,17 +839,7 @@ namespace SMSTileStudio.Controls
         {
             _selection = Rectangle.Empty;
             _selectOrigin = Point.Empty;
-            Invalidate();
-        }
-
-        /// <summary>
-        /// Clear collision selection
-        /// </summary>
-        public void ClearCollision()
-        {
-            _collisionBounds = Rectangle.Empty;
-            _collisionOrigin = Point.Empty;
-            _selectedCollision = null;
+            UpdateBackBuffer();
             Invalidate();
         }
 
@@ -795,14 +860,16 @@ namespace SMSTileStudio.Controls
         /// <param name="tilemap">The tile map data to set</param>
         public void SetTilemap(Tilemap tilemap)
         {
+            _tiles.Clear();
+            _metatiles.Clear();
             _columns = tilemap.Columns;
             _rows = tilemap.Rows;
             _tiles = tilemap.Tiles.DeepClone();
-            _collisions = tilemap.Collisions.DeepClone();
             _entities = tilemap.Entities.DeepClone();
+            _metatiles = tilemap.Metatiles.DeepClone();
+            //BlockSize = Block.GetSize(tilemap.BlockSize);
             Offset = tilemap.Offset;
             ClearSelection();
-            ClearCollision();
             ClearEntity();
             UpdateBackBuffer();
         }
@@ -815,12 +882,10 @@ namespace SMSTileStudio.Controls
             _columns = 0;
             _rows = 0;
             _tiles.Clear();
-            _collisions.Clear();
             _entities.Clear();
             Offset = 0;
             this.Image = null;
             ClearSelection();
-            ClearCollision();
             ClearEntity();
             UpdateBackBuffer();
         }

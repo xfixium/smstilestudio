@@ -21,25 +21,95 @@
 //
 
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 
 namespace SMSTileStudio.Data
 {
     [Serializable]
-    public class Entity
+    public class Entity : GameAsset
     {
         /// <summary>
         /// Properties
         /// </summary>
-        public int Id { get; set; } = 0;
-        public string Name { get; set; } = "";
-        public Collision Collision { get; set; } = new Collision();
+        public string Comments { get; set; } = "";
+        public List<byte> Graphic { get; set; } = new List<byte>();
+        public List<EntityField> Fields { get; set; } = new List<EntityField>();
 
         /// <summary>
         /// Constructors
         /// </summary>
-        public Entity() { }
-        public Entity(int id, string name, Collision collision) { Id = id; Name = name; Collision = collision; }
+        public Entity() { GameAssetType = GameAssetType.Entity; }
+        public Entity(int id) { ID = id; Name = "New Entity " + id; GameAssetType = GameAssetType.Entity; }
+
+        /// <summary>
+        /// Gets object information string
+        /// </summary>
+        /// <returns>Object information string</returns>
+        public string GetInfo()
+        {
+            var count = 0;
+            foreach (var field in Fields)
+            {
+                switch (field.ValueType)
+                {
+                    case EntityFieldType.Byte: count++; break;
+                    case EntityFieldType.Word: count += 2; break;
+                    case EntityFieldType.Long: count += 4; break;
+                    default: count += field.Value.Length; break;
+                }
+            }
+            return "ID: " + ID + " | Name: " + Name + " | Fields: " + Fields.Count + " | " + count + " byte(s)";
+        }
+
+        /// <summary>
+        /// Gets two bytes whcih represent the tile attributes, and the tile id
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns></returns>
+        private byte[] GetWord(string value)
+        {
+            ushort word = Convert.ToUInt16(value);
+            return BitConverter.GetBytes(word);
+        }
+
+        /// <summary>
+        /// Gets two bytes whcih represent the tile attributes, and the tile id
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns></returns>
+        private byte[] GetLong(string value)
+        {
+            uint l = Convert.ToUInt32(value);
+            return BitConverter.GetBytes(l);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getRawData"></param>
+        /// <returns></returns>
+        public byte[] GetEntityData(bool getRawData)
+        {
+            List<byte> data = new List<byte>();
+            foreach (var field in Fields)
+            {
+                switch (field.ValueType)
+                {
+                    case EntityFieldType.Byte:
+                        data.Add(Convert.ToByte(field.Value));
+                        break;
+
+                    case EntityFieldType.Word:
+                        data.AddRange(GetWord(field.Value));
+                        break;
+
+                    case EntityFieldType.Long:
+                        data.AddRange(GetLong(field.Value));
+                        break;
+                }
+            }
+            return getRawData ? data.ToArray() : GetExportData(data);
+        }
 
         /// <summary>
         /// Overrides
@@ -47,7 +117,68 @@ namespace SMSTileStudio.Data
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0}, {1}, X: {2}, Y: {3}", Id, Name, Collision.Bounds.X, Collision.Bounds.Y);
+            return Name;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Serializable]
+    public class EntityField
+    {
+        public EntityFieldType ValueType { get; set; } = EntityFieldType.Text;
+        public string Name { get; set; }
+        public string Value { get; set; } = string.Empty;
+
+        public EntityField() { }
+        public EntityField(EntityFieldType type, string name, string value)
+        {
+            ValueType = type;
+            Name = name;
+            Value = value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetValue(string value)
+        {
+            switch (ValueType)
+            {
+                case EntityFieldType.Byte:
+                    byte b;
+                    if (byte.TryParse(value, out b))
+                        return b.ToString();
+                    else
+                        return "0";
+
+                case EntityFieldType.Word:
+                    ushort w;
+                    if (ushort.TryParse(value, out w))
+                        return w.ToString();
+                    else
+                        return "0";
+
+                case EntityFieldType.Long:
+                    uint l;
+                    if (uint.TryParse(value, out l))
+                        return l.ToString();
+                    else
+                        return "0";
+
+                case EntityFieldType.Hex:
+                    // todo: parse string
+                    return value;
+
+                case EntityFieldType.Bytes:
+                    // todo: parse string
+                    return value;
+
+                default :
+                    return value;
+            }
         }
     }
 }

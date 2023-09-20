@@ -164,7 +164,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                using (var form = new ImportGraphicsForm(image, _dialog.Name, _dialog.BgPaletteID, _dialog.SprPaletteID, importColors))
+                using (var form = new ImportTilemapForm(image, _dialog.Name, _dialog.BgPaletteID, _dialog.SprPaletteID, importColors))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
                         return;
@@ -216,7 +216,7 @@ namespace SMSTileStudio.Controls
             if (!HasData || Loading || !(sender is NumericUpDown nud))
                 return;
 
-            // Update tilemap
+            // Update dialog
             if (nud == nudOffset)
                 _dialog.Offset = (int)nudOffset.Value;
             else if (nud == nudColumn)

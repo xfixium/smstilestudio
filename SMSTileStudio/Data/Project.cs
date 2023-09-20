@@ -38,9 +38,9 @@ namespace SMSTileStudio.Data
         public List<MetaSprite> MetaSprites { get; private set; } = new List<MetaSprite>();
         public List<Palette> Palettes { get; private set; } = new List<Palette>();
         public List<Tilemap> Tilemaps { get; private set; } = new List<Tilemap>();
-        public List<MetaTilemap> MetaTilemaps { get; private set; } = new List<MetaTilemap>();
         public List<Dialog> Dialogs { get; private set; } = new List<Dialog>();
         public List<DataEntry> DataEntries { get; private set; } = new List<DataEntry>();
+        public List<Entity> Entities { get; private set; } = new List<Entity>();
 
         /// <summary>
         /// Constructors
@@ -67,7 +67,7 @@ namespace SMSTileStudio.Data
                 case GameAssetType.MetaSprite: MetaSprites.Add(new MetaSprite(Indexer++)); return MetaSprites.FirstOrDefault(x => x.ID == Indexer - 1);
                 case GameAssetType.Dialog: Dialogs.Add(new Dialog(Indexer++)); return Dialogs.FirstOrDefault(x => x.ID == Indexer - 1);
                 case GameAssetType.DataEntry: DataEntries.Add(new DataEntry(Indexer++)); return DataEntries.FirstOrDefault(x => x.ID == Indexer - 1);
-                case GameAssetType.MetaTilemap: MetaTilemaps.Add(new MetaTilemap(Indexer++)); return MetaTilemaps.FirstOrDefault(x => x.ID == Indexer - 1);
+                case GameAssetType.Entity: Entities.Add(new Entity(Indexer++)); return Entities.FirstOrDefault(x => x.ID == Indexer - 1);
                 default: return null;
             }
         }
@@ -98,9 +98,9 @@ namespace SMSTileStudio.Data
                 if (asset.ID == id)
                     return asset;
 
-            foreach (var metaTilemap in MetaTilemaps)
-                if (metaTilemap.ID == id)
-                    return metaTilemap;
+            foreach (var asset in Entities)
+                if (asset.ID == id)
+                    return asset;
 
             return null;
         }
@@ -166,15 +166,15 @@ namespace SMSTileStudio.Data
                     DataEntries.Add(dataEntry);
                     return dataEntry;
 
-                case GameAssetType.MetaTilemap:
-                    var metaTilemap = MetaTilemaps.FirstOrDefault(x => x.ID == asset.ID);
-                    if (metaTilemap == null)
+                case GameAssetType.Entity:
+                    var entity = Entities.FirstOrDefault(x => x.ID == asset.ID);
+                    if (entity == null)
                         return null;
 
-                    metaTilemap = metaTilemap.DeepClone();
-                    metaTilemap.ID = Indexer++;
-                    MetaTilemaps.Add(metaTilemap);
-                    return metaTilemap;
+                    entity = entity.DeepClone();
+                    entity.ID = Indexer++;
+                    Entities.Add(entity);
+                    return entity;
 
                 default: return null;
             }
@@ -231,12 +231,12 @@ namespace SMSTileStudio.Data
                     DataEntries[index] = asset as DataEntry;
                     break;
 
-                case GameAssetType.MetaTilemap:
-                    index = MetaTilemaps.FindIndex(x => x.ID == asset.ID);
+                case GameAssetType.Entity:
+                    index = Entities.FindIndex(x => x.ID == asset.ID);
                     if (index <= -1)
                         return;
 
-                    MetaTilemaps[index] = asset as MetaTilemap;
+                    Entities[index] = asset as Entity;
                     break;
             }
         }
@@ -256,7 +256,7 @@ namespace SMSTileStudio.Data
                 case GameAssetType.MetaSprite: MetaSprites.Remove(MetaSprites.FirstOrDefault(x => x.ID == asset.ID)); break;
                 case GameAssetType.Dialog: Dialogs.Remove(Dialogs.FirstOrDefault(x => x.ID == asset.ID)); break;
                 case GameAssetType.DataEntry: DataEntries.Remove(DataEntries.FirstOrDefault(x => x.ID == asset.ID)); break;
-                case GameAssetType.MetaTilemap: MetaTilemaps.Remove(MetaTilemaps.FirstOrDefault(x => x.ID == asset.ID)); break;
+                case GameAssetType.Entity: Entities.Remove(Entities.FirstOrDefault(x => x.ID == asset.ID)); break;
             }
         }
 

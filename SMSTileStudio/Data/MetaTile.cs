@@ -29,26 +29,17 @@ namespace SMSTileStudio.Data
     /// Tile object that holds the tile id and tile attributes
     /// </summary>
     [Serializable]
-    public class MetaTile : Tile
+    public class MetaTile
     {
-        public List<Tile> Tiles { get; set; } = new List<Tile>();  // Meta tile tiles
+        public int TileID { get; set; }                            // Metatile tile id
+        public byte Value { get; set; }                            // Extra general use variable for meta tile
+        public List<Tile> Tiles { get; set; } = new List<Tile>();  // Metatile tile ids
 
         /// <summary>
         /// Constructors
         /// </summary>
         public MetaTile() { }
-        public MetaTile(int tileID) { TileID = tileID; }
-        public MetaTile(int tileID, FlipType flipType)
-        {
-            TileID = tileID;
-            switch (flipType)
-            {
-                case FlipType.Horizontal: FlipX = true; break;
-                case FlipType.Vertical: FlipY = true; break;
-                case FlipType.Both: FlipX = true; FlipY = true; break;
-                default: break;
-            }
-        }
+        public MetaTile(int id) { TileID = id; }
 
         /// <summary>
         /// Gets object information string
@@ -56,8 +47,7 @@ namespace SMSTileStudio.Data
         /// <returns>Object information string</returns>
         public override string ToString()
         {
-            string palette = UseBGPalette ? "Background" : "Sprite";
-            return "ID: " + TileID.ToString() + " | HFlip: " + FlipX + " | VFlip: " + FlipY + " | Priority: " + Priority + " | Palette: " + palette + " | Bits: " + Bits;
+            return "ID: " + TileID.ToString();
         }
     }
 }

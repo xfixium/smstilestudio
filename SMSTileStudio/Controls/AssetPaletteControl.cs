@@ -58,6 +58,10 @@ namespace SMSTileStudio.Controls
             cbSwatch.DataSource = EnumMethods.GetEnumCollection(typeof(SwatchType));
             if (cbSwatch.Items.Count > 0)
                 cbSwatch.SelectedIndex = 0;
+
+            cbRed.SelectedIndex = 0;
+            cbGreen.SelectedIndex = 0;
+            cbBlue.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -143,9 +147,9 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                if (importColors.Count > 32)
+                if (importColors.Count > 16)
                 {
-                    MessageBox.Show("The image has more than 32 colors, reduce the image colors and try again.");
+                    MessageBox.Show("The image has more than 16 colors, reduce the image colors and try again.");
                     return;
                 }
 
@@ -170,6 +174,9 @@ namespace SMSTileStudio.Controls
                         App.Project.UpdateAsset(palette);
                     }
                 }
+                _palette = palette;
+                LoadUI();
+                return;
             }
             else if (HasData && button == btnExport)
             {
@@ -198,6 +205,21 @@ namespace SMSTileStudio.Controls
                 App.Project.UpdateAsset(_palette);
                 pnlPalette.SetPalette(_palette.Colors);
                 pnlPalette.SelectColor(source + 1);
+                return;
+            }
+            else if (button == btnColorApply)
+            {
+                if (lstPalettes.SelectedItem == null || cbRed.SelectedItem == null || cbGreen.SelectedItem == null || cbBlue.SelectedItem == null)
+                    return;
+
+                Color color = Color.FromArgb(255, Convert.ToInt32(cbRed.SelectedItem.ToString()), Convert.ToInt32(cbGreen.SelectedItem.ToString()), Convert.ToInt32(cbBlue.SelectedItem.ToString()));
+
+                if (pnlPalette.SelectedIndex != -1)
+                {
+                    _palette.Colors[pnlPalette.SelectedIndex] = color;
+                    pnlPalette.SetPalette(_palette.Colors);
+                    UpdatePalette();
+                }
                 return;
             }
             else
@@ -247,7 +269,7 @@ namespace SMSTileStudio.Controls
                         {
                             using (BinaryWriter bw = new BinaryWriter(fs))
                             {
-                                bw.Write(_palette.GetPaletteData(true));
+                                bw.Write(_palette.GetPaletteData(true, BitmapUtility.CheckForGameGearColors(_palette.Colors)));
                             }
                         }
                     }
@@ -274,6 +296,7 @@ namespace SMSTileStudio.Controls
                 case SwatchType.Aseprite: pnlSwatch.Image = Properties.Resources.swatch_aseprite; break;
                 case SwatchType.Sequential: pnlSwatch.Image = Properties.Resources.swatch_consecutive; break;
                 case SwatchType.SixColors: pnlSwatch.Image = Properties.Resources.swatch_six; break;
+                case SwatchType.GameGear: pnlSwatch.Image = Properties.Resources.swatch_game_gear; break;
             }
             pnlSwatch.Width = pnlSwatch.Image.Width;
             pnlSwatch.Height = pnlSwatch.Image.Height;
@@ -304,7 +327,9 @@ namespace SMSTileStudio.Controls
 
             // Get the color underneath color, apply it to a palette color, if one is selected
             Color color = (sender as ImageControl).GetColorUnderMouse();
-            color = color.A < 255 || color.ToArgb() == SystemColors.Control.ToArgb() ? Color.White : color;
+            if (color.A < 255 || color.ToArgb() == SystemColors.Control.ToArgb())
+                return;
+                
             if (pnlPalette.SelectedIndex != -1)
             {
                 _palette.Colors[pnlPalette.SelectedIndex] = color;

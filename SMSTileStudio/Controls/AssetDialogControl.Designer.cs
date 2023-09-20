@@ -146,7 +146,7 @@
             this.lblInfo.Name = "lblInfo";
             this.lblInfo.Size = new System.Drawing.Size(884, 26);
             this.lblInfo.TabIndex = 3;
-            this.lblInfo.Text = "No dialog information";
+            this.lblInfo.Text = "No Dialog information";
             this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // grpDialogList
@@ -172,9 +172,9 @@
             this.lstDialogs.HorizontalExtent = 168;
             this.lstDialogs.IntegralHeight = false;
             this.lstDialogs.ItemHeight = 15;
-            this.lstDialogs.Location = new System.Drawing.Point(12, 136);
+            this.lstDialogs.Location = new System.Drawing.Point(12, 135);
             this.lstDialogs.Name = "lstDialogs";
-            this.lstDialogs.Size = new System.Drawing.Size(172, 409);
+            this.lstDialogs.Size = new System.Drawing.Size(172, 410);
             this.lstDialogs.TabIndex = 1;
             this.lstDialogs.TextOffsetX = 2;
             this.lstDialogs.TextOffsetY = 0;
@@ -190,7 +190,7 @@
             this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlButtons.Location = new System.Drawing.Point(12, 19);
             this.pnlButtons.Name = "pnlButtons";
-            this.pnlButtons.Size = new System.Drawing.Size(172, 117);
+            this.pnlButtons.Size = new System.Drawing.Size(172, 116);
             this.pnlButtons.TabIndex = 0;
             // 
             // btnExport
@@ -837,6 +837,7 @@
             this.pnlTilesetEdit.Canvas = new System.Drawing.Size(8, 8);
             this.pnlTilesetEdit.Centered = true;
             this.pnlTilesetEdit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTilesetEdit.EditMode = SMSTileStudio.Data.TilesetEditType.Select;
             this.pnlTilesetEdit.HatchBackColor = System.Drawing.Color.DarkGray;
             this.pnlTilesetEdit.HatchForeColor = System.Drawing.Color.White;
             this.pnlTilesetEdit.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
@@ -850,6 +851,7 @@
             this.pnlTilesetEdit.Size = new System.Drawing.Size(494, 519);
             this.pnlTilesetEdit.SnapSize = new System.Drawing.Size(8, 8);
             this.pnlTilesetEdit.TabIndex = 2;
+            this.pnlTilesetEdit.TypeValue = 0;
             this.pnlTilesetEdit.UseCanvas = false;
             this.pnlTilesetEdit.UseGrid = true;
             this.pnlTilesetEdit.UseHatch = true;

@@ -42,8 +42,8 @@ namespace SMSTileStudio.Data
         Dialog = 3,
         [Description("Data Entry")]
         DataEntry = 4,
-        [Description("Meta Tilemap")]
-        MetaTilemap = 5
+        [Description("Entity")]
+        Entity = 5
     }
 
     /// <summary>
@@ -72,8 +72,10 @@ namespace SMSTileStudio.Data
         Aseprite = 0,
         [Description("Sequential")]
         Sequential = 1,
-        [Description("Six Colors")]
-        SixColors = 2
+        [Description("Six Rows")]
+        SixColors = 2,
+        [Description("Game Gear")]
+        GameGear = 3
     }
 
     /// <summary>
@@ -110,7 +112,9 @@ namespace SMSTileStudio.Data
         [Description("Select")]
         Select = 0,
         [Description("Swap")]
-        Swap = 1
+        Swap = 1,
+        [Description("Type")]
+        Type = 2
     }
 
     /// <summary>
@@ -141,14 +145,14 @@ namespace SMSTileStudio.Data
         PaletteIndex = 4,
         [Description("Tile Select")]
         Selection = 5,
-        [Description("Collisions")]
-        Collisions = 6,
         [Description("Entities")]
         Entities = 7,
         [Description("Type")]
         Bits = 8,
-        [Description("Blocks")]
-        Blocks = 9,
+        [Description("Metatiles")]
+        Metatiles = 9,
+        [Description("Merge Tiles")]
+        Merge = 10
     }
 
     /// <summary>
@@ -163,16 +167,14 @@ namespace SMSTileStudio.Data
     }
 
     /// <summary>
-    /// Block size type enumeration
+    /// Metatile size type enumeration
     /// </summary>
-    public enum BlockSizeType : int
+    public enum MetatileSizeType : int
     {
-        [Description("8 x 8")]
-        Eight = 0,
         [Description("16 x 16")]
-        Sixteen = 1,
+        Sixteen = 0,
         [Description("32 x 32")]
-        ThirtyTwo = 2
+        ThirtyTwo = 1
     }
 
     /// <summary>
@@ -188,6 +190,25 @@ namespace SMSTileStudio.Data
         Vertical = 2,
         [Description("Reverse Vertical")]
         ReverseVertical = 3
+    }
+
+    /// <summary>
+    /// Describes tilemap data orientation types
+    /// </summary>
+    public enum EntityFieldType
+    {
+        [Description("Byte")]
+        Byte = 0,
+        [Description("Word")]
+        Word = 1,
+        [Description("Long")]
+        Long = 2,
+        [Description("Text")]
+        Text = 3,
+        [Description("Hex")]
+        Hex = 4,
+        [Description("Bytes")]
+        Bytes = 5
     }
 
     /// <summary>

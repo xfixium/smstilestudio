@@ -341,7 +341,7 @@ namespace SMSTileStudio.Controls
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("RGB: " + col.R + ", " + col.G + ", " + col.B);
             sb.AppendLine("RGB Hex: $" + col.R.ToString("X2") + col.G.ToString("X2") + col.B.ToString("X2"));
-            sb.AppendLine("SMS Hex: $" + Palette.GetColor(col).ToString("X2"));
+            //sb.AppendLine("SMS Hex: $" + Palette.GetColor(col).ToString("X2"));
             return sb.ToString();
         }
 

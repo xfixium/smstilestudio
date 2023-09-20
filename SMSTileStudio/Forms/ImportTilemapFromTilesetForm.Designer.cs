@@ -1,6 +1,6 @@
 ﻿namespace SMSTileStudio.Forms
 {
-    partial class ImportGraphicsForm
+    partial class ImportTilemapFromTilesetForm
     {
         /// <summary>
         /// Required designer variable.

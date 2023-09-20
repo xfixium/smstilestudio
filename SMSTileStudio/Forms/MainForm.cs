@@ -62,6 +62,7 @@ namespace SMSTileStudio.Forms
                                 tilemap.Frames.Add(new TilemapFrame(tilemap.Columns, tilemap.Rows, tilemap.Tiles));
 
                         LoadData();
+                        Text = "SMS Tile Studio - " + form.SafeFileName;
                     }
                 }
             }
@@ -123,6 +124,8 @@ namespace SMSTileStudio.Forms
             pnlTilemaps.LoadData(true);
             pnlMetaSprites.LoadData(true);
             pnlDialogs.LoadData(true);
+            pnlDataEntries.LoadData(true);
+            pnlEntities.LoadData(true);
         }
 
         /// <summary>
@@ -132,7 +135,6 @@ namespace SMSTileStudio.Forms
         {
             pnlTilemaps.LoadData(false);
             pnlMetaSprites.LoadData(false);
-            //pnlDialogs.LoadData(false);
         }
     }
 }

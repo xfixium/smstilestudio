@@ -20,10 +20,8 @@
 // THE SOFTWARE.
 //
 
-using System;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -57,12 +55,6 @@ namespace SMSTileStudio.Data
         public static bool IsNumber<T>(this T obj, string number)
         {
             return int.TryParse(number, out _);
-        }
-
-        // Compares two types at the binary level
-        public static bool IsEqual<T>(this T source, T compare)
-        {
-            return JsonSerializer.Serialize(source) == JsonSerializer.Serialize(compare);
         }
 
         // Gets a value field and converts it to the base type

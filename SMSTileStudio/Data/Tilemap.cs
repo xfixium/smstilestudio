@@ -37,26 +37,26 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Properties
         /// </summary>
-        public int FrameCount { get { return Frames.Count; } }                      // The number of tilemap frames
-        public int Count { get { return Columns * Rows; } }                         // The number of tiles
-        public int Columns { get; set; } = 1;                                       // The number of columns
-        public int Rows { get; set; } = 1;                                          // The number of rows
-        public int BgPaletteID { get; set; } = -3;                                  // The display BG palette
-        public int SprPaletteID { get; set; } = -2;                                 // The display SPR palette
-        public bool UseTileAttributes { get; set; } = true;                         // If the tilemap tiles use attribute flags
-        public BlockSizeType BlockSize { get; set; } = BlockSizeType.Sixteen;       // The size of a single block in pixels
-        public Size Size { get { return new Size(Columns * 8, Rows * 8); } }        // The size of the tilemap in pixels
-        public Tileset Tileset { get; set; } = null;                                // The tileset for this tilemap
-        public List<byte> Blocks { get; set; } = new List<byte>();                  // Blocks
-        public List<Tile> Tiles { get; set; } = new List<Tile>();                   // Tilemap tiles
-        public List<Entity> Entities { get; set; } = new List<Entity>();            // Tilemap entities
-        public List<Collision> Collisions { get; set; } = new List<Collision>();    // Tilemap collisions
-        public List<TilemapFrame> Frames { get; set; } = new List<TilemapFrame>();  // Tilemap frames
+        public int FrameCount { get { return Frames.Count; } }                          // The number of tilemap frames
+        public int Count { get { return Columns * Rows; } }                             // The number of tiles
+        public int Columns { get; set; } = 1;                                           // The number of columns
+        public int Rows { get; set; } = 1;                                              // The number of rows
+        public int BgPaletteID { get; set; } = -3;                                      // The display BG palette
+        public int SprPaletteID { get; set; } = -2;                                     // The display SPR palette
+        public bool UseTileAttributes { get; set; } = true;                             // If the tilemap tiles use attribute flags
+        public bool UseMetatileValue { get; set; } = false;                             // If the tilemap metatiles use the metatile value on export
+        public MetatileSizeType MetaTileSize { get; set; } = MetatileSizeType.Sixteen;  // Meta Tile size
+        public Size Size { get { return new Size(Columns * 8, Rows * 8); } }            // The size of the tilemap in pixels
+        public Tileset Tileset { get; set; } = null;                                    // The tileset for this tilemap
+        public List<Tile> Tiles { get; set; } = new List<Tile>();                       // Tilemap tiles
+        public List<MetaTile> Metatiles { get; set; } = new List<MetaTile>();           // Tilemap metatiles
+        public List<Entity> Entities { get; set; } = new List<Entity>();                // Tilemap entities
+        public List<TilemapFrame> Frames { get; set; } = new List<TilemapFrame>();      // Tilemap frames
 
         /// <summary>
         /// Constructors
         /// </summary>
-        public Tilemap() { GameAssetType = GameAssetType.Tilemap; }
+        public Tilemap() { GameAssetType = GameAssetType.Tilemap;  }
         public Tilemap(int id) { ID = id; Name = "New Tilemap " + id; GameAssetType = GameAssetType.Tilemap; }
 
         /// <summary>
@@ -71,6 +71,26 @@ namespace SMSTileStudio.Data
             CompressionType = tilemap.CompressionType;
             Columns = tilemap.Columns;
             Rows = tilemap.Rows;
+        }
+
+        /// <summary>
+        /// Creates blocks if there are none
+        /// </summary>
+        public void CreateMetatiles()
+        {
+            //if (Tiles != null && Tiles.Count > 0 && (Blocks == null || Blocks.Count <= 0))
+            //{
+            //    var blockSize = Block.GetSize(BlockSize);
+            //    var cols = (int)Math.Ceiling(Columns * 8 / (double)blockSize.Width);
+            //    var rows = (int)Math.Ceiling(Rows * 8 / (double)blockSize.Height);
+            //    for (int row = 0; row < rows; row++)
+            //    {
+            //        for (int col = 0; col < cols; col++)
+            //        {
+            //            Blocks.Add(new Block());
+            //        }
+            //    }
+            //}
         }
 
         /// <summary>
@@ -132,6 +152,24 @@ namespace SMSTileStudio.Data
                 tile.Priority = false;
                 tile.UseBGPalette = true;
                 tile.Bits = 0;
+            }
+        }
+
+        /// <summary>
+        /// Resizes the tile map
+        /// </summary>
+        /// <param name="rows"></param>
+        /// <param name="columns"></param>
+        public void Resize(int columns, int rows)
+        {
+            var oldSize = Rows * Columns;
+            var newSize = rows * columns;
+            Columns = columns;
+            Rows = rows;
+            for (int i = 0; i < newSize ; i++)
+            {
+                if (i >= oldSize)
+                    Tiles.Add(new Tile(0));
             }
         }
 
@@ -272,35 +310,6 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets collision data in assembly or hex string
-        /// </summary>
-        /// <returns>Object data string</returns>
-        public string GetCollisionDataString(bool hex)
-        {
-            if (Collisions == null)
-                return "";
-
-            // Iterate through collisions
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine((hex ? "$" : ".db $") + ((byte)Collisions.Count).ToString("X2"));
-            foreach (var collision in Collisions)
-            {
-                string line = (hex ? "" : ".db ");
-                line += "$" + ((byte)collision.CollisionType).ToString("X2") + " ";
-                byte[] bytes = GetUShortBytes(collision.Bounds.X);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                bytes = GetUShortBytes(collision.Bounds.Y);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                bytes = GetUShortBytes(collision.Bounds.Width);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                bytes = GetUShortBytes(collision.Bounds.Height);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                sb.AppendLine(line.Trim());
-            }
-            return sb.ToString().Trim();
-        }
-
-        /// <summary>
         /// Gets entity data in assembly or hex string
         /// </summary>
         /// <returns>Object data string</returns>
@@ -312,20 +321,20 @@ namespace SMSTileStudio.Data
             // Iterate through collisions
             StringBuilder sb = new StringBuilder();
             sb.AppendLine((hex ? "$" : ".db $") + ((byte)Entities.Count).ToString("X2"));
-            foreach (var collision in Entities)
-            {
-                string line = (hex ? "" : ".db ");
-                line += "$" + ((byte)collision.Id).ToString("X2") + " ";
-                byte[] bytes = GetUShortBytes(collision.Collision.Bounds.X);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                bytes = GetUShortBytes(collision.Collision.Bounds.Y);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                bytes = GetUShortBytes(collision.Collision.Bounds.Width);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                bytes = GetUShortBytes(collision.Collision.Bounds.Height);
-                line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
-                sb.AppendLine(line.Trim());
-            }
+            //foreach (var collision in Entities)
+            //{
+            //    string line = (hex ? "" : ".db ");
+            //    line += "$" + ((byte)collision.Id).ToString("X2") + " ";
+            //    byte[] bytes = GetUShortBytes(collision.Bounds.X);
+            //    line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
+            //    bytes = GetUShortBytes(collision.Bounds.Y);
+            //    line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
+            //    bytes = GetUShortBytes(collision.Bounds.Width);
+            //    line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
+            //    bytes = GetUShortBytes(collision.Bounds.Height);
+            //    line += "$" + bytes[0].ToString("X2") + " $" + bytes[1].ToString("X2") + " ";
+            //    sb.AppendLine(line.Trim());
+            //}
             return sb.ToString();
         }
 
@@ -367,30 +376,6 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets collision data
-        /// </summary>
-        /// <returns>An array of bytes</returns>
-        public byte[] GetCollisionData()
-        {
-            List<byte> bytes = new List<byte>();
-            if (Collisions == null)
-                return bytes.ToArray();
-
-            // Iterate through collisions
-            bytes.Add((byte)Collisions.Count);
-            foreach (var collision in Collisions)
-            {
-                bytes.Add((byte)collision.CollisionType);
-                bytes.AddRange(GetUShortBytes(collision.Bounds.X));
-                bytes.AddRange(GetUShortBytes(collision.Bounds.Y));
-                bytes.AddRange(GetUShortBytes(collision.Bounds.Width));
-                bytes.AddRange(GetUShortBytes(collision.Bounds.Height));
-            }
-
-            return bytes.ToArray();
-        }
-
-        /// <summary>
         /// Gets entity data
         /// </summary>
         /// <returns>An array of bytes</returns>
@@ -402,12 +387,12 @@ namespace SMSTileStudio.Data
 
             // Iterate through entities
             bytes.Add((byte)Entities.Count);
-            foreach (var entity in Entities)
-            {
-                bytes.Add((byte)entity.Id);
-                bytes.AddRange(GetUShortBytes(entity.Collision.Bounds.X));
-                bytes.AddRange(GetUShortBytes(entity.Collision.Bounds.Y));
-            }
+            //foreach (var entity in Entities)
+            //{
+            //    bytes.Add((byte)entity.Id);
+            //    bytes.AddRange(GetUShortBytes(entity.Bounds.X));
+            //    bytes.AddRange(GetUShortBytes(entity.Bounds.Y));
+            //}
 
             return bytes.ToArray();
         }

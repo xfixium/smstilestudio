@@ -245,6 +245,8 @@ namespace SMSTileStudio.Controls
             if (!_disableHighlighting && Items[e.Index] is GameAsset)
             {
                 GameAsset asset = Items[e.Index] as GameAsset;
+                if (asset is Palette palette)
+                    font = BitmapUtility.CheckForGameGearColors(palette.Colors) ? new Font(font.FontFamily, font.Size, FontStyle.Bold) : font;
             }
             return font;
         }
@@ -302,6 +304,8 @@ namespace SMSTileStudio.Controls
             if (!_disableHighlighting && Items[e.Index] is GameAsset)
             {
                 GameAsset asset = Items[e.Index] as GameAsset;
+                if (asset is Palette palette)
+                    color = BitmapUtility.CheckForGameGearColors(palette.Colors) ? Color.SlateBlue : this.ForeColor;
             }
 
             return color;

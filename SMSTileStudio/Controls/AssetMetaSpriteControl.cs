@@ -40,6 +40,8 @@ namespace SMSTileStudio.Controls
         private MetaSprite _metaSprite = null;
         private Palette _selectedPalette = null;
         private MetaSpriteFrame _frame = null;
+        private Sprite _sprite = null;
+        private List<int> _sprites = new List<int>();
         private int _frameIndex = 0;
 
         /// <summary>
@@ -74,6 +76,8 @@ namespace SMSTileStudio.Controls
         {
             Loading = true;
             _frameIndex = 0;
+            _sprite = null;
+            _sprites.Clear();
             lstMetaSprites.Refresh();
             LoadUI();
             Loading = false;
@@ -91,17 +95,27 @@ namespace SMSTileStudio.Controls
             // Perform action based on which button was clicked
             if (HasFrameData && button == btnPreviousFrame)
             {
-                _frameIndex -= _frameIndex - 1 > -1 ? 1 : 0;
+                if (_frameIndex - 1 > -1)
+                    _frameIndex -= 1;
+                else
+                    _frameIndex = _metaSprite.Frames.Count - 1;
+
                 Loading = true;
                 LoadUI();
                 Loading = false;
+                lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
             else if (HasFrameData && button == btnNextFrame)
             {
-                _frameIndex += _frameIndex + 1 < _metaSprite.Frames.Count ? 1 : 0;
+                if (_frameIndex + 1 < _metaSprite.Frames.Count)
+                    _frameIndex += 1;
+                else
+                    _frameIndex = 0;
+
                 Loading = true;
                 LoadUI();
                 Loading = false;
+                lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
             else if (button == btnNew)
             {
@@ -170,6 +184,11 @@ namespace SMSTileStudio.Controls
                 mnuExport.Show(btnExport, new Point(0, btnExport.Height));
                 return;
             }
+            else if (HasFrameData && button == btnSpriteConfigAll)
+            {
+                foreach (var frame in _metaSprite.Frames)
+                    frame.SpriteConfig = (int)nudSpriteConfig.Value;
+            }
             else if (HasFrameData && button == btnDurationAll)
             {
                 foreach (var frame in _metaSprite.Frames)
@@ -191,7 +210,7 @@ namespace SMSTileStudio.Controls
             }
             else if (HasData && button == btnDeselectTile)
             {
-                pnlTilesetEdit.DeselectSelection();
+                pnlTilesetEdit.ClearSelection();
                 pnlSelectedTile.Clear();
             }
             else if (HasData && button == btnSwapSelectedPixel && HasFrameData)
@@ -212,6 +231,38 @@ namespace SMSTileStudio.Controls
                 UpdateMetaSprite();
                 pnlTilesetEdit_TileSelectionChanged();
             }
+            else if (HasData && button == btnLeft)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).X--;
+
+                SetSelectedSprites();
+                UpdateMetaSprite();
+            }
+            else if (HasData && button == btnUp)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).Y--;
+
+                SetSelectedSprites();
+                UpdateMetaSprite();
+            }
+            else if (HasData && button == btnRight)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).X++;
+
+                SetSelectedSprites();
+                UpdateMetaSprite();
+            }
+            else if (HasData && button == btnDown)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).Y++;
+
+                SetSelectedSprites();
+                UpdateMetaSprite();
+            }
         }
 
         /// <summary>
@@ -226,7 +277,7 @@ namespace SMSTileStudio.Controls
                 ExportTileset(_metaSprite.Name.ToLower().Replace(' ', '_') + "_tiles");
             else if (menuItem == mnuTilesetExportBinary && HasFrameData)
             {
-                var minimum = (int)nudTilesetMinimum.Value;
+                var minimum = (int)nudTileMinimum.Value;
                 var fileName = _metaSprite.Name.ToLower().Replace(' ', '_') + "_tiles" + (mnuTilesetSingleFrame.Checked ? "_" + _frameIndex.ToString("D2") : "");
                 ExportData(mnuTilesetSingleFrame.Checked ? _frame.Tileset.GetTilesetData(true, minimum) : _metaSprite.GetAllTilesetData(true, minimum), fileName);
             }
@@ -234,9 +285,10 @@ namespace SMSTileStudio.Controls
                 Clipboard.SetText(HasFrameData ? _frame.Tileset.GetDataString(true) : "");
             else if (menuItem == mnuTilesetExportAssembly && HasFrameData)
                 Clipboard.SetText(_frame.Tileset.GetDataString(true));
-
             else if (menuItem == mnuMetaSpriteExportBinary)
-                ExportData(_metaSprite.GetMetaSpriteData(true), _metaSprite.Name.ToLower().Replace(' ', '_') + "_sprites");
+                ExportData(_metaSprite.GetMetaSpriteData(true, false), _metaSprite.Name.ToLower().Replace(' ', '_') + "_sprites");
+            else if (menuItem == mnuMetaSpriteExportBinaryFramed)
+                ExportData(_metaSprite.GetMetaSpriteData(true, true), _metaSprite.Name.ToLower().Replace(' ', '_') + "_sprites");
             else if (menuItem == mnuMetaSpriteExportHex)
                 Clipboard.SetText(_metaSprite.GetASMString(true));
             else if (menuItem == mnuMetaSpriteExportAssembly)
@@ -277,8 +329,14 @@ namespace SMSTileStudio.Controls
             // Perform action based on control
             if (checkBox == chkTilesetIndexes)
                 pnlTilesetEdit.Indexed = chkTilesetIndexes.Checked;
+            else if (checkBox == chkSprites)
+                pnlMetaSpriteEdit.ShowSprites = chkSprites.Checked;
             else if (checkBox == chkGrid)
                 pnlMetaSpriteEdit.UseGrid = chkGrid.Checked;
+            else if (checkBox == chkShowOrigin)
+                pnlMetaSpriteEdit.ShowOrigin = chkShowOrigin.Checked;
+            else if (checkBox == chkGridSnap)
+                pnlMetaSpriteEdit.ShowOrigin = chkShowOrigin.Checked;
             else if (checkBox == chkTilesetGrid)
                 pnlTilesetEdit.UseGrid = chkTilesetGrid.Checked;
         }
@@ -294,12 +352,16 @@ namespace SMSTileStudio.Controls
 
             if (numeric == nudOffset)
                 _metaSprite.Offset = (int)nudOffset.Value;
+            else if (numeric == nudTileMinimum)
+                _metaSprite.TileMinimum = (int)nudTileMinimum.Value;
             else if (numeric == nudDuration && _frame != null)
                 _frame.Duration = (int)nudDuration.Value;
+            else if (numeric == nudSpriteConfig && _frame != null)
+                _frame.SpriteConfig = (int)nudSpriteConfig.Value;
             else if (numeric == nudSpriteX && lstSprites.SelectedItem != null)
-                (lstSprites.SelectedItem as Sprite).X = (byte)nudSpriteX.Value;
+                (lstSprites.SelectedItem as Sprite).X = (int)nudSpriteX.Value;
             else if (numeric == nudSpriteY && lstSprites.SelectedItem != null)
-                (lstSprites.SelectedItem as Sprite).Y = (byte)nudSpriteY.Value;
+                (lstSprites.SelectedItem as Sprite).Y = (int)nudSpriteY.Value;
 
             UpdateMetaSprite();
         }
@@ -316,6 +378,8 @@ namespace SMSTileStudio.Controls
             // Perform action based on control
             if (comboBox == cbSpriteMode && HasData)
                 _metaSprite.SpriteMode = (SpriteModeType)cbSpriteMode.SelectedItem;
+            else if (comboBox == cbSprPalette && HasData)
+                _metaSprite.PaletteID = (cbSprPalette.SelectedItem as Palette).ID;
             else if (comboBox == cbTilesetCompression && HasFrameData)
                 _frame.Tileset.CompressionType = (CompressionType)cbTilesetCompression.SelectedItem.GetType().GetProperty("value").GetValue(cbTilesetCompression.SelectedItem, null);
 
@@ -331,10 +395,10 @@ namespace SMSTileStudio.Controls
                 return;
 
             Loading = true;
-            var sprite = (lstSprites.SelectedItem as Sprite);
-            pnlMetaSpriteEdit.SelectedSprite = sprite;
-            nudSpriteX.Value = sprite.X;
-            nudSpriteY.Value = sprite.Y;
+            _sprite = (lstSprites.SelectedItem as Sprite);
+            pnlMetaSpriteEdit.SelectedSprite = _sprite;
+            nudSpriteX.Value = _sprite.X;
+            nudSpriteY.Value = _sprite.Y;
             Loading = false;
         }
 
@@ -358,6 +422,37 @@ namespace SMSTileStudio.Controls
             pnlSelectedTile.Palette = _selectedPalette.DeepClone().Colors;
             pnlSelectedTile.Pixels = HasFrameData ? _frame.Tileset.GetTilePixels(pnlTilesetEdit.TileID) : null;
             pnlSelectedTile.Image = BitmapUtility.GetPixelTileImage(pnlSelectedTile.Pixels, pnlSelectedTile.Palette, pnlSelectedTile.ClientSize);
+        }
+
+        // Selected palette color changed
+        private void pnlSprPalette_SelectedColorChanged()
+        {
+            pnlSelectedTile.SelectedColor = (byte)pnlSprPalette.SelectedIndex;
+        }
+
+        // Selected tile pixel changed
+        private void pnlSelectedTile_PixelChanged()
+        {
+            if (!HasData)
+                return;
+
+            _frame.Tileset.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
+            pnlSelectedTile.Image = BitmapUtility.GetPixelTileImage(pnlSelectedTile.Pixels, pnlSelectedTile.Palette, pnlSelectedTile.ClientSize);
+            UpdateImages();
+            UpdateMetaSprite();
+        }
+
+        /// <summary>
+        /// Sets selected sprites for editing
+        /// </summary>
+        private void SetSelectedSprites()
+        {
+            _sprites.Clear();
+            for (int i = 0; i < lstSprites.Items.Count; i++)
+            {
+                if (lstSprites.GetSelected(i))
+                    _sprites.Add(i);
+            }
         }
 
         /// <summary>
@@ -460,18 +555,21 @@ namespace SMSTileStudio.Controls
             tabMain.Visible = lstMetaSprites.SelectedItem != null;
             _metaSprite = lstMetaSprites.SelectedItem == null ? null : lstMetaSprites.SelectedItem as MetaSprite;
             _frame = _metaSprite == null || _metaSprite.Frames.Count <= 0 ? null : _metaSprite.Frames[_frameIndex];
+            nudTileMinimum.Value = _metaSprite == null ? 0 : _metaSprite.TileMinimum;
             nudOffset.Value = _metaSprite == null ? 0 : _metaSprite.Offset;
             nudDuration.Value = _frame == null ? 0 : _frame.Duration;
+            nudSpriteConfig.Value = _frame == null ? 0 : _frame.SpriteConfig;
             pnlMetaSpriteEdit.SpriteMode = _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode;
             txtName.Text = _metaSprite == null ? string.Empty : _metaSprite.Name;
-            cbTilesetCompression.SelectedItem = !HasFrameData ? CompressionType.None : _frame.Tileset.CompressionType;
-            cbSpriteMode.SelectedItem = _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode;
             cbSprPalette.SelectedItem = (Palette)App.Project.GetAsset(_metaSprite == null ? -2 : _metaSprite.PaletteID);
             pnlSprPalette.SetPalette(cbSprPalette.SelectedItem == null ? null : (cbSprPalette.SelectedItem as Palette).Colors);
             _selectedPalette = cbSprPalette.SelectedItem as Palette;
             lblInfo.Text = _metaSprite == null ? "No Meta Sprite information" : _metaSprite.GetInfo(_frameIndex);
             pnlMetaSpriteEdit.Palette = _selectedPalette;
             pnlMetaSpriteEdit.LoadFrame(_frame);
+            cbTilesetCompression.SelectedItem = !HasFrameData ? CompressionType.None : _frame.Tileset.CompressionType;
+            cbSpriteMode.SelectedItem = _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode;
+            lblCurrentFrameValue.Text = _metaSprite == null || _metaSprite.Frames.Count <= 0 ? "0 / 0" : _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
 
             lstSprites.Items.Clear();
             lstCollisions.Items.Clear();
@@ -484,7 +582,18 @@ namespace SMSTileStudio.Controls
             foreach (var collision in _frame.Collisions)
                 lstCollisions.Items.Add(collision);
 
-            if (lstSprites.Items.Count > 0)
+            if (lstSprites.Items.Count > 0 && _sprites.Count > 0)
+            {
+                foreach (var sprite in _sprites)
+                {
+                    try
+                    {
+                        lstSprites.SetSelected(sprite, true);
+                    }
+                    catch { }
+                }
+            }
+            else if (lstSprites.Items.Count > 0)
                 lstSprites.SelectedIndex = 0;
 
             if (lstCollisions.Items.Count > 0)
@@ -495,7 +604,7 @@ namespace SMSTileStudio.Controls
 
         private void UpdateImages()
         {
-            if (_metaSprite == null || _frame == null || _frame.Tileset == null || _frame.Tileset.Pixels == null)
+            if (_metaSprite == null || _frame == null || _frame.Tileset == null || _frame.Tileset.Pixels == null || _selectedPalette == null)
             {
                 pnlTilesetEdit.Clear();
                 return;
@@ -525,6 +634,7 @@ namespace SMSTileStudio.Controls
             lstMetaSprites.SelectedItem = _metaSprite;
             lstMetaSprites.Refresh();
             lblInfo.Text = _metaSprite == null ? "No Meta Sprite information" : _metaSprite.GetInfo(_frameIndex);
+            LoadUI();
             Loading = false;
         }
     }

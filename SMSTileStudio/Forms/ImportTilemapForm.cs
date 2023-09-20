@@ -29,7 +29,7 @@ using SMSTileStudio.Data;
 
 namespace SMSTileStudio.Forms
 {
-    public partial class ImportGraphicsForm : Form
+    public partial class ImportTilemapForm : Form
     {
         /// <summary>
         /// Fields
@@ -48,7 +48,7 @@ namespace SMSTileStudio.Forms
         /// <param name="image">The image to convert to a tilemap</param>
         /// <param name="tilemap">The tilemap to apply data to</param>
         /// <param name="importColors"></param>
-        public ImportGraphicsForm(Bitmap image, Tilemap tilemap, List<Color> importColors)
+        public ImportTilemapForm(Bitmap image, Tilemap tilemap, List<Color> importColors)
         {
             InitializeComponent();
 
@@ -72,7 +72,7 @@ namespace SMSTileStudio.Forms
         /// <param name="bgPaletteID"></param>
         /// <param name="sprPaletteID"></param>
         /// <param name="importColors"></param>
-        public ImportGraphicsForm(Bitmap image, string assetName, int bgPaletteID, int sprPaletteID, List<Color> importColors)
+        public ImportTilemapForm(Bitmap image, string assetName, int bgPaletteID, int sprPaletteID, List<Color> importColors)
         {
             InitializeComponent();
 
@@ -269,7 +269,7 @@ namespace SMSTileStudio.Forms
                         tile.UseBGPalette = pixelTiles[i].UseBGPalette;
 
             pnlImage.SetTiles(tilemap.Tiles, tilemap.Columns, tilemap.Rows);
-            pnlImage.Image = BitmapUtility.GetSpriteImage(tileset, tilemap, pnlPalettes.BGPalette, pnlPalettes.SPRPalette);
+            pnlImage.Image = BitmapUtility.GetTileImage(tileset, tilemap, pnlPalettes.BGPalette, pnlPalettes.SPRPalette);
         }
 
         /// <summary>

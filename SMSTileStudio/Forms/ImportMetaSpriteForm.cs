@@ -44,7 +44,7 @@ namespace SMSTileStudio.Forms
         private List<PixelTile> _pixelTiles = new List<PixelTile>();
         private List<Color> _importColors = new List<Color>();
         private int _frameIndex = -1;
-        private bool _initalizing = true;
+        //private bool _initalizing = true;
 
         /// <summary>
         /// 
@@ -61,10 +61,11 @@ namespace SMSTileStudio.Forms
             _image = image;
             _sprPalette = (Palette)App.Project.GetAsset(sprite.PaletteID);
             _importColors = importColors;
+            //_initalizing = true;
             LoadData();
             LoadUI();
             GetTiles();
-            _initalizing = false;
+            //_initalizing = false;
         }
 
         /// <summary>
@@ -259,7 +260,7 @@ namespace SMSTileStudio.Forms
         {
             var tileset = new Tileset();
             tileset.Pixels = BitmapUtility.PixelTilesToSMSTiles(_pixelTiles, pnlPalette.SPRPalette, pnlPalette.SPRPalette);
-            pnlMetaSpriteSelect.Image = BitmapUtility.GetSpriteImage(tileset, _tilemap, pnlPalette.SPRPalette, pnlPalette.SPRPalette);
+            pnlMetaSpriteSelect.Image = BitmapUtility.GetTileImage(tileset, _tilemap, pnlPalette.SPRPalette, pnlPalette.SPRPalette);
             if (lstFrames.SelectedItem != null)
             {
                 var bounds = (lstFrames.SelectedItem as MetaSpriteFrame).Bounds;

@@ -38,6 +38,7 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Properties
         /// </summary>
+        public bool GameGear { get; set; } = false;                            // If a game gear color palette
         public List<Color> Colors { get; set; } = new List<Color>();           // Palette colors
         public static List<Color> Empty { get { return GetEmptyColors(); } }   // Empty colors
 
@@ -140,15 +141,71 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
+        /// Gets a 6 bit SMS color value from a .net color
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static byte[] GetColors(List<Color> colors)
+        {
+            try
+            {
+                byte[] value = new byte[colors.Count];
+                List<bool> bgr = new List<bool>();
+                foreach (Color color in colors)
+                {
+                    bgr.AddRange(GetColorBits(color.R));
+                    bgr.AddRange(GetColorBits(color.G));
+                    bgr.AddRange(GetColorBits(color.B));
+                    bgr.AddRange(new bool[] { false, false });
+                }
+                BitArray arr = new BitArray(bgr.ToArray());
+                arr.CopyTo(value, 0);
+                return value;
+            }
+            catch
+            {
+                return new byte[colors.Count];
+            }
+        }
+
+        /// <summary>
+        /// Gets a 12 bit GG color value from a .net color
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static byte[] GetGameGearColors(List<Color> colors)
+        {
+            try
+            {
+                byte[] value = new byte[colors.Count * 2];
+                List<bool> bgr = new List<bool>();
+                foreach (Color color in colors)
+                {
+                    bgr.AddRange(GetGameGearColorBits(color.R));
+                    bgr.AddRange(GetGameGearColorBits(color.G));
+                    bgr.AddRange(GetGameGearColorBits(color.B));
+                    bgr.AddRange(new bool[] { false, false, false, false });
+                }
+                BitArray arr = new BitArray(bgr.ToArray());
+                arr.CopyTo(value, 0);
+                return value;
+            }
+            catch
+            {
+                return new byte[colors.Count];
+            }
+        }
+
+        /// <summary>
         /// Gets assembly string
         /// </summary>
         /// <returns>Object assembly string</returns>
-        public string GetASMString(bool hex, bool over)
+        public string GetASMString(bool hex, bool gameGear)
         {
             StringBuilder sb = new StringBuilder();
             if (!hex)
                 sb.Append(".db ");
-            byte[] data = GetPaletteData(true);
+            byte[] data = GetPaletteData(true, gameGear);
             foreach (byte b in data)
                 sb.Append((hex ? "" : "$") + b.ToString("X2") + " ");
             return sb.ToString().Trim();
@@ -159,13 +216,14 @@ namespace SMSTileStudio.Data
         /// </summary>
         /// <param name="getRawData">If ignoring compression</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetPaletteData(bool getRawData)
+        public byte[] GetPaletteData(bool getRawData, bool gameGear)
         {
             List<byte> bytes = new List<byte>();
-            foreach (Color color in Colors.GetRange(0, Colors.Count))
-            {
-                bytes.Add(GetColor(color));
-            }
+            if (gameGear)
+                bytes.AddRange(GetGameGearColors(Colors.GetRange(0, Colors.Count)));
+            else
+                bytes.AddRange(GetColors(Colors.GetRange(0, Colors.Count)));
+
             return getRawData ? bytes.ToArray() : GetExportData(bytes);
         }
 
@@ -184,5 +242,61 @@ namespace SMSTileStudio.Data
                 default: return new bool[] { false, false };
             }
         }
+
+        /// <summary>
+        /// Gets bits of a given to bit color channel
+        /// </summary>
+        /// <param name="value">The color channel byte value</param>
+        /// <returns>A bit array representing a value of 0, 1, 2, or 3</returns>
+        private static bool[] GetGameGearColorBits(byte value)
+        {
+            switch (value)
+            {
+                case 17: return new bool[] { true, false, false, false };
+                case 34: return new bool[] { false, true, false, false };
+                case 51: return new bool[] { true, true, false, false };
+                case 68: return new bool[] { false, false, true, false };
+                case 85: return new bool[] { true, false, true, false };
+                case 102: return new bool[] { false, true, true, false };
+                case 119: return new bool[] { true, true, true, false };
+                case 136: return new bool[] { false, false, false, true };
+                case 153: return new bool[] { true, false, false, true };
+                case 170: return new bool[] { false, true, false, true };
+                case 187: return new bool[] { true, true, false, true };
+                case 204: return new bool[] { false, false, true, true };
+                case 221: return new bool[] { true, false, true, true };
+                case 238: return new bool[] { false, true, true, true };
+                case 255: return new bool[] { true, true, true, true };
+                default: return new bool[] { false, false, false, false };
+            }
+        }
+
+        ///// <summary>
+        ///// Gets bits of a given to bit color channel
+        ///// </summary>
+        ///// <param name="value">The color channel byte value</param>
+        ///// <returns>A bit array representing a value of 0, 1, 2, or 3</returns>
+        //private static bool[] GetGameGearColorBits(byte value)
+        //{
+        //    switch (value)
+        //    {
+        //        case 17: return new bool[] { false, false, false, true };
+        //        case 34: return new bool[] { false, false, true, false };
+        //        case 51: return new bool[] { false, false, true, true };
+        //        case 68: return new bool[] { false, true, false, false };
+        //        case 85: return new bool[] { false, true, false, true };
+        //        case 102: return new bool[] { false, true, true, false };
+        //        case 119: return new bool[] { false, true, true, true };
+        //        case 136: return new bool[] { true, false, false, false };
+        //        case 153: return new bool[] { true, false, false, true };
+        //        case 170: return new bool[] { true, false, true, false };
+        //        case 187: return new bool[] { true, false, true, true };
+        //        case 204: return new bool[] { true, true, false, false, };
+        //        case 221: return new bool[] { true, true, false, true };
+        //        case 238: return new bool[] { true, true, true, false };
+        //        case 255: return new bool[] { true, true, true, true };
+        //        default: return new bool[] { false, false, false, false };
+        //    }
+        //}
     }
 }

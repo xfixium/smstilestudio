@@ -83,6 +83,16 @@ namespace SMSTileStudio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap swatch_game_gear {
+            get {
+                object obj = ResourceManager.GetObject("swatch_game_gear", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap swatch_six {
             get {
                 object obj = ResourceManager.GetObject("swatch_six", resourceCulture);

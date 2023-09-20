@@ -54,6 +54,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         public TilesetEditType EditMode { get; set; } = TilesetEditType.Select;
         public int TileID { get { return _source; } }
+        public int TypeValue { get; set; }
         public List<byte> Pixels { get { return _pixels; } }
         public List<Color> Palette { set { _palette = value; } }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
@@ -88,6 +89,7 @@ namespace SMSTileStudio.Controls
         protected override void OnDrawAfterOnPaint(ref PaintEventArgs e)
         {
             DrawIndexes(e.Graphics, GetOrigin());
+            DrawTypeValue(e.Graphics, GetOrigin());
         }
 
         /// <summary>
@@ -99,7 +101,10 @@ namespace SMSTileStudio.Controls
                 return;
 
             DrawGrid(gfx, origin);
-            DrawSelection(gfx, origin);
+            if (EditMode != TilesetEditType.Type)
+                DrawSelection(gfx, origin);
+            else
+                DrawTypeSelection(gfx, origin);
         }
 
         /// <summary>
@@ -147,6 +152,11 @@ namespace SMSTileStudio.Controls
                         _target = tileID;
                         SwapTiles();
                     }
+                    break;
+                case TilesetEditType.Type:
+                    _source = tileID;
+                    TileSelectionChanged?.Invoke();
+                    _selection = selection;
                     break;
             }
             UpdateBackBuffer();
@@ -225,6 +235,11 @@ namespace SMSTileStudio.Controls
                     {
                         Point point = new Point((col * SnapSize.Width * ImageScale) + (origin.X * ImageScale) + AutoScrollPosition.X, (row * SnapSize.Height * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
                         RectangleF rect = new RectangleF(point.X, point.Y, (SnapSize.Width + 1) * ImageScale, (SnapSize.Height + 1) * ImageScale);
+                        if (EditMode == TilesetEditType.Type && rect == GetSelectionRect(origin))
+                        {
+                            index++;
+                            continue;
+                        }
                         BitmapUtility.DrawTextOutline(gfx, index.ToString(), font, Brushes.Black, rect, format);
                         gfx.DrawString(index.ToString(), font, Brushes.White, rect, format);
                     }
@@ -234,31 +249,81 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        RectangleF GetSelectionRect(Point origin)
+        {
+            Point point = new Point((_selection.X * ImageScale) + (origin.X * ImageScale) + AutoScrollPosition.X, (_selection.Y * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
+            return new RectangleF(point.X, point.Y, (SnapSize.Width + 1) * ImageScale, (SnapSize.Height + 1) * ImageScale);
+        }
+
+        /// <summary>
+        /// Draws type selection
+        /// </summary>
+        private void DrawTypeSelection(Graphics gfx, Point origin)
+        {
+            if (_pixels.Count <= 0 || _selection.IsEmpty || EditMode != TilesetEditType.Type)
+                return;
+
+            using (Pen gridPen = new Pen(Color.FromArgb(80, Color.Black)))
+            {
+                var rect = _selection;
+                rect.X += origin.X;
+                rect.Y += origin.Y;
+                gfx.DrawRectangle(Pens.Black, rect);
+                rect.Inflate(-1, -1);
+                gfx.DrawRectangle(Pens.White, rect);
+            }
+        }
+
+        /// <summary>
+        /// Draws type value
+        /// </summary>
+        private void DrawTypeValue(Graphics gfx, Point origin)
+        {
+            if (_pixels.Count <= 0 || _selection.IsEmpty || EditMode != TilesetEditType.Type)
+                return;
+
+            Font font = new Font(Font.Name, 5 + ImageScale, FontStyle.Regular);
+            StringFormat format = new StringFormat();
+            format.LineAlignment = StringAlignment.Center;
+            format.Alignment = StringAlignment.Center;
+            format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip;
+            Point point = new Point((_selection.X * ImageScale) + (origin.X * ImageScale) + AutoScrollPosition.X, (_selection.Y * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
+            RectangleF rect = new RectangleF(point.X, point.Y, (SnapSize.Width + 1) * ImageScale, (SnapSize.Height + 1) * ImageScale);
+            BitmapUtility.DrawTextOutline(gfx, TypeValue.ToString(), font, Brushes.Crimson, rect, format);
+            gfx.DrawString(TypeValue.ToString(), font, Brushes.White, rect, format);
+        }
+
+        /// <summary>
         /// Swaps tiles from the selection grid
         /// </summary>
         private void SwapTiles()
         {
             if (_target == -1 || _source == -1 || _target == _source)
             {
-                DeselectSelection();
+                ClearSelection();
                 return;
             }
 
             int size = SnapSize.Width * SnapSize.Height;
-            List<byte> source = Tileset.GetTilePixels(_source, _pixels);
-            _pixels.RemoveRange(_source * size, size);
-            List<byte> target = Tileset.GetTilePixels(_target, _pixels);
-            _pixels.RemoveRange(_target * size, size);
-            _pixels.InsertRange(_target * size, source);
-            _pixels.InsertRange(_source * size, target);
+            var source = Tileset.GetTilePixels(_source, _pixels);
+            var target = Tileset.GetTilePixels(_target, _pixels);
+            for (int i = 0; i < 64; i++)
+            {
+                _pixels[_target * size + i] = source[i];
+                _pixels[_source * size + i] = target[i];
+            }
+
             TilesChanged?.Invoke();
-            DeselectSelection();
+            ClearSelection();
         }
 
         /// <summary>
         /// Resets selection variables
         /// </summary>
-        public void DeselectSelection()
+        public void ClearSelection()
         {
             _target = -1;
             _source = -1;
@@ -277,7 +342,7 @@ namespace SMSTileStudio.Controls
             int size = SnapSize.Width * SnapSize.Height;
             _pixels.RemoveRange(_source * size, size);
             TilesChanged?.Invoke();
-            DeselectSelection();
+            ClearSelection();
         }
 
         /// <summary>
@@ -304,7 +369,7 @@ namespace SMSTileStudio.Controls
             Canvas = tileset.Pixels.Count < 16 * 64 ? new Size(128, 8) : new Size(128, tileset.Pixels.Count / 128);
             _palette = palette.DeepClone();
             _pixels = tileset.Pixels.DeepClone();
-            DeselectSelection();
+            ClearSelection();
             UpdateBackBuffer();
         }
 
@@ -317,7 +382,7 @@ namespace SMSTileStudio.Controls
             this.Image = null;
             _palette.Clear();
             _pixels.Clear();
-            DeselectSelection();
+            ClearSelection();
         }
     }
 }
