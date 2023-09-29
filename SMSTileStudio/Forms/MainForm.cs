@@ -116,6 +116,19 @@ namespace SMSTileStudio.Forms
         }
 
         /// <summary>
+        /// Override key presses
+        /// </summary>
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            // Do action based on key
+            if (tabMain.SelectedTab == tabTilemap)
+                pnlTilemaps.HandleInput(keyData);
+
+            // Process
+            return base.ProcessDialogKey(keyData);
+        }
+
+        /// <summary>
         /// Load asset data
         /// </summary>
         private void LoadData()

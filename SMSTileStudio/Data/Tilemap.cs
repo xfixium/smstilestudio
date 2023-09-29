@@ -127,6 +127,46 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
+        /// Changes tilemap indexes based on mtched tiles of given tile pixels
+        /// </summary>
+        /// <param name="pixels">Source tileset pixels</param>
+        public void MatchTiles(List<byte> pixels)
+        {
+            //List<TileSwap> tiles = new List<TileSwap>();
+            //for (int x = 0; x < Tileset.Pixels.Count / 64; x++)
+            //{
+            //    for (int y = 0; y < pixels.Count / 64; y++)
+            //    {
+            //        var result = BitmapUtility.CompareTiles(Tileset.Pixels.GetRange(x * 64, 64).ToArray(), pixels.GetRange(y * 64, 64).ToArray(), FlipType.Both);
+            //        if (result.Item1)
+            //        {
+            //            if (x != y)
+            //                tiles.Add(new TileSwap(x, y, result.Item2));
+            //            break;
+            //        }
+            //    }
+            //}
+            foreach (var tile in Tiles)
+            {
+                var tileId = 0;
+                var source = Tileset.Pixels.GetRange(tile.TileID * 64, 64).ToArray();
+                if (tile.FlipType != FlipType.None)
+                    source = BitmapUtility.FlipTile(source, tile.FlipType);
+                for (int y = 0; y < pixels.Count / 64; y++)
+                {
+                    var result = BitmapUtility.CompareTiles(pixels.GetRange(y * 64, 64).ToArray(), source, FlipType.Both);
+                    if (result.Item1)
+                    {
+                        tileId = y;
+                        tile.FlipType = result.Item2;
+                        break;
+                    }
+                }
+                tile.TileID = tileId;
+            }
+        }
+
+        /// <summary>
         /// Empties the tilemap tiles, and sets the tilemap dimensions
         /// </summary>
         /// <param name="cols">Number of tilemap columns</param>

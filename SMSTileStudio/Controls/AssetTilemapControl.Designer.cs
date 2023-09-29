@@ -64,6 +64,7 @@
             this.mnuSetTileType = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTilemapFromSelection = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuCropTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lblPosition = new System.Windows.Forms.Label();
             this.lblTile = new System.Windows.Forms.Label();
@@ -76,7 +77,7 @@
             this.rbPalette = new System.Windows.Forms.RadioButton();
             this.rbTileType = new System.Windows.Forms.RadioButton();
             this.chkTilemapGrid = new System.Windows.Forms.CheckBox();
-            this.chkAttributes = new System.Windows.Forms.CheckBox();
+            this.chkShowTileIds = new System.Windows.Forms.CheckBox();
             this.tabProperties = new System.Windows.Forms.TabControl();
             this.tabTilemapTiles = new System.Windows.Forms.TabPage();
             this.pnlTilemapOptions = new System.Windows.Forms.Panel();
@@ -156,7 +157,7 @@
             this.rbTilesetSwap = new System.Windows.Forms.RadioButton();
             this.rbTilesetType = new System.Windows.Forms.RadioButton();
             this.chkTilesetGrid = new System.Windows.Forms.CheckBox();
-            this.chkTilesetIndexes = new System.Windows.Forms.CheckBox();
+            this.chkTilesetShowTileIds = new System.Windows.Forms.CheckBox();
             this.lblCreateTilemap = new System.Windows.Forms.Label();
             this.lblInfo = new System.Windows.Forms.Label();
             this.mnuExport = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -200,18 +201,20 @@
             this.mnuImport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuImportTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUpdateTileset = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuTileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuTilesetOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuAddTile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDeselectTile = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRemoveTile = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuRemoveByRange = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSeperator20 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyTileset = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuPasteTileset = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuReplaceTiles = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOptimizeTilemap = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuImportTilemapFromTileset = new System.Windows.Forms.ToolStripMenuItem();
+            this.tipMain = new System.Windows.Forms.ToolTip(this.components);
+            this.mnuBulkPasteTileset = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpImageList.SuspendLayout();
             this.pnlPaletteButtons.SuspendLayout();
@@ -258,7 +261,7 @@
             this.flowLayoutPanel1.SuspendLayout();
             this.mnuExport.SuspendLayout();
             this.mnuImport.SuspendLayout();
-            this.mnuTileOptions.SuspendLayout();
+            this.mnuTilesetOptions.SuspendLayout();
             this.mnuTilemapOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -583,9 +586,10 @@
             this.mnuUnsetSelectionPalette,
             this.mnuSetTileType,
             this.toolStripMenuItem1,
-            this.mnuTilemapFromSelection});
+            this.mnuTilemapFromSelection,
+            this.mnuCropTilemap});
             this.mnuSelectOptions.Name = "mnuSelectOptions";
-            this.mnuSelectOptions.Size = new System.Drawing.Size(199, 214);
+            this.mnuSelectOptions.Size = new System.Drawing.Size(199, 236);
             // 
             // mnuCreateBrush
             // 
@@ -660,6 +664,13 @@
             this.mnuTilemapFromSelection.Text = "Tilemap From Selection";
             this.mnuTilemapFromSelection.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
+            // mnuCropTilemap
+            // 
+            this.mnuCropTilemap.Name = "mnuCropTilemap";
+            this.mnuCropTilemap.Size = new System.Drawing.Size(198, 22);
+            this.mnuCropTilemap.Text = "Crop Tilemap";
+            this.mnuCropTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
             // panel7
             // 
             this.panel7.Controls.Add(this.lblPosition);
@@ -701,7 +712,7 @@
             this.pnlTilemapToolbar.Controls.Add(this.rbPalette);
             this.pnlTilemapToolbar.Controls.Add(this.rbTileType);
             this.pnlTilemapToolbar.Controls.Add(this.chkTilemapGrid);
-            this.pnlTilemapToolbar.Controls.Add(this.chkAttributes);
+            this.pnlTilemapToolbar.Controls.Add(this.chkShowTileIds);
             this.pnlTilemapToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTilemapToolbar.Location = new System.Drawing.Point(0, 0);
             this.pnlTilemapToolbar.Name = "pnlTilemapToolbar";
@@ -719,6 +730,7 @@
             this.rbBrush.TabIndex = 0;
             this.rbBrush.TabStop = true;
             this.rbBrush.Text = "Brush";
+            this.tipMain.SetToolTip(this.rbBrush, "Brush (B)");
             this.rbBrush.UseVisualStyleBackColor = true;
             this.rbBrush.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -731,6 +743,7 @@
             this.rbSelect.Size = new System.Drawing.Size(55, 17);
             this.rbSelect.TabIndex = 1;
             this.rbSelect.Text = "Select";
+            this.tipMain.SetToolTip(this.rbSelect, "Select (S)");
             this.rbSelect.UseVisualStyleBackColor = true;
             this.rbSelect.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -743,6 +756,7 @@
             this.rbFlipX.Size = new System.Drawing.Size(55, 17);
             this.rbFlipX.TabIndex = 2;
             this.rbFlipX.Text = "H Flip";
+            this.tipMain.SetToolTip(this.rbFlipX, "Horizontal Flip (H)");
             this.rbFlipX.UseVisualStyleBackColor = true;
             this.rbFlipX.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -755,6 +769,7 @@
             this.rbFlipY.Size = new System.Drawing.Size(54, 17);
             this.rbFlipY.TabIndex = 3;
             this.rbFlipY.Text = "V Flip";
+            this.tipMain.SetToolTip(this.rbFlipY, "Vertical Flip (V)");
             this.rbFlipY.UseVisualStyleBackColor = true;
             this.rbFlipY.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -767,6 +782,7 @@
             this.rbPriority.Size = new System.Drawing.Size(61, 17);
             this.rbPriority.TabIndex = 4;
             this.rbPriority.Text = "Priority";
+            this.tipMain.SetToolTip(this.rbPriority, "Priority (P)");
             this.rbPriority.UseVisualStyleBackColor = true;
             this.rbPriority.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -779,6 +795,7 @@
             this.rbPalette.Size = new System.Drawing.Size(60, 17);
             this.rbPalette.TabIndex = 5;
             this.rbPalette.Text = "Palette";
+            this.tipMain.SetToolTip(this.rbPalette, "Palette (L)");
             this.rbPalette.UseVisualStyleBackColor = true;
             this.rbPalette.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -791,6 +808,7 @@
             this.rbTileType.Size = new System.Drawing.Size(48, 17);
             this.rbTileType.TabIndex = 31;
             this.rbTileType.Text = "Type";
+            this.tipMain.SetToolTip(this.rbTileType, "Type Bits (T)");
             this.rbTileType.UseVisualStyleBackColor = true;
             this.rbTileType.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -805,20 +823,22 @@
             this.chkTilemapGrid.Size = new System.Drawing.Size(48, 17);
             this.chkTilemapGrid.TabIndex = 12;
             this.chkTilemapGrid.Text = "Grid";
+            this.tipMain.SetToolTip(this.chkTilemapGrid, "Toggle Grid (G)");
             this.chkTilemapGrid.UseVisualStyleBackColor = true;
             this.chkTilemapGrid.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
-            // chkAttributes
+            // chkShowTileIds
             // 
-            this.chkAttributes.AutoSize = true;
-            this.chkAttributes.Location = new System.Drawing.Point(3, 28);
-            this.chkAttributes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.chkAttributes.Name = "chkAttributes";
-            this.chkAttributes.Size = new System.Drawing.Size(94, 17);
-            this.chkAttributes.TabIndex = 13;
-            this.chkAttributes.Text = "Show Tile Ids";
-            this.chkAttributes.UseVisualStyleBackColor = true;
-            this.chkAttributes.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
+            this.chkShowTileIds.AutoSize = true;
+            this.chkShowTileIds.Location = new System.Drawing.Point(3, 28);
+            this.chkShowTileIds.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.chkShowTileIds.Name = "chkShowTileIds";
+            this.chkShowTileIds.Size = new System.Drawing.Size(94, 17);
+            this.chkShowTileIds.TabIndex = 13;
+            this.chkShowTileIds.Text = "Show Tile Ids";
+            this.tipMain.SetToolTip(this.chkShowTileIds, "Show Tile Ids (I)");
+            this.chkShowTileIds.UseVisualStyleBackColor = true;
+            this.chkShowTileIds.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
             // tabProperties
             // 
@@ -1773,7 +1793,7 @@
             // pnlTilesetEdit
             // 
             this.pnlTilesetEdit.AutoScroll = true;
-            this.pnlTilesetEdit.AutoScrollMinSize = new System.Drawing.Size(494, 495);
+            this.pnlTilesetEdit.AutoScrollMinSize = new System.Drawing.Size(493, 501);
             this.pnlTilesetEdit.Canvas = new System.Drawing.Size(8, 8);
             this.pnlTilesetEdit.Centered = true;
             this.pnlTilesetEdit.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1805,7 +1825,7 @@
             this.flowLayoutPanel1.Controls.Add(this.rbTilesetSwap);
             this.flowLayoutPanel1.Controls.Add(this.rbTilesetType);
             this.flowLayoutPanel1.Controls.Add(this.chkTilesetGrid);
-            this.flowLayoutPanel1.Controls.Add(this.chkTilesetIndexes);
+            this.flowLayoutPanel1.Controls.Add(this.chkTilesetShowTileIds);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -1822,6 +1842,7 @@
             this.rbTilesetSelect.TabIndex = 11;
             this.rbTilesetSelect.TabStop = true;
             this.rbTilesetSelect.Text = "Select";
+            this.tipMain.SetToolTip(this.rbTilesetSelect, "Select (S)");
             this.rbTilesetSelect.UseVisualStyleBackColor = true;
             this.rbTilesetSelect.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -1833,6 +1854,7 @@
             this.rbTilesetSwap.Size = new System.Drawing.Size(53, 17);
             this.rbTilesetSwap.TabIndex = 10;
             this.rbTilesetSwap.Text = "Swap";
+            this.tipMain.SetToolTip(this.rbTilesetSwap, "Swap (W)");
             this.rbTilesetSwap.UseVisualStyleBackColor = true;
             this.rbTilesetSwap.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
@@ -1859,20 +1881,22 @@
             this.chkTilesetGrid.Size = new System.Drawing.Size(48, 17);
             this.chkTilesetGrid.TabIndex = 10;
             this.chkTilesetGrid.Text = "Grid";
+            this.tipMain.SetToolTip(this.chkTilesetGrid, "Toggle Grid (G)");
             this.chkTilesetGrid.UseVisualStyleBackColor = true;
             this.chkTilesetGrid.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
-            // chkTilesetIndexes
+            // chkTilesetShowTileIds
             // 
-            this.chkTilesetIndexes.AutoSize = true;
-            this.chkTilesetIndexes.Location = new System.Drawing.Point(228, 4);
-            this.chkTilesetIndexes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.chkTilesetIndexes.Name = "chkTilesetIndexes";
-            this.chkTilesetIndexes.Size = new System.Drawing.Size(94, 17);
-            this.chkTilesetIndexes.TabIndex = 11;
-            this.chkTilesetIndexes.Text = "Show Tile Ids";
-            this.chkTilesetIndexes.UseVisualStyleBackColor = true;
-            this.chkTilesetIndexes.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
+            this.chkTilesetShowTileIds.AutoSize = true;
+            this.chkTilesetShowTileIds.Location = new System.Drawing.Point(228, 4);
+            this.chkTilesetShowTileIds.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.chkTilesetShowTileIds.Name = "chkTilesetShowTileIds";
+            this.chkTilesetShowTileIds.Size = new System.Drawing.Size(94, 17);
+            this.chkTilesetShowTileIds.TabIndex = 11;
+            this.chkTilesetShowTileIds.Text = "Show Tile Ids";
+            this.tipMain.SetToolTip(this.chkTilesetShowTileIds, "Show Tile Ids (I)");
+            this.chkTilesetShowTileIds.UseVisualStyleBackColor = true;
+            this.chkTilesetShowTileIds.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
             // lblCreateTilemap
             // 
@@ -2188,80 +2212,89 @@
             // 
             this.mnuImport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuImportTilemap,
-            this.mnuImportTilemapFromTileset,
             this.mnuUpdateTileset});
             this.mnuImport.Name = "mnuImport";
-            this.mnuImport.Size = new System.Drawing.Size(223, 92);
+            this.mnuImport.Size = new System.Drawing.Size(156, 48);
             // 
             // mnuImportTilemap
             // 
             this.mnuImportTilemap.Name = "mnuImportTilemap";
-            this.mnuImportTilemap.Size = new System.Drawing.Size(222, 22);
+            this.mnuImportTilemap.Size = new System.Drawing.Size(155, 22);
             this.mnuImportTilemap.Text = "Import Tilemap";
             this.mnuImportTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuUpdateTileset
             // 
             this.mnuUpdateTileset.Name = "mnuUpdateTileset";
-            this.mnuUpdateTileset.Size = new System.Drawing.Size(222, 22);
+            this.mnuUpdateTileset.Size = new System.Drawing.Size(155, 22);
             this.mnuUpdateTileset.Text = "Update Tileset";
             this.mnuUpdateTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuTileOptions
+            // mnuTilesetOptions
             // 
-            this.mnuTileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuTilesetOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem3,
             this.mnuAddTile,
             this.mnuDeselectTile,
             this.mnuRemoveTile,
-            this.toolStripMenuItem4,
+            this.mnuRemoveByRange,
+            this.mnuSeperator20,
             this.mnuCopyTileset,
-            this.mnuPasteTileset});
-            this.mnuTileOptions.Name = "mnuTileOptions";
-            this.mnuTileOptions.Size = new System.Drawing.Size(155, 126);
+            this.mnuPasteTileset,
+            this.mnuBulkPasteTileset});
+            this.mnuTilesetOptions.Name = "mnuTileOptions";
+            this.mnuTilesetOptions.Size = new System.Drawing.Size(207, 192);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(203, 6);
             // 
             // mnuAddTile
             // 
             this.mnuAddTile.Name = "mnuAddTile";
-            this.mnuAddTile.Size = new System.Drawing.Size(154, 22);
+            this.mnuAddTile.Size = new System.Drawing.Size(206, 22);
             this.mnuAddTile.Text = "Add Empty Tile";
             this.mnuAddTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuDeselectTile
             // 
             this.mnuDeselectTile.Name = "mnuDeselectTile";
-            this.mnuDeselectTile.Size = new System.Drawing.Size(154, 22);
+            this.mnuDeselectTile.Size = new System.Drawing.Size(206, 22);
             this.mnuDeselectTile.Text = "Deselect Tile";
             this.mnuDeselectTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuRemoveTile
             // 
             this.mnuRemoveTile.Name = "mnuRemoveTile";
-            this.mnuRemoveTile.Size = new System.Drawing.Size(154, 22);
+            this.mnuRemoveTile.ShortcutKeyDisplayString = "Del";
+            this.mnuRemoveTile.Size = new System.Drawing.Size(206, 22);
             this.mnuRemoveTile.Text = "Remove Tile";
             this.mnuRemoveTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // toolStripMenuItem4
+            // mnuRemoveByRange
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(151, 6);
+            this.mnuRemoveByRange.Name = "mnuRemoveByRange";
+            this.mnuRemoveByRange.Size = new System.Drawing.Size(206, 22);
+            this.mnuRemoveByRange.Text = "Remove By Export Range";
+            this.mnuRemoveByRange.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuSeperator20
+            // 
+            this.mnuSeperator20.Name = "mnuSeperator20";
+            this.mnuSeperator20.Size = new System.Drawing.Size(203, 6);
             // 
             // mnuCopyTileset
             // 
             this.mnuCopyTileset.Name = "mnuCopyTileset";
-            this.mnuCopyTileset.Size = new System.Drawing.Size(154, 22);
+            this.mnuCopyTileset.Size = new System.Drawing.Size(206, 22);
             this.mnuCopyTileset.Text = "Copy Tileset";
             this.mnuCopyTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuPasteTileset
             // 
             this.mnuPasteTileset.Name = "mnuPasteTileset";
-            this.mnuPasteTileset.Size = new System.Drawing.Size(154, 22);
+            this.mnuPasteTileset.Size = new System.Drawing.Size(206, 22);
             this.mnuPasteTileset.Text = "Paste Tileset";
             this.mnuPasteTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -2287,12 +2320,12 @@
             this.mnuOptimizeTilemap.Text = "Optimize Tilemap";
             this.mnuOptimizeTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuImportTilemapFromTileset
+            // mnuBulkPasteTileset
             // 
-            this.mnuImportTilemapFromTileset.Name = "mnuImportTilemapFromTileset";
-            this.mnuImportTilemapFromTileset.Size = new System.Drawing.Size(222, 22);
-            this.mnuImportTilemapFromTileset.Text = "Import Tilemap From Tileset";
-            this.mnuImportTilemapFromTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
+            this.mnuBulkPasteTileset.Name = "mnuBulkPasteTileset";
+            this.mnuBulkPasteTileset.Size = new System.Drawing.Size(206, 22);
+            this.mnuBulkPasteTileset.Text = "Bulk Paste Tileset";
+            this.mnuBulkPasteTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // AssetTilemapControl
             // 
@@ -2357,7 +2390,7 @@
             this.flowLayoutPanel1.PerformLayout();
             this.mnuExport.ResumeLayout(false);
             this.mnuImport.ResumeLayout(false);
-            this.mnuTileOptions.ResumeLayout(false);
+            this.mnuTilesetOptions.ResumeLayout(false);
             this.mnuTilemapOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -2392,10 +2425,10 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Panel pnlTilemap;
         private System.Windows.Forms.CheckBox chkTilemapGrid;
-        private System.Windows.Forms.CheckBox chkAttributes;
+        private System.Windows.Forms.CheckBox chkShowTileIds;
         private System.Windows.Forms.TableLayoutPanel tpnlTileset;
         private System.Windows.Forms.CheckBox chkTilesetGrid;
-        private System.Windows.Forms.CheckBox chkTilesetIndexes;
+        private System.Windows.Forms.CheckBox chkTilesetShowTileIds;
         private System.Windows.Forms.Panel pnlTilesetOptions;
         private PaletteControl pnlSprPalette;
         private PaletteControl pnlBGPalette;
@@ -2498,12 +2531,12 @@
         private System.Windows.Forms.NumericUpDown nudEntityHeight;
         private System.Windows.Forms.Label lblEntityWidth;
         private System.Windows.Forms.NumericUpDown nudEntityWidth;
-        private System.Windows.Forms.ContextMenuStrip mnuTileOptions;
+        private System.Windows.Forms.ContextMenuStrip mnuTilesetOptions;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem mnuAddTile;
         private System.Windows.Forms.ToolStripMenuItem mnuDeselectTile;
         private System.Windows.Forms.ToolStripMenuItem mnuRemoveTile;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripSeparator mnuSeperator20;
         private System.Windows.Forms.ToolStripMenuItem mnuCopyTileset;
         private System.Windows.Forms.ToolStripMenuItem mnuPasteTileset;
         private System.Windows.Forms.RadioButton rbTilesetSelect;
@@ -2546,6 +2579,9 @@
         private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.Label lblTile;
         private System.Windows.Forms.ToolStripMenuItem mnuMetatileMap;
-        private System.Windows.Forms.ToolStripMenuItem mnuImportTilemapFromTileset;
+        private System.Windows.Forms.ToolStripMenuItem mnuCropTilemap;
+        private System.Windows.Forms.ToolStripMenuItem mnuRemoveByRange;
+        private System.Windows.Forms.ToolTip tipMain;
+        private System.Windows.Forms.ToolStripMenuItem mnuBulkPasteTileset;
     }
 }

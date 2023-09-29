@@ -754,6 +754,73 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
+        /// Compares 8 bit integers of two tiles, returns whether they match or not
+        /// </summary>
+        /// <param name="tile1">The source tile to compare</param>
+        /// <param name="tile2">The target tile to compare</param>
+        /// <returns></returns>
+        public static Tuple<bool, FlipType> CompareTiles(byte[] tile1, byte[] tile2)
+        {
+            return CompareTiles(tile1, tile2, FlipType.None);
+        }
+
+
+        /// <summary>
+        /// Compares 8 bit integers of two tiles, returns whether they match or not, with flipping
+        /// </summary>
+        /// <param name="tile1">The source tile to compare</param>
+        /// <param name="tile2">The target tile to compare</param>
+        /// <param name="flipCheck">Check if a match when flipped as well</param>
+        /// <returns>If the tiles match, also any flip matching</returns>
+        public static Tuple<bool, FlipType> CompareTiles(byte[] tile1, byte[] tile2, FlipType flipCheck)
+        {
+            switch (flipCheck)
+            {
+                case FlipType.Vertical:
+                    if (CompareTiles(tile1, tile2, FlipType.None).Item1)
+                        return Tuple.Create(true, FlipType.None);
+
+                    if (CompareTiles(FlipTile(tile1, FlipType.Vertical), tile2).Item1)
+                        return Tuple.Create(true, FlipType.Vertical);
+
+                    break;
+
+                case FlipType.Horizontal:
+                    if (CompareTiles(tile1, tile2, FlipType.None).Item1)
+                        return Tuple.Create(true, FlipType.None);
+
+                    if (CompareTiles(FlipTile(tile1, FlipType.Horizontal), tile2).Item1)
+                        return Tuple.Create(true, FlipType.Horizontal);
+
+                    break;
+
+                case FlipType.Both:
+                    if (CompareTiles(tile1, tile2, FlipType.None).Item1)
+                        return Tuple.Create(true, FlipType.None);
+
+                    if (CompareTiles(FlipTile(tile1, FlipType.Horizontal), tile2).Item1)
+                        return Tuple.Create(true, FlipType.Horizontal);
+
+                    if (CompareTiles(FlipTile(tile1, FlipType.Vertical), tile2).Item1)
+                        return Tuple.Create(true, FlipType.Vertical);
+
+                    if (CompareTiles(FlipTile(tile1, FlipType.Both), tile2).Item1)
+                        return Tuple.Create(true, FlipType.Both);
+
+                    break;
+
+                default:
+                    for (int i = 0; i < tile1.Length; i++)
+                        if (tile1[i] != tile2[i])
+                            return Tuple.Create(false, FlipType.None);
+
+                    return Tuple.Create(true, FlipType.None);
+            }
+
+            return Tuple.Create(false, FlipType.None);
+        }
+
+        /// <summary>
         /// Flips a tile in the desired direction
         /// </summary>
         /// <param name="tile">The tile to flip</param>
@@ -763,6 +830,47 @@ namespace SMSTileStudio.Data
         {
             int index = 0;
             int[] flipped = new int[tile.Length];
+            switch (type)
+            {
+                case FlipType.Horizontal:
+                    for (int row = 0; row < 8; row++)
+                    {
+                        for (int col = 7; col >= 0; col--)
+                        {
+                            flipped[index] = tile[(row * 8) + col];
+                            index++;
+                        }
+                    }
+                    break;
+                case FlipType.Vertical:
+                    for (int row = 7; row >= 0; row--)
+                    {
+                        for (int col = 0; col < 8; col++)
+                        {
+                            flipped[index] = tile[(row * 8) + col];
+                            index++;
+                        }
+                    }
+                    break;
+                default:
+                    flipped = tile.DeepClone();
+                    flipped = FlipTile(flipped, FlipType.Vertical);
+                    flipped = FlipTile(flipped, FlipType.Horizontal);
+                    break;
+            }
+            return flipped;
+        }
+
+        /// <summary>
+        /// Flips a tile in the desired direction
+        /// </summary>
+        /// <param name="tile">The tile to flip</param>
+        /// <param name="type">The flip direction</param>
+        /// <returns>Flipped tile</returns>
+        public static byte[] FlipTile(byte[] tile, FlipType type)
+        {
+            int index = 0;
+            byte[] flipped = new byte[tile.Length];
             switch (type)
             {
                 case FlipType.Horizontal:

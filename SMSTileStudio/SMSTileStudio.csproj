@@ -272,12 +272,6 @@
     <Compile Include="Forms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ImportTilemapFromTilesetForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ImportTilemapFromTilesetForm.Designer.cs">
-      <DependentUpon>ImportTilemapFromTilesetForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ImportMetaSpriteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -307,6 +301,12 @@
     </Compile>
     <Compile Include="Forms\ReplaceForm.Designer.cs">
       <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TilemapSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TilemapSelectForm.Designer.cs">
+      <DependentUpon>TilemapSelectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -347,9 +347,6 @@
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ImportTilemapFromTilesetForm.resx">
-      <DependentUpon>ImportTilemapFromTilesetForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportMetaSpriteForm.resx">
       <DependentUpon>ImportMetaSpriteForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -364,6 +361,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReplaceForm.resx">
       <DependentUpon>ReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TilemapSelectForm.resx">
+      <DependentUpon>TilemapSelectForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

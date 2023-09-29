@@ -40,6 +40,30 @@ namespace SMSTileStudio.Data
         public bool FlipY { get; set; } = false;            // If flipped vertically
         public byte Bits { get; set; } = 0;                 // Unused bits value
         public string Flags { get; set; } = "";             // Quality of life string, used to display the flags on a tile
+        public FlipType FlipType
+        {
+            get
+            {
+                if (FlipX && FlipY)
+                    return FlipType.Both;
+                else if (FlipX && !FlipY)
+                    return FlipType.Horizontal;
+                else if (FlipY && !FlipX)
+                    return FlipType.Vertical;
+                else
+                    return FlipType.None;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case FlipType.Horizontal: FlipX = true; FlipY = false; break;
+                    case FlipType.Vertical: FlipX = false; FlipY = true; break;
+                    case FlipType.Both: FlipX = true; FlipY = true; break;
+                    default: FlipX = false; FlipY = false; break;
+                }
+            }
+        }
 
         /// <summary>
         /// Constructors
@@ -49,13 +73,7 @@ namespace SMSTileStudio.Data
         public Tile(int tileID, FlipType flipType)
         {
             TileID = tileID;
-            switch (flipType)
-            {
-                case FlipType.Horizontal: FlipX = true; break;
-                case FlipType.Vertical: FlipY = true; break;
-                case FlipType.Both: FlipX = true; FlipY = true; break;
-                default: break;
-            }
+            FlipType = flipType;
         }
 
         /// <summary>

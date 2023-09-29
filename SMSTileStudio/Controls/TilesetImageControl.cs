@@ -346,6 +346,21 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Removes selected tile
+        /// </summary>
+        public void RemoveRange(int start, int count)
+        {
+            if (_pixels.Count <= 0 || start <= -1)
+                return;
+
+            int size = SnapSize.Width * SnapSize.Height;
+            _pixels.RemoveRange(start * size, count * size);
+
+            TilesChanged?.Invoke();
+            ClearSelection();
+        }
+
+        /// <summary>
         /// Marching ants timer tick
         /// </summary>
         private void Timer_Tick(object sender, EventArgs e)
