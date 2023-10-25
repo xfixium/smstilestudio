@@ -32,10 +32,51 @@ namespace SMSTileStudio.Forms
     public partial class TilemapSelectForm : Form
     {
         public List<Tilemap> Tilemaps { get { return lstSelectedTilemaps.CheckedItems.Cast<Tilemap>().ToList(); } }
-        public TilemapSelectForm()
+        public bool ImageMerge { get { return chkImageMerge.Checked; } }
+        public int ImageMergeColumnCount { get { return (int)nudImageMerge.Value; } }
+
+        /// <summary>
+        /// Constructors
+        /// </summary>
+        /// <param name="showImageMergeOption">If showing the image merge option</param>
+        public TilemapSelectForm(bool showImageMergeOption)
         {
             InitializeComponent();
             LoadData();
+
+            if (!showImageMergeOption)
+                tpnlMain.RowStyles[2].Height = 0;
+        }
+
+        /// <summary>
+        /// Apply filter button click
+        /// </summary>
+        private void btnFilterByName_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstSelectedTilemaps.Items.Count; i++)
+            {
+                if (lstSelectedTilemaps.GetItemChecked(i) == true)
+                    continue;
+
+                lstSelectedTilemaps.SetItemChecked(i, lstSelectedTilemaps.Items[i].ToString().Contains(txtFilter.Text));
+            }
+            UpdateInfo();
+        }
+
+        /// <summary>
+        /// Apply filter button click
+        /// </summary>
+        private void btnFilterByTag_Click(object sender, EventArgs e)
+        {
+            var tag = cbTags.SelectedItem.ToString();
+            for (int i = 0; i < lstSelectedTilemaps.Items.Count; i++)
+            {
+                if (lstSelectedTilemaps.GetItemChecked(i) == true)
+                    continue;
+
+                lstSelectedTilemaps.SetItemChecked(i, (lstSelectedTilemaps.Items[i] as Tilemap).Tags.Contains(tag));
+            }
+            UpdateInfo();
         }
 
         /// <summary>
@@ -43,7 +84,7 @@ namespace SMSTileStudio.Forms
         /// </summary>
         private void lstSelectedTilemaps_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblSelectedTilemaps.Text = "Selected Tilemaps: " + lstSelectedTilemaps.CheckedItems.Count;
+            UpdateInfo();
             if (lstSelectedTilemaps.SelectedItem == null)
                 return;
 
@@ -52,6 +93,26 @@ namespace SMSTileStudio.Forms
             var sprPalette = App.Project.GetAsset(tilemap.SprPaletteID) as Palette;
             pnlTilemap.Image = BitmapUtility.GetTileImage(tilemap.Tileset, tilemap, bgPalette, sprPalette);
             pnlTileset.Image = BitmapUtility.GetTilesetImage(tilemap.Tileset, bgPalette, 16);
+        }
+
+        /// <summary>
+        /// List item check changed
+        /// </summary>
+        private void lstSelectedTilemaps_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            BeginInvoke((MethodInvoker)(() => UpdateInfo()));
+        }
+
+        /// <summary>
+        /// Check/Uncheck All check changed
+        /// </summary>
+        private void chkAll_CheckedChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstSelectedTilemaps.Items.Count; i++)
+            {
+                lstSelectedTilemaps.SetItemChecked(i, chkAll.Checked);
+            }
+            UpdateInfo();
         }
 
         /// <summary>
@@ -71,12 +132,27 @@ namespace SMSTileStudio.Forms
         }
 
         /// <summary>
+        /// Update information on how many have been selected
+        /// </summary>
+        private void UpdateInfo()
+        {
+            lblSelectedTilemaps.Text = "Selected Tilemaps: " + lstSelectedTilemaps.CheckedItems.Count;
+        }
+
+        /// <summary>
         /// Loads data to UI
         /// </summary>
         private void LoadData()
         {
             lstSelectedTilemaps.Items.Clear();
             lstSelectedTilemaps.Items.AddRange(App.Project.Tilemaps.Where(x => x.ID >= 0).OrderBy(x => x.Name).ToArray());
+            var tags = new List<string>();
+            foreach (var tilemap in App.Project.Tilemaps)
+                foreach (var tag in tilemap.Tags)
+                    if (!tags.Contains(tag))
+                        tags.Add(tag);
+
+            cbTags.Items.AddRange(tags.OrderBy(x => x).ToArray());
         }
     }
 }

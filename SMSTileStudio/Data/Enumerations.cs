@@ -171,10 +171,12 @@ namespace SMSTileStudio.Data
     /// </summary>
     public enum MetatileSizeType : int
     {
+        [Description("8 x 16")]
+        EightBySixteen = 0,
         [Description("16 x 16")]
-        Sixteen = 0,
+        SixteenBySixteen = 1,
         [Description("32 x 32")]
-        ThirtyTwo = 1
+        ThirtyTwoByThirtyTwo = 2
     }
 
     /// <summary>

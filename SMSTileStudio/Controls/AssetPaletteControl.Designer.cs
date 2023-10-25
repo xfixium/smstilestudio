@@ -59,8 +59,16 @@
             this.pnlPalette = new SMSTileStudio.Controls.PaletteControl();
             this.lblColorSwatch = new System.Windows.Forms.Label();
             this.pnlSwatch = new SMSTileStudio.Controls.ImageControl();
+            this.btnColorApply = new System.Windows.Forms.Button();
             this.btnShiftLeft = new System.Windows.Forms.Button();
             this.btnShiftRight = new System.Windows.Forms.Button();
+            this.tpnlColor = new System.Windows.Forms.TableLayoutPanel();
+            this.lblBlue = new System.Windows.Forms.Label();
+            this.lblGreen = new System.Windows.Forms.Label();
+            this.lblRed = new System.Windows.Forms.Label();
+            this.cbRed = new System.Windows.Forms.ComboBox();
+            this.cbGreen = new System.Windows.Forms.ComboBox();
+            this.cbBlue = new System.Windows.Forms.ComboBox();
             this.lblCreatePalette = new System.Windows.Forms.Label();
             this.ttMain = new System.Windows.Forms.ToolTip(this.components);
             this.mnuExport = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -68,14 +76,6 @@
             this.mnuExportBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
-            this.tpnlColor = new System.Windows.Forms.TableLayoutPanel();
-            this.lblRed = new System.Windows.Forms.Label();
-            this.cbRed = new System.Windows.Forms.ComboBox();
-            this.lblGreen = new System.Windows.Forms.Label();
-            this.cbGreen = new System.Windows.Forms.ComboBox();
-            this.lblBlue = new System.Windows.Forms.Label();
-            this.cbBlue = new System.Windows.Forms.ComboBox();
-            this.btnColorApply = new System.Windows.Forms.Button();
             this.tpnlMain.SuspendLayout();
             this.grpPaletteList.SuspendLayout();
             this.pnlButtons.SuspendLayout();
@@ -87,8 +87,8 @@
             this.pnlOptions.SuspendLayout();
             this.pnlReferences.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
-            this.mnuExport.SuspendLayout();
             this.tpnlColor.SuspendLayout();
+            this.mnuExport.SuspendLayout();
             this.SuspendLayout();
             // 
             // tpnlMain
@@ -270,9 +270,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(21, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 13);
+            this.label1.Size = new System.Drawing.Size(146, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Game Gear palette";
+            this.label1.Text = "Contains Game Gear colors";
             // 
             // pnlPaletteEdit
             // 
@@ -497,6 +497,18 @@
             this.pnlSwatch.Click += new System.EventHandler(this.pnlSwatch_Click);
             this.pnlSwatch.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlSwatch_MouseMove);
             // 
+            // btnColorApply
+            // 
+            this.btnColorApply.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnColorApply.Location = new System.Drawing.Point(394, 103);
+            this.btnColorApply.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.btnColorApply.Name = "btnColorApply";
+            this.btnColorApply.Size = new System.Drawing.Size(54, 26);
+            this.btnColorApply.TabIndex = 9;
+            this.btnColorApply.Text = "Apply";
+            this.btnColorApply.UseVisualStyleBackColor = true;
+            this.btnColorApply.Click += new System.EventHandler(this.btnPalette_Click);
+            // 
             // btnShiftLeft
             // 
             this.btnShiftLeft.Dock = System.Windows.Forms.DockStyle.Right;
@@ -518,6 +530,149 @@
             this.btnShiftRight.Text = ">";
             this.btnShiftRight.UseVisualStyleBackColor = true;
             this.btnShiftRight.Click += new System.EventHandler(this.btnPalette_Click);
+            // 
+            // tpnlColor
+            // 
+            this.tpnlColor.ColumnCount = 6;
+            this.tpnlPalette.SetColumnSpan(this.tpnlColor, 2);
+            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlColor.Controls.Add(this.lblBlue, 4, 0);
+            this.tpnlColor.Controls.Add(this.lblGreen, 2, 0);
+            this.tpnlColor.Controls.Add(this.lblRed, 0, 0);
+            this.tpnlColor.Controls.Add(this.cbRed, 1, 0);
+            this.tpnlColor.Controls.Add(this.cbGreen, 3, 0);
+            this.tpnlColor.Controls.Add(this.cbBlue, 5, 0);
+            this.tpnlColor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlColor.Location = new System.Drawing.Point(114, 102);
+            this.tpnlColor.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlColor.Name = "tpnlColor";
+            this.tpnlColor.RowCount = 1;
+            this.tpnlColor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlColor.Size = new System.Drawing.Size(280, 27);
+            this.tpnlColor.TabIndex = 8;
+            // 
+            // lblBlue
+            // 
+            this.lblBlue.AutoSize = true;
+            this.lblBlue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblBlue.Location = new System.Drawing.Point(188, 0);
+            this.lblBlue.Margin = new System.Windows.Forms.Padding(0);
+            this.lblBlue.Name = "lblBlue";
+            this.lblBlue.Size = new System.Drawing.Size(40, 27);
+            this.lblBlue.TabIndex = 4;
+            this.lblBlue.Text = "Blue:";
+            this.lblBlue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblGreen
+            // 
+            this.lblGreen.AutoSize = true;
+            this.lblGreen.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblGreen.Location = new System.Drawing.Point(90, 0);
+            this.lblGreen.Margin = new System.Windows.Forms.Padding(0);
+            this.lblGreen.Name = "lblGreen";
+            this.lblGreen.Size = new System.Drawing.Size(48, 27);
+            this.lblGreen.TabIndex = 2;
+            this.lblGreen.Text = "Green:";
+            this.lblGreen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblRed
+            // 
+            this.lblRed.AutoSize = true;
+            this.lblRed.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblRed.Location = new System.Drawing.Point(0, 0);
+            this.lblRed.Margin = new System.Windows.Forms.Padding(0);
+            this.lblRed.Name = "lblRed";
+            this.lblRed.Size = new System.Drawing.Size(40, 27);
+            this.lblRed.TabIndex = 0;
+            this.lblRed.Text = "Red:";
+            this.lblRed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbRed
+            // 
+            this.cbRed.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbRed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbRed.FormattingEnabled = true;
+            this.cbRed.Items.AddRange(new object[] {
+            "0",
+            "17",
+            "34",
+            "51",
+            "68",
+            "85",
+            "102",
+            "119",
+            "136",
+            "153",
+            "170",
+            "187",
+            "204",
+            "221",
+            "238",
+            "255"});
+            this.cbRed.Location = new System.Drawing.Point(43, 3);
+            this.cbRed.Name = "cbRed";
+            this.cbRed.Size = new System.Drawing.Size(44, 21);
+            this.cbRed.TabIndex = 1;
+            // 
+            // cbGreen
+            // 
+            this.cbGreen.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbGreen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGreen.FormattingEnabled = true;
+            this.cbGreen.Items.AddRange(new object[] {
+            "0",
+            "17",
+            "34",
+            "51",
+            "68",
+            "85",
+            "102",
+            "119",
+            "136",
+            "153",
+            "170",
+            "187",
+            "204",
+            "221",
+            "238",
+            "255"});
+            this.cbGreen.Location = new System.Drawing.Point(141, 3);
+            this.cbGreen.Name = "cbGreen";
+            this.cbGreen.Size = new System.Drawing.Size(44, 21);
+            this.cbGreen.TabIndex = 3;
+            // 
+            // cbBlue
+            // 
+            this.cbBlue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbBlue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBlue.FormattingEnabled = true;
+            this.cbBlue.Items.AddRange(new object[] {
+            "0",
+            "17",
+            "34",
+            "51",
+            "68",
+            "85",
+            "102",
+            "119",
+            "136",
+            "153",
+            "170",
+            "187",
+            "204",
+            "221",
+            "238",
+            "255"});
+            this.cbBlue.Location = new System.Drawing.Point(231, 3);
+            this.cbBlue.Name = "cbBlue";
+            this.cbBlue.Size = new System.Drawing.Size(46, 21);
+            this.cbBlue.TabIndex = 5;
             // 
             // lblCreatePalette
             // 
@@ -567,161 +722,6 @@
             this.mnuExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuExportAssembly.Click += new System.EventHandler(this.mnuExport_Click);
             // 
-            // tpnlColor
-            // 
-            this.tpnlColor.ColumnCount = 6;
-            this.tpnlPalette.SetColumnSpan(this.tpnlColor, 2);
-            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
-            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tpnlColor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tpnlColor.Controls.Add(this.lblBlue, 4, 0);
-            this.tpnlColor.Controls.Add(this.lblGreen, 2, 0);
-            this.tpnlColor.Controls.Add(this.lblRed, 0, 0);
-            this.tpnlColor.Controls.Add(this.cbRed, 1, 0);
-            this.tpnlColor.Controls.Add(this.cbGreen, 3, 0);
-            this.tpnlColor.Controls.Add(this.cbBlue, 5, 0);
-            this.tpnlColor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlColor.Location = new System.Drawing.Point(114, 102);
-            this.tpnlColor.Margin = new System.Windows.Forms.Padding(0);
-            this.tpnlColor.Name = "tpnlColor";
-            this.tpnlColor.RowCount = 1;
-            this.tpnlColor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlColor.Size = new System.Drawing.Size(280, 27);
-            this.tpnlColor.TabIndex = 8;
-            // 
-            // lblRed
-            // 
-            this.lblRed.AutoSize = true;
-            this.lblRed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblRed.Location = new System.Drawing.Point(0, 0);
-            this.lblRed.Margin = new System.Windows.Forms.Padding(0);
-            this.lblRed.Name = "lblRed";
-            this.lblRed.Size = new System.Drawing.Size(40, 27);
-            this.lblRed.TabIndex = 0;
-            this.lblRed.Text = "Red:";
-            this.lblRed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbRed
-            // 
-            this.cbRed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbRed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbRed.FormattingEnabled = true;
-            this.cbRed.Items.AddRange(new object[] {
-            "0",
-            "17",
-            "34",
-            "51",
-            "68",
-            "85",
-            "102",
-            "119",
-            "136",
-            "153",
-            "170",
-            "187",
-            "204",
-            "221",
-            "238",
-            "255"});
-            this.cbRed.Location = new System.Drawing.Point(43, 3);
-            this.cbRed.Name = "cbRed";
-            this.cbRed.Size = new System.Drawing.Size(44, 21);
-            this.cbRed.TabIndex = 1;
-            // 
-            // lblGreen
-            // 
-            this.lblGreen.AutoSize = true;
-            this.lblGreen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblGreen.Location = new System.Drawing.Point(90, 0);
-            this.lblGreen.Margin = new System.Windows.Forms.Padding(0);
-            this.lblGreen.Name = "lblGreen";
-            this.lblGreen.Size = new System.Drawing.Size(48, 27);
-            this.lblGreen.TabIndex = 2;
-            this.lblGreen.Text = "Green:";
-            this.lblGreen.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbGreen
-            // 
-            this.cbGreen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbGreen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGreen.FormattingEnabled = true;
-            this.cbGreen.Items.AddRange(new object[] {
-            "0",
-            "17",
-            "34",
-            "51",
-            "68",
-            "85",
-            "102",
-            "119",
-            "136",
-            "153",
-            "170",
-            "187",
-            "204",
-            "221",
-            "238",
-            "255"});
-            this.cbGreen.Location = new System.Drawing.Point(141, 3);
-            this.cbGreen.Name = "cbGreen";
-            this.cbGreen.Size = new System.Drawing.Size(44, 21);
-            this.cbGreen.TabIndex = 3;
-            // 
-            // lblBlue
-            // 
-            this.lblBlue.AutoSize = true;
-            this.lblBlue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblBlue.Location = new System.Drawing.Point(188, 0);
-            this.lblBlue.Margin = new System.Windows.Forms.Padding(0);
-            this.lblBlue.Name = "lblBlue";
-            this.lblBlue.Size = new System.Drawing.Size(40, 27);
-            this.lblBlue.TabIndex = 4;
-            this.lblBlue.Text = "Blue:";
-            this.lblBlue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbBlue
-            // 
-            this.cbBlue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbBlue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBlue.FormattingEnabled = true;
-            this.cbBlue.Items.AddRange(new object[] {
-            "0",
-            "17",
-            "34",
-            "51",
-            "68",
-            "85",
-            "102",
-            "119",
-            "136",
-            "153",
-            "170",
-            "187",
-            "204",
-            "221",
-            "238",
-            "255"});
-            this.cbBlue.Location = new System.Drawing.Point(231, 3);
-            this.cbBlue.Name = "cbBlue";
-            this.cbBlue.Size = new System.Drawing.Size(46, 21);
-            this.cbBlue.TabIndex = 5;
-            // 
-            // btnColorApply
-            // 
-            this.btnColorApply.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnColorApply.Location = new System.Drawing.Point(394, 103);
-            this.btnColorApply.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
-            this.btnColorApply.Name = "btnColorApply";
-            this.btnColorApply.Size = new System.Drawing.Size(54, 26);
-            this.btnColorApply.TabIndex = 9;
-            this.btnColorApply.Text = "Apply";
-            this.btnColorApply.UseVisualStyleBackColor = true;
-            this.btnColorApply.Click += new System.EventHandler(this.btnPalette_Click);
-            // 
             // AssetPaletteControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -743,9 +743,9 @@
             this.pnlReferences.ResumeLayout(false);
             this.pnlReferences.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).EndInit();
-            this.mnuExport.ResumeLayout(false);
             this.tpnlColor.ResumeLayout(false);
             this.tpnlColor.PerformLayout();
+            this.mnuExport.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

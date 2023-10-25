@@ -45,8 +45,10 @@ namespace SMSTileStudio.Controls
         private Timer _scrollTimer = new Timer();
         private Point _scrollCapture = Point.Empty;
         private bool _useGrid = true;
+        private bool _useAreaGrid = false;
         private bool _indexed = false;
         private bool _highlight = false;
+        private bool _invertGridColor = false;
         private bool _useOffset = false;
         private int _columns = 0;
         private int _rows = 0;
@@ -124,11 +126,14 @@ namespace SMSTileStudio.Controls
         public string TileText { get { return GetTileText(); } }
         public int TileID { get { return _tileID; } set { _tileID = value; UpdateBackBuffer(); } }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
+        public bool UseAreaGrid { get { return _useAreaGrid; } set { _useAreaGrid = value; UpdateBackBuffer(); } }
         public bool Highlight { get { return _highlight; } set { _highlight = value; UpdateBackBuffer(); } }
         public int Offset { get; set; } = 0;
         public bool UseOffset { get { return _useOffset; } set { _useOffset = value; Invalidate(); } }
+        public bool InvertGridColor { get { return _invertGridColor; } set { _invertGridColor = value; UpdateBackBuffer(); } }
         public int HighlightCount { get; private set; } = 0;
         public byte TypeValue { get; set; } = 0;
+        public Size AreaGridSize { get; set; } = new Size(32, 24);
         public Size BlockSize { get; set; } = new Size(16, 16);
         public byte BlockValue { get; set; } = 0;
         public bool Indexed
@@ -199,6 +204,7 @@ namespace SMSTileStudio.Controls
                 return;
 
             DrawGrid(gfx, origin);
+            DrawAreaGrid(gfx, origin);
             DrawHighlights(gfx, origin);
             DrawSelection(gfx, origin);
             DrawEntities(gfx, origin);
@@ -410,7 +416,7 @@ namespace SMSTileStudio.Controls
             int cols = (int)Math.Floor(Image.Width / (double)(SnapSize.Width));
             int rows = (int)Math.Floor(Image.Height / (double)(SnapSize.Height));
             Rectangle cell = new Rectangle(0, 0, SnapSize.Width, SnapSize.Height);
-            using (Pen gridPen = new Pen(Color.FromArgb(80, Color.Black)))
+            using (Pen gridPen = new Pen(Color.FromArgb(80, _invertGridColor ? Color.White : Color.Black)))
             {
                 for (int row = 0; row < rows; row++)
                 {
@@ -418,6 +424,31 @@ namespace SMSTileStudio.Controls
                     {
                         cell.X = (col * SnapSize.Width) + origin.X;
                         cell.Y = (row * SnapSize.Height) + origin.Y;
+                        gfx.DrawRectangle(gridPen, cell);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draw area grid cells
+        /// </summary>
+        private void DrawAreaGrid(Graphics gfx, Point origin)
+        {
+            if (!UseAreaGrid || Image == null || _tiles.Count <= 0)
+                return;
+
+            int cols = (int)Math.Ceiling(Image.Width / (double)(AreaGridSize.Width * 8));
+            int rows = (int)Math.Ceiling(Image.Height / (double)(AreaGridSize.Height * 8));
+            Rectangle cell = new Rectangle(0, 0, AreaGridSize.Width * 8 - 1, AreaGridSize.Height * 8 - 1);
+            using (Pen gridPen = new Pen(Color.FromArgb(255, _invertGridColor ? Color.White : Color.Black)))
+            {
+                for (int row = 0; row < rows; row++)
+                {
+                    for (int col = 0; col < cols; col++)
+                    {
+                        cell.X = (col * (AreaGridSize.Width * 8)) + origin.X;
+                        cell.Y = (row * (AreaGridSize.Height * 8)) + origin.Y;
                         gfx.DrawRectangle(gridPen, cell);
                     }
                 }
@@ -599,6 +630,8 @@ namespace SMSTileStudio.Controls
                 Rectangle rect = _selection;
                 rect.X += origin.X;
                 rect.Y += origin.Y;
+                rect.Width -= 1;
+                rect.Height -= 1;
                 gfx.DrawRectangle(Pens.Black, rect);
                 gfx.DrawRectangle(pen, rect);
             }
@@ -709,7 +742,6 @@ namespace SMSTileStudio.Controls
                     tilemap.Tiles.Add(_tiles[((row * _columns) + offset) + col].DeepClone());
                 }
             }
-
             return tilemap;
         }
 
@@ -866,8 +898,7 @@ namespace SMSTileStudio.Controls
             _rows = tilemap.Rows;
             _tiles = tilemap.Tiles.DeepClone();
             _entities = tilemap.Entities.DeepClone();
-            _metatiles = tilemap.Metatiles.DeepClone();
-            //BlockSize = Block.GetSize(tilemap.BlockSize);
+            //_metatiles = tilemap.Metatiles.DeepClone();
             Offset = tilemap.Offset;
             ClearSelection();
             ClearEntity();

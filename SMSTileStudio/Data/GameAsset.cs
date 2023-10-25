@@ -34,14 +34,15 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Properties
         /// </summary>
-        public CompressionType CompressionType { get; set; } = CompressionType.None;    // Compression used for this asset, if any
-        public GameAssetType GameAssetType { get; set; }                                // Game asset type
-        public int ID { get; set; } = -1;                                               // Unique ID or byte position in ROM data
-        public string Name { get; set; } = "";                                          // The name of the asset
-        public int Length { get; set; } = 0;                                            // The size, in bytes (Compressed or otherwise)
-        public int ActualLength { get; set; } = 0;                                      // The size, in bytes Without compression
-        public int Offset { get; set; } = 0;                                            // Generic asset offset
-        public bool Disable { get; set; } = false;                                      // Disable asset write
+        public CompressionType CompressionType { get; set; } = CompressionType.None;            // Compression used for this asset, if any
+        public GameAssetType GameAssetType { get; set; }                                        // Game asset type
+        public bool UsesCompression { get { return CompressionType != CompressionType.None; } } // If the game asset uses compression
+        public int ID { get; set; } = -1;                                                       // Unique ID or byte position in ROM data
+        public string Name { get; set; } = "";                                                  // The name of the asset
+        public int Length { get; set; } = 0;                                                    // The size, in bytes (Compressed or otherwise)
+        public int ActualLength { get; set; } = 0;                                              // The size, in bytes Without compression
+        public int Offset { get; set; } = 0;                                                    // Generic asset offset
+        public bool Disable { get; set; } = false;                                              // Disable asset write
 
         /// <summary>
         /// Constructors

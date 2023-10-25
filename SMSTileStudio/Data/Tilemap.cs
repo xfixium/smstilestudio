@@ -44,12 +44,13 @@ namespace SMSTileStudio.Data
         public int BgPaletteID { get; set; } = -3;                                      // The display BG palette
         public int SprPaletteID { get; set; } = -2;                                     // The display SPR palette
         public bool UseTileAttributes { get; set; } = true;                             // If the tilemap tiles use attribute flags
-        public bool UseMetatileValue { get; set; } = false;                             // If the tilemap metatiles use the metatile value on export
-        public MetatileSizeType MetaTileSize { get; set; } = MetatileSizeType.Sixteen;  // Meta Tile size
         public Size Size { get { return new Size(Columns * 8, Rows * 8); } }            // The size of the tilemap in pixels
+        public Size AreaGridSize { get; set; } = new Size(32, 24);                      // The size of the area grid in tiles
+        public MetaTilemap MetaTilemap { get; set; } = null;                            // Tilemap meta tilemap
         public Tileset Tileset { get; set; } = null;                                    // The tileset for this tilemap
+        public List<string> Tags { get; set; } = new List<string>();                    // Tilemap tags
         public List<Tile> Tiles { get; set; } = new List<Tile>();                       // Tilemap tiles
-        public List<MetaTile> Metatiles { get; set; } = new List<MetaTile>();           // Tilemap metatiles
+        public List<TileGrid> TilemapGrids { get; set; } = new List<TileGrid>();        // Tilemap tile grids
         public List<Entity> Entities { get; set; } = new List<Entity>();                // Tilemap entities
         public List<TilemapFrame> Frames { get; set; } = new List<TilemapFrame>();      // Tilemap frames
 
@@ -58,6 +59,7 @@ namespace SMSTileStudio.Data
         /// </summary>
         public Tilemap() { GameAssetType = GameAssetType.Tilemap;  }
         public Tilemap(int id) { ID = id; Name = "New Tilemap " + id; GameAssetType = GameAssetType.Tilemap; }
+        public Tilemap(int id, string name) { ID = id; Name = name; GameAssetType = GameAssetType.Tilemap; }
 
         /// <summary>
         /// Updates the tilemap with the given tilemap
@@ -73,25 +75,13 @@ namespace SMSTileStudio.Data
             Rows = tilemap.Rows;
         }
 
-        /// <summary>
-        /// Creates blocks if there are none
-        /// </summary>
-        public void CreateMetatiles()
-        {
-            //if (Tiles != null && Tiles.Count > 0 && (Blocks == null || Blocks.Count <= 0))
-            //{
-            //    var blockSize = Block.GetSize(BlockSize);
-            //    var cols = (int)Math.Ceiling(Columns * 8 / (double)blockSize.Width);
-            //    var rows = (int)Math.Ceiling(Rows * 8 / (double)blockSize.Height);
-            //    for (int row = 0; row < rows; row++)
-            //    {
-            //        for (int col = 0; col < cols; col++)
-            //        {
-            //            Blocks.Add(new Block());
-            //        }
-            //    }
-            //}
-        }
+        ///// <summary>
+        ///// Creates blocks if there are none
+        ///// </summary>
+        //public void CreateMetatilemap(MetatileSizeType type)
+        //{
+        //    TilemapGrids.Add(new TileGrid(type, Columns, Rows));
+        //}
 
         /// <summary>
         /// Shifts all the tiles by the given amount
@@ -132,20 +122,6 @@ namespace SMSTileStudio.Data
         /// <param name="pixels">Source tileset pixels</param>
         public void MatchTiles(List<byte> pixels)
         {
-            //List<TileSwap> tiles = new List<TileSwap>();
-            //for (int x = 0; x < Tileset.Pixels.Count / 64; x++)
-            //{
-            //    for (int y = 0; y < pixels.Count / 64; y++)
-            //    {
-            //        var result = BitmapUtility.CompareTiles(Tileset.Pixels.GetRange(x * 64, 64).ToArray(), pixels.GetRange(y * 64, 64).ToArray(), FlipType.Both);
-            //        if (result.Item1)
-            //        {
-            //            if (x != y)
-            //                tiles.Add(new TileSwap(x, y, result.Item2));
-            //            break;
-            //        }
-            //    }
-            //}
             foreach (var tile in Tiles)
             {
                 var tileId = 0;
@@ -232,6 +208,53 @@ namespace SMSTileStudio.Data
             foreach (Tile tile in Tiles)
                 if (tile.TileID == targetID)
                     tile.Bits = type;
+        }
+
+        /// <summary>
+        /// Gets area rectangles for tilemap splitting
+        /// </summary>
+        /// <returns></returns>
+        public List<Rectangle> GetAreas()
+        {
+            List<Rectangle> areas = new List<Rectangle>();
+            int cols = (int)Math.Ceiling(Size.Width / (double)(AreaGridSize.Width * 8));
+            int rows = (int)Math.Ceiling(Size.Height / (double)(AreaGridSize.Height * 8));
+            var pixelSize = new Size(AreaGridSize.Width * 8, AreaGridSize.Height * 8);
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    areas.Add(new Rectangle(col * pixelSize.Width, row * pixelSize.Height, pixelSize.Width, pixelSize.Height));
+                }
+            }
+            return areas;
+        }
+
+        /// <summary>
+        /// Creates a tilemap from selection
+        /// </summary>
+        /// <returns></returns>
+        public Tilemap AreaToTilemap(Rectangle area)
+        {
+            if (area == Rectangle.Empty)
+                return null;
+
+            var tilemap = new Tilemap();
+            var offset = (area.Y / 8 * Columns) + (area.X / 8);
+            tilemap.Columns = area.Width / 8;
+            tilemap.Rows = area.Height / 8;
+            for (int row = 0; row < tilemap.Rows; row++)
+            {
+                for (int col = 0; col < tilemap.Columns; col++)
+                {
+                    var index = (row * Columns) + offset + col;
+                    if (index >= Tiles.Count)
+                        tilemap.Tiles.Add(new Tile(0));
+                    else
+                        tilemap.Tiles.Add(Tiles[index].DeepClone());
+                }
+            }
+            return tilemap;
         }
 
         /// <summary>

@@ -1071,11 +1071,12 @@ namespace SMSTileStudio.Data
         {
             switch (format)
             {
-                case PixelFormat.Format24bppRgb: return 3;
                 case PixelFormat.Format32bppArgb:
                 case PixelFormat.Format32bppPArgb:
                 case PixelFormat.Format32bppRgb: return 4;
+                case PixelFormat.Format24bppRgb: return 3;
                 case PixelFormat.Format8bppIndexed: return 1;
+                case PixelFormat.Format4bppIndexed: return 1;
                 default: return 0;
             }
         }
