@@ -58,6 +58,7 @@ namespace SMSTileStudio.Controls
         private List<Tile> _tiles = new List<Tile>();
         private List<Entity> _entities = new List<Entity>();
         private List<MetaTile> _metatiles = new List<MetaTile>();
+        private TileGrid _tileGrid = null;
         private Tilemap _brush = null;
         private Rectangle _selection = Rectangle.Empty;
         private Point _selectOrigin = Point.Empty;
@@ -100,10 +101,34 @@ namespace SMSTileStudio.Controls
                 return blocks;
             }
         }
+        public List<int> GridTiles
+        {
+            get
+            {
+                List<int> blocks = new List<int>();
+                if (_tileGrid != null && _tileGrid.Tiles != null)
+                    foreach (var block in _tileGrid.Tiles)
+                        blocks.Add(block);
+
+                return blocks;
+            }
+        }
+        public TileGrid TileGrid
+        {
+            get {  return _tileGrid; }
+            set 
+            {
+                _tileGrid = value;
+                if (value != null) 
+                    BlockSize = value.TileSize;
+
+                UpdateBackBuffer();
+            }
+        }
         public TileEditType EditMode
         {
             get { return _editMode; }
-            set 
+            set
             {
                 _editMode = value;
                 if (value != TileEditType.TileID && value != TileEditType.Selection)
@@ -136,6 +161,7 @@ namespace SMSTileStudio.Controls
         public Size AreaGridSize { get; set; } = new Size(32, 24);
         public Size BlockSize { get; set; } = new Size(16, 16);
         public byte BlockValue { get; set; } = 0;
+        public bool ShowIndexes { get; set; } = false;
         public bool Indexed
         {
             get { return _indexed; }
@@ -192,7 +218,7 @@ namespace SMSTileStudio.Controls
         protected override void OnDrawAfterOnPaint(ref PaintEventArgs e)
         {
             DrawAttributeValue(e.Graphics, GetOrigin());
-            // DrawMetatileValues(e.Graphics, GetOrigin());
+            DrawTileGridValues(e.Graphics, GetOrigin());
         }
 
         /// <summary>
@@ -210,6 +236,7 @@ namespace SMSTileStudio.Controls
             DrawEntities(gfx, origin);
             DrawBrush(gfx, origin);
             DrawMetatiles(gfx, origin);
+            DrawTileGrid(gfx, origin);
         }
 
         /// <summary>
@@ -233,10 +260,10 @@ namespace SMSTileStudio.Controls
 
             Size snap = SnapSize;
             var count = _tiles.Count;
-            if (_editMode == TileEditType.Metatiles)
+            if (_editMode == TileEditType.TileGrid && _tileGrid != null && _tileGrid.Tiles != null)
             {
-                snap = BlockSize;
-                count = _metatiles.Count;
+                snap = _tileGrid.TileSize;
+                count = _tileGrid.Tiles.Count;
             }
             int x = (e.Location.X - rect.X) / ImageScale / snap.Width * snap.Width;
             int y = (e.Location.Y - rect.Y) / ImageScale / snap.Height * snap.Height;
@@ -270,7 +297,15 @@ namespace SMSTileStudio.Controls
                 case TileEditType.PaletteIndex: _tiles[index].UseBGPalette = !_tiles[index].UseBGPalette; break;
                 case TileEditType.Bits: _tiles[index].Bits = TypeValue; break;
                 //case TileEditType.Metatiles: if (_metatiles != null) { _metatiles[index]. = BlockValue; BlockChanged?.Invoke(); } break;
-                default: if (_brush != null) { PaintBrush(col, row);  } else { _tiles[index].TileID = TileID; }  break;
+                case TileEditType.TileGrid: 
+                    if (_tileGrid != null && _tileGrid.Tiles != null) 
+                    { 
+                        _tileGrid.Tiles[index] = BlockValue; 
+                    }
+                    TileChanged?.Invoke();
+                    Invalidate(); 
+                    return;
+                default: if (_brush != null) { PaintBrush(col, row); } else { _tiles[index].TileID = TileID; } break;
             }
 
             TileChanged?.Invoke();
@@ -410,7 +445,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawGrid(Graphics gfx, Point origin)
         {
-            if (!UseGrid || Image == null || _tiles.Count <= 0)
+            if (!UseGrid || Image == null || _tiles.Count <= 0 || EditMode == TileEditType.TileGrid)
                 return;
 
             int cols = (int)Math.Floor(Image.Width / (double)(SnapSize.Width));
@@ -435,7 +470,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawAreaGrid(Graphics gfx, Point origin)
         {
-            if (!UseAreaGrid || Image == null || _tiles.Count <= 0)
+            if (!UseAreaGrid || Image == null || _tiles.Count <= 0 || EditMode == TileEditType.TileGrid)
                 return;
 
             int cols = (int)Math.Ceiling(Image.Width / (double)(AreaGridSize.Width * 8));
@@ -471,7 +506,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawAttributeValue(Graphics gfx, Point origin)
         {
-            if (Image == null || _tiles.Count <= 0 ||
+            if (Image == null || _tiles.Count <= 0 || EditMode == TileEditType.TileGrid ||
                 (!Indexed && EditMode == TileEditType.TileID) ||
                 (!Indexed && EditMode == TileEditType.Selection))
                 return;
@@ -498,12 +533,14 @@ namespace SMSTileStudio.Controls
                             case TileEditType.Priority: value = _tiles[index].Priority ? "P" : ""; break;
                             case TileEditType.PaletteIndex: value = _tiles[index].UseBGPalette ? "BG" : "SPR"; break;
                             case TileEditType.Bits: value = _tiles[index].Bits.ToString(); break;
-                            default: value = (_tiles[index].TileID + (_useOffset ? 0 : Offset)).ToString(); break;
+                            default:
+                                value = ShowIndexes ? index.ToString() : (_tiles[index].TileID + (_useOffset ? 0 : Offset)).ToString();
+                            break;
                         }
                         if (value != "")
                         {
                             BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, rect, format);
-                            gfx.DrawString(value, font, Brushes.White, rect, format);
+                            gfx.DrawString(value, font, ShowIndexes ? Brushes.Cyan : Brushes.White, rect, format);
                         }
                     }
                     index++;
@@ -561,6 +598,56 @@ namespace SMSTileStudio.Controls
                 for (int col = 0; col < cols; col++)
                 {
                     gfx.DrawRectangle(Pens.White, col * BlockSize.Width + origin.X, row * BlockSize.Height + origin.Y, BlockSize.Width, BlockSize.Height);
+                }
+            }
+        }
+
+        /// <summary>
+        /// raws block gri
+        /// </summary>
+        /// <param name="gfx"></param>
+        /// <param name="origin"></param>
+        private void DrawTileGrid(Graphics gfx, Point origin)
+        {
+            if (_editMode != TileEditType.TileGrid || Image == null || _tileGrid == null)
+                return;
+
+            for (int row = 0; row < _tileGrid.Rows; row++)
+            {
+                for (int col = 0; col < _tileGrid.Columns; col++)
+                {
+                    gfx.DrawRectangle(Pens.White, col * BlockSize.Width + origin.X, row * BlockSize.Height + origin.Y, BlockSize.Width, BlockSize.Height);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draws block values
+        /// </summary>
+        private void DrawTileGridValues(Graphics gfx, Point origin)
+        {
+            if (EditMode != TileEditType.TileGrid || Image == null || _tileGrid == null || _tileGrid.Tiles == null || _tileGrid.Tiles.Count <= 0)
+                return;
+
+            int index = 0;
+            Font font = new Font(Font.Name, 5 + ImageScale, FontStyle.Regular);
+            StringFormat format = new StringFormat();
+            format.Alignment = StringAlignment.Center;
+            format.LineAlignment = StringAlignment.Center;
+            format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip;
+            for (int row = 0; row < _tileGrid.Rows; row++)
+            {
+                for (int col = 0; col < _tileGrid.Columns; col++)
+                {
+                    if (index < _tileGrid.Tiles.Count)
+                    {
+                        Point point = new Point((col * BlockSize.Width * ImageScale) + (origin.X * ImageScale) + AutoScrollPosition.X, (row * BlockSize.Height * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
+                        RectangleF rect = new RectangleF(point.X, point.Y, (BlockSize.Width + 1) * ImageScale, (BlockSize.Height + 1) * ImageScale);
+                        string value = (_tileGrid.Tiles[index]).ToString();
+                        BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, rect, format);
+                        gfx.DrawString(value, font, Brushes.White, rect, format);
+                    }
+                    index++;
                 }
             }
         }
@@ -746,6 +833,32 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Creates a tilemap from selection
+        /// </summary>
+        /// <returns></returns>
+        public List<byte> SelectionToArea()
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return null;
+
+            var area = new List<byte>();
+            //var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = (_selection.X / SnapSize.Width) + (_selection.Width / SnapSize.Width);
+            var rows = (_selection.Y / SnapSize.Height) + (_selection.Height / SnapSize.Height);
+            for (int row = _selection.Y / SnapSize.Height; row < rows; row++)
+            {
+                for (int col = _selection.X / SnapSize.Width; col < cols; col++)
+                {
+                    var val1 = ((row * _columns) + col) * 2;
+                    var val2 = val1 + 1;
+                    area.AddRange(Tilemap.GetUShortBytes(val1));
+                    area.AddRange(Tilemap.GetUShortBytes(val2));
+                }
+            }
+            return area;
+        }
+
+        /// <summary>
         /// Sets priority for the current selection
         /// </summary>
         /// <returns></returns>
@@ -809,12 +922,61 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Sets the horizontal mirror for the current selection
+        /// </summary>
+        /// <returns></returns>
+        public void MirrorXForSelection()
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return;
+
+            var copy = SelectionToTilemap();
+            var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = _selection.Width / SnapSize.Width;
+            var rows = _selection.Height / SnapSize.Height;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    var src = (row * cols) + (cols - 1 - col);
+                    var target = (row * _columns) + offset + col;
+                    _tiles[target] = copy.Tiles[src];
+                    _tiles[target].FlipX = !_tiles[target].FlipX;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the vertical mirror for the current selection
+        /// </summary>
+        /// <returns></returns>
+        public void MirrorYForSelection(bool flip)
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return;
+
+            var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = _selection.Width / SnapSize.Width;
+            var rows = _selection.Height / SnapSize.Height;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    _tiles[((row * _columns) + offset) + col].FlipY = flip;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets position text
         /// </summary>
         /// <returns></returns>
         private string GetPositionText()
         {
-            return "X: " + (Position.X + 8) + " | Tile X: " + (Position.X + 8) / 8 + " | Y: " + (Position.Y + 8) + " | Tile Y: " + (Position.Y + 8) / 8;
+            var col = Position.X / 8;
+            var row = Position.Y / 8;
+            var cols = Image.Width / 8;
+            return "X: " + (Position.X + 8) + " | Tile X: " + col + " | Y: " + (Position.Y + 8) + " | Tile Y: " + row + " | Index: "  + ((row * cols) + col);
         }
 
         /// <summary>
@@ -894,6 +1056,12 @@ namespace SMSTileStudio.Controls
         {
             _tiles.Clear();
             _metatiles.Clear();
+            //if (_tileGrid != null )
+            //{
+            //    _tileGrid.Tiles.Clear();
+            //    _tileGrid = null;
+            //    _tileGrid = tileGrid;
+            //}
             _columns = tilemap.Columns;
             _rows = tilemap.Rows;
             _tiles = tilemap.Tiles.DeepClone();
@@ -914,6 +1082,11 @@ namespace SMSTileStudio.Controls
             _rows = 0;
             _tiles.Clear();
             _entities.Clear();
+            if (_tileGrid != null && _tileGrid.Tiles != null)
+            {
+                _tileGrid.Tiles.Clear();
+            }
+            _tileGrid = null;
             Offset = 0;
             this.Image = null;
             ClearSelection();

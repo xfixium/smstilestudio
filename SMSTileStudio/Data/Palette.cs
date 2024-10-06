@@ -270,33 +270,5 @@ namespace SMSTileStudio.Data
                 default: return new bool[] { false, false, false, false };
             }
         }
-
-        ///// <summary>
-        ///// Gets bits of a given to bit color channel
-        ///// </summary>
-        ///// <param name="value">The color channel byte value</param>
-        ///// <returns>A bit array representing a value of 0, 1, 2, or 3</returns>
-        //private static bool[] GetGameGearColorBits(byte value)
-        //{
-        //    switch (value)
-        //    {
-        //        case 17: return new bool[] { false, false, false, true };
-        //        case 34: return new bool[] { false, false, true, false };
-        //        case 51: return new bool[] { false, false, true, true };
-        //        case 68: return new bool[] { false, true, false, false };
-        //        case 85: return new bool[] { false, true, false, true };
-        //        case 102: return new bool[] { false, true, true, false };
-        //        case 119: return new bool[] { false, true, true, true };
-        //        case 136: return new bool[] { true, false, false, false };
-        //        case 153: return new bool[] { true, false, false, true };
-        //        case 170: return new bool[] { true, false, true, false };
-        //        case 187: return new bool[] { true, false, true, true };
-        //        case 204: return new bool[] { true, true, false, false, };
-        //        case 221: return new bool[] { true, true, false, true };
-        //        case 238: return new bool[] { true, true, true, false };
-        //        case 255: return new bool[] { true, true, true, true };
-        //        default: return new bool[] { false, false, false, false };
-        //    }
-        //}
     }
 }

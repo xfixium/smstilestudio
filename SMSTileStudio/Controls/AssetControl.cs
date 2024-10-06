@@ -39,6 +39,7 @@ namespace SMSTileStudio.Controls
         /// Properties
         /// </summary>
         public bool Loading { get; set; } = true;
+        public bool Updating { get; set; } = false;
 
         /// <summary>
         /// Asset data changed

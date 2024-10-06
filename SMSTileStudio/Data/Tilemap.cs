@@ -50,7 +50,7 @@ namespace SMSTileStudio.Data
         public Tileset Tileset { get; set; } = null;                                    // The tileset for this tilemap
         public List<string> Tags { get; set; } = new List<string>();                    // Tilemap tags
         public List<Tile> Tiles { get; set; } = new List<Tile>();                       // Tilemap tiles
-        public List<TileGrid> TilemapGrids { get; set; } = new List<TileGrid>();        // Tilemap tile grids
+        public List<TileGrid> TileGrids { get; set; } = new List<TileGrid>();           // Tile grids
         public List<Entity> Entities { get; set; } = new List<Entity>();                // Tilemap entities
         public List<TilemapFrame> Frames { get; set; } = new List<TilemapFrame>();      // Tilemap frames
 
@@ -297,7 +297,7 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets two bytes whcih represent the tile attributes, and the tile id
+        /// Gets two bytes which represent the tile attributes, and the tile id
         /// </summary>
         /// <param name="tile"></param>
         /// <returns></returns>
@@ -328,11 +328,11 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// 
+        /// Gets a byte array of a ushort
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        private byte[] GetUShortBytes(int value)
+        public static byte[] GetUShortBytes(int value)
         {
             ushort convert = (ushort)value;
             var data = BitConverter.GetBytes(convert);

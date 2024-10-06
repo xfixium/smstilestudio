@@ -131,7 +131,7 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets a tile's worth of pixel data starting at the given tile id. 
+        /// Sets a tile's worth of pixel data starting at the given tile id. 
         /// </summary>
         /// <param name="tileID">The tile to get the pixel data of</param>
         /// <returns>A tile's worth of pixel data</returns>

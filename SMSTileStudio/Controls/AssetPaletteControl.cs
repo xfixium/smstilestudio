@@ -339,14 +339,28 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// Name changed
+        /// Entity name changed
         /// </summary>
-        private void txtName_TextChanged(object sender, EventArgs e)
+        private void txtName_KeyDown(object sender, KeyEventArgs e)
         {
-            if (lstPalettes.SelectedItem == null)
+            if (!HasData || Loading || lstPalettes.SelectedItem == null || e.KeyCode != Keys.Enter)
                 return;
 
-            // Update palette name
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+
+            _palette.Name = txtName.Text;
+            UpdatePalette();
+        }
+
+        /// <summary>
+        /// Entity name changed
+        /// </summary>
+        private void txtName_Leave(object sender, EventArgs e)
+        {
+            if (!HasData || Loading || lstPalettes.SelectedItem == null)
+                return;
+
             _palette.Name = txtName.Text;
             UpdatePalette();
         }
@@ -404,6 +418,16 @@ namespace SMSTileStudio.Controls
         public void LoadData(bool loadDefault)
         {
             Loading = true;
+
+            LoadList(loadDefault);
+
+            Loading = false;
+        }
+
+        private void LoadList(bool loadDefault)
+        {
+            Loading = true;
+
             var item = lstPalettes.SelectedItem ?? lstPalettes.SelectedItem.DeepClone();
             lstPalettes.Items.Clear();
             foreach (var asset in App.Project.Palettes.Where(x => x.ID >= 0).OrderBy(x => x.Name).ToArray())
@@ -428,15 +452,16 @@ namespace SMSTileStudio.Controls
             tpnlPalette.Visible = lstPalettes.SelectedItem != null;
             pnlOptions.Visible = lstPalettes.SelectedItem != null;
             _palette = lstPalettes.SelectedItem == null ? null : lstPalettes.SelectedItem as Palette;
+
             txtName.Text = _palette == null ? string.Empty : _palette.Name;
             pnlPalette.SetPalette(_palette == null ? Palette.Empty : _palette.Colors);
             nudLength.Value = _palette == null ? 16 : _palette.Length;
             lblInfo.Text = _palette == null ? "No Palette information" : _palette.GetInfo();
             lstPaletteReferences.Items.Clear();
-            if (App.Project == null || lstPalettes.SelectedItem == null)
+            if (_palette == null)
                 return;
 
-            var paletteID = (lstPalettes.SelectedItem as Palette).ID;
+            var paletteID = _palette.ID;
             foreach (var tilemap in App.Project.Tilemaps)
             {
                 if (tilemap.BgPaletteID == paletteID)
@@ -463,8 +488,7 @@ namespace SMSTileStudio.Controls
 
             App.Project.UpdateAsset(_palette);
             Loading = true;
-            lstPalettes.SelectedItem = _palette;
-            lstPalettes.Refresh();
+            LoadList(false);
             lblInfo.Text = _palette == null ? "No Palette information" : _palette.GetInfo();
             OnAssetsChanged();
             Loading = false;

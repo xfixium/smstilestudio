@@ -25,6 +25,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
+using System.Reflection;
 
 namespace SMSTileStudio.Data
 {
@@ -110,9 +112,9 @@ namespace SMSTileStudio.Data
         /// <param name="palette">Tileset color palette</param>
         /// <param name="columns">The width of the image, in tiled columns</param>
         /// <returns>An image of the tileset</returns>
-        public static Bitmap GetTilesetImage(Tileset tileset, Palette palette, int columns)
+        public static Bitmap GetTilesetImage(Tileset tileset, Palette palette, int columns, bool transparent = false)
         {
-            return GetTilesetImage(tileset.Pixels, 255, palette.Colors, columns);
+            return GetTilesetImage(tileset.Pixels, 255, palette.Colors, columns, transparent);
         }
 
         /// <summary>
@@ -122,9 +124,9 @@ namespace SMSTileStudio.Data
         /// <param name="tileset">Tileset data</param>
         /// <param name="palette">Tileset color palette</param>
         /// <returns>An image of the tileset</returns>
-        public static Bitmap GetTilesetImage(byte alpha, Tileset tileset, Palette palette)
+        public static Bitmap GetTilesetImage(byte alpha, Tileset tileset, Palette palette, bool transparent = false)
         {
-            return GetTilesetImage(alpha, tileset, palette, 1);
+            return GetTilesetImage(alpha, tileset, palette, 1, transparent);
         }
 
         /// <summary>
@@ -135,13 +137,13 @@ namespace SMSTileStudio.Data
         /// <param name="colors">Tileset color palette</param>
         /// <param name="rows">The height of the image, in tiled rows</param>
         /// <returns>A bitmap image of the tileset data</returns>
-        public static Bitmap GetTilesetImage(byte alpha, List<byte> pixels, List<Color> colors, int rows)
+        public static Bitmap GetTilesetImage(byte alpha, List<byte> pixels, List<Color> colors, int rows, bool transparent = false)
         {
             Tileset tileset = new Tileset();
             tileset.Pixels = pixels;
             Palette palette = new Palette();
             palette.Colors = colors;
-            return GetTilesetImage(alpha, tileset, palette, rows);
+            return GetTilesetImage(alpha, tileset, palette, rows, transparent);
         }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace SMSTileStudio.Data
         /// <param name="palette">Tileset color palette</param>
         /// <param name="rows">The height of the image, in tiled rows</param>
         /// <returns>A bitmap image of the tileset data</returns>
-        public static Bitmap GetTilesetImage(byte alpha, Tileset tileset, Palette palette, int rows)
+        public static Bitmap GetTilesetImage(byte alpha, Tileset tileset, Palette palette, int rows, bool transparent = false)
         {
             int tileID = 0;
             int pixel = 0;
@@ -175,9 +177,10 @@ namespace SMSTileStudio.Data
                                 {
                                     if (pixel >= pixels.Count)
                                         break;
+
                                     if (pixels[pixel] < palette.Colors.Count)
                                     {
-                                        brush.Color = Color.FromArgb(alpha, palette.Colors[pixels[pixel]]);
+                                        brush.Color = transparent && pixels[pixel] == 0 ? Color.Transparent :  Color.FromArgb(alpha, palette.Colors[pixels[pixel]]);
                                         gfx.FillRectangle(brush, (col * tileSize) + x, (row * tileSize) + y, 1, 1);
                                     }
                                     pixel++;
@@ -203,7 +206,7 @@ namespace SMSTileStudio.Data
         /// <param name="columns">The width of the image, in tiled columns</param>
         /// <param name="offset">The number of tiles to prefix to the image</param>
         /// <returns>A bitmap image of the tileset data</returns>
-        public static Bitmap GetTilesetImage(List<byte> pixels, byte alpha, List<Color> palette, int columns)
+        public static Bitmap GetTilesetImage(List<byte> pixels, byte alpha, List<Color> palette, int columns, bool transparent = false)
         {
             List<byte> copy = new List<byte>(pixels.ToArray());
             int tileID = 0;
@@ -228,7 +231,7 @@ namespace SMSTileStudio.Data
                                         break;
                                     if (copy[pixel] < palette.Count)
                                     {
-                                        brush.Color = Color.FromArgb(alpha, palette[copy[pixel]]);
+                                        brush.Color = transparent && pixels[pixel] == 0 ? Color.Transparent : Color.FromArgb(alpha, palette[copy[pixel]]);
                                         gfx.FillRectangle(brush, (col * tileSize) + x, (row * tileSize) + y, 1, 1);
                                     }
                                     pixel++;
@@ -344,6 +347,30 @@ namespace SMSTileStudio.Data
                 }
             }
             return PixelsToBitmap(tiles, width, height);
+        }
+
+        /// <summary>
+        /// Get a tile's pixels, with the given palette and flip type
+        /// </summary>
+        /// <param name="tileset">A collection of 8 x 8 pixels</param>
+        /// <param name="flipX">If the tile is flipped horizontally</param>
+        /// <param name="flipY">If the tile is flipped vertically</param>
+        /// <returns></returns>
+        public static List<byte> GetMirroredPixels(List<byte> tileset, bool flipX, bool flipY)
+        {
+            List<byte> bytes = new List<byte>();
+            var count = tileset.Count / 64;
+            for (int i = 0; i < count; i++)
+            {
+                var pixels = tileset.GetRange(i * 64, 64).ToArray();
+                if (flipX && flipY)
+                    bytes.AddRange(FlipTile(pixels, FlipType.Both));
+                else if (flipX)
+                    bytes.AddRange(FlipTile(pixels, FlipType.Horizontal));
+                else if (flipY)
+                    bytes.AddRange(FlipTile(pixels, FlipType.Vertical));
+            }
+            return bytes;
         }
 
         /// <summary>

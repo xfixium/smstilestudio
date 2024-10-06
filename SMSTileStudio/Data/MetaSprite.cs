@@ -22,6 +22,7 @@
 
 using System;
 using System.Text;
+using System.Linq;
 using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
@@ -63,6 +64,38 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
+        /// Gets an c array string for DevKit SMS
+        /// </summary>
+        /// <returns></returns>
+        public string GetDKSMSString(bool streaming)
+        {
+            var offset = 0;
+            var name = Name.ToLower().Replace(" ", "_");
+            var durations = new StringBuilder();
+            durations.AppendLine("// " + name);
+            durations.Append("const unsigned char " + name + "_durations[] = { ");
+            var sprites = new StringBuilder();
+            var frames = new StringBuilder();
+            frames.Append("const unsigned char *" + name + "_frames[] = { ");
+            for (int i = 0; i < Frames.Count; i++)
+            {
+                durations.Append(Frames[i].Duration + ", ");
+                sprites.Append("const unsigned char " + name + "_" + i.ToString("D2") + "[] = { ");
+                foreach (var s in Frames[i].Sprites)
+                    sprites.Append(s.X + ", " + s.Y + ", " + (s.TileID + offset + Offset) + ", ");
+                sprites.Append("METASPRITE_END };" + Environment.NewLine);
+                frames.Append(name + "_" + i.ToString("D2") + ", ");
+                if (!streaming)
+                    offset += Frames[i].Tileset.TileCount;
+            }
+            durations.Append(" };");
+            frames.Append(" };");
+            var di = durations.ToString().Trim().LastIndexOf(", ");
+            var fi = frames.ToString().Trim().LastIndexOf(", ");
+            return (Frames.Count > 1 ? durations.ToString().Trim().Remove(di, 2) + Environment.NewLine : "") + sprites.ToString().Trim() + (Frames.Count > 1 ? Environment.NewLine + frames.ToString().Trim().Remove(fi, 2) : "");
+        }
+
+        /// <summary>
         /// Gets object information string
         /// </summary>
         /// <returns>Object information string</returns>
@@ -74,6 +107,22 @@ namespace SMSTileStudio.Data
             var spriteInfo = frame == null ? "No Sprite information" : " | Sprite Count: " + frame.Sprites.Count;
             var tilesetInfo = frame == null ? "No Tileset information" : frame.Tileset.GetInfo();
             return "Meta Sprite: " + metaSpriteInfo + spriteInfo + " | Tileset: " + tilesetInfo;
+        }
+
+        // Mirrors the sprite in the given directions
+        public void Mirror(bool flipX, bool flipY)
+        {
+            foreach (var f in Frames)
+            {
+                f.Tileset.Pixels = BitmapUtility.GetMirroredPixels(f.Tileset.Pixels, flipX, flipY);
+                var lx = f.Sprites.Min(x => x.X);
+                var hx = f.Sprites.Max(x => x.X);
+                foreach (var s in f.Sprites)
+                {
+                    s.X -= (s.X * 2);
+                    s.X += hx + lx;
+                }
+            }
         }
 
         /// <summary>
@@ -89,6 +138,20 @@ namespace SMSTileStudio.Data
                     bytes.AddRange(frame.Tileset.GetTilesetData(true));
 
             return getRawData ? bytes.ToArray() : GetExportData(bytes);
+        }
+
+        /// <summary>
+        /// Gets all meta sprite pixel data as a tileset
+        /// </summary>
+        /// <returns>A tileset from combined fraames</returns>
+        public Tileset GetTileset()
+        {
+            List<byte> bytes = new List<byte>();
+            foreach (var frame in Frames)
+                if (frame.Tileset != null)
+                    bytes.AddRange(frame.Tileset.Pixels);
+
+            return new Tileset { Pixels = bytes };
         }
 
         /// <summary>

@@ -32,10 +32,12 @@
             this.btnFilterByTag = new System.Windows.Forms.Button();
             this.lblFilterByTag = new System.Windows.Forms.Label();
             this.lblImageMerge = new System.Windows.Forms.Label();
+            this.pnlTileset = new SMSTileStudio.Controls.ImageControl();
             this.pnlButtons = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.lstSelectedTilemaps = new System.Windows.Forms.CheckedListBox();
+            this.pnlTilemap = new SMSTileStudio.Controls.ImageControl();
             this.pnlChecked = new System.Windows.Forms.Panel();
             this.chkAll = new System.Windows.Forms.CheckBox();
             this.lblSelectedTilemaps = new System.Windows.Forms.Label();
@@ -45,8 +47,6 @@
             this.chkImageMerge = new System.Windows.Forms.CheckBox();
             this.nudImageMerge = new System.Windows.Forms.NumericUpDown();
             this.cbTags = new System.Windows.Forms.ComboBox();
-            this.pnlTileset = new SMSTileStudio.Controls.ImageControl();
-            this.pnlTilemap = new SMSTileStudio.Controls.ImageControl();
             this.tpnlMain.SuspendLayout();
             this.pnlButtons.SuspendLayout();
             this.pnlChecked.SuspendLayout();
@@ -123,6 +123,31 @@
             this.lblImageMerge.Text = "Columns:";
             this.lblImageMerge.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // pnlTileset
+            // 
+            this.pnlTileset.AutoScroll = true;
+            this.pnlTileset.AutoScrollMinSize = new System.Drawing.Size(324, 153);
+            this.pnlTileset.Canvas = new System.Drawing.Size(8, 8);
+            this.pnlTileset.Centered = true;
+            this.tpnlMain.SetColumnSpan(this.pnlTileset, 2);
+            this.pnlTileset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTileset.HatchBackColor = System.Drawing.Color.DarkGray;
+            this.pnlTileset.HatchForeColor = System.Drawing.Color.White;
+            this.pnlTileset.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
+            this.pnlTileset.Image = null;
+            this.pnlTileset.ImageAlpha = 1F;
+            this.pnlTileset.ImageScale = 1;
+            this.pnlTileset.Location = new System.Drawing.Point(284, 242);
+            this.pnlTileset.Margin = new System.Windows.Forms.Padding(3, 4, 0, 3);
+            this.pnlTileset.MinimumScale = 1;
+            this.pnlTileset.Name = "pnlTileset";
+            this.pnlTileset.Size = new System.Drawing.Size(324, 153);
+            this.pnlTileset.SnapSize = new System.Drawing.Size(8, 8);
+            this.pnlTileset.TabIndex = 16;
+            this.pnlTileset.UseCanvas = false;
+            this.pnlTileset.UseHatch = true;
+            this.pnlTileset.UseMouseWheelScaling = true;
+            // 
             // pnlButtons
             // 
             this.tpnlMain.SetColumnSpan(this.pnlButtons, 2);
@@ -170,6 +195,31 @@
             this.lstSelectedTilemaps.TabIndex = 13;
             this.lstSelectedTilemaps.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lstSelectedTilemaps_ItemCheck);
             this.lstSelectedTilemaps.SelectedIndexChanged += new System.EventHandler(this.lstSelectedTilemaps_SelectedIndexChanged);
+            // 
+            // pnlTilemap
+            // 
+            this.pnlTilemap.AutoScroll = true;
+            this.pnlTilemap.AutoScrollMinSize = new System.Drawing.Size(324, 157);
+            this.pnlTilemap.Canvas = new System.Drawing.Size(8, 8);
+            this.pnlTilemap.Centered = true;
+            this.tpnlMain.SetColumnSpan(this.pnlTilemap, 2);
+            this.pnlTilemap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTilemap.HatchBackColor = System.Drawing.Color.DarkGray;
+            this.pnlTilemap.HatchForeColor = System.Drawing.Color.White;
+            this.pnlTilemap.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
+            this.pnlTilemap.Image = null;
+            this.pnlTilemap.ImageAlpha = 1F;
+            this.pnlTilemap.ImageScale = 1;
+            this.pnlTilemap.Location = new System.Drawing.Point(284, 81);
+            this.pnlTilemap.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
+            this.pnlTilemap.MinimumScale = 1;
+            this.pnlTilemap.Name = "pnlTilemap";
+            this.pnlTilemap.Size = new System.Drawing.Size(324, 157);
+            this.pnlTilemap.SnapSize = new System.Drawing.Size(8, 8);
+            this.pnlTilemap.TabIndex = 15;
+            this.pnlTilemap.UseCanvas = false;
+            this.pnlTilemap.UseHatch = true;
+            this.pnlTilemap.UseMouseWheelScaling = true;
             // 
             // pnlChecked
             // 
@@ -282,56 +332,6 @@
             this.cbTags.Name = "cbTags";
             this.cbTags.Size = new System.Drawing.Size(244, 21);
             this.cbTags.TabIndex = 25;
-            // 
-            // pnlTileset
-            // 
-            this.pnlTileset.AutoScroll = true;
-            this.pnlTileset.AutoScrollMinSize = new System.Drawing.Size(324, 153);
-            this.pnlTileset.Canvas = new System.Drawing.Size(8, 8);
-            this.pnlTileset.Centered = true;
-            this.tpnlMain.SetColumnSpan(this.pnlTileset, 2);
-            this.pnlTileset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTileset.HatchBackColor = System.Drawing.Color.DarkGray;
-            this.pnlTileset.HatchForeColor = System.Drawing.Color.White;
-            this.pnlTileset.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
-            this.pnlTileset.Image = null;
-            this.pnlTileset.ImageAlpha = 1F;
-            this.pnlTileset.ImageScale = 1;
-            this.pnlTileset.Location = new System.Drawing.Point(284, 242);
-            this.pnlTileset.Margin = new System.Windows.Forms.Padding(3, 4, 0, 3);
-            this.pnlTileset.MinimumScale = 1;
-            this.pnlTileset.Name = "pnlTileset";
-            this.pnlTileset.Size = new System.Drawing.Size(324, 153);
-            this.pnlTileset.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlTileset.TabIndex = 16;
-            this.pnlTileset.UseCanvas = false;
-            this.pnlTileset.UseHatch = true;
-            this.pnlTileset.UseMouseWheelScaling = true;
-            // 
-            // pnlTilemap
-            // 
-            this.pnlTilemap.AutoScroll = true;
-            this.pnlTilemap.AutoScrollMinSize = new System.Drawing.Size(324, 157);
-            this.pnlTilemap.Canvas = new System.Drawing.Size(8, 8);
-            this.pnlTilemap.Centered = true;
-            this.tpnlMain.SetColumnSpan(this.pnlTilemap, 2);
-            this.pnlTilemap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTilemap.HatchBackColor = System.Drawing.Color.DarkGray;
-            this.pnlTilemap.HatchForeColor = System.Drawing.Color.White;
-            this.pnlTilemap.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
-            this.pnlTilemap.Image = null;
-            this.pnlTilemap.ImageAlpha = 1F;
-            this.pnlTilemap.ImageScale = 1;
-            this.pnlTilemap.Location = new System.Drawing.Point(284, 81);
-            this.pnlTilemap.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
-            this.pnlTilemap.MinimumScale = 1;
-            this.pnlTilemap.Name = "pnlTilemap";
-            this.pnlTilemap.Size = new System.Drawing.Size(324, 157);
-            this.pnlTilemap.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlTilemap.TabIndex = 15;
-            this.pnlTilemap.UseCanvas = false;
-            this.pnlTilemap.UseHatch = true;
-            this.pnlTilemap.UseMouseWheelScaling = true;
             // 
             // TilemapSelectForm
             // 

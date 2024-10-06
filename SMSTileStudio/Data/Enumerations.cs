@@ -152,7 +152,9 @@ namespace SMSTileStudio.Data
         [Description("Metatiles")]
         Metatiles = 9,
         [Description("Merge Tiles")]
-        Merge = 10
+        Merge = 10,
+        [Description("Tile Grid")]
+        TileGrid = 11
     }
 
     /// <summary>

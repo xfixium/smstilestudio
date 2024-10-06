@@ -29,20 +29,91 @@ namespace SMSTileStudio.Data
     [Serializable]
     public class TileGrid : GameAsset
     {
-        public Size TileSize { get; set; } = new Size(16, 16);  // Tile size of grid
-        public int Columns { get; set; } = 1;                   // The number of columns
-        public int Rows { get; set; } = 1;                      // The number of rows
-        public List<int> Tiles { get; set; } = new List<int>(); // Metatile tile ids
+        public MetatileSizeType TileSizeType { get; set; } = MetatileSizeType.SixteenBySixteen;     // Tile size type
+        public Size TileSize { get; set; } = new Size(16, 16);                                      // Tile size of a grids cell
+        public int Columns { get; set; } = 1;                                                       // The number of columns
+        public int Rows { get; set; } = 1;                                                          // The number of rows
+        public List<byte> Tiles { get; set; } = new List<byte>();                                   // Tile value
 
+        /// <summary>
+        /// Constructors
+        /// </summary>
         public TileGrid() { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tileSize"></param>
+        /// <param name="cols"></param>
+        /// <param name="rows"></param>
         public TileGrid(Size tileSize, int cols, int rows)
         {
             TileSize = tileSize;
+            TileSizeType = GetMetatileSizeType(tileSize);
             Columns = cols;
             Rows = rows;
             Tiles.Clear();
-            for (int i = 0; i < cols * rows; i++)
+            for (int i = 0; i < Columns * Rows; i++)
                 Tiles.Add(0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tileSize"></param>
+        /// <param name="name"></param>
+        /// <param name="cols"></param>
+        /// <param name="rows"></param>
+        public TileGrid(MetatileSizeType tileSize, string name, int cols, int rows)
+        {
+            Name = name;
+            TileSizeType = tileSize;
+            TileSize = GetTileSize(tileSize);
+            Columns = cols;
+            Rows = rows;
+            Tiles.Clear();
+            for (int i = 0; i < Columns * Rows; i++)
+                Tiles.Add(0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static MetatileSizeType GetMetatileSizeType(Size tileSize)
+        {
+            if (tileSize == new Size(8, 16))
+                return MetatileSizeType.EightBySixteen;
+            else if (tileSize == new Size(16, 16))
+                return MetatileSizeType.SixteenBySixteen;
+            else if (tileSize == new Size(32, 32))
+                return MetatileSizeType.ThirtyTwoByThirtyTwo;
+            else
+                return MetatileSizeType.SixteenBySixteen;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static Size GetTileSize(MetatileSizeType tileSizeType)
+        {
+            switch (tileSizeType)
+            {
+                case MetatileSizeType.EightBySixteen: return new Size(8, 16);
+                case MetatileSizeType.SixteenBySixteen: return new Size (16, 16);
+                case MetatileSizeType.ThirtyTwoByThirtyTwo: return new Size (32, 32);
+                default: return new Size(16, 16);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Name + " [" + Columns + ", " + Rows + ", " + Tiles.Count + "]";
         }
     }
 }

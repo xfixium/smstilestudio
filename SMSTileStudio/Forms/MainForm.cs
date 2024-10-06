@@ -49,11 +49,22 @@ namespace SMSTileStudio.Forms
             {
                 using (OpenFileDialog form = new OpenFileDialog())
                 {
-                    form.Filter = "SMS Tile Studio Project File (.tssms)|*.tssms";
+                    form.Filter = "SMS Tile Studio Project File (.tssms)|*.tssms|JavaScript Object Notation File (.json)|*.json;";
                     form.Title = "Open Project";
                     if (form.ShowDialog() == DialogResult.OK)
                     {
-                        App.Project = JsonConvert.DeserializeObject<Project>(File.ReadAllText(form.FileName));
+                        using (StreamReader sr = new StreamReader(form.FileName))
+                        {
+                            //var test = sr.ReadToEnd();
+                            //App.Project = JsonConvert.DeserializeObject<Project>(test);
+                            //App.Project = System.Text.Json.JsonSerializer.Deserialize<Project>(test);
+                            using (JsonReader reader = new JsonTextReader(sr))
+                            {
+                                var serializer = new JsonSerializer();
+                                App.Project = serializer.Deserialize<Project>(reader);
+                            }
+                        }
+
                         if (App.Project.Palettes.Any(x => x.ID < -1))
                             App.Project.Palettes.RemoveRange(0, 2);
 
@@ -66,7 +77,7 @@ namespace SMSTileStudio.Forms
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 throw new Exception("There was an issue loading the project file. Please try again.");
             }
@@ -86,13 +97,18 @@ namespace SMSTileStudio.Forms
                     if (form.ShowDialog() == DialogResult.OK)
                     {
                         App.Project.Version = Assembly.GetExecutingAssembly().GetName().Version;
-                        File.WriteAllText(form.FileName, JsonConvert.SerializeObject(App.Project, Formatting.Indented));
+                        using (var writer = File.CreateText(form.FileName))
+                        {
+                            var serializer = new JsonSerializer();
+                            serializer.Formatting = Formatting.Indented;
+                            serializer.Serialize(writer, App.Project);
+                        }
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("There was an issue saving the project file. Please try again.");
+                throw new Exception("There was an issue saving the project file: " + ex.Message);
             }
         }
 

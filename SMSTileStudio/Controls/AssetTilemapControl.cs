@@ -20,16 +20,16 @@
 // THE SOFTWARE.
 //
 
-using System;
-using System.IO;
-using System.Text;
-using System.Linq;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using System.Collections.Generic;
 using SMSTileStudio.Data;
 using SMSTileStudio.Forms;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Controls
 {
@@ -39,6 +39,7 @@ namespace SMSTileStudio.Controls
         /// Fields
         /// </summary>
         private Tilemap _tilemap = null;
+        private TileGrid _selectedTileGrid = null;
         private Palette _selectedPalette = null;
         private MetaTilemap _selectedMetaTilemap = null;
         private Tileset _copy = null;
@@ -69,6 +70,12 @@ namespace SMSTileStudio.Controls
             cbTilesetCompression.DataSource = EnumMethods.GetEnumCollection(typeof(CompressionType));
             if (cbTilesetCompression.Items.Count > 0)
                 cbTilesetCompression.SelectedIndex = 0;
+
+            cbTileGridTileSize.ValueMember = "Value";
+            cbTileGridTileSize.DisplayMember = "Description";
+            cbTileGridTileSize.DataSource = EnumMethods.GetEnumCollection(typeof(MetatileSizeType));
+            if (cbTileGridTileSize.Items.Count > 1)
+                cbTileGridTileSize.SelectedIndex = 1;
         }
 
         /// <summary>
@@ -76,6 +83,9 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void lstTilemaps_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (Updating)
+                return;
+
             Loading = true;
             lstTilemaps.Refresh();
             LoadUI();
@@ -83,15 +93,88 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// Tilemap menu item click
+        /// Tile grid tile size changed
+        /// </summary>
+        private void cbTileGridTileSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!HasData || Updating || _tilemap == null || cbTileGridTileSize.SelectedItem == null)
+                return;
+
+            var sizeType = (MetatileSizeType)cbTileGridTileSize.SelectedItem.GetType().GetProperty("value").GetValue(cbTileGridTileSize.SelectedItem, null);
+            var metaTileSize = TileGrid.GetTileSize(sizeType);
+            nudTileGridColumns.Value = _tilemap.Size.Width / metaTileSize.Width == 0 ? 1 : _tilemap.Size.Width / metaTileSize.Width;
+            nudTileGridRows.Value = _tilemap.Size.Height / metaTileSize.Height == 0 ? 1 : _tilemap.Size.Height / metaTileSize.Height;
+        }
+
+        /// <summary>
+        /// Tile grid list
+        /// </summary>
+        private void lstTileGrids_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!HasData || Updating)
+                return;
+
+            lstTileGrids.Refresh();
+            _selectedTileGrid = lstTileGrids.SelectedItem == null ? null : lstTileGrids.SelectedItem as TileGrid;
+            if (lstTileGrids.SelectedItem != null)
+            {
+                txtTileGridName.Text = _selectedTileGrid.Name;
+                cbTileGridTileSize.SelectedValue = _selectedTileGrid.TileSizeType;
+                nudTileGridColumns.Value = _selectedTileGrid.Columns;
+                nudTileGridRows.Value = _selectedTileGrid.Rows;
+                pnlTilemapEdit.TileGrid = _selectedTileGrid.DeepClone();
+            }
+            else
+            {
+                txtTileGridName.Text = "";
+                var sizeType = (MetatileSizeType)cbTileGridTileSize.SelectedItem.GetType().GetProperty("value").GetValue(cbTileGridTileSize.SelectedItem, null);
+                var metaTileSize = TileGrid.GetTileSize(sizeType);
+                nudTileGridColumns.Value = _tilemap.Size.Width / metaTileSize.Width == 0 ? 1 : _tilemap.Size.Width / metaTileSize.Width;
+                nudTileGridRows.Value = _tilemap.Size.Height / metaTileSize.Height == 0 ? 1 : _tilemap.Size.Height / metaTileSize.Height;
+                pnlTilemapEdit.TileGrid = null;
+            }
+        }
+
+        /// <summary>
+        /// Tilemap name changed
+        /// </summary>
+        private void txtName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!HasData || Loading || lstTilemaps.SelectedItem == null || e.KeyCode != Keys.Enter)
+                return;
+
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+
+            _tilemap.Name = txtName.Text;
+            UpdateTilemap();
+        }
+
+        /// <summary>
+        /// Tilemap name changed
+        /// </summary>
+        private void txtName_Leave(object sender, EventArgs e)
+        {
+            if (!HasData || Loading || lstTilemaps.SelectedItem == null)
+                return;
+
+            _tilemap.Name = txtName.Text;
+            UpdateTilemap();
+        }
+
+        /// <summary>
+        /// Menu item click
         /// </summary>
         private void mnuTilemap_Click(object sender, EventArgs e)
         {
             if (!(sender is ToolStripMenuItem menuItem))
                 return;
 
+            // Tilemap Methods //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Import tilemap
             if (menuItem == mnuImportTilemap)
             {
+                // Get path from open file dialog
                 string path = string.Empty;
                 using (OpenFileDialog ofd = new OpenFileDialog())
                 {
@@ -102,18 +185,21 @@ namespace SMSTileStudio.Controls
                     path = ofd.FileName;
                 }
 
+                // Get image data, close stream so other applications can access it
                 Bitmap image;
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
                     image = (Bitmap)Image.FromStream(fs);
                 }
 
+                // If no image data, return
                 if (image == null)
                 {
                     MessageBox.Show("There was an issue getting the image data.");
                     return;
                 }
 
+                // Get a list of colors from the image, if more than the BG and SPR palettes combined, return
                 List<Color> importColors = BitmapUtility.GetColors(image);
                 if (importColors == null || importColors.Count > 32)
                 {
@@ -121,6 +207,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
+                // Open tilemap form
                 using (var form = new ImportTilemapForm(image, _tilemap, importColors))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
@@ -129,8 +216,10 @@ namespace SMSTileStudio.Controls
                     lstTilemaps_SelectedIndexChanged(this, EventArgs.Empty);
                 }
             }
+            // Update tilemap tileset only
             else if (HasData && menuItem == mnuUpdateTileset)
             {
+                // Get path from open file dialog
                 string path = string.Empty;
                 using (OpenFileDialog ofd = new OpenFileDialog())
                 {
@@ -141,18 +230,21 @@ namespace SMSTileStudio.Controls
                     path = ofd.FileName;
                 }
 
+                // Get image data, close stream so other applications can access it
                 Bitmap image;
                 using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
                     image = (Bitmap)Image.FromStream(fs);
                 }
 
+                // If no image data, return
                 if (image == null)
                 {
                     MessageBox.Show("There was an issue getting the image data.");
                     return;
                 }
 
+                // Get a list of colors from the image, if more than the BG and SPR palettes combined, return
                 List<Color> importColors = BitmapUtility.GetColors(image);
                 if (importColors.Count > 32)
                 {
@@ -160,6 +252,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
+                // Open tileset form
                 using (var form = new ImportTilesetForm(image, _tilemap, importColors))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
@@ -168,36 +261,52 @@ namespace SMSTileStudio.Controls
                     lstTilemaps_SelectedIndexChanged(this, EventArgs.Empty);
                 }
             }
+            // Export tileset as image
             else if (HasData && menuItem == mnuTilesetExportImage)
                 ExportTileset(_tilemap.Name.ToLower().Replace(' ', '_') + "_tiles");
+            // Export selected tilesets as images
             else if (HasData && menuItem == mnuTilesetExportImages)
                 ExportTilesets();
+            // Export tileset as binary file
             else if (HasData && menuItem == mnuTilesetExportBinary)
                 ExportBinary(_tilemap.Tileset.GetTilesetData(mnuTilesetBypassCompression.Checked, (int)nudTilesetExportStart.Value, (int)nudTilesetExportEnd.Value), _tilemap.Name.ToLower().Replace(' ', '_') + "_tiles");
+            // Export selected tilesets as binary files
             else if (HasData && menuItem == mnuTilesetExportBinaries)
                 ExportBinaries(false);
+            // Export tileset as hexadecimal to clipboard
             else if (HasData && menuItem == mnuTilesetExportHex)
                 Clipboard.SetText(_tilemap.Tileset.GetDataString(true));
+            // Export tileset as assembly to clipboard
             else if (HasData && menuItem == mnuTilesetExportAssembly)
                 Clipboard.SetText(_tilemap.Tileset.GetDataString(false));
+            // Export tilemap as image
             else if (HasData && menuItem == mnuTilemapExportImage)
                 ExportTilemap(_tilemap.Name.ToLower().Replace(' ', '_') + "_map");
+            // Export selected tilemaps as images
             else if (HasData && menuItem == mnuTilemapExportImages)
                 ExportTilemaps();
+            // Export tilemap as binary file
             else if (HasData && menuItem == mnuTilemapExportBinary)
                 ExportBinary(_tilemap.GetTilemapData(mnuTilemapBypassCompression.Checked, GetTilemapExportOrientation()), _tilemap.Name.ToLower().Replace(' ', '_') + "_map");
+            // Export selected tilemaps as binary files
             else if (HasData && menuItem == mnuTilemapExportBinaries)
                 ExportBinaries(true);
+            // Export tilemap as hexadecimal to clipboard
             else if (HasData && menuItem == mnuTilemapExportHex)
                 Clipboard.SetText(_tilemap.GetDataString(true));
+            // Export tilemap as assembly to clipboard
             else if (HasData && menuItem == mnuTilemapExportAssembly)
                 Clipboard.SetText(_tilemap.GetDataString(false));
+            // Export entities as binary file
             else if (HasData && menuItem == mnuEntitiesExportBinary)
                 ExportBinary(_tilemap.GetEntityData(), _tilemap.Name.ToLower().Replace(' ', '_') + "_entities");
+            // Export entities as hexaecimal to clipboard
             else if (HasData && menuItem == mnuEntitiesExportHex)
                 Clipboard.SetText(_tilemap.GetEntityDataString(true));
+            // Export entities as assembly to clipboard
             else if (HasData && menuItem == mnuEntitiesExportAsm)
                 Clipboard.SetText(_tilemap.GetEntityDataString(false));
+            // Replace/swap tiles of tilemap
             else if (HasData && menuItem == mnuReplaceTiles && _tilemap.Tileset != null)
             {
                 using (ReplaceForm form = new ReplaceForm(BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 16), _tilemap.Tileset.TileCount))
@@ -210,6 +319,7 @@ namespace SMSTileStudio.Controls
                     }
                 }
             }
+            // Rename tilemaps in bulk
             else if (HasData && menuItem == mnuTilemapBulkRename)
             {
                 using (var form = new TilemapSelectForm(false))
@@ -233,6 +343,7 @@ namespace SMSTileStudio.Controls
                     }
                 }
             }
+            // Create tilemaps from area grid
             else if (HasData && menuItem == mnuTilemapsFromAreaGrid && _tilemap.Tileset != null)
             {
                 var rects = _tilemap.GetAreas();
@@ -248,6 +359,8 @@ namespace SMSTileStudio.Controls
                     tilemap.BgPaletteID = _tilemap.BgPaletteID;
                     tilemap.SprPaletteID = _tilemap.SprPaletteID;
                     tilemap.AreaGridSize = _tilemap.AreaGridSize;
+                    tilemap.Tags = _tilemap.Tags.DeepClone();
+                    tilemap.Offset = _tilemap.Offset;
                     tilemap.ID = areaMap.ID;
                     tilemap.Tiles = areaMap.Tiles.DeepClone();
                     tilemap.Columns = areaMap.Columns;
@@ -256,20 +369,24 @@ namespace SMSTileStudio.Controls
                 }
                 LoadData(false);
             }
+            // Create brush from selection
             else if (HasData && menuItem == mnuCreateBrush && _tilemap.Tileset != null)
             {
                 var bgPalette = cbBgPalette.SelectedItem as Palette;
                 var sprPalette = cbSprPalette.SelectedItem as Palette;
                 pnlTilemapEdit.CreateBrush(_tilemap.Tileset, bgPalette, sprPalette);
             }
+            // Clear brush
             else if (HasData && menuItem == mnuClearBrush && _tilemap.Tileset != null)
             {
                 pnlTilemapEdit.ClearBrush();
             }
+            // Clear selection
             else if (HasData && menuItem == mnuClearSelection && _tilemap.Tileset != null)
             {
                 pnlTilemapEdit.ClearSelection();
             }
+            // Set priority of selected tiles
             else if (HasData && menuItem == mnuSetSelectionPriority && _tilemap.Tileset != null)
             {
                 if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
@@ -279,6 +396,7 @@ namespace SMSTileStudio.Controls
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
             }
+            // Unset priority of selected tiles
             else if (HasData && menuItem == mnuUnsetSelectionPriority && _tilemap.Tileset != null)
             {
                 if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
@@ -288,6 +406,7 @@ namespace SMSTileStudio.Controls
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
             }
+            // Set to BG pallette of selected tiles
             else if (HasData && menuItem == mnuSetSelectionPalette && _tilemap.Tileset != null)
             {
                 if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
@@ -297,6 +416,7 @@ namespace SMSTileStudio.Controls
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
             }
+            // Set to SPR palette of selected tiles
             else if (HasData && menuItem == mnuUnsetSelectionPalette && _tilemap.Tileset != null)
             {
                 if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
@@ -306,6 +426,7 @@ namespace SMSTileStudio.Controls
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
             }
+            // Set tile type of selected tiles
             else if (HasData && menuItem == mnuSetTileType && _tilemap.Tileset != null)
             {
                 if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
@@ -315,6 +436,29 @@ namespace SMSTileStudio.Controls
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
             }
+            // Set horizontal mirror of selected tiles
+            else if (HasData && menuItem == mnuMirrorX && _tilemap.Tileset != null)
+            {
+                if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
+                    return;
+
+                pnlTilemapEdit.MirrorXForSelection();
+                _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
+                UpdateTilemap();
+                UpdateImages();
+            }
+            // Set vertical mirror of selected tiles
+            else if (HasData && menuItem == mnuMirrorY && _tilemap.Tileset != null)
+            {
+                if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
+                    return;
+
+                pnlTilemapEdit.MirrorYForSelection(true);
+                _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
+                UpdateTilemap();
+                UpdateImages();
+            }
+            // Create tilemap from selection
             else if (HasData && menuItem == mnuTilemapFromSelection && _tilemap.Tileset != null)
             {
                 Tilemap subMap = pnlTilemapEdit.SelectionToTilemap();
@@ -334,6 +478,32 @@ namespace SMSTileStudio.Controls
                 if (tilemap != null)
                     lstTilemaps.SelectedItem = tilemap;
             }
+            // Copy selection to existing tilemap
+            else if (HasData && menuItem == mnuSelectionToTilemap && _tilemap.Tileset != null)
+            {
+                Tilemap subMap = pnlTilemapEdit.SelectionToTilemap();
+                if (subMap == null)
+                    return;
+
+                using (var form = new TilemapSelectForm(false))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        if (form.Tilemaps.Count <= 0)
+                            return;
+
+                        foreach (var tilemap in form.Tilemaps)
+                        {
+                            tilemap.Tiles = subMap.Tiles.DeepClone();
+                            tilemap.Columns = subMap.Columns;
+                            tilemap.Rows = subMap.Rows;
+                            tilemap.Tileset = _tilemap.Tileset.DeepClone();
+                            App.Project.UpdateAsset(tilemap);
+                        }
+                    }
+                }
+            }
+            // Crop tilemap from selection
             else if (HasData && menuItem == mnuCropTilemap && _tilemap.Tileset != null)
             {
                 Tilemap subMap = pnlTilemapEdit.SelectionToTilemap();
@@ -346,6 +516,50 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 UpdateImages();
             }
+            // Export selection area to binary
+            else if (HasData && menuItem == mnuExportAreaToBinary)
+            {
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.Title = "Export Binary Data: Selection Area";
+                    dialog.Filter = "Binary File|*.bin";
+                    dialog.FileName = "";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        using (FileStream fs = new FileStream(dialog.FileName, FileMode.Create))
+                        {
+                            using (BinaryWriter bw = new BinaryWriter(fs))
+                            {
+                                bw.Write(pnlTilemapEdit.SelectionToArea().ToArray());
+                            }
+                        }
+                    }
+                }
+            }
+            // Create new tile grid
+            else if (HasData && menuItem == mnuNewTileGrid && cbTileGridTileSize.SelectedItem != null)
+            {
+                var tileSizeType = (MetatileSizeType)cbTileGridTileSize.SelectedItem.GetType().GetProperty("value").GetValue(cbTileGridTileSize.SelectedItem);
+                TileGrid tileGrid  = new TileGrid(tileSizeType, txtTileGridName.Text, (ushort)nudTileGridColumns.Value, (ushort)nudTileGridRows.Value);
+                _tilemap.TileGrids.Add(tileGrid);
+                UpdateTilemap();
+                LoadUI();
+            }
+            // Export tile grid as binary file
+            else if (HasData && menuItem == mnuExportTileGrid && lstTileGrids.SelectedItem != null)
+            {
+                var tileGrid = lstTileGrids.SelectedItem as TileGrid;
+                ExportBinary(tileGrid.Tiles.ToArray(), tileGrid.Name.ToLower().Replace(" ", "_"));
+            }
+            else if (HasData && menuItem == mnuRemoveTileGrid && lstTileGrids.SelectedItem != null)
+            {
+                _tilemap.TileGrids.RemoveAt(lstTileGrids.SelectedIndex);
+                UpdateTilemap();
+                LoadUI();
+            }
+
+            // Tileset Methods //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Remove tile
             else if (HasData && menuItem == mnuRemoveTile && _tilemap.Tileset != null)
             {
                 int tileID = pnlTilesetEdit.TileID;
@@ -356,6 +570,7 @@ namespace SMSTileStudio.Controls
                 UpdateImages();
                 pnlSelectedTile.Clear();
             }
+            // Remove tiles by range
             else if (HasData && menuItem == mnuRemoveByRange && _tilemap.Tileset != null)
             {
                 var start = (int)nudTilesetExportStart.Value;
@@ -369,6 +584,7 @@ namespace SMSTileStudio.Controls
                 UpdateImages();
                 pnlSelectedTile.Clear();
             }
+            // Add new tile to front of tileset
             else if (HasData && menuItem == mnuAddTile && _tilemap.Tileset != null)
             {
                 _tilemap.Tileset.AddEmptyTile();
@@ -376,6 +592,7 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 UpdateImages();
             }
+            // Copy selected tile from tileset
             else if (HasData && menuItem == mnuTilesetCopyTile && _tilemap.Tileset != null)
             {
                 if (pnlTilesetEdit.TileID < 0)
@@ -385,6 +602,7 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 UpdateImages();
             }
+            // Paste tile from tile copy at the selected tile id
             else if (HasData && menuItem == mnuTilesetPasteTile && _tilemap.Tileset != null)
             {
                 if (_tileCopy == null || pnlTilesetEdit.TileID < 0)
@@ -394,15 +612,18 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 UpdateImages();
             }
+            // Deselects tile from tileset editor
             else if (HasData && menuItem == mnuDeselectTile)
             {
                 pnlTilesetEdit.ClearSelection();
                 pnlSelectedTile.Clear();
             }
+            // Copies the tilemap's entire tileset
             else if (HasData && menuItem == mnuCopyTileset)
             {
                 _copy = _tilemap.Tileset.DeepClone();
             }
+            // Pastes a copied tileset to the selected tilemap
             else if (HasData && menuItem == mnuPasteTileset)
             {
                 if (MessageBox.Show("Do you want to auto match Tilemap to pasted Tileset?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -416,6 +637,7 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 UpdateImages();
             }
+            // Pastes a copied tileset to the selected tilemaps
             else if (HasData && menuItem == mnuBulkPasteTileset)
             {
                 using (var form = new TilemapSelectForm(false))
@@ -448,7 +670,7 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// Tilemap button click
+        /// Button click
         /// </summary>
         private void btnTilemap_Click(object sender, EventArgs e)
         {
@@ -456,7 +678,8 @@ namespace SMSTileStudio.Controls
             if (!(sender is Button button))
                 return;
 
-            // Perform action based on which button was clicked
+            // Tilemap //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // New tilemap
             if (button == btnTilemapNew)
             {
                 Tilemap tilemap = (Tilemap)App.Project.CreateAsset(GameAssetType.Tilemap);
@@ -464,6 +687,7 @@ namespace SMSTileStudio.Controls
                 if (tilemap != null)
                     lstTilemaps.SelectedItem = tilemap;
             }
+            // Duplicate tilemap
             else if (HasData && button == btnTilemapDuplicate)
             {
                 Tilemap tilemap = (Tilemap)App.Project.DuplicateAsset(_tilemap);
@@ -471,6 +695,7 @@ namespace SMSTileStudio.Controls
                 if (tilemap != null)
                     lstTilemaps.SelectedItem = tilemap;
             }
+            // Remove tilemap
             else if (HasData && button == btnTilemapRemove)
             {
                 if (MessageBox.Show("Are you sure you want to remove " + _tilemap.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
@@ -482,31 +707,44 @@ namespace SMSTileStudio.Controls
                         lstTilemaps.SelectedIndex = index;
                 }
             }
+            // Tilemap options
             else if (button == btnTilemapOptions)
             {
                 mnuTilemapOptions.Show(btnTilemapOptions, new Point(0, btnTilemapOptions.Height));
                 return;
             }
+            // Import tilemap
             else if (HasData && button == btnImport)
             {
                 mnuImport.Show(btnImport, new Point(0, btnImport.Height));
                 return;
             }
+            // Export tilemap
             else if (HasData && button == btnExport && _tilemap.Tileset != null)
             {
                 mnuExport.Show(btnExport, new Point(0, btnExport.Height));
                 return;
             }
+            // Selection options
             else if (HasData && button == btnSelectionOptions && _tilemap.Tileset != null)
             {
                 mnuSelectOptions.Show(btnSelectionOptions, new Point(0, btnSelectionOptions.Height));
                 return;
             }
+            // Tile grid options
+            else if (HasData && button == btnTileGridOptions && _tilemap.Tileset != null)
+            {
+                mnuTileGridOptions.Show(btnTileGridOptions, new Point(0, btnTileGridOptions.Height));
+                return;
+            }
+            // Tileset options
             else if (HasData && button == btnTilesetOptions && _tilemap.Tileset != null)
             {
                 mnuTilesetOptions.Show(btnTilesetOptions, new Point(0, btnTilesetOptions.Height));
                 return;
             }
+            // Tileset //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Tile pixel swap
             else if (HasData && button == btnSwapSelectedPixel && _tilemap.Tileset != null)
             {
                 if (pnlSelectedTile.SelectedColor == 255)
@@ -526,6 +764,7 @@ namespace SMSTileStudio.Controls
                 UpdateImages();
                 pnlTilesetEdit_TileSelectionChanged();
             }
+            // Remove tag
             else if (HasData && button == btnRemoveTag)
             {
                 if (lstTags.SelectedItem == null)
@@ -536,6 +775,7 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 return;
             }
+            // Add tag
             else if (HasData && button == btnAddTag)
             {
                 var tag = txtTagName.Text;
@@ -550,6 +790,7 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 return;
             }
+            // Add tag in bulk
             else if (HasData && button == btnBulkAddTag)
             {
                 var tag = txtTagName.Text;
@@ -577,6 +818,7 @@ namespace SMSTileStudio.Controls
 
                 return;
             }
+            // Add existing tag
             else if (HasData && button == btnAddExistingTag)
             {
                 if (cbExistingTags.SelectedItem == null)
@@ -591,18 +833,6 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 return;
             }
-        }
-
-        /// <summary>
-        /// Tilemap name changed
-        /// </summary>
-        private void txtName_TextChanged(object sender, EventArgs e)
-        {
-            if (!HasData || Loading || lstTilemaps.SelectedItem == null)
-                return;
-
-            _tilemap.Name = txtName.Text;
-            UpdateTilemap();
         }
 
         /// <summary>
@@ -646,9 +876,11 @@ namespace SMSTileStudio.Controls
             //    (lstEntities.SelectedItem as Entity).Id = (byte)nudEntityId.Value;
             //else if ((nud == nudEntityX || nud == nudEntityY || nud == nudEntityWidth || nud == nudEntityHeight) && lstEntities.SelectedItem != null)
             //    (lstEntities.SelectedItem as Entity).Bounds = new Rectangle((ushort)nudEntityX.Value, (ushort)nudEntityY.Value, (ushort)nudEntityWidth.Value, (ushort)nudEntityHeight.Value);
-            //else if (nud == nudBlockType)
-            //    pnlTilemapEdit.BlockValue = (byte)nudBlockType.Value;
-
+            else if (nud == nudTileGridValue)
+            {
+                pnlTilemapEdit.BlockValue = (byte)nudTileGridValue.Value;
+                return;
+            }
             UpdateTilemap();
         }
 
@@ -671,12 +903,17 @@ namespace SMSTileStudio.Controls
                 var palette = comboBox.SelectedItem as Palette;
                 _tilemap.BgPaletteID = palette.ID;
                 pnlBGPalette.SetPalette((comboBox.SelectedItem as Palette).Colors);
+                LoadUI();
+                return;
             }
             else if (comboBox == cbSprPalette)
             {
                 var palette = comboBox.SelectedItem as Palette;
                 _tilemap.SprPaletteID = palette.ID;
                 pnlSprPalette.SetPalette((comboBox.SelectedItem as Palette).Colors);
+                UpdateTilemap();
+                LoadUI();
+                return;
             }
 
             UpdateTilemap();
@@ -698,7 +935,7 @@ namespace SMSTileStudio.Controls
             }
             else if (page == tabTileGrids)
             {
-                pnlTilemapEdit.EditMode = TileEditType.Metatiles;
+                pnlTilemapEdit.EditMode = TileEditType.TileGrid;
             }
             else
             {
@@ -771,6 +1008,14 @@ namespace SMSTileStudio.Controls
                 pnlTilesetEdit.ClearSelection();
                 pnlTilesetEdit.EditMode = TilesetEditType.Type;
             }
+            else if (radio == rbShowIds)
+            {
+                pnlTilemapEdit.ShowIndexes = !rbShowIds.Checked;
+            }
+            else if (radio == rbShowIndexes)
+            {
+                pnlTilemapEdit.ShowIndexes = rbShowIndexes.Checked;
+            }
             _editType = pnlTilemapEdit.EditMode;
         }
 
@@ -788,10 +1033,10 @@ namespace SMSTileStudio.Controls
             {
                 pnlTilemapEdit.InvertGridColor = chkInvertGrids.Checked;
             }
-            else if (checkBox == chkShowTileIds)
+            else if (checkBox == chkShowTileAs)
             {
-                pnlTiles.Indexed = chkShowTileIds.Checked;
-                pnlTilemapEdit.Indexed = chkShowTileIds.Checked;
+                pnlTiles.Indexed = chkShowTileAs.Checked;
+                pnlTilemapEdit.Indexed = chkShowTileAs.Checked;
             }
             else if (checkBox == chkTilesetShowTileIds)
             {
@@ -838,11 +1083,23 @@ namespace SMSTileStudio.Controls
             if (_tilemap == null || _tilemap.Tiles == null || _tilemap.Tileset == null || _tilemap.Tileset.Pixels == null)
                 return;
 
-            _tilemap.Tiles = pnlTilemapEdit.Tiles;
-            UpdateTilemap();
-            var bgPalette = cbBgPalette.SelectedItem as Palette;
-            var sprPalette = cbSprPalette.SelectedItem as Palette;
-            pnlTilemapEdit.Image = BitmapUtility.GetTileImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
+            if (pnlTilemapEdit.EditMode == TileEditType.TileGrid)
+            {
+                if (!HasData || lstTileGrids.SelectedItem == null)
+                    return;
+
+                _tilemap.TileGrids[lstTileGrids.SelectedIndex] = pnlTilemapEdit.TileGrid.DeepClone();
+                lstTileGrids.Items[lstTileGrids.SelectedIndex] = pnlTilemapEdit.TileGrid.DeepClone();
+                App.Project.UpdateAsset(_tilemap);
+            }
+            else
+            {
+                _tilemap.Tiles = pnlTilemapEdit.Tiles;
+                UpdateTilemap();
+                var bgPalette = cbBgPalette.SelectedItem as Palette;
+                var sprPalette = cbSprPalette.SelectedItem as Palette;
+                pnlTilemapEdit.Image = BitmapUtility.GetTileImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
+            }
         }
 
         /// <summary>
@@ -971,121 +1228,7 @@ namespace SMSTileStudio.Controls
             pnlSelectedTile.SelectedColor = (byte)pnlSprPalette.SelectedIndex;
         }
 
-        /// <summary>
-        /// Handles hot key input
-        /// </summary>
-        /// <param name="keyData"></param>
-        public void HandleInput(Keys keyData)
-        {
-            if (ActiveControl is TextBox)
-                return;
-
-            // Do action based on key
-            switch (keyData)
-            {
-                case Keys.A:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        chkAreaGrid.Checked = !chkAreaGrid.Checked;
-                    break;
-                case Keys.B:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        rbBrush.Checked = true;
-                    break;
-                case Keys.C:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        chkInvertGrids.Checked = !chkInvertGrids.Checked;
-                    break;
-                case Keys.S:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        rbSelect.Checked = true;
-                    else if (tabMain.SelectedTab == tabTileset)
-                        rbTilesetSelect.Checked = true;
-                    break;
-                case Keys.H:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        rbFlipX.Checked = true;
-                    break;
-                case Keys.V:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        rbFlipY.Checked = true;
-                    break;
-                case Keys.P:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        rbPriority.Checked = true;
-                    break;
-                case Keys.L:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        rbPalette.Checked = true;
-                    break;
-                case Keys.T:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        rbTileType.Checked = true;
-                    else if (tabMain.SelectedTab == tabTileset)
-                        rbTilesetType.Checked = true;
-                    break;
-                case Keys.W:
-                    if (tabMain.SelectedTab == tabTileset)
-                        rbTilesetSwap.Checked = true;
-                    break;
-                case Keys.G:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        chkTilemapGrid.Checked = !chkTilemapGrid.Checked;
-                    else if (tabMain.SelectedTab == tabTileset)
-                        chkTilesetGrid.Checked = !chkTilesetGrid.Checked;
-                    break;
-                case Keys.I:
-                    if (tabMain.SelectedTab == tabTilemap)
-                        chkShowTileIds.Checked = !chkShowTileIds.Checked;
-                    else if (tabMain.SelectedTab == tabTileset)
-                        chkTilesetShowTileIds.Checked = !chkTilesetShowTileIds.Checked;
-                    break;
-                case Keys.Delete:
-                    if (tabMain.SelectedTab == tabTileset && pnlTilesetEdit.TileID > -1)
-                        mnuTilemap_Click(mnuRemoveTile, EventArgs.Empty);
-                    else if (tabMain.SelectedTab == tabTilemap)
-                        btnTilemap_Click(btnTilemapRemove, EventArgs.Empty);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Updates graphics for UI elements
-        /// </summary>
-        private void UpdateImages()
-        {
-            if (_tilemap == null || _tilemap.Tiles == null || _tilemap.Tileset == null || _tilemap.Tileset.Pixels == null)
-            {
-                pnlTilemapEdit.Clear();
-                pnlTilesetEdit.Clear();
-                pnlTiles.Clear();
-                return;
-            }
-
-            var bgPalette = cbBgPalette.SelectedItem as Palette;
-            var sprPalette = cbSprPalette.SelectedItem as Palette;
-            pnlTilemapEdit.Image = BitmapUtility.GetTileImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
-            pnlTilemapEdit.SetTilemap(_tilemap);
-            pnlTilemapEdit.AreaGridSize = _tilemap.AreaGridSize;
-            pnlTilesetEdit.Image = BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 16);
-            pnlTilesetEdit.SetTileset(_tilemap.Tileset, _selectedPalette.Colors);
-            pnlTiles.Image = BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 6);
-            pnlTiles.Offset = _tilemap.Offset;
-            pnlTiles.TileCount = _tilemap.Tileset.TileCount;
-            pnlTilemapEdit.TileID = pnlTiles.TileID;
-            lblInfo.Text = _tilemap.GetInfo();
-        }
-
-        /// <summary>
-        /// Gets the selected tilemap export orientation
-        /// </summary>
-        /// <returns>Selected orientation</returns>
-        private OrientationType GetTilemapExportOrientation()
-        {
-            if (mnuTilemapVerticalOrientation.Checked)
-                return OrientationType.Vertical;
-            else
-                return OrientationType.Horizontal;
-        }
+        #region Exports
 
         /// <summary>
         /// Exports a tileset image
@@ -1412,29 +1555,40 @@ namespace SMSTileStudio.Controls
             }
         }
 
+        #endregion
+
+        #region UI
+
         /// <summary>
         /// Loads list of palette data
         /// </summary>
         public void LoadData(bool loadDefault)
         {
             Loading = true;
+
+            cbBgPalette.Items.Clear();
+            cbBgPalette.Items.AddRange(App.Project.Palettes.OrderBy(x => x.Name).ToArray());
+
+            cbSprPalette.Items.Clear();
+            cbSprPalette.Items.AddRange(App.Project.Palettes.OrderBy(x => x.Name).ToArray());
+
+            LoadList(loadDefault);
+            Loading = false;
+        }
+
+        private void LoadList(bool loadDefault)
+        {
+            Loading = true;
+
             var item = lstTilemaps.SelectedItem ?? lstTilemaps.SelectedItem.DeepClone();
             lstTilemaps.Items.Clear();
             foreach (var asset in App.Project.Tilemaps.OrderBy(x => x.Name).ToArray())
                 lstTilemaps.Items.Add(asset);
 
-            cbBgPalette.Items.Clear();
-            foreach (var asset in App.Project.Palettes)
-                cbBgPalette.Items.Add(asset);
-
-            cbSprPalette.Items.Clear();
-            foreach (var asset in App.Project.Palettes)
-                cbSprPalette.Items.Add(asset);
-
             if (loadDefault && lstTilemaps.Items.Count > 0)
                 lstTilemaps.SelectedIndex = 0;
-            else if (item != null && lstTilemaps.Items.Contains(item))
-                lstTilemaps.SelectedItem = item;
+            else if (item != null && ItemByID((item as GameAsset).ID, lstTilemaps) != null)
+                lstTilemaps.SelectedItem = ItemByID((item as GameAsset).ID, lstTilemaps);
             else
                 LoadUI();
 
@@ -1451,6 +1605,9 @@ namespace SMSTileStudio.Controls
 
             var bgPalette = (Palette)App.Project.GetAsset(_tilemap == null ? -3 : _tilemap.BgPaletteID);
             var sprPalette = (Palette)App.Project.GetAsset(_tilemap == null ? -2 : _tilemap.SprPaletteID);
+
+            if (_tilemap == null)
+                return;
 
             if (bgPalette == null)
             {
@@ -1494,6 +1651,16 @@ namespace SMSTileStudio.Controls
                 return;
             }
 
+            lstTileGrids.Items.Clear();
+
+            foreach (var tileGrid in _tilemap.TileGrids)
+                lstTileGrids.Items.Add(tileGrid);
+
+            if (lstTileGrids.Items.Count > 0)
+                lstTileGrids.SelectedIndex = 0;
+
+            lstTileGrids_SelectedIndexChanged(this, EventArgs.Empty);
+
             foreach (var sprite in _tilemap.Entities)
                 lstEntities.Items.Add(sprite);
 
@@ -1523,9 +1690,36 @@ namespace SMSTileStudio.Controls
 
             lstTags.Items.Clear();
             lstTags.Items.AddRange(_tilemap.Tags.ToArray());
-
             UpdateImages();
         }
+
+        /// <summary>
+        /// Updates graphics for UI elements
+        /// </summary>
+        private void UpdateImages()
+        {
+            if (_tilemap == null || _tilemap.Tiles == null || _tilemap.Tileset == null || _tilemap.Tileset.Pixels == null)
+            {
+                pnlTilemapEdit.Clear();
+                pnlTilesetEdit.Clear();
+                pnlTiles.Clear();
+                return;
+            }
+
+            var bgPalette = cbBgPalette.SelectedItem as Palette;
+            var sprPalette = cbSprPalette.SelectedItem as Palette;
+            pnlTilemapEdit.Image = BitmapUtility.GetTileImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
+            pnlTilemapEdit.SetTilemap(_tilemap);
+            pnlTilemapEdit.AreaGridSize = _tilemap.AreaGridSize;
+            pnlTilesetEdit.Image = BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 16);
+            pnlTilesetEdit.SetTileset(_tilemap.Tileset, _selectedPalette.Colors);
+            pnlTiles.Image = BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 6);
+            pnlTiles.Offset = _tilemap.Offset;
+            pnlTiles.TileCount = _tilemap.Tileset.TileCount;
+            pnlTilemapEdit.TileID = pnlTiles.TileID;
+            lblInfo.Text = _tilemap.GetInfo();
+        }
+
 
         /// <summary>
         /// Update tilemap data and UI
@@ -1537,11 +1731,107 @@ namespace SMSTileStudio.Controls
 
             App.Project.UpdateAsset(_tilemap);
             Loading = true;
-            lstTilemaps.SelectedItem = _tilemap;
-            lstTilemaps.Refresh();
+            Updating = true;
+            LoadList(false);
             pnlTiles_TileSelectionChanged();
             lblInfo.Text = _tilemap == null ? "No Tilemap information" : _tilemap.GetInfo();
             Loading = false;
+            Updating = false;
         }
+
+        #endregion
+
+        #region Misc.
+
+        /// <summary>
+        /// Gets the selected tilemap export orientation
+        /// </summary>
+        /// <returns>Selected orientation</returns>
+        private OrientationType GetTilemapExportOrientation()
+        {
+            if (mnuTilemapVerticalOrientation.Checked)
+                return OrientationType.Vertical;
+            else
+                return OrientationType.Horizontal;
+        }
+
+        /// <summary>
+        /// Handles hot key input
+        /// </summary>
+        /// <param name="keyData"></param>
+        public void HandleInput(Keys keyData)
+        {
+            if (ActiveControl is TextBox)
+                return;
+
+            // Do action based on key
+            switch (keyData)
+            {
+                case Keys.A:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        chkAreaGrid.Checked = !chkAreaGrid.Checked;
+                    break;
+                case Keys.B:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        rbBrush.Checked = true;
+                    break;
+                case Keys.C:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        chkInvertGrids.Checked = !chkInvertGrids.Checked;
+                    break;
+                case Keys.S:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        rbSelect.Checked = true;
+                    else if (tabMain.SelectedTab == tabTileset)
+                        rbTilesetSelect.Checked = true;
+                    break;
+                case Keys.H:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        rbFlipX.Checked = true;
+                    break;
+                case Keys.V:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        rbFlipY.Checked = true;
+                    break;
+                case Keys.P:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        rbPriority.Checked = true;
+                    break;
+                case Keys.L:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        rbPalette.Checked = true;
+                    break;
+                case Keys.T:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        rbTileType.Checked = true;
+                    else if (tabMain.SelectedTab == tabTileset)
+                        rbTilesetType.Checked = true;
+                    break;
+                case Keys.W:
+                    if (tabMain.SelectedTab == tabTileset)
+                        rbTilesetSwap.Checked = true;
+                    break;
+                case Keys.G:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        chkTilemapGrid.Checked = !chkTilemapGrid.Checked;
+                    else if (tabMain.SelectedTab == tabTileset)
+                        chkTilesetGrid.Checked = !chkTilesetGrid.Checked;
+                    break;
+                case Keys.I:
+                    if (tabMain.SelectedTab == tabTilemap)
+                        chkShowTileAs.Checked = !chkShowTileAs.Checked;
+                    else if (tabMain.SelectedTab == tabTileset)
+                        chkTilesetShowTileIds.Checked = !chkTilesetShowTileIds.Checked;
+                    break;
+                case Keys.Delete:
+                    if (tabMain.SelectedTab == tabTileset && pnlTilesetEdit.TileID > -1)
+                        mnuTilemap_Click(mnuRemoveTile, EventArgs.Empty);
+                    else if (tabMain.SelectedTab == tabTilemap)
+                        btnTilemap_Click(btnTilemapRemove, EventArgs.Empty);
+                    break;
+            }
+        }
+
+        #endregion
     }
 }
