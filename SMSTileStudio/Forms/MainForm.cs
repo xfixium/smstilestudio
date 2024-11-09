@@ -92,7 +92,7 @@ namespace SMSTileStudio.Forms
             {
                 using (SaveFileDialog form = new SaveFileDialog())
                 {
-                    form.Filter = "SMS Tile Studio Project File (.tssms)|*.tssms";
+                    form.Filter = "SMS Tile Studio Project File (.tssms)|*.tssms|JavaScript Object Notation File (.json)|*.json;";
                     form.Title = "Save Project";
                     if (form.ShowDialog() == DialogResult.OK)
                     {

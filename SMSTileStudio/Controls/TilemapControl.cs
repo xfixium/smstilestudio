@@ -20,12 +20,12 @@
 // THE SOFTWARE.
 //
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Drawing.Drawing2D;
-using System.Collections.Generic;
 using SMSTileStudio.Data;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Controls
 {
@@ -50,6 +50,7 @@ namespace SMSTileStudio.Controls
         private bool _highlight = false;
         private bool _invertGridColor = false;
         private bool _useOffset = false;
+        private bool _showIndexes = false;
         private int _columns = 0;
         private int _rows = 0;
         private int _tileID = -1;
@@ -161,7 +162,7 @@ namespace SMSTileStudio.Controls
         public Size AreaGridSize { get; set; } = new Size(32, 24);
         public Size BlockSize { get; set; } = new Size(16, 16);
         public byte BlockValue { get; set; } = 0;
-        public bool ShowIndexes { get; set; } = false;
+        public bool ShowIndexes { get { return _showIndexes; } set { _showIndexes = value; UpdateBackBuffer(); } }
         public bool Indexed
         {
             get { return _indexed; }
@@ -833,6 +834,27 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Creates a tile id text from selection
+        /// </summary>
+        /// <returns></returns>
+        public string SelectionToText()
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return null;
+
+            var selection = "";
+            var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            for (int row = 0; row < _selection.Height / SnapSize.Height; row++)
+            {
+                for (int col = 0; col < _selection.Width / SnapSize.Width; col++)
+                {
+                    selection += (_tiles[(row * _columns) + offset + col].TileID + Offset) + ", ";
+                }
+            }
+            return selection.TrimEnd(new[] { ',', ' ' });
+        }
+
+        /// <summary>
         /// Creates a tilemap from selection
         /// </summary>
         /// <returns></returns>
@@ -850,18 +872,75 @@ namespace SMSTileStudio.Controls
                 for (int col = _selection.X / SnapSize.Width; col < cols; col++)
                 {
                     var val1 = ((row * _columns) + col) * 2;
-                    var val2 = val1 + 1;
+                    //var val2 = val1 + 1;
                     area.AddRange(Tilemap.GetUShortBytes(val1));
-                    area.AddRange(Tilemap.GetUShortBytes(val2));
+                    //area.AddRange(Tilemap.GetUShortBytes(val2));
                 }
             }
             return area;
         }
 
         /// <summary>
-        /// Sets priority for the current selection
+        /// Creates a tilemap from selection
         /// </summary>
         /// <returns></returns>
+        public string SelectionToAreaText(bool asBytes, bool reversed)
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return null;
+
+            var area = "";
+            //var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = (_selection.X / SnapSize.Width) + (_selection.Width / SnapSize.Width);
+            var rows = (_selection.Y / SnapSize.Height) + (_selection.Height / SnapSize.Height);
+            var test = _selection.Y / SnapSize.Height;
+            var test2 = _selection.X / SnapSize.Width;
+            if (reversed)
+            {
+                for (int row = rows; row > (_selection.Y / SnapSize.Height); row--)
+                {
+                    for (int col = cols; col > (_selection.X / SnapSize.Width); col--)
+                    {
+                        area += ((((row - 1) * _columns) + (col - 1)) * (asBytes ? 1 : 2)).ToString() + ", ";
+                    }
+                }
+            }
+            else
+            {
+                for (int row = _selection.Y / SnapSize.Height; row < rows; row++)
+                {
+                    for (int col = _selection.X / SnapSize.Width; col < cols; col++)
+                    {
+                        area += (((row * _columns) + col) * (asBytes ? 1 : 2)).ToString() + ", ";
+                    }
+                }
+            }
+            return area.TrimEnd(new[] { ',', ' ' });
+        }
+
+        /// <summary>
+        /// Sets a tile id for the current selection
+        /// </summary>
+        public void SetTileIdForSelection(int tileId)
+        {
+            if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
+                return;
+
+            var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
+            var cols = _selection.Width / SnapSize.Width;
+            var rows = _selection.Height / SnapSize.Height;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    _tiles[((row * _columns) + offset) + col].TileID = tileId;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets priority for the current selection
+        /// </summary>
         public void SetPriorityForSelection(bool priority)
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
@@ -882,7 +961,6 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Sets palette index for the current selection
         /// </summary>
-        /// <returns></returns>
         public void SetPaletteForSelection(bool palette)
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
@@ -903,7 +981,6 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Sets tile type for the current selection
         /// </summary>
-        /// <returns></returns>
         public void SetTileTypeForSelection(byte type)
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
@@ -924,7 +1001,6 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Sets the horizontal mirror for the current selection
         /// </summary>
-        /// <returns></returns>
         public void MirrorXForSelection()
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
@@ -949,7 +1025,6 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Sets the vertical mirror for the current selection
         /// </summary>
-        /// <returns></returns>
         public void MirrorYForSelection(bool flip)
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
@@ -976,7 +1051,7 @@ namespace SMSTileStudio.Controls
             var col = Position.X / 8;
             var row = Position.Y / 8;
             var cols = Image.Width / 8;
-            return "X: " + (Position.X + 8) + " | Tile X: " + col + " | Y: " + (Position.Y + 8) + " | Tile Y: " + row + " | Index: "  + ((row * cols) + col);
+            return "X: " + Position.X + " | Tile X: " + col + " | Y: " + Position.Y + " | Tile Y: " + row + " | Index: "  + ((row * cols) + col);
         }
 
         /// <summary>

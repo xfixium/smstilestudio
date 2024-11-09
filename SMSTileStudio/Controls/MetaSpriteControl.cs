@@ -20,14 +20,12 @@
 // THE SOFTWARE.
 //
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
 using SMSTileStudio.Data;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Reflection;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Controls
 {

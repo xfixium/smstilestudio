@@ -96,6 +96,28 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
+        /// Gets an c array string for DevKit SMS
+        /// </summary>
+        /// <returns></returns>
+        public string GetDKSMSString(List<Sprite> sprites)
+        {
+            var name = Name.ToLower().Replace(" ", "_");
+            var text = new StringBuilder();
+            var frames = new StringBuilder();
+            frames.Append("const unsigned char *" + name + "_frames[] = { ");
+            for (var i = 0; i < sprites.Count; i++)
+            {
+                text.Append("const unsigned char " + name + "_" + i.ToString("D2") + "[] = { ");
+                text.Append(sprites[i].X + ", " + sprites[i].Y + ", " + (sprites[i].TileID + Offset) + ", ");
+                text.Append("METASPRITE_END };" + Environment.NewLine);
+                frames.Append(name + "_" + i.ToString("D2") + ", ");
+            }
+            frames.Append(" };");
+            var fi = frames.ToString().Trim().LastIndexOf(", ");
+            return text.ToString().Trim() + Environment.NewLine + frames.ToString().Trim().Remove(fi, 2);
+        }
+
+        /// <summary>
         /// Gets object information string
         /// </summary>
         /// <returns>Object information string</returns>

@@ -323,6 +323,8 @@ namespace SMSTileStudio.Controls
                 Clipboard.SetText(_metaSprite.GetASMString(false));
             else if (menuItem == mnuMetaSpriteExportDKSMSText)
                 Clipboard.SetText(_metaSprite.GetDKSMSString(mnuMetaSpriteStreaming.Checked));
+            else if (menuItem == mnuExportSelectionDevKitSMS)
+                Clipboard.SetText(_metaSprite.GetDKSMSString(GetSelectedSprites()));
         }
 
         /// <summary>

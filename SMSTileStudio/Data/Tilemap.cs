@@ -301,7 +301,7 @@ namespace SMSTileStudio.Data
         /// </summary>
         /// <param name="tile"></param>
         /// <returns></returns>
-        private byte[] GetTileBytes(Tile tile)
+        public byte[] GetTileBytes(Tile tile)
         {
             int id = tile.TileID + Offset;
             bool[] bits = new bool[16];
@@ -355,19 +355,25 @@ namespace SMSTileStudio.Data
         /// Gets tilemap data in assembly or hex string
         /// </summary>
         /// <returns>Object data string</returns>
-        public string GetDataString(bool hex)
+        public string GetDataString(TextType type)
         {
             StringBuilder sb = new StringBuilder();
             for (int row = 0; row < Rows; row++)
             {
-                string line = hex ? "" : UseTileAttributes ? ".dw " : ".db ";
+                string line = "";
                 for (int col = 0; col < Columns; col++)
                 {
                     byte b = (byte)Tiles[row * Columns + col].TileID;
                     byte[] bytes = GetTileBytes(Tiles[row * Columns + col]);
-                    line += (hex ? "" : "$") + (UseTileAttributes ? bytes[1].ToString("X2") + (hex ? " " : "") + bytes[0].ToString("X2") : b.ToString("X2")) + " ";
+
+                    switch (type)
+                    {
+                        case TextType.Asm: line += (UseTileAttributes ? ".dw " : ".db ") + "$" + (UseTileAttributes ? bytes[0].ToString("X2") + bytes[1].ToString("X2") : b.ToString("X2")) + " "; break;
+                        case TextType.Hex: line += (UseTileAttributes ? bytes[0].ToString("X2") + " " + bytes[1].ToString("X2") : b.ToString("X2")) + " "; break;
+                        case TextType.Decimal: line += bytes[0].ToString() + ", " + bytes[1].ToString() + ", "; break;
+                    }
                 }
-                sb.AppendLine(line.Trim());
+                sb.Append(line);
             }
             return sb.ToString();
         }

@@ -227,6 +227,16 @@ namespace SMSTileStudio.Data
     }
 
     /// <summary>
+    /// Describes bits per pixel types
+    /// </summary>
+    public enum TextType
+    {
+        Asm = 0,
+        Hex = 1,
+        Decimal = 2
+    }
+
+    /// <summary>
     /// Gets a list of enumeration values, using the description as the display member
     /// </summary>
     public static class EnumMethods

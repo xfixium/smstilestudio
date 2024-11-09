@@ -293,10 +293,13 @@ namespace SMSTileStudio.Controls
                 ExportBinaries(true);
             // Export tilemap as hexadecimal to clipboard
             else if (HasData && menuItem == mnuTilemapExportHex)
-                Clipboard.SetText(_tilemap.GetDataString(true));
+                Clipboard.SetText(_tilemap.GetDataString(TextType.Hex));
             // Export tilemap as assembly to clipboard
             else if (HasData && menuItem == mnuTilemapExportAssembly)
-                Clipboard.SetText(_tilemap.GetDataString(false));
+                Clipboard.SetText(_tilemap.GetDataString(TextType.Asm));
+            // Export tilemap as decimal to clipboard
+            else if (HasData && menuItem == mnuTilemapExportDecimal)
+                Clipboard.SetText(_tilemap.GetDataString(TextType.Decimal));
             // Export entities as binary file
             else if (HasData && menuItem == mnuEntitiesExportBinary)
                 ExportBinary(_tilemap.GetEntityData(), _tilemap.Name.ToLower().Replace(' ', '_') + "_entities");
@@ -385,6 +388,15 @@ namespace SMSTileStudio.Controls
             else if (HasData && menuItem == mnuClearSelection && _tilemap.Tileset != null)
             {
                 pnlTilemapEdit.ClearSelection();
+            }
+            else if (HasData && menuItem == mnuSetSelectionTileId && _tilemap.Tileset != null)
+            {
+                if (pnlTilemapEdit.Tiles == null || pnlTilemapEdit.Tiles.Count <= 0)
+                    return;
+
+                pnlTilemapEdit.SetTileIdForSelection(pnlTiles.TileID);
+                _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
+                UpdateTilemap();
             }
             // Set priority of selected tiles
             else if (HasData && menuItem == mnuSetSelectionPriority && _tilemap.Tileset != null)
@@ -516,9 +528,15 @@ namespace SMSTileStudio.Controls
                 UpdateTilemap();
                 UpdateImages();
             }
-            // Export selection area to binary
+            // Export selection to clipboard
+            else if (HasData && menuItem == mnuExportSelectionDecimalToClipboard)
+            {
+                Clipboard.SetText(pnlTilemapEdit.SelectionToText());
+            }
+            // Export selection area to binary file
             else if (HasData && menuItem == mnuExportAreaToBinary)
             {
+                pnlTilemapEdit.SelectionToArea().ToArray();
                 using (SaveFileDialog dialog = new SaveFileDialog())
                 {
                     dialog.Title = "Export Binary Data: Selection Area";
@@ -535,6 +553,16 @@ namespace SMSTileStudio.Controls
                         }
                     }
                 }
+            }
+            // Export selection area to clipboard
+            else if (HasData && menuItem == mnuExportAreaDecimalToClipboard)
+            {
+                Clipboard.SetText(pnlTilemapEdit.SelectionToAreaText(mnuExportAreaAsBytes.Checked, false));
+            }
+            // Export selection area to clipboard reversed
+            else if (HasData && menuItem == mnuExportAreaDecimalReversedToClipboard)
+            {
+                Clipboard.SetText(pnlTilemapEdit.SelectionToAreaText(mnuExportAreaAsBytes.Checked, true));
             }
             // Create new tile grid
             else if (HasData && menuItem == mnuNewTileGrid && cbTileGridTileSize.SelectedItem != null)

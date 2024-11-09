@@ -147,6 +147,8 @@
             this.mnuMetaSpriteExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMetaSpriteExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMetaSpriteExportDKSMSText = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSelectOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuExportSelectionDevKitSMS = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpSpriteList.SuspendLayout();
             this.pnlPaletteButtons.SuspendLayout();
@@ -184,6 +186,7 @@
             this.panel7.SuspendLayout();
             this.panel5.SuspendLayout();
             this.mnuExport.SuspendLayout();
+            this.mnuSelectOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // tpnlMain
@@ -1029,6 +1032,7 @@
             this.pnlMetaSpriteEdit.AutoScrollMinSize = new System.Drawing.Size(494, 478);
             this.pnlMetaSpriteEdit.Canvas = new System.Drawing.Size(8, 8);
             this.pnlMetaSpriteEdit.Centered = true;
+            this.pnlMetaSpriteEdit.ContextMenuStrip = this.mnuSelectOptions;
             this.pnlMetaSpriteEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMetaSpriteEdit.EditMode = SMSTileStudio.Data.MetaSpriteEditType.Sprites;
             this.pnlMetaSpriteEdit.HatchBackColor = System.Drawing.Color.DarkGray;
@@ -1417,7 +1421,7 @@
             this.mnuExportTileset,
             this.mnuExportMetaSprite});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(181, 70);
+            this.mnuExport.Size = new System.Drawing.Size(172, 48);
             // 
             // mnuExportTileset
             // 
@@ -1431,7 +1435,7 @@
             this.mnuTilesetExportHex,
             this.mnuTilesetExportAssembly});
             this.mnuExportTileset.Name = "mnuExportTileset";
-            this.mnuExportTileset.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportTileset.Size = new System.Drawing.Size(171, 22);
             this.mnuExportTileset.Text = "Export Tileset";
             // 
             // mnuTilesetBypassCompression
@@ -1503,7 +1507,7 @@
             this.mnuMetaSpriteExportAssembly,
             this.mnuMetaSpriteExportDKSMSText});
             this.mnuExportMetaSprite.Name = "mnuExportMetaSprite";
-            this.mnuExportMetaSprite.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportMetaSprite.Size = new System.Drawing.Size(171, 22);
             this.mnuExportMetaSprite.Text = "Export Meta Sprite";
             // 
             // mnuExportMetaSpriteSpriteDataOnly
@@ -1581,6 +1585,20 @@
             this.mnuMetaSpriteExportDKSMSText.Text = "Export for Dev Kit SMS (Clipboard)";
             this.mnuMetaSpriteExportDKSMSText.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
+            // mnuSelectOptions
+            // 
+            this.mnuSelectOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExportSelectionDevKitSMS});
+            this.mnuSelectOptions.Name = "mnuSelectOptions";
+            this.mnuSelectOptions.Size = new System.Drawing.Size(193, 48);
+            // 
+            // mnuExportSelectionDevKitSMS
+            // 
+            this.mnuExportSelectionDevKitSMS.Name = "mnuExportSelectionDevKitSMS";
+            this.mnuExportSelectionDevKitSMS.Size = new System.Drawing.Size(192, 22);
+            this.mnuExportSelectionDevKitSMS.Text = "Export for Dev Kit SMS";
+            this.mnuExportSelectionDevKitSMS.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            // 
             // AssetMetaSpriteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1633,6 +1651,7 @@
             this.panel7.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.mnuExport.ResumeLayout(false);
+            this.mnuSelectOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1756,5 +1775,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuMetaSpriteExportDKSMSText;
         private System.Windows.Forms.ToolStripMenuItem mnuMetaSpriteStreaming;
         private System.Windows.Forms.ToolStripMenuItem mnuTilesetExportBinaries;
+        private System.Windows.Forms.ContextMenuStrip mnuSelectOptions;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportSelectionDevKitSMS;
     }
 }
