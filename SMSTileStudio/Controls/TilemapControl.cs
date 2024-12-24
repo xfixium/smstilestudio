@@ -837,7 +837,7 @@ namespace SMSTileStudio.Controls
         /// Creates a tile id text from selection
         /// </summary>
         /// <returns></returns>
-        public string SelectionToText()
+        public string SelectionToIdsDecimal()
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
                 return null;
@@ -884,24 +884,22 @@ namespace SMSTileStudio.Controls
         /// Creates a tilemap from selection
         /// </summary>
         /// <returns></returns>
-        public string SelectionToAreaText(bool asBytes, bool reversed)
+        public string SelectionToIndexesDecimal(bool reversed)
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
                 return null;
 
-            var area = "";
+            var selected = "";
             //var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
             var cols = (_selection.X / SnapSize.Width) + (_selection.Width / SnapSize.Width);
             var rows = (_selection.Y / SnapSize.Height) + (_selection.Height / SnapSize.Height);
-            var test = _selection.Y / SnapSize.Height;
-            var test2 = _selection.X / SnapSize.Width;
             if (reversed)
             {
                 for (int row = rows; row > (_selection.Y / SnapSize.Height); row--)
                 {
                     for (int col = cols; col > (_selection.X / SnapSize.Width); col--)
                     {
-                        area += ((((row - 1) * _columns) + (col - 1)) * (asBytes ? 1 : 2)).ToString() + ", ";
+                        selected += (((row - 1) * _columns) + (col - 1)).ToString() + ", ";
                     }
                 }
             }
@@ -911,11 +909,11 @@ namespace SMSTileStudio.Controls
                 {
                     for (int col = _selection.X / SnapSize.Width; col < cols; col++)
                     {
-                        area += (((row * _columns) + col) * (asBytes ? 1 : 2)).ToString() + ", ";
+                        selected += ((row * _columns) + col).ToString() + ", ";
                     }
                 }
             }
-            return area.TrimEnd(new[] { ',', ' ' });
+            return selected.TrimEnd(new[] { ',', ' ' });
         }
 
         /// <summary>

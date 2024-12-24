@@ -58,6 +58,7 @@
             this.mnuClearSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuClearBrush = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuSetSelectionTileId = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSetSelectionPriority = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUnsetSelectionPriority = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSetSelectionPalette = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,18 +71,17 @@
             this.mnuSelectionToTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuCropTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.exportSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportSelectedIds = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportSelectionToImage = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportSelectionToBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExportSelectionDecimalToClipboard = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportSelectionDecimalReversedToClipboard = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuExportArea = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportSelectedIndexes = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportAreaToBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuExportAreaAsBytes = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuExportAreaDecimalToClipboard = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuExportAreaDecimalReversedToClipboard = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportSelectedIndexesToDecimal = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportSelectedIndexesToDecimalReversed = new System.Windows.Forms.ToolStripMenuItem();
             this.panel7 = new System.Windows.Forms.Panel();
             this.lblPosition = new System.Windows.Forms.Label();
             this.lblTile = new System.Windows.Forms.Label();
@@ -278,7 +278,6 @@
             this.mnuDuplicateTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRemoveTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportTileGrid = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSetSelectionTileId = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpImageList.SuspendLayout();
             this.pnlPaletteButtons.SuspendLayout();
@@ -687,8 +686,8 @@
             this.mnuSelectionToTilemap,
             this.mnuCropTilemap,
             this.toolStripMenuItem5,
-            this.exportSelectionToolStripMenuItem,
-            this.mnuExportArea});
+            this.mnuExportSelectedIds,
+            this.mnuExportSelectedIndexes});
             this.mnuSelectOptions.Name = "mnuSelectOptions";
             this.mnuSelectOptions.Size = new System.Drawing.Size(199, 396);
             // 
@@ -717,6 +716,13 @@
             // 
             this.mnuSeparator4.Name = "mnuSeparator4";
             this.mnuSeparator4.Size = new System.Drawing.Size(195, 6);
+            // 
+            // mnuSetSelectionTileId
+            // 
+            this.mnuSetSelectionTileId.Name = "mnuSetSelectionTileId";
+            this.mnuSetSelectionTileId.Size = new System.Drawing.Size(198, 22);
+            this.mnuSetSelectionTileId.Text = "Set Tile Id";
+            this.mnuSetSelectionTileId.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuSetSelectionPriority
             // 
@@ -798,17 +804,17 @@
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(195, 6);
             // 
-            // exportSelectionToolStripMenuItem
+            // mnuExportSelectedIds
             // 
-            this.exportSelectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExportSelectedIds.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuExportSelectionToImage,
             this.mnuExportSelectionToBinary,
             this.toolStripMenuItem7,
             this.mnuExportSelectionDecimalToClipboard,
             this.mnuExportSelectionDecimalReversedToClipboard});
-            this.exportSelectionToolStripMenuItem.Name = "exportSelectionToolStripMenuItem";
-            this.exportSelectionToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
-            this.exportSelectionToolStripMenuItem.Text = "Export Selection";
+            this.mnuExportSelectedIds.Name = "mnuExportSelectedIds";
+            this.mnuExportSelectedIds.Size = new System.Drawing.Size(198, 22);
+            this.mnuExportSelectedIds.Text = "Export Selected Ids";
             // 
             // mnuExportSelectionToImage
             // 
@@ -843,17 +849,16 @@
             this.mnuExportSelectionDecimalReversedToClipboard.Text = "Export As Decimal Reversed (Clipboard)";
             this.mnuExportSelectionDecimalReversedToClipboard.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuExportArea
+            // mnuExportSelectedIndexes
             // 
-            this.mnuExportArea.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuExportSelectedIndexes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuExportAreaToBinary,
             this.toolStripMenuItem6,
-            this.mnuExportAreaAsBytes,
-            this.mnuExportAreaDecimalToClipboard,
-            this.mnuExportAreaDecimalReversedToClipboard});
-            this.mnuExportArea.Name = "mnuExportArea";
-            this.mnuExportArea.Size = new System.Drawing.Size(198, 22);
-            this.mnuExportArea.Text = "Export Area";
+            this.mnuExportSelectedIndexesToDecimal,
+            this.mnuExportSelectedIndexesToDecimalReversed});
+            this.mnuExportSelectedIndexes.Name = "mnuExportSelectedIndexes";
+            this.mnuExportSelectedIndexes.Size = new System.Drawing.Size(198, 22);
+            this.mnuExportSelectedIndexes.Text = "Export Selected Indexes";
             // 
             // mnuExportAreaToBinary
             // 
@@ -867,26 +872,19 @@
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(280, 6);
             // 
-            // mnuExportAreaAsBytes
+            // mnuExportSelectedIndexesToDecimal
             // 
-            this.mnuExportAreaAsBytes.CheckOnClick = true;
-            this.mnuExportAreaAsBytes.Name = "mnuExportAreaAsBytes";
-            this.mnuExportAreaAsBytes.Size = new System.Drawing.Size(283, 22);
-            this.mnuExportAreaAsBytes.Text = "Data As Bytes";
+            this.mnuExportSelectedIndexesToDecimal.Name = "mnuExportSelectedIndexesToDecimal";
+            this.mnuExportSelectedIndexesToDecimal.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectedIndexesToDecimal.Text = "Export As Decimal (Clipboard)";
+            this.mnuExportSelectedIndexesToDecimal.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuExportAreaDecimalToClipboard
+            // mnuExportSelectedIndexesToDecimalReversed
             // 
-            this.mnuExportAreaDecimalToClipboard.Name = "mnuExportAreaDecimalToClipboard";
-            this.mnuExportAreaDecimalToClipboard.Size = new System.Drawing.Size(283, 22);
-            this.mnuExportAreaDecimalToClipboard.Text = "Export As Decimal (Clipboard)";
-            this.mnuExportAreaDecimalToClipboard.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
-            // mnuExportAreaDecimalReversedToClipboard
-            // 
-            this.mnuExportAreaDecimalReversedToClipboard.Name = "mnuExportAreaDecimalReversedToClipboard";
-            this.mnuExportAreaDecimalReversedToClipboard.Size = new System.Drawing.Size(283, 22);
-            this.mnuExportAreaDecimalReversedToClipboard.Text = "Export As Decimal Reversed (Clipboard)";
-            this.mnuExportAreaDecimalReversedToClipboard.Click += new System.EventHandler(this.mnuTilemap_Click);
+            this.mnuExportSelectedIndexesToDecimalReversed.Name = "mnuExportSelectedIndexesToDecimalReversed";
+            this.mnuExportSelectedIndexesToDecimalReversed.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectedIndexesToDecimalReversed.Text = "Export As Decimal Reversed (Clipboard)";
+            this.mnuExportSelectedIndexesToDecimalReversed.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // panel7
             // 
@@ -3040,13 +3038,6 @@
             this.mnuExportTileGrid.Text = "Export Tile Grid";
             this.mnuExportTileGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuSetSelectionTileId
-            // 
-            this.mnuSetSelectionTileId.Name = "mnuSetSelectionTileId";
-            this.mnuSetSelectionTileId.Size = new System.Drawing.Size(198, 22);
-            this.mnuSetSelectionTileId.Text = "Set Tile Id";
-            this.mnuSetSelectionTileId.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
             // AssetTilemapControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3363,21 +3354,20 @@
         private System.Windows.Forms.NumericUpDown nudTileGridColumns;
         private System.Windows.Forms.NumericUpDown nudTileGridValue;
         private System.Windows.Forms.Label lblTileGridValue;
-        private System.Windows.Forms.ToolStripMenuItem mnuExportArea;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedIndexes;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.RadioButton rbShowIndexes;
         private System.Windows.Forms.RadioButton rbShowIds;
         private System.Windows.Forms.ToolStripMenuItem mnuTilemapExportDecimal;
         private System.Windows.Forms.ToolStripMenuItem mnuExportAreaToBinary;
-        private System.Windows.Forms.ToolStripMenuItem mnuExportAreaDecimalToClipboard;
-        private System.Windows.Forms.ToolStripMenuItem exportSelectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedIndexesToDecimal;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedIds;
         private System.Windows.Forms.ToolStripMenuItem mnuExportSelectionToImage;
         private System.Windows.Forms.ToolStripMenuItem mnuExportSelectionToBinary;
         private System.Windows.Forms.ToolStripMenuItem mnuExportSelectionDecimalToClipboard;
         private System.Windows.Forms.ToolStripMenuItem mnuExportSelectionDecimalReversedToClipboard;
-        private System.Windows.Forms.ToolStripMenuItem mnuExportAreaDecimalReversedToClipboard;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedIndexesToDecimalReversed;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem mnuExportAreaAsBytes;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem mnuSetSelectionTileId;
     }

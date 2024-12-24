@@ -531,7 +531,7 @@ namespace SMSTileStudio.Controls
             // Export selection to clipboard
             else if (HasData && menuItem == mnuExportSelectionDecimalToClipboard)
             {
-                Clipboard.SetText(pnlTilemapEdit.SelectionToText());
+                Clipboard.SetText(pnlTilemapEdit.SelectionToIdsDecimal());
             }
             // Export selection area to binary file
             else if (HasData && menuItem == mnuExportAreaToBinary)
@@ -555,14 +555,14 @@ namespace SMSTileStudio.Controls
                 }
             }
             // Export selection area to clipboard
-            else if (HasData && menuItem == mnuExportAreaDecimalToClipboard)
+            else if (HasData && menuItem == mnuExportSelectedIndexesToDecimal)
             {
-                Clipboard.SetText(pnlTilemapEdit.SelectionToAreaText(mnuExportAreaAsBytes.Checked, false));
+                Clipboard.SetText(pnlTilemapEdit.SelectionToIndexesDecimal(false));
             }
             // Export selection area to clipboard reversed
-            else if (HasData && menuItem == mnuExportAreaDecimalReversedToClipboard)
+            else if (HasData && menuItem == mnuExportSelectedIndexesToDecimalReversed)
             {
-                Clipboard.SetText(pnlTilemapEdit.SelectionToAreaText(mnuExportAreaAsBytes.Checked, true));
+                Clipboard.SetText(pnlTilemapEdit.SelectionToIndexesDecimal(true));
             }
             // Create new tile grid
             else if (HasData && menuItem == mnuNewTileGrid && cbTileGridTileSize.SelectedItem != null)
