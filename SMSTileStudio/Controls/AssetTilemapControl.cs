@@ -28,6 +28,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Windows.Forms;
 
@@ -397,6 +398,7 @@ namespace SMSTileStudio.Controls
                 pnlTilemapEdit.SetTileIdForSelection(pnlTiles.TileID);
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
+                UpdateImages(false);
             }
             // Set priority of selected tiles
             else if (HasData && menuItem == mnuSetSelectionPriority && _tilemap.Tileset != null)
@@ -427,6 +429,7 @@ namespace SMSTileStudio.Controls
                 pnlTilemapEdit.SetPaletteForSelection(true);
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
+                UpdateImages(false);
             }
             // Set to SPR palette of selected tiles
             else if (HasData && menuItem == mnuUnsetSelectionPalette && _tilemap.Tileset != null)
@@ -437,6 +440,7 @@ namespace SMSTileStudio.Controls
                 pnlTilemapEdit.SetPaletteForSelection(false);
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
+                UpdateImages(false);
             }
             // Set tile type of selected tiles
             else if (HasData && menuItem == mnuSetTileType && _tilemap.Tileset != null)
@@ -457,7 +461,7 @@ namespace SMSTileStudio.Controls
                 pnlTilemapEdit.MirrorXForSelection();
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
-                UpdateImages();
+                UpdateImages(false);
             }
             // Set vertical mirror of selected tiles
             else if (HasData && menuItem == mnuMirrorY && _tilemap.Tileset != null)
@@ -468,7 +472,7 @@ namespace SMSTileStudio.Controls
                 pnlTilemapEdit.MirrorYForSelection(true);
                 _tilemap.Tiles = pnlTilemapEdit.Tiles.DeepClone();
                 UpdateTilemap();
-                UpdateImages();
+                UpdateImages(false);
             }
             // Create tilemap from selection
             else if (HasData && menuItem == mnuTilemapFromSelection && _tilemap.Tileset != null)
@@ -1724,7 +1728,7 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Updates graphics for UI elements
         /// </summary>
-        private void UpdateImages()
+        private void UpdateImages(bool clear = true)
         {
             if (_tilemap == null || _tilemap.Tiles == null || _tilemap.Tileset == null || _tilemap.Tileset.Pixels == null)
             {
@@ -1737,10 +1741,11 @@ namespace SMSTileStudio.Controls
             var bgPalette = cbBgPalette.SelectedItem as Palette;
             var sprPalette = cbSprPalette.SelectedItem as Palette;
             pnlTilemapEdit.Image = BitmapUtility.GetTileImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
-            pnlTilemapEdit.SetTilemap(_tilemap);
+            pnlTilemapEdit.SetTilemap(_tilemap, clear);
             pnlTilemapEdit.AreaGridSize = _tilemap.AreaGridSize;
             pnlTilesetEdit.Image = BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 16);
-            pnlTilesetEdit.SetTileset(_tilemap.Tileset, _selectedPalette.Colors);
+            pnlTilesetEdit.SetTileset(_tilemap.Tileset, _selectedPalette.Colors, clear);
+            pnlTiles.ClearTileId = clear;
             pnlTiles.Image = BitmapUtility.GetTilesetImage(_tilemap.Tileset, _selectedPalette, 6);
             pnlTiles.Offset = _tilemap.Offset;
             pnlTiles.TileCount = _tilemap.Tileset.TileCount;

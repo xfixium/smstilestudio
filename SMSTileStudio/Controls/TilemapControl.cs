@@ -1125,7 +1125,7 @@ namespace SMSTileStudio.Controls
         /// Sets the tile map data
         /// </summary>
         /// <param name="tilemap">The tile map data to set</param>
-        public void SetTilemap(Tilemap tilemap)
+        public void SetTilemap(Tilemap tilemap, bool clear = true)
         {
             _tiles.Clear();
             _metatiles.Clear();
@@ -1141,8 +1141,11 @@ namespace SMSTileStudio.Controls
             _entities = tilemap.Entities.DeepClone();
             //_metatiles = tilemap.Metatiles.DeepClone();
             Offset = tilemap.Offset;
-            ClearSelection();
-            ClearEntity();
+            if (clear)
+            {
+                ClearSelection();
+                ClearEntity();
+            }
             UpdateBackBuffer();
         }
 

@@ -379,12 +379,15 @@ namespace SMSTileStudio.Controls
         /// </summary>
         /// <param name="tileset">The tileset data</param>
         /// <param name="palette">The palette used for the tileset</param>
-        public void SetTileset(Tileset tileset, List<Color> palette)
+        public void SetTileset(Tileset tileset, List<Color> palette, bool clear = true)
         {
             Canvas = tileset.Pixels.Count < 16 * 64 ? new Size(128, 8) : new Size(128, tileset.Pixels.Count / 128);
             _palette = palette.DeepClone();
             _pixels = tileset.Pixels.DeepClone();
-            ClearSelection();
+            if (clear)
+            {
+                ClearSelection();
+            }
             UpdateBackBuffer();
         }
 

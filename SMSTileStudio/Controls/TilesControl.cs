@@ -41,6 +41,7 @@ namespace SMSTileStudio.Controls
         private bool _useGrid = true;
         private int _tileID = 0;
         private bool _indexed = false;
+        private bool _clear = true;
 
         /// <summary>
         /// Properties
@@ -61,6 +62,7 @@ namespace SMSTileStudio.Controls
                 UpdateBackBuffer();
             }
         }
+        public bool ClearTileId { get { return _clear; } set { _clear = value; } }
 
         /// <summary>
         /// Constructors
@@ -96,8 +98,12 @@ namespace SMSTileStudio.Controls
         /// <param name="image">Image reference</param>
         protected override void OnImageSet(ref Bitmap image)
         {
-            _selection = new Rectangle(Point.Empty, SnapSize);
-            _tileID = 0;
+            if (_clear)
+            {
+                _selection = new Rectangle(Point.Empty, SnapSize);
+                _tileID = 0;
+            }
+            _clear = true;
             UpdateBackBuffer();
             AutoScrollPosition = Point.Empty;
         }
