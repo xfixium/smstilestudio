@@ -1108,6 +1108,21 @@ namespace SMSTileStudio.Data
             }
         }
 
+        // Gets a 32 bit image from given image
+        public static Bitmap Get32bitImage(Bitmap image)
+        {
+            // If bpp is not indexed, retun image
+            if (GetByteCount(image.PixelFormat) > 1)
+            {
+                return image;
+            }
+            // Indexed image
+            var bp = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppArgb);
+            using (Graphics gr = Graphics.FromImage(bp))
+                gr.DrawImage(image, new Rectangle(0, 0, bp.Width, bp.Height));
+            return bp;
+        }
+
         /// <summary>
         /// Draws a text outline
         /// </summary>

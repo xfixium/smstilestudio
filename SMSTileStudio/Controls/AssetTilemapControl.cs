@@ -209,7 +209,7 @@ namespace SMSTileStudio.Controls
                 }
 
                 // Open tilemap form
-                using (var form = new ImportTilemapForm(image, _tilemap, importColors))
+                using (var form = new ImportTilemapForm(BitmapUtility.Get32bitImage(image), _tilemap, importColors))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
                         return;
@@ -535,7 +535,12 @@ namespace SMSTileStudio.Controls
             // Export selection to clipboard
             else if (HasData && menuItem == mnuExportSelectionDecimalToClipboard)
             {
-                Clipboard.SetText(pnlTilemapEdit.SelectionToIdsDecimal());
+                Clipboard.SetText(pnlTilemapEdit.SelectionToIdsDecimal(false));
+            }
+            // Export selection to clipboard reversed
+            else if (HasData && menuItem == mnuExportSelectionDecimalReversedToClipboard)
+            {
+                Clipboard.SetText(pnlTilemapEdit.SelectionToIdsDecimal(true));
             }
             // Export selection area to binary file
             else if (HasData && menuItem == mnuExportAreaToBinary)

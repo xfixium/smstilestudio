@@ -181,7 +181,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                using (var form = new ImportMetaSpriteForm(image, _metaSprite, importColors))
+                using (var form = new ImportMetaSpriteForm(BitmapUtility.Get32bitImage(image), _metaSprite, importColors))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
                         return;

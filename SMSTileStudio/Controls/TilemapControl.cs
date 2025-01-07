@@ -837,18 +837,32 @@ namespace SMSTileStudio.Controls
         /// Creates a tile id text from selection
         /// </summary>
         /// <returns></returns>
-        public string SelectionToIdsDecimal()
+        public string SelectionToIdsDecimal(bool reversed)
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
                 return null;
 
             var selection = "";
             var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
-            for (int row = 0; row < _selection.Height / SnapSize.Height; row++)
+            if (reversed)
             {
-                for (int col = 0; col < _selection.Width / SnapSize.Width; col++)
+                var cols = (_selection.Width / SnapSize.Width) - 1;
+                for (int row = 0; row < _selection.Height / SnapSize.Height; row++)
                 {
-                    selection += (_tiles[(row * _columns) + offset + col].TileID + Offset) + ", ";
+                    for (int col = cols; col > -1; col--)
+                    {
+                        selection += _tiles[(row * _columns) + offset + col].TileID + Offset + ", ";
+                    }
+                }
+            }
+            else
+            {
+                for (int row = 0; row < _selection.Height / SnapSize.Height; row++)
+                {
+                    for (int col = 0; col < _selection.Width / SnapSize.Width; col++)
+                    {
+                        selection += _tiles[(row * _columns) + offset + col].TileID + Offset + ", ";
+                    }
                 }
             }
             return selection.TrimEnd(new[] { ',', ' ' });
