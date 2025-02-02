@@ -1198,6 +1198,7 @@ namespace SMSTileStudio.Controls
         {
             lblPosition.Text = "Position: " + pnlTilemapEdit.PositionText;
             lblTile.Text = "Tile: " + pnlTilemapEdit.TileText;
+            lblSelection.Text = "Selection: " + pnlTilemapEdit.SelectionText;
         }
 
         /// <summary>

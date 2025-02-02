@@ -278,6 +278,7 @@
             this.mnuDuplicateTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRemoveTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportTileGrid = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblSelection = new System.Windows.Forms.Label();
             this.tpnlMain.SuspendLayout();
             this.grpImageList.SuspendLayout();
             this.pnlPaletteButtons.SuspendLayout();
@@ -617,6 +618,7 @@
             this.pnlTilemap.Controls.Add(this.pnlTilemapEdit);
             this.pnlTilemap.Controls.Add(this.panel7);
             this.pnlTilemap.Controls.Add(this.pnlTilemapToolbar);
+            this.pnlTilemap.Controls.Add(this.lblSelection);
             this.pnlTilemap.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTilemap.Location = new System.Drawing.Point(0, 0);
             this.pnlTilemap.Margin = new System.Windows.Forms.Padding(0);
@@ -628,7 +630,7 @@
             // 
             this.pnlTilemapEdit.AreaGridSize = new System.Drawing.Size(32, 24);
             this.pnlTilemapEdit.AutoScroll = true;
-            this.pnlTilemapEdit.AutoScrollMinSize = new System.Drawing.Size(475, 443);
+            this.pnlTilemapEdit.AutoScrollMinSize = new System.Drawing.Size(475, 426);
             this.pnlTilemapEdit.BlockSize = new System.Drawing.Size(16, 16);
             this.pnlTilemapEdit.BlockValue = ((byte)(0));
             this.pnlTilemapEdit.Canvas = new System.Drawing.Size(8, 8);
@@ -650,7 +652,7 @@
             this.pnlTilemapEdit.Name = "pnlTilemapEdit";
             this.pnlTilemapEdit.Offset = 0;
             this.pnlTilemapEdit.ShowIndexes = false;
-            this.pnlTilemapEdit.Size = new System.Drawing.Size(475, 443);
+            this.pnlTilemapEdit.Size = new System.Drawing.Size(475, 426);
             this.pnlTilemapEdit.SnapSize = new System.Drawing.Size(8, 8);
             this.pnlTilemapEdit.TabIndex = 4;
             this.pnlTilemapEdit.TileGrid = null;
@@ -689,7 +691,7 @@
             this.mnuExportSelectedIds,
             this.mnuExportSelectedIndexes});
             this.mnuSelectOptions.Name = "mnuSelectOptions";
-            this.mnuSelectOptions.Size = new System.Drawing.Size(199, 396);
+            this.mnuSelectOptions.Size = new System.Drawing.Size(199, 374);
             // 
             // mnuCreateBrush
             // 
@@ -891,7 +893,7 @@
             this.panel7.Controls.Add(this.lblPosition);
             this.panel7.Controls.Add(this.lblTile);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel7.Location = new System.Drawing.Point(0, 491);
+            this.panel7.Location = new System.Drawing.Point(0, 474);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(475, 34);
             this.panel7.TabIndex = 31;
@@ -1188,6 +1190,7 @@
             this.pnlTiles.AutoScrollMinSize = new System.Drawing.Size(435, 570);
             this.pnlTiles.Canvas = new System.Drawing.Size(8, 8);
             this.pnlTiles.Centered = false;
+            this.pnlTiles.ClearTileId = true;
             this.pnlTiles.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTiles.HatchBackColor = System.Drawing.Color.DarkGray;
             this.pnlTiles.HatchForeColor = System.Drawing.Color.White;
@@ -3038,6 +3041,16 @@
             this.mnuExportTileGrid.Text = "Export Tile Grid";
             this.mnuExportTileGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
+            // lblSelection
+            // 
+            this.lblSelection.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblSelection.Location = new System.Drawing.Point(0, 508);
+            this.lblSelection.Name = "lblSelection";
+            this.lblSelection.Size = new System.Drawing.Size(475, 17);
+            this.lblSelection.TabIndex = 32;
+            this.lblSelection.Text = "Selection: N/A";
+            this.lblSelection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // AssetTilemapControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3370,5 +3383,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem mnuSetSelectionTileId;
+        private System.Windows.Forms.Label lblSelection;
     }
 }

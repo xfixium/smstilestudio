@@ -150,6 +150,7 @@ namespace SMSTileStudio.Controls
         public Entity SelectedEntity { set { _selectedEntity = value; UpdateBackBuffer(); } }
         public string PositionText { get { return GetPositionText(); } }
         public string TileText { get { return GetTileText(); } }
+        public string SelectionText { get { return GetSelectionText(); } }
         public int TileID { get { return _tileID; } set { _tileID = value; UpdateBackBuffer(); } }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
         public bool UseAreaGrid { get { return _useAreaGrid; } set { _useAreaGrid = value; UpdateBackBuffer(); } }
@@ -351,6 +352,7 @@ namespace SMSTileStudio.Controls
                     if (_selection.Y >= _selectOrigin.Y)
                         _selection.Height += SnapSize.Height;
 
+                    PositionChanged?.Invoke();
                     break;
 
                 case TileEditType.Entities:
@@ -1087,6 +1089,22 @@ namespace SMSTileStudio.Controls
             return "N/A";
         }
 
+        /// <summary>
+        /// Gets selection text
+        /// </summary>
+        /// <returns></returns>
+        private string GetSelectionText()
+        {
+            if (_selection == Rectangle.Empty)
+                return "N/A";
+
+            var col = _selection.X / 8;
+            var row = _selection.Y / 8;
+            var cols = _selection.Width / 8;
+            var rows = _selection.Height / 8;
+            return "Tile X: " + col + " | Tile Y: " + row + " | Columns: " + cols + " | Rows: " + rows;
+        }
+        
         /// <summary>
         /// 
         /// </summary>
