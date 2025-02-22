@@ -57,7 +57,7 @@ namespace SMSTileStudio.Forms
             InitializeComponent();
 
             Text = "Import Graphics for " + sprite.Name;
-            _sprite = sprite;
+            _sprite = sprite.DeepClone();
             _image = image;
             _sprPalette = (Palette)App.Project.GetAsset(sprite.PaletteID);
             _importColors = importColors;

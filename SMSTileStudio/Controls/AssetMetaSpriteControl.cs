@@ -76,10 +76,12 @@ namespace SMSTileStudio.Controls
         private void lstMetaSprites_SelectedIndexChanged(object sender, EventArgs e)
         {
             Loading = true;
-            _frameIndex = 0;
             _sprite = null;
             if (!Updating)
+            {
+                _frameIndex = 0;
                 _sprites.Clear();
+            }
             lstMetaSprites.Refresh();
             LoadUI();
             Loading = false;
@@ -503,6 +505,7 @@ namespace SMSTileStudio.Controls
                     _sprites.Add(i);
             }
             Updating = true;
+            var index = _frameIndex;
             UpdateMetaSprite();
             Updating = false;
         }
