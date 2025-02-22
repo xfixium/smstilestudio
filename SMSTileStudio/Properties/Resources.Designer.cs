@@ -63,9 +63,9 @@ namespace SMSTileStudio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] Newtonsoft_Json {
+        internal static byte[] Newtonsoft_Json_dll {
             get {
-                object obj = ResourceManager.GetObject("Newtonsoft_Json", resourceCulture);
+                object obj = ResourceManager.GetObject("Newtonsoft.Json.dll", resourceCulture);
                 return ((byte[])(obj));
             }
         }
