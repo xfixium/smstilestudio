@@ -188,6 +188,7 @@ namespace SMSTileStudio.Controls
                     if (form.ShowDialog() != DialogResult.OK)
                         return;
 
+                    lstMetaSprites.Items[lstMetaSprites.SelectedIndex] = App.Project.GetAsset(_metaSprite.ID) as MetaSprite;
                     lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
                 }
             }
