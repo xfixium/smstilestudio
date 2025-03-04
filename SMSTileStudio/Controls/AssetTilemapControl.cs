@@ -289,6 +289,10 @@ namespace SMSTileStudio.Controls
             // Export tilemap as binary file
             else if (HasData && menuItem == mnuTilemapExportBinary)
                 ExportBinary(_tilemap.GetTilemapData(mnuTilemapBypassCompression.Checked, GetTilemapExportOrientation()), _tilemap.Name.ToLower().Replace(' ', '_') + "_map");
+            // Export tilemap as binary file
+            else if (HasData && menuItem == mnuExportSGBinary)
+                ExportSGData();
+            // Export selected tilemaps as binary files
             // Export selected tilemaps as binary files
             else if (HasData && menuItem == mnuTilemapExportBinaries)
                 ExportBinaries(true);
@@ -577,7 +581,7 @@ namespace SMSTileStudio.Controls
             else if (HasData && menuItem == mnuNewTileGrid && cbTileGridTileSize.SelectedItem != null)
             {
                 var tileSizeType = (MetatileSizeType)cbTileGridTileSize.SelectedItem.GetType().GetProperty("value").GetValue(cbTileGridTileSize.SelectedItem);
-                TileGrid tileGrid  = new TileGrid(tileSizeType, txtTileGridName.Text, (ushort)nudTileGridColumns.Value, (ushort)nudTileGridRows.Value);
+                TileGrid tileGrid = new TileGrid(tileSizeType, txtTileGridName.Text, (ushort)nudTileGridColumns.Value, (ushort)nudTileGridRows.Value);
                 _tilemap.TileGrids.Add(tileGrid);
                 UpdateTilemap();
                 LoadUI();
@@ -1593,6 +1597,59 @@ namespace SMSTileStudio.Controls
             }
         }
 
+        /// <summary>
+        /// Exports SG formatted bitmap and color table data
+        /// </summary>
+        private void ExportSGData()
+        {
+            try
+            {
+                if (!HasData || _tilemap.Tileset == null)
+                    return;
+
+                // Get tile and color map data
+                var data = _tilemap.GetSGTileData();
+                // Save tiles
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.Title = "Export SG Tile Binary Data: " + _tilemap.Name;
+                    dialog.Filter = "Binary File|*.bin";
+                    dialog.FileName = _tilemap.Name.ToLower().Replace(' ', '_') + "_tiles.bin"; ;
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        using (FileStream fs = new FileStream(dialog.FileName, FileMode.Create))
+                        {
+                            using (BinaryWriter bw = new BinaryWriter(fs))
+                            {
+                                bw.Write(data.Item1);
+                            }
+                        }
+                    }
+                }
+                // Save color map
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.Title = "Export SG Color Map Binary Data: " + _tilemap.Name;
+                    dialog.Filter = "Binary File|*.bin";
+                    dialog.FileName = _tilemap.Name.ToLower().Replace(' ', '_') + "_color_map.bin"; ;
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        using (FileStream fs = new FileStream(dialog.FileName, FileMode.Create))
+                        {
+                            using (BinaryWriter bw = new BinaryWriter(fs))
+                            {
+                                bw.Write(data.Item2);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.Message);
+            }
+        }
+
         #endregion
 
         #region UI
@@ -1605,10 +1662,10 @@ namespace SMSTileStudio.Controls
             Loading = true;
 
             cbBgPalette.Items.Clear();
-            cbBgPalette.Items.AddRange(App.Project.Palettes.OrderBy(x => x.Name).ToArray());
+            cbBgPalette.Items.AddRange(App.Project.GetPaletteArray());
 
             cbSprPalette.Items.Clear();
-            cbSprPalette.Items.AddRange(App.Project.Palettes.OrderBy(x => x.Name).ToArray());
+            cbSprPalette.Items.AddRange(App.Project.GetPaletteArray());
 
             LoadList(loadDefault);
             Loading = false;

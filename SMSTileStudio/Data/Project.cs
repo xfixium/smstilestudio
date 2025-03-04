@@ -261,6 +261,28 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
+        /// Gets a sorted palette list
+        /// </summary>
+        public Palette[] GetPaletteArray()
+        {
+            var palettes = new List<Palette>();
+            foreach (var palette in Palettes.OrderBy(x => x.Name))
+            {
+                if (palette.ID < 0)
+                    continue;
+
+                palettes.Add(palette);
+            }
+            if (Palettes.Any(x => x.ID == -4))
+                palettes.Insert(0, Palettes.Find(x => x.ID == -4));
+            if (Palettes.Any(x => x.ID == -2))
+                palettes.Insert(0, Palettes.Find(x => x.ID == -2));
+            if (Palettes.Any(x => x.ID == -3))
+                palettes.Insert(0, Palettes.Find(x => x.ID == -3));
+            return palettes.ToArray();
+        }
+
+        /// <summary>
         /// Gets colors from byte data
         /// </summary>
         private static List<Palette> GetDefaultPalettes()
@@ -305,9 +327,32 @@ namespace SMSTileStudio.Data
                 Color.FromArgb(255, 170, 170, 0)
             };
 
-            List<Palette> defaultPalettes = new List<Palette>();
-            defaultPalettes.Add(new Palette(-3, "BG Default", bgDefaultColors));
-            defaultPalettes.Add(new Palette(-2, "SPR Default", sprDefaultColors));
+            List<Color> sgColors = new List<Color>
+            {
+                Color.FromArgb(255, 0, 0, 0),
+                Color.FromArgb(255, 0, 0, 0),
+                Color.FromArgb(255, 0, 170, 0),
+                Color.FromArgb(255, 0, 255, 0),
+                Color.FromArgb(255, 0, 0, 85),
+                Color.FromArgb(255, 0, 0, 255),
+                Color.FromArgb(255, 85, 0, 0),
+                Color.FromArgb(255, 0, 255, 255),
+                Color.FromArgb(255, 170, 0, 0),
+                Color.FromArgb(255, 255, 0, 0),
+                Color.FromArgb(255, 85, 85, 0),
+                Color.FromArgb(255, 255, 255, 0),
+                Color.FromArgb(255, 0, 85, 0),
+                Color.FromArgb(255, 255, 0, 255),
+                Color.FromArgb(255, 85, 85, 85),
+                Color.FromArgb(255, 255, 255, 255)
+            };
+
+            List<Palette> defaultPalettes = new List<Palette>
+            {
+                new Palette(-3, "BG Default", bgDefaultColors),
+                new Palette(-2, "SPR Default", sprDefaultColors),
+                new Palette(-4, "SG Default", sgColors)
+            };
             return defaultPalettes;
         }
     }

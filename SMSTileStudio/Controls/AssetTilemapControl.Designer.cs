@@ -74,6 +74,7 @@
             this.mnuExportSelectedIds = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportSelectionToImage = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportSelectionToBinary = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportAsSGBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExportSelectionDecimalToClipboard = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportSelectionDecimalReversedToClipboard = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,6 +101,7 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.rbShowIndexes = new System.Windows.Forms.RadioButton();
             this.rbShowIds = new System.Windows.Forms.RadioButton();
+            this.lblSelection = new System.Windows.Forms.Label();
             this.tabProperties = new System.Windows.Forms.TabControl();
             this.tabTilemapTiles = new System.Windows.Forms.TabPage();
             this.pnlTilemapOptions = new System.Windows.Forms.Panel();
@@ -237,6 +239,7 @@
             this.mnuTilemapExportBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapExportBinaries = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportBinariesFromAreaGrid = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportSGBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapExportDecimal = new System.Windows.Forms.ToolStripMenuItem();
@@ -278,7 +281,6 @@
             this.mnuDuplicateTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRemoveTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportTileGrid = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblSelection = new System.Windows.Forms.Label();
             this.tpnlMain.SuspendLayout();
             this.grpImageList.SuspendLayout();
             this.pnlPaletteButtons.SuspendLayout();
@@ -493,7 +495,7 @@
             this.lblTileType.Location = new System.Drawing.Point(3, 5);
             this.lblTileType.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileType.Name = "lblTileType";
-            this.lblTileType.Size = new System.Drawing.Size(85, 13);
+            this.lblTileType.Size = new System.Drawing.Size(83, 13);
             this.lblTileType.TabIndex = 30;
             this.lblTileType.Text = "Tile Type Value:";
             this.lblTileType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -504,7 +506,7 @@
             this.lblTilesetExportRange.Location = new System.Drawing.Point(4, 26);
             this.lblTilesetExportRange.Margin = new System.Windows.Forms.Padding(0);
             this.lblTilesetExportRange.Name = "lblTilesetExportRange";
-            this.lblTilesetExportRange.Size = new System.Drawing.Size(136, 13);
+            this.lblTilesetExportRange.Size = new System.Drawing.Size(134, 13);
             this.lblTilesetExportRange.TabIndex = 27;
             this.lblTilesetExportRange.Text = "Tileset Tile Export Range:";
             this.lblTilesetExportRange.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -691,163 +693,171 @@
             this.mnuExportSelectedIds,
             this.mnuExportSelectedIndexes});
             this.mnuSelectOptions.Name = "mnuSelectOptions";
-            this.mnuSelectOptions.Size = new System.Drawing.Size(199, 374);
+            this.mnuSelectOptions.Size = new System.Drawing.Size(200, 374);
             // 
             // mnuCreateBrush
             // 
             this.mnuCreateBrush.Name = "mnuCreateBrush";
-            this.mnuCreateBrush.Size = new System.Drawing.Size(198, 22);
+            this.mnuCreateBrush.Size = new System.Drawing.Size(199, 22);
             this.mnuCreateBrush.Text = "Brush From Selection";
             this.mnuCreateBrush.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuClearSelection
             // 
             this.mnuClearSelection.Name = "mnuClearSelection";
-            this.mnuClearSelection.Size = new System.Drawing.Size(198, 22);
+            this.mnuClearSelection.Size = new System.Drawing.Size(199, 22);
             this.mnuClearSelection.Text = "Clear Selection";
             this.mnuClearSelection.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuClearBrush
             // 
             this.mnuClearBrush.Name = "mnuClearBrush";
-            this.mnuClearBrush.Size = new System.Drawing.Size(198, 22);
+            this.mnuClearBrush.Size = new System.Drawing.Size(199, 22);
             this.mnuClearBrush.Text = "Clear Brush";
             this.mnuClearBrush.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuSeparator4
             // 
             this.mnuSeparator4.Name = "mnuSeparator4";
-            this.mnuSeparator4.Size = new System.Drawing.Size(195, 6);
+            this.mnuSeparator4.Size = new System.Drawing.Size(196, 6);
             // 
             // mnuSetSelectionTileId
             // 
             this.mnuSetSelectionTileId.Name = "mnuSetSelectionTileId";
-            this.mnuSetSelectionTileId.Size = new System.Drawing.Size(198, 22);
+            this.mnuSetSelectionTileId.Size = new System.Drawing.Size(199, 22);
             this.mnuSetSelectionTileId.Text = "Set Tile Id";
             this.mnuSetSelectionTileId.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuSetSelectionPriority
             // 
             this.mnuSetSelectionPriority.Name = "mnuSetSelectionPriority";
-            this.mnuSetSelectionPriority.Size = new System.Drawing.Size(198, 22);
+            this.mnuSetSelectionPriority.Size = new System.Drawing.Size(199, 22);
             this.mnuSetSelectionPriority.Text = "Set Priority";
             this.mnuSetSelectionPriority.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuUnsetSelectionPriority
             // 
             this.mnuUnsetSelectionPriority.Name = "mnuUnsetSelectionPriority";
-            this.mnuUnsetSelectionPriority.Size = new System.Drawing.Size(198, 22);
+            this.mnuUnsetSelectionPriority.Size = new System.Drawing.Size(199, 22);
             this.mnuUnsetSelectionPriority.Text = "Unset Priority";
             this.mnuUnsetSelectionPriority.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuSetSelectionPalette
             // 
             this.mnuSetSelectionPalette.Name = "mnuSetSelectionPalette";
-            this.mnuSetSelectionPalette.Size = new System.Drawing.Size(198, 22);
+            this.mnuSetSelectionPalette.Size = new System.Drawing.Size(199, 22);
             this.mnuSetSelectionPalette.Text = "Set BG Palette";
             this.mnuSetSelectionPalette.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuUnsetSelectionPalette
             // 
             this.mnuUnsetSelectionPalette.Name = "mnuUnsetSelectionPalette";
-            this.mnuUnsetSelectionPalette.Size = new System.Drawing.Size(198, 22);
+            this.mnuUnsetSelectionPalette.Size = new System.Drawing.Size(199, 22);
             this.mnuUnsetSelectionPalette.Text = "Set SPR Palette";
             this.mnuUnsetSelectionPalette.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuSetTileType
             // 
             this.mnuSetTileType.Name = "mnuSetTileType";
-            this.mnuSetTileType.Size = new System.Drawing.Size(198, 22);
+            this.mnuSetTileType.Size = new System.Drawing.Size(199, 22);
             this.mnuSetTileType.Text = "Set Tile Type";
             this.mnuSetTileType.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuMirrorX
             // 
             this.mnuMirrorX.Name = "mnuMirrorX";
-            this.mnuMirrorX.Size = new System.Drawing.Size(198, 22);
+            this.mnuMirrorX.Size = new System.Drawing.Size(199, 22);
             this.mnuMirrorX.Text = "Mirror Horizontal";
             this.mnuMirrorX.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuMirrorY
             // 
             this.mnuMirrorY.Name = "mnuMirrorY";
-            this.mnuMirrorY.Size = new System.Drawing.Size(198, 22);
+            this.mnuMirrorY.Size = new System.Drawing.Size(199, 22);
             this.mnuMirrorY.Text = "Mirror Vertical";
             this.mnuMirrorY.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(196, 6);
             // 
             // mnuTilemapFromSelection
             // 
             this.mnuTilemapFromSelection.Name = "mnuTilemapFromSelection";
-            this.mnuTilemapFromSelection.Size = new System.Drawing.Size(198, 22);
+            this.mnuTilemapFromSelection.Size = new System.Drawing.Size(199, 22);
             this.mnuTilemapFromSelection.Text = "Tilemap From Selection";
             this.mnuTilemapFromSelection.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuSelectionToTilemap
             // 
             this.mnuSelectionToTilemap.Name = "mnuSelectionToTilemap";
-            this.mnuSelectionToTilemap.Size = new System.Drawing.Size(198, 22);
+            this.mnuSelectionToTilemap.Size = new System.Drawing.Size(199, 22);
             this.mnuSelectionToTilemap.Text = "Selection To Tilemap";
             this.mnuSelectionToTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuCropTilemap
             // 
             this.mnuCropTilemap.Name = "mnuCropTilemap";
-            this.mnuCropTilemap.Size = new System.Drawing.Size(198, 22);
+            this.mnuCropTilemap.Size = new System.Drawing.Size(199, 22);
             this.mnuCropTilemap.Text = "Crop Tilemap";
             this.mnuCropTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(195, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(196, 6);
             // 
             // mnuExportSelectedIds
             // 
             this.mnuExportSelectedIds.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuExportSelectionToImage,
             this.mnuExportSelectionToBinary,
+            this.mnuExportAsSGBinary,
             this.toolStripMenuItem7,
             this.mnuExportSelectionDecimalToClipboard,
             this.mnuExportSelectionDecimalReversedToClipboard});
             this.mnuExportSelectedIds.Name = "mnuExportSelectedIds";
-            this.mnuExportSelectedIds.Size = new System.Drawing.Size(198, 22);
+            this.mnuExportSelectedIds.Size = new System.Drawing.Size(199, 22);
             this.mnuExportSelectedIds.Text = "Export Selected Ids";
             // 
             // mnuExportSelectionToImage
             // 
             this.mnuExportSelectionToImage.Name = "mnuExportSelectionToImage";
-            this.mnuExportSelectionToImage.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectionToImage.Size = new System.Drawing.Size(282, 22);
             this.mnuExportSelectionToImage.Text = "Export As Image";
             this.mnuExportSelectionToImage.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuExportSelectionToBinary
             // 
             this.mnuExportSelectionToBinary.Name = "mnuExportSelectionToBinary";
-            this.mnuExportSelectionToBinary.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectionToBinary.Size = new System.Drawing.Size(282, 22);
             this.mnuExportSelectionToBinary.Text = "Export As Binary";
             this.mnuExportSelectionToBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuExportAsSGBinary
+            // 
+            this.mnuExportAsSGBinary.Name = "mnuExportAsSGBinary";
+            this.mnuExportAsSGBinary.Size = new System.Drawing.Size(282, 22);
+            this.mnuExportAsSGBinary.Text = "Export As SG Binary";
+            this.mnuExportAsSGBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(280, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(279, 6);
             // 
             // mnuExportSelectionDecimalToClipboard
             // 
             this.mnuExportSelectionDecimalToClipboard.Name = "mnuExportSelectionDecimalToClipboard";
-            this.mnuExportSelectionDecimalToClipboard.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectionDecimalToClipboard.Size = new System.Drawing.Size(282, 22);
             this.mnuExportSelectionDecimalToClipboard.Text = "Export As Decimal (Clipboard)";
             this.mnuExportSelectionDecimalToClipboard.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuExportSelectionDecimalReversedToClipboard
             // 
             this.mnuExportSelectionDecimalReversedToClipboard.Name = "mnuExportSelectionDecimalReversedToClipboard";
-            this.mnuExportSelectionDecimalReversedToClipboard.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectionDecimalReversedToClipboard.Size = new System.Drawing.Size(282, 22);
             this.mnuExportSelectionDecimalReversedToClipboard.Text = "Export As Decimal Reversed (Clipboard)";
             this.mnuExportSelectionDecimalReversedToClipboard.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -859,32 +869,32 @@
             this.mnuExportSelectedIndexesToDecimal,
             this.mnuExportSelectedIndexesToDecimalReversed});
             this.mnuExportSelectedIndexes.Name = "mnuExportSelectedIndexes";
-            this.mnuExportSelectedIndexes.Size = new System.Drawing.Size(198, 22);
+            this.mnuExportSelectedIndexes.Size = new System.Drawing.Size(199, 22);
             this.mnuExportSelectedIndexes.Text = "Export Selected Indexes";
             // 
             // mnuExportAreaToBinary
             // 
             this.mnuExportAreaToBinary.Name = "mnuExportAreaToBinary";
-            this.mnuExportAreaToBinary.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportAreaToBinary.Size = new System.Drawing.Size(282, 22);
             this.mnuExportAreaToBinary.Text = "Export As Binary";
             this.mnuExportAreaToBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(280, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(279, 6);
             // 
             // mnuExportSelectedIndexesToDecimal
             // 
             this.mnuExportSelectedIndexesToDecimal.Name = "mnuExportSelectedIndexesToDecimal";
-            this.mnuExportSelectedIndexesToDecimal.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectedIndexesToDecimal.Size = new System.Drawing.Size(282, 22);
             this.mnuExportSelectedIndexesToDecimal.Text = "Export As Decimal (Clipboard)";
             this.mnuExportSelectedIndexesToDecimal.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuExportSelectedIndexesToDecimalReversed
             // 
             this.mnuExportSelectedIndexesToDecimalReversed.Name = "mnuExportSelectedIndexesToDecimalReversed";
-            this.mnuExportSelectedIndexesToDecimalReversed.Size = new System.Drawing.Size(283, 22);
+            this.mnuExportSelectedIndexesToDecimalReversed.Size = new System.Drawing.Size(282, 22);
             this.mnuExportSelectedIndexesToDecimalReversed.Text = "Export As Decimal Reversed (Clipboard)";
             this.mnuExportSelectedIndexesToDecimalReversed.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -946,7 +956,7 @@
             this.rbBrush.Location = new System.Drawing.Point(3, 3);
             this.rbBrush.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbBrush.Name = "rbBrush";
-            this.rbBrush.Size = new System.Drawing.Size(54, 17);
+            this.rbBrush.Size = new System.Drawing.Size(55, 17);
             this.rbBrush.TabIndex = 0;
             this.rbBrush.TabStop = true;
             this.rbBrush.Text = "Brush";
@@ -957,7 +967,7 @@
             // rbSelect
             // 
             this.rbSelect.AutoSize = true;
-            this.rbSelect.Location = new System.Drawing.Point(60, 3);
+            this.rbSelect.Location = new System.Drawing.Point(61, 3);
             this.rbSelect.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbSelect.Name = "rbSelect";
             this.rbSelect.Size = new System.Drawing.Size(55, 17);
@@ -970,7 +980,7 @@
             // rbFlipX
             // 
             this.rbFlipX.AutoSize = true;
-            this.rbFlipX.Location = new System.Drawing.Point(118, 3);
+            this.rbFlipX.Location = new System.Drawing.Point(119, 3);
             this.rbFlipX.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbFlipX.Name = "rbFlipX";
             this.rbFlipX.Size = new System.Drawing.Size(55, 17);
@@ -983,7 +993,7 @@
             // rbFlipY
             // 
             this.rbFlipY.AutoSize = true;
-            this.rbFlipY.Location = new System.Drawing.Point(176, 3);
+            this.rbFlipY.Location = new System.Drawing.Point(177, 3);
             this.rbFlipY.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbFlipY.Name = "rbFlipY";
             this.rbFlipY.Size = new System.Drawing.Size(54, 17);
@@ -996,7 +1006,7 @@
             // rbPriority
             // 
             this.rbPriority.AutoSize = true;
-            this.rbPriority.Location = new System.Drawing.Point(233, 3);
+            this.rbPriority.Location = new System.Drawing.Point(234, 3);
             this.rbPriority.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbPriority.Name = "rbPriority";
             this.rbPriority.Size = new System.Drawing.Size(61, 17);
@@ -1009,7 +1019,7 @@
             // rbPalette
             // 
             this.rbPalette.AutoSize = true;
-            this.rbPalette.Location = new System.Drawing.Point(297, 3);
+            this.rbPalette.Location = new System.Drawing.Point(298, 3);
             this.rbPalette.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbPalette.Name = "rbPalette";
             this.rbPalette.Size = new System.Drawing.Size(60, 17);
@@ -1022,10 +1032,10 @@
             // rbTileType
             // 
             this.rbTileType.AutoSize = true;
-            this.rbTileType.Location = new System.Drawing.Point(360, 3);
+            this.rbTileType.Location = new System.Drawing.Point(361, 3);
             this.rbTileType.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbTileType.Name = "rbTileType";
-            this.rbTileType.Size = new System.Drawing.Size(48, 17);
+            this.rbTileType.Size = new System.Drawing.Size(47, 17);
             this.rbTileType.TabIndex = 31;
             this.rbTileType.Text = "Type";
             this.tipMain.SetToolTip(this.rbTileType, "Type Bits (T)");
@@ -1077,7 +1087,7 @@
             this.chkShowTileAs.Location = new System.Drawing.Point(174, 28);
             this.chkShowTileAs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.chkShowTileAs.Name = "chkShowTileAs";
-            this.chkShowTileAs.Size = new System.Drawing.Size(79, 17);
+            this.chkShowTileAs.Size = new System.Drawing.Size(78, 17);
             this.chkShowTileAs.TabIndex = 13;
             this.chkShowTileAs.Text = "Show Tile:";
             this.tipMain.SetToolTip(this.chkShowTileAs, "Show Tile (I)");
@@ -1088,7 +1098,7 @@
             // 
             this.panel8.Controls.Add(this.rbShowIndexes);
             this.panel8.Controls.Add(this.rbShowIds);
-            this.panel8.Location = new System.Drawing.Point(256, 24);
+            this.panel8.Location = new System.Drawing.Point(255, 24);
             this.panel8.Margin = new System.Windows.Forms.Padding(0);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(104, 24);
@@ -1121,6 +1131,16 @@
             this.rbShowIds.Text = "Ids";
             this.rbShowIds.UseVisualStyleBackColor = true;
             this.rbShowIds.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            // 
+            // lblSelection
+            // 
+            this.lblSelection.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblSelection.Location = new System.Drawing.Point(0, 508);
+            this.lblSelection.Name = "lblSelection";
+            this.lblSelection.Size = new System.Drawing.Size(475, 17);
+            this.lblSelection.TabIndex = 32;
+            this.lblSelection.Text = "Selection: N/A";
+            this.lblSelection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabProperties
             // 
@@ -1307,7 +1327,7 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(0, 3);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(88, 17);
+            this.checkBox1.Size = new System.Drawing.Size(87, 17);
             this.checkBox1.TabIndex = 19;
             this.checkBox1.Text = "Merge Tiles:";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -1517,7 +1537,7 @@
             this.chkUseAttributes.Location = new System.Drawing.Point(0, 150);
             this.chkUseAttributes.Margin = new System.Windows.Forms.Padding(0);
             this.chkUseAttributes.Name = "chkUseAttributes";
-            this.chkUseAttributes.Size = new System.Drawing.Size(120, 17);
+            this.chkUseAttributes.Size = new System.Drawing.Size(119, 17);
             this.chkUseAttributes.TabIndex = 14;
             this.chkUseAttributes.Text = "Use Tile Attributes";
             this.chkUseAttributes.UseVisualStyleBackColor = true;
@@ -1563,7 +1583,7 @@
             this.lblName.Location = new System.Drawing.Point(0, 28);
             this.lblName.Margin = new System.Windows.Forms.Padding(0);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(82, 13);
+            this.lblName.Size = new System.Drawing.Size(81, 13);
             this.lblName.TabIndex = 0;
             this.lblName.Text = "Tilemap Name:";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1633,7 +1653,7 @@
             this.lblTileGridTileSize.Location = new System.Drawing.Point(1, 64);
             this.lblTileGridTileSize.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileGridTileSize.Name = "lblTileGridTileSize";
-            this.lblTileGridTileSize.Size = new System.Drawing.Size(51, 13);
+            this.lblTileGridTileSize.Size = new System.Drawing.Size(50, 13);
             this.lblTileGridTileSize.TabIndex = 42;
             this.lblTileGridTileSize.Text = "Tile Size:";
             this.lblTileGridTileSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1763,7 +1783,7 @@
             this.lblTileGridName.Location = new System.Drawing.Point(0, 28);
             this.lblTileGridName.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileGridName.Name = "lblTileGridName";
-            this.lblTileGridName.Size = new System.Drawing.Size(85, 13);
+            this.lblTileGridName.Size = new System.Drawing.Size(84, 13);
             this.lblTileGridName.TabIndex = 33;
             this.lblTileGridName.Text = "Tile Grid Name:";
             this.lblTileGridName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2110,7 +2130,7 @@
             this.rbTilesetType.Location = new System.Drawing.Point(123, 3);
             this.rbTilesetType.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.rbTilesetType.Name = "rbTilesetType";
-            this.rbTilesetType.Size = new System.Drawing.Size(48, 17);
+            this.rbTilesetType.Size = new System.Drawing.Size(47, 17);
             this.rbTilesetType.TabIndex = 28;
             this.rbTilesetType.Text = "Type";
             this.rbTilesetType.UseVisualStyleBackColor = true;
@@ -2121,7 +2141,7 @@
             this.chkTilesetGrid.AutoSize = true;
             this.chkTilesetGrid.Checked = true;
             this.chkTilesetGrid.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTilesetGrid.Location = new System.Drawing.Point(174, 4);
+            this.chkTilesetGrid.Location = new System.Drawing.Point(173, 4);
             this.chkTilesetGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.chkTilesetGrid.Name = "chkTilesetGrid";
             this.chkTilesetGrid.Size = new System.Drawing.Size(48, 17);
@@ -2134,10 +2154,10 @@
             // chkTilesetShowTileIds
             // 
             this.chkTilesetShowTileIds.AutoSize = true;
-            this.chkTilesetShowTileIds.Location = new System.Drawing.Point(228, 4);
+            this.chkTilesetShowTileIds.Location = new System.Drawing.Point(227, 4);
             this.chkTilesetShowTileIds.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
             this.chkTilesetShowTileIds.Name = "chkTilesetShowTileIds";
-            this.chkTilesetShowTileIds.Size = new System.Drawing.Size(94, 17);
+            this.chkTilesetShowTileIds.Size = new System.Drawing.Size(93, 17);
             this.chkTilesetShowTileIds.TabIndex = 11;
             this.chkTilesetShowTileIds.Text = "Show Tile Ids";
             this.tipMain.SetToolTip(this.chkTilesetShowTileIds, "Show Tile Ids (I)");
@@ -2252,7 +2272,7 @@
             this.rbBgPalette.Checked = true;
             this.rbBgPalette.Location = new System.Drawing.Point(10, 26);
             this.rbBgPalette.Name = "rbBgPalette";
-            this.rbBgPalette.Size = new System.Drawing.Size(77, 17);
+            this.rbBgPalette.Size = new System.Drawing.Size(78, 17);
             this.rbBgPalette.TabIndex = 9;
             this.rbBgPalette.TabStop = true;
             this.rbBgPalette.Text = "BG Palette";
@@ -2285,7 +2305,7 @@
             this.lblSelectedTile.AutoSize = true;
             this.lblSelectedTile.Location = new System.Drawing.Point(8, 248);
             this.lblSelectedTile.Name = "lblSelectedTile";
-            this.lblSelectedTile.Size = new System.Drawing.Size(74, 13);
+            this.lblSelectedTile.Size = new System.Drawing.Size(73, 13);
             this.lblSelectedTile.TabIndex = 12;
             this.lblSelectedTile.Text = "Selected Tile:";
             // 
@@ -2336,7 +2356,7 @@
             this.lblBgPalette.Location = new System.Drawing.Point(8, 48);
             this.lblBgPalette.Margin = new System.Windows.Forms.Padding(0);
             this.lblBgPalette.Name = "lblBgPalette";
-            this.lblBgPalette.Size = new System.Drawing.Size(110, 13);
+            this.lblBgPalette.Size = new System.Drawing.Size(111, 13);
             this.lblBgPalette.TabIndex = 4;
             this.lblBgPalette.Text = "Background Palette:";
             this.lblBgPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -2438,7 +2458,7 @@
             this.lblExistingTag.AutoSize = true;
             this.lblExistingTag.Location = new System.Drawing.Point(0, 112);
             this.lblExistingTag.Name = "lblExistingTag";
-            this.lblExistingTag.Size = new System.Drawing.Size(71, 13);
+            this.lblExistingTag.Size = new System.Drawing.Size(70, 13);
             this.lblExistingTag.TabIndex = 22;
             this.lblExistingTag.Text = "Existing Tag:";
             // 
@@ -2458,7 +2478,7 @@
             this.lblTagName.AutoSize = true;
             this.lblTagName.Location = new System.Drawing.Point(0, 24);
             this.lblTagName.Name = "lblTagName";
-            this.lblTagName.Size = new System.Drawing.Size(86, 13);
+            this.lblTagName.Size = new System.Drawing.Size(85, 13);
             this.lblTagName.TabIndex = 5;
             this.lblTagName.Text = "New Tag Name:";
             // 
@@ -2522,19 +2542,19 @@
             this.mnuExportMetatiles,
             this.mnuExportEntities});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(160, 142);
+            this.mnuExport.Size = new System.Drawing.Size(181, 164);
             // 
             // mnuExportAll
             // 
             this.mnuExportAll.Name = "mnuExportAll";
-            this.mnuExportAll.Size = new System.Drawing.Size(159, 22);
+            this.mnuExportAll.Size = new System.Drawing.Size(180, 22);
             this.mnuExportAll.Text = "Export All";
             this.mnuExportAll.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(156, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuExportPalette
             // 
@@ -2546,7 +2566,7 @@
             this.mnuPaletteExportHex,
             this.mnuPaletteExportAssembly});
             this.mnuExportPalette.Name = "mnuExportPalette";
-            this.mnuExportPalette.Size = new System.Drawing.Size(159, 22);
+            this.mnuExportPalette.Size = new System.Drawing.Size(180, 22);
             this.mnuExportPalette.Text = "Export Palette";
             // 
             // mnuExportBgPalette
@@ -2555,36 +2575,36 @@
             this.mnuExportBgPalette.CheckOnClick = true;
             this.mnuExportBgPalette.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuExportBgPalette.Name = "mnuExportBgPalette";
-            this.mnuExportBgPalette.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportBgPalette.Size = new System.Drawing.Size(238, 22);
             this.mnuExportBgPalette.Text = "Background Palette";
             // 
             // mnuSeparator1
             // 
             this.mnuSeparator1.Name = "mnuSeparator1";
-            this.mnuSeparator1.Size = new System.Drawing.Size(236, 6);
+            this.mnuSeparator1.Size = new System.Drawing.Size(235, 6);
             // 
             // mnuPaletteExportImage
             // 
             this.mnuPaletteExportImage.Name = "mnuPaletteExportImage";
-            this.mnuPaletteExportImage.Size = new System.Drawing.Size(239, 22);
+            this.mnuPaletteExportImage.Size = new System.Drawing.Size(238, 22);
             this.mnuPaletteExportImage.Text = "Export as Image";
             // 
             // mnuPaletteExportBinary
             // 
             this.mnuPaletteExportBinary.Name = "mnuPaletteExportBinary";
-            this.mnuPaletteExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuPaletteExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuPaletteExportBinary.Text = "Export as Binary";
             // 
             // mnuPaletteExportHex
             // 
             this.mnuPaletteExportHex.Name = "mnuPaletteExportHex";
-            this.mnuPaletteExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuPaletteExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuPaletteExportHex.Text = "Export as Hex (Clipboard)";
             // 
             // mnuPaletteExportAssembly
             // 
             this.mnuPaletteExportAssembly.Name = "mnuPaletteExportAssembly";
-            this.mnuPaletteExportAssembly.Size = new System.Drawing.Size(239, 22);
+            this.mnuPaletteExportAssembly.Size = new System.Drawing.Size(238, 22);
             this.mnuPaletteExportAssembly.Text = "Export as Assembly (Clipboard)";
             // 
             // mnuExportTileset
@@ -2600,7 +2620,7 @@
             this.mnuTilesetExportHex,
             this.mnuTilesetExportAssembly});
             this.mnuExportTileset.Name = "mnuExportTileset";
-            this.mnuExportTileset.Size = new System.Drawing.Size(159, 22);
+            this.mnuExportTileset.Size = new System.Drawing.Size(180, 22);
             this.mnuExportTileset.Text = "Export Tileset";
             // 
             // mnuTilesetBypassCompression
@@ -2676,93 +2696,101 @@
             this.mnuTilemapExportBinary,
             this.mnuTilemapExportBinaries,
             this.mnuExportBinariesFromAreaGrid,
+            this.mnuExportSGBinary,
             this.mnuTilemapExportHex,
             this.mnuTilemapExportAssembly,
             this.mnuTilemapExportDecimal});
             this.mnuExportTilemap.Name = "mnuExportTilemap";
-            this.mnuExportTilemap.Size = new System.Drawing.Size(159, 22);
+            this.mnuExportTilemap.Size = new System.Drawing.Size(180, 22);
             this.mnuExportTilemap.Text = "Export Tilemap";
             // 
             // mnuTilemapBypassCompression
             // 
             this.mnuTilemapBypassCompression.CheckOnClick = true;
             this.mnuTilemapBypassCompression.Name = "mnuTilemapBypassCompression";
-            this.mnuTilemapBypassCompression.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapBypassCompression.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapBypassCompression.Text = "Bypass Compression";
             // 
             // mnuTilemapVerticalOrientation
             // 
             this.mnuTilemapVerticalOrientation.CheckOnClick = true;
             this.mnuTilemapVerticalOrientation.Name = "mnuTilemapVerticalOrientation";
-            this.mnuTilemapVerticalOrientation.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapVerticalOrientation.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapVerticalOrientation.Text = "Vertical Orientation";
             this.mnuTilemapVerticalOrientation.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
             // mnuSeparator3
             // 
             this.mnuSeparator3.Name = "mnuSeparator3";
-            this.mnuSeparator3.Size = new System.Drawing.Size(236, 6);
+            this.mnuSeparator3.Size = new System.Drawing.Size(235, 6);
             // 
             // mnuTilemapExportImage
             // 
             this.mnuTilemapExportImage.Name = "mnuTilemapExportImage";
-            this.mnuTilemapExportImage.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapExportImage.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportImage.Text = "Export as Image";
             this.mnuTilemapExportImage.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilemapExportImages
             // 
             this.mnuTilemapExportImages.Name = "mnuTilemapExportImages";
-            this.mnuTilemapExportImages.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapExportImages.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportImages.Text = "Export as Images";
             this.mnuTilemapExportImages.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuExportImagesFromAreaGrid
             // 
             this.mnuExportImagesFromAreaGrid.Name = "mnuExportImagesFromAreaGrid";
-            this.mnuExportImagesFromAreaGrid.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportImagesFromAreaGrid.Size = new System.Drawing.Size(238, 22);
             this.mnuExportImagesFromAreaGrid.Text = "Export Images from Area Grid";
             this.mnuExportImagesFromAreaGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilemapExportBinary
             // 
             this.mnuTilemapExportBinary.Name = "mnuTilemapExportBinary";
-            this.mnuTilemapExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportBinary.Text = "Export as Binary";
             this.mnuTilemapExportBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilemapExportBinaries
             // 
             this.mnuTilemapExportBinaries.Name = "mnuTilemapExportBinaries";
-            this.mnuTilemapExportBinaries.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapExportBinaries.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportBinaries.Text = "Export as Binaries";
             this.mnuTilemapExportBinaries.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuExportBinariesFromAreaGrid
             // 
             this.mnuExportBinariesFromAreaGrid.Name = "mnuExportBinariesFromAreaGrid";
-            this.mnuExportBinariesFromAreaGrid.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportBinariesFromAreaGrid.Size = new System.Drawing.Size(238, 22);
             this.mnuExportBinariesFromAreaGrid.Text = "Export Binaries from Area Grid";
             this.mnuExportBinariesFromAreaGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuExportSGBinary
+            // 
+            this.mnuExportSGBinary.Name = "mnuExportSGBinary";
+            this.mnuExportSGBinary.Size = new System.Drawing.Size(238, 22);
+            this.mnuExportSGBinary.Text = "Export as SG Binary";
+            this.mnuExportSGBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilemapExportHex
             // 
             this.mnuTilemapExportHex.Name = "mnuTilemapExportHex";
-            this.mnuTilemapExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportHex.Text = "Export as Hex (Clipboard)";
             this.mnuTilemapExportHex.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilemapExportAssembly
             // 
             this.mnuTilemapExportAssembly.Name = "mnuTilemapExportAssembly";
-            this.mnuTilemapExportAssembly.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapExportAssembly.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuTilemapExportAssembly.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilemapExportDecimal
             // 
             this.mnuTilemapExportDecimal.Name = "mnuTilemapExportDecimal";
-            this.mnuTilemapExportDecimal.Size = new System.Drawing.Size(239, 22);
+            this.mnuTilemapExportDecimal.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportDecimal.Text = "Export as Decimal (Clipboard)";
             this.mnuTilemapExportDecimal.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -2776,43 +2804,43 @@
             this.mnuMetatilesExportAsm,
             this.mnuMetatileMap});
             this.mnuExportMetatiles.Name = "mnuExportMetatiles";
-            this.mnuExportMetatiles.Size = new System.Drawing.Size(159, 22);
+            this.mnuExportMetatiles.Size = new System.Drawing.Size(180, 22);
             this.mnuExportMetatiles.Text = "Export Metatiles";
             // 
             // mnuMetatilesBypassCompression
             // 
             this.mnuMetatilesBypassCompression.CheckOnClick = true;
             this.mnuMetatilesBypassCompression.Name = "mnuMetatilesBypassCompression";
-            this.mnuMetatilesBypassCompression.Size = new System.Drawing.Size(239, 22);
+            this.mnuMetatilesBypassCompression.Size = new System.Drawing.Size(238, 22);
             this.mnuMetatilesBypassCompression.Text = "Bypass Compression";
             // 
             // mnuSeparator5
             // 
             this.mnuSeparator5.Name = "mnuSeparator5";
-            this.mnuSeparator5.Size = new System.Drawing.Size(236, 6);
+            this.mnuSeparator5.Size = new System.Drawing.Size(235, 6);
             // 
             // mnuMetatilesExportBinary
             // 
             this.mnuMetatilesExportBinary.Name = "mnuMetatilesExportBinary";
-            this.mnuMetatilesExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuMetatilesExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuMetatilesExportBinary.Text = "Export as Binary";
             // 
             // mnuMetatilesExportHex
             // 
             this.mnuMetatilesExportHex.Name = "mnuMetatilesExportHex";
-            this.mnuMetatilesExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuMetatilesExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuMetatilesExportHex.Text = "Export as Hex (Clipboard)";
             // 
             // mnuMetatilesExportAsm
             // 
             this.mnuMetatilesExportAsm.Name = "mnuMetatilesExportAsm";
-            this.mnuMetatilesExportAsm.Size = new System.Drawing.Size(239, 22);
+            this.mnuMetatilesExportAsm.Size = new System.Drawing.Size(238, 22);
             this.mnuMetatilesExportAsm.Text = "Export as Assembly (Clipboard)";
             // 
             // mnuMetatileMap
             // 
             this.mnuMetatileMap.Name = "mnuMetatileMap";
-            this.mnuMetatileMap.Size = new System.Drawing.Size(239, 22);
+            this.mnuMetatileMap.Size = new System.Drawing.Size(238, 22);
             this.mnuMetatileMap.Text = "Export Metatile Map";
             // 
             // mnuExportEntities
@@ -2822,27 +2850,27 @@
             this.mnuEntitiesExportHex,
             this.mnuEntitiesExportAsm});
             this.mnuExportEntities.Name = "mnuExportEntities";
-            this.mnuExportEntities.Size = new System.Drawing.Size(159, 22);
+            this.mnuExportEntities.Size = new System.Drawing.Size(180, 22);
             this.mnuExportEntities.Text = "Export Entities";
             // 
             // mnuEntitiesExportBinary
             // 
             this.mnuEntitiesExportBinary.Name = "mnuEntitiesExportBinary";
-            this.mnuEntitiesExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuEntitiesExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuEntitiesExportBinary.Text = "Export as Binary";
             this.mnuEntitiesExportBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuEntitiesExportHex
             // 
             this.mnuEntitiesExportHex.Name = "mnuEntitiesExportHex";
-            this.mnuEntitiesExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuEntitiesExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuEntitiesExportHex.Text = "Export as Hex (Clipboard)";
             this.mnuEntitiesExportHex.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuEntitiesExportAsm
             // 
             this.mnuEntitiesExportAsm.Name = "mnuEntitiesExportAsm";
-            this.mnuEntitiesExportAsm.Size = new System.Drawing.Size(239, 22);
+            this.mnuEntitiesExportAsm.Size = new System.Drawing.Size(238, 22);
             this.mnuEntitiesExportAsm.Text = "Export as Assembly (Clipboard)";
             this.mnuEntitiesExportAsm.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -2852,19 +2880,19 @@
             this.mnuImportTilemap,
             this.mnuUpdateTileset});
             this.mnuImport.Name = "mnuImport";
-            this.mnuImport.Size = new System.Drawing.Size(156, 48);
+            this.mnuImport.Size = new System.Drawing.Size(157, 48);
             // 
             // mnuImportTilemap
             // 
             this.mnuImportTilemap.Name = "mnuImportTilemap";
-            this.mnuImportTilemap.Size = new System.Drawing.Size(155, 22);
+            this.mnuImportTilemap.Size = new System.Drawing.Size(156, 22);
             this.mnuImportTilemap.Text = "Import Tilemap";
             this.mnuImportTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuUpdateTileset
             // 
             this.mnuUpdateTileset.Name = "mnuUpdateTileset";
-            this.mnuUpdateTileset.Size = new System.Drawing.Size(155, 22);
+            this.mnuUpdateTileset.Size = new System.Drawing.Size(156, 22);
             this.mnuUpdateTileset.Text = "Update Tileset";
             this.mnuUpdateTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -2883,38 +2911,38 @@
             this.mnuPasteTileset,
             this.mnuBulkPasteTileset});
             this.mnuTilesetOptions.Name = "mnuTileOptions";
-            this.mnuTilesetOptions.Size = new System.Drawing.Size(207, 214);
+            this.mnuTilesetOptions.Size = new System.Drawing.Size(206, 214);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(203, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(202, 6);
             // 
             // mnuAddTile
             // 
             this.mnuAddTile.Name = "mnuAddTile";
-            this.mnuAddTile.Size = new System.Drawing.Size(206, 22);
+            this.mnuAddTile.Size = new System.Drawing.Size(205, 22);
             this.mnuAddTile.Text = "Add Empty Tile";
             this.mnuAddTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilesetCopyTile
             // 
             this.mnuTilesetCopyTile.Name = "mnuTilesetCopyTile";
-            this.mnuTilesetCopyTile.Size = new System.Drawing.Size(206, 22);
+            this.mnuTilesetCopyTile.Size = new System.Drawing.Size(205, 22);
             this.mnuTilesetCopyTile.Text = "Copy Tile";
             this.mnuTilesetCopyTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilesetPasteTile
             // 
             this.mnuTilesetPasteTile.Name = "mnuTilesetPasteTile";
-            this.mnuTilesetPasteTile.Size = new System.Drawing.Size(206, 22);
+            this.mnuTilesetPasteTile.Size = new System.Drawing.Size(205, 22);
             this.mnuTilesetPasteTile.Text = "Paste Tile";
             this.mnuTilesetPasteTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuDeselectTile
             // 
             this.mnuDeselectTile.Name = "mnuDeselectTile";
-            this.mnuDeselectTile.Size = new System.Drawing.Size(206, 22);
+            this.mnuDeselectTile.Size = new System.Drawing.Size(205, 22);
             this.mnuDeselectTile.Text = "Deselect Tile";
             this.mnuDeselectTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -2922,40 +2950,40 @@
             // 
             this.mnuRemoveTile.Name = "mnuRemoveTile";
             this.mnuRemoveTile.ShortcutKeyDisplayString = "Del";
-            this.mnuRemoveTile.Size = new System.Drawing.Size(206, 22);
+            this.mnuRemoveTile.Size = new System.Drawing.Size(205, 22);
             this.mnuRemoveTile.Text = "Remove Tile";
             this.mnuRemoveTile.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuRemoveByRange
             // 
             this.mnuRemoveByRange.Name = "mnuRemoveByRange";
-            this.mnuRemoveByRange.Size = new System.Drawing.Size(206, 22);
+            this.mnuRemoveByRange.Size = new System.Drawing.Size(205, 22);
             this.mnuRemoveByRange.Text = "Remove By Export Range";
             this.mnuRemoveByRange.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuSeperator20
             // 
             this.mnuSeperator20.Name = "mnuSeperator20";
-            this.mnuSeperator20.Size = new System.Drawing.Size(203, 6);
+            this.mnuSeperator20.Size = new System.Drawing.Size(202, 6);
             // 
             // mnuCopyTileset
             // 
             this.mnuCopyTileset.Name = "mnuCopyTileset";
-            this.mnuCopyTileset.Size = new System.Drawing.Size(206, 22);
+            this.mnuCopyTileset.Size = new System.Drawing.Size(205, 22);
             this.mnuCopyTileset.Text = "Copy Tileset";
             this.mnuCopyTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuPasteTileset
             // 
             this.mnuPasteTileset.Name = "mnuPasteTileset";
-            this.mnuPasteTileset.Size = new System.Drawing.Size(206, 22);
+            this.mnuPasteTileset.Size = new System.Drawing.Size(205, 22);
             this.mnuPasteTileset.Text = "Paste Tileset";
             this.mnuPasteTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuBulkPasteTileset
             // 
             this.mnuBulkPasteTileset.Name = "mnuBulkPasteTileset";
-            this.mnuBulkPasteTileset.Size = new System.Drawing.Size(206, 22);
+            this.mnuBulkPasteTileset.Size = new System.Drawing.Size(205, 22);
             this.mnuBulkPasteTileset.Text = "Bulk Paste Tileset";
             this.mnuBulkPasteTileset.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -2968,38 +2996,38 @@
             this.mnuTilemapBulkRename,
             this.mnuTilemapsFromAreaGrid});
             this.mnuTilemapOptions.Name = "mnuTilemapOptions";
-            this.mnuTilemapOptions.Size = new System.Drawing.Size(203, 98);
+            this.mnuTilemapOptions.Size = new System.Drawing.Size(204, 98);
             // 
             // mnuReplaceTiles
             // 
             this.mnuReplaceTiles.Name = "mnuReplaceTiles";
-            this.mnuReplaceTiles.Size = new System.Drawing.Size(202, 22);
+            this.mnuReplaceTiles.Size = new System.Drawing.Size(203, 22);
             this.mnuReplaceTiles.Text = "Replace Tiles";
             this.mnuReplaceTiles.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuOptimizeTilemap
             // 
             this.mnuOptimizeTilemap.Name = "mnuOptimizeTilemap";
-            this.mnuOptimizeTilemap.Size = new System.Drawing.Size(202, 22);
+            this.mnuOptimizeTilemap.Size = new System.Drawing.Size(203, 22);
             this.mnuOptimizeTilemap.Text = "Optimize Tilemap";
             this.mnuOptimizeTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(199, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(200, 6);
             // 
             // mnuTilemapBulkRename
             // 
             this.mnuTilemapBulkRename.Name = "mnuTilemapBulkRename";
-            this.mnuTilemapBulkRename.Size = new System.Drawing.Size(202, 22);
+            this.mnuTilemapBulkRename.Size = new System.Drawing.Size(203, 22);
             this.mnuTilemapBulkRename.Text = "Bulk Rename Tilemaps";
             this.mnuTilemapBulkRename.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuTilemapsFromAreaGrid
             // 
             this.mnuTilemapsFromAreaGrid.Name = "mnuTilemapsFromAreaGrid";
-            this.mnuTilemapsFromAreaGrid.Size = new System.Drawing.Size(202, 22);
+            this.mnuTilemapsFromAreaGrid.Size = new System.Drawing.Size(203, 22);
             this.mnuTilemapsFromAreaGrid.Text = "Tilemaps from Area Grid";
             this.mnuTilemapsFromAreaGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
@@ -3011,45 +3039,35 @@
             this.mnuRemoveTileGrid,
             this.mnuExportTileGrid});
             this.mnuTileGridOptions.Name = "mnuMetaTilemapOptions";
-            this.mnuTileGridOptions.Size = new System.Drawing.Size(171, 92);
+            this.mnuTileGridOptions.Size = new System.Drawing.Size(172, 92);
             // 
             // mnuNewTileGrid
             // 
             this.mnuNewTileGrid.Name = "mnuNewTileGrid";
-            this.mnuNewTileGrid.Size = new System.Drawing.Size(170, 22);
+            this.mnuNewTileGrid.Size = new System.Drawing.Size(171, 22);
             this.mnuNewTileGrid.Text = "New Tile Grid";
             this.mnuNewTileGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuDuplicateTileGrid
             // 
             this.mnuDuplicateTileGrid.Name = "mnuDuplicateTileGrid";
-            this.mnuDuplicateTileGrid.Size = new System.Drawing.Size(170, 22);
+            this.mnuDuplicateTileGrid.Size = new System.Drawing.Size(171, 22);
             this.mnuDuplicateTileGrid.Text = "Duplicate Tile Grid";
             this.mnuDuplicateTileGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuRemoveTileGrid
             // 
             this.mnuRemoveTileGrid.Name = "mnuRemoveTileGrid";
-            this.mnuRemoveTileGrid.Size = new System.Drawing.Size(170, 22);
+            this.mnuRemoveTileGrid.Size = new System.Drawing.Size(171, 22);
             this.mnuRemoveTileGrid.Text = "Remove Tile Grid";
             this.mnuRemoveTileGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuExportTileGrid
             // 
             this.mnuExportTileGrid.Name = "mnuExportTileGrid";
-            this.mnuExportTileGrid.Size = new System.Drawing.Size(170, 22);
+            this.mnuExportTileGrid.Size = new System.Drawing.Size(171, 22);
             this.mnuExportTileGrid.Text = "Export Tile Grid";
             this.mnuExportTileGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
-            // lblSelection
-            // 
-            this.lblSelection.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.lblSelection.Location = new System.Drawing.Point(0, 508);
-            this.lblSelection.Name = "lblSelection";
-            this.lblSelection.Size = new System.Drawing.Size(475, 17);
-            this.lblSelection.TabIndex = 32;
-            this.lblSelection.Text = "Selection: N/A";
-            this.lblSelection.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AssetTilemapControl
             // 
@@ -3384,5 +3402,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem mnuSetSelectionTileId;
         private System.Windows.Forms.Label lblSelection;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportSGBinary;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportAsSGBinary;
     }
 }

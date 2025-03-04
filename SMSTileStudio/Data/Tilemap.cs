@@ -21,10 +21,11 @@
 //
 
 using System;
-using System.Text;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 
 namespace SMSTileStudio.Data
 {
@@ -464,6 +465,84 @@ namespace SMSTileStudio.Data
             //}
 
             return bytes.ToArray();
+        }
+
+        /// <summary>
+        /// Gets a combined byte from given palette indexes
+        /// </summary>
+        public byte GetSGColorByte(byte palIndex1, byte palIndex2)
+        {
+            bool[] bits = new bool[8];
+            bits[0] = (palIndex1 & (1 << 0)) != 0;
+            bits[1] = (palIndex1 & (1 << 1)) != 0;
+            bits[2] = (palIndex1 & (1 << 2)) != 0;
+            bits[3] = (palIndex1 & (1 << 3)) != 0;
+            bits[4] = (palIndex2 & (1 << 0)) != 0;
+            bits[5] = (palIndex2 & (1 << 1)) != 0;
+            bits[6] = (palIndex2 & (1 << 2)) != 0;
+            bits[7] = (palIndex2 & (1 << 3)) != 0;
+            byte[] result = new byte[1];
+            BitArray arr = new BitArray(bits);
+            arr.CopyTo(result, 0);
+            return result[0];
+        }
+
+        /// <summary>
+        /// Gets byte of converted line of 8 pixels. 1bpp color index data
+        /// </summary>
+        /// <param name="colors">The list of 2 colors used for 8 pixels worth of data</param>
+        /// <param name="pixels">8 pixels worth of data</param>
+        public byte GetSGTilePixels(List<byte> colors, List<byte> pixels)
+        {
+            // Iterate through 8 pixels horizontally, of a tile
+            bool[] bits = new bool[8];
+            for (int i = 0; i < 8; i++)
+            {
+                bits[i] = pixels[i] != colors[0];
+            }
+            byte[] result = new byte[1];
+            BitArray arr = new BitArray(bits);
+            arr.CopyTo(result, 0);
+            return result[0];
+        }
+
+        /// <summary>
+        /// Gets SG formatted tile and color map data
+        /// </summary>
+        public (byte[], byte[]) GetSGTileData()
+        {
+            // Data and color tables
+            List<byte> data = new List<byte>();
+            List<byte> colorMap = new List<byte>();
+
+            // Iterate through tilemap tiles
+            foreach (Tile tile in Tiles)
+            {
+                var pixels = Tileset.Pixels.GetRange(tile.TileID * 64, 64);
+                for (int i = 0; i < pixels.Count; i += 8)
+                {
+                    // Get a row of 8 pixels
+                    var row = pixels.GetRange(i, 8);
+                    // Get a distinct array of color indexes
+                    var colors = row.Distinct().ToList();
+                    // Color format: byte: col1 col1 col1 col1 col2 col2 col2 col2
+                    // 4 bits for each color index max of 2 indexes
+                    // If the color indexes are greater than two, throw exception
+                    if (colors.Count() > 2)
+                    {
+                        throw new Exception("Too many colors on line: " + (i / 8) + "  in Tile Id: " + (i / 64));
+                    }
+                    // If only one color, add first color as second nybble
+                    else if (colors.Count == 1)
+                    {
+                        colors.Add(colors[0]);
+                    }
+                    // Add pixel and color map data
+                    colorMap.Add(GetSGColorByte(colors[0], colors[1]));
+                    data.Add(GetSGTilePixels(colors, row));
+                }
+            }
+            return (data.ToArray(), colorMap.ToArray());
         }
     }
 }

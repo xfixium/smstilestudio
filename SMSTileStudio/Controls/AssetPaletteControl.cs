@@ -111,6 +111,7 @@ namespace SMSTileStudio.Controls
                     App.Project.RemoveAsset(_palette);
                     LoadData(true);
                     lstPalettes_SelectedIndexChanged(this, EventArgs.Empty);
+                    OnAssetsChanged();
                 }
             }
             else if (button == btnImport)
