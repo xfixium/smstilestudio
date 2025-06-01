@@ -26,6 +26,7 @@ using System.Data;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using SMSTileStudio.Data;
+using System.Runtime.InteropServices;
 
 namespace SMSTileStudio.Controls
 {
@@ -60,7 +61,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void Ctrl_CharacterChanged(CharacterItemControl sender)
         {
-            if (_characterMap == null || _characterMap.Count == 0 || sender.TileID >= _characterMap.Count)
+            if (_characterMap == null || _characterMap.Count == 0 || sender.Index >= _characterMap.Count)
                 return;
 
             _characterMap[sender.Index] = new CharacterSet(sender.Character, sender.TileID);
@@ -72,6 +73,15 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void Ctrl_CharacterMoveUp(CharacterItemControl sender)
         {
+            var index = sender.Index;
+            if (index - 1 < 0)
+                return;
+
+            var charset = _characterMap[index].DeepClone();
+            _characterMap.RemoveAt(index);
+            _characterMap.Insert(index - 1, charset);
+            LoadData(_characterMap);
+            SetItemFocus(index - 1);
             CharacterMapChanged?.Invoke(_characterMap.DeepClone());
         }
 
@@ -80,6 +90,15 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void Ctrl_CharacterMoveDown(CharacterItemControl sender)
         {
+            var index = sender.Index;
+            if (index + 1 >= _characterMap.Count)
+                return;
+
+            var charset = _characterMap[index].DeepClone();
+            _characterMap.RemoveAt(index);
+            _characterMap.Insert(index + 1, charset);
+            LoadData(_characterMap);
+            SetItemFocus(index + 1);
             CharacterMapChanged?.Invoke(_characterMap.DeepClone());
         }
 
@@ -88,11 +107,11 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void Ctrl_CharacterInsert(CharacterItemControl sender)
         {
-            var position = AutoScrollPosition;
-            var charset = new CharacterSet(' ', sender.TileID);
-            _characterMap.Insert(sender.Index, charset);
+            var index = sender.Index + 1;
+            var charset = new CharacterSet('0', (byte)(sender.TileID + 1));
+            _characterMap.Insert(sender.Index + 1, charset);
             LoadData(_characterMap);
-            AutoScrollPosition = position;
+            SetItemFocus(index);
             CharacterMapChanged?.Invoke(_characterMap.DeepClone());
         }
 
@@ -101,11 +120,11 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void Ctrl_CharacterRemove(CharacterItemControl sender)
         {
-            var position = AutoScrollPosition;
+            var index = sender.Index;
             _characterMap.RemoveAt(sender.Index);
             RemoveCharacterItemControl(sender as CharacterItemControl);
             IndexControls();
-            AutoScrollPosition = position;
+            SetItemFocus(index);
             CharacterMapChanged?.Invoke(_characterMap.DeepClone());
         }
 
@@ -139,10 +158,25 @@ namespace SMSTileStudio.Controls
         {
             foreach (var ctrl in Controls.OfType<CharacterItemControl>())
                 if (ctrl.Selected)
-                    _characterMap.Remove(ctrl.CharacterSet);
+                    _characterMap.RemoveAll(x => x.TileID == ctrl.TileID);
 
             LoadData(_characterMap);
             CharacterMapChanged?.Invoke(_characterMap.DeepClone());
+        }
+
+        /// <summary>
+        /// Sets item focus based on index
+        /// </summary>
+        private void SetItemFocus(int index)
+        {
+            foreach (var ctrl in Controls.OfType<CharacterItemControl>())
+            {
+                if (ctrl.Index == index)
+                {
+                    ctrl.SetFocus();
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -152,7 +186,6 @@ namespace SMSTileStudio.Controls
         private CharacterItemControl CreateItemControl(CharacterSet character)
         {
             var ctrl = new CharacterItemControl();
-            ctrl.CharacterSet = character;
             ctrl.Character = character.Character;
             ctrl.TileID = character.TileID;
             ctrl.Dock = DockStyle.Top;
@@ -170,28 +203,27 @@ namespace SMSTileStudio.Controls
         /// <param name="characterMap"></param>
         public void LoadData(List<CharacterSet> characterMap)
         {
+            Hide();
             foreach (var ctrl in Controls)
                 if (ctrl is CharacterItemControl)
                     RemoveCharacterItemControl(ctrl as CharacterItemControl);
 
-            SuspendLayout();
+            Controls.Clear();
             _characterMap = characterMap;
-            int index = _characterMap.Count - 1;
-            foreach (var character in _characterMap.OrderByDescending(x => x.TileID))
+            for (int i = _characterMap.Count - 1; i > -1; i--)
             {
                 try
                 {
-                    var ctrl = CreateItemControl(character);
-                    ctrl.Index = index;
+                    var ctrl = CreateItemControl(_characterMap[i]);
+                    ctrl.Index = i;
                     Controls.Add(ctrl);
-                    index--;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
-            ResumeLayout();
+            Show();
         }
 
         /// <summary>

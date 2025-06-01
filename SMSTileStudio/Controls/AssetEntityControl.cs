@@ -26,6 +26,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using SMSTileStudio.Data;
+using System.Drawing;
 
 namespace SMSTileStudio.Controls
 {
@@ -213,6 +214,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         public void LoadData(bool loadDefault)
         {
+            tpnlFields.Hide();
             Loading = true;
             var item = lstEntities.SelectedItem ?? lstEntities.SelectedItem.DeepClone();
             lstEntities.Items.Clear();
@@ -227,6 +229,7 @@ namespace SMSTileStudio.Controls
                 LoadUI();
 
             Loading = false;
+            tpnlFields.Show();
         }
 
         /// <summary>
@@ -243,7 +246,7 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// 
+        /// Creates fields column controls
         /// </summary>
         private void CreateFieldsUI()
         {

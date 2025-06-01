@@ -46,9 +46,8 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Properties
         /// </summary>
-        public CharacterSet CharacterSet { get; set; }
-        public char Character { get { return txtCharacter.Text.Length <= 0 ? ' ' : txtCharacter.Text[0]; } set { CharacterSet.Character = value; txtCharacter.Text = value.ToString(); } }
-        public byte TileID { get { return (byte)nudTileID.Value; } set { CharacterSet.TileID = value; nudTileID.Value = value; } }
+        public char Character { get { return txtCharacter.Text.Length <= 0 ? ' ' : txtCharacter.Text[0]; } set { txtCharacter.Text = value.ToString(); CharacterChanged?.Invoke(this); } }
+        public byte TileID { get { return (byte)nudTileID.Value; } set { nudTileID.Value = value; } }
         public bool Selected { get { return chkSelected.Checked; } }
         public int Index { get; set; }
 

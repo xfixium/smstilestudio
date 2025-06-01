@@ -72,13 +72,13 @@
             // mnuExportAssembly
             // 
             this.mnuExportAssembly.Name = "mnuExportAssembly";
-            this.mnuExportAssembly.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportAssembly.Size = new System.Drawing.Size(238, 22);
             this.mnuExportAssembly.Text = "Export as Assembly (Clipboard)";
             // 
             // mnuExportBinary
             // 
             this.mnuExportBinary.Name = "mnuExportBinary";
-            this.mnuExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuExportBinary.Text = "Export as Binary";
             // 
             // tpnlEntities
@@ -101,11 +101,12 @@
             // 
             this.pnlDataEntryOptions.Controls.Add(this.txtComments);
             this.pnlDataEntryOptions.Controls.Add(this.pnlOptions);
+            this.pnlDataEntryOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDataEntryOptions.Location = new System.Drawing.Point(534, 0);
             this.pnlDataEntryOptions.Margin = new System.Windows.Forms.Padding(0);
             this.pnlDataEntryOptions.Name = "pnlDataEntryOptions";
             this.pnlDataEntryOptions.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.pnlDataEntryOptions.Size = new System.Drawing.Size(160, 551);
+            this.pnlDataEntryOptions.Size = new System.Drawing.Size(160, 557);
             this.pnlDataEntryOptions.TabIndex = 2;
             // 
             // txtComments
@@ -115,7 +116,7 @@
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
             this.txtComments.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtComments.Size = new System.Drawing.Size(156, 351);
+            this.txtComments.Size = new System.Drawing.Size(156, 357);
             this.txtComments.TabIndex = 11;
             this.txtComments.TextChanged += new System.EventHandler(this.txtEntity_TextChanged);
             // 
@@ -207,7 +208,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.panel1.Padding = new System.Windows.Forms.Padding(8, 8, 0, 0);
             this.panel1.Size = new System.Drawing.Size(534, 557);
             this.panel1.TabIndex = 3;
             // 
@@ -222,11 +223,11 @@
             this.tpnlFields.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tpnlFields.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tpnlFields.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tpnlFields.Location = new System.Drawing.Point(8, 0);
+            this.tpnlFields.Location = new System.Drawing.Point(8, 8);
             this.tpnlFields.Name = "tpnlFields";
             this.tpnlFields.RowCount = 1;
-            this.tpnlFields.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 551F));
-            this.tpnlFields.Size = new System.Drawing.Size(526, 551);
+            this.tpnlFields.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 557F));
+            this.tpnlFields.Size = new System.Drawing.Size(509, 557);
             this.tpnlFields.TabIndex = 4;
             // 
             // mnuExport
@@ -236,12 +237,12 @@
             this.mnuExportHex,
             this.mnuExportAssembly});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(240, 70);
+            this.mnuExport.Size = new System.Drawing.Size(239, 70);
             // 
             // mnuExportHex
             // 
             this.mnuExportHex.Name = "mnuExportHex";
-            this.mnuExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuExportHex.Text = "Export as Hex (Clipboard)";
             // 
             // lblInfo

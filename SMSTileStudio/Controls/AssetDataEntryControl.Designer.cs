@@ -146,11 +146,12 @@
             // 
             this.pnlDataEntryOptions.Controls.Add(this.txtComments);
             this.pnlDataEntryOptions.Controls.Add(this.pnlOptions);
+            this.pnlDataEntryOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDataEntryOptions.Location = new System.Drawing.Point(514, 0);
             this.pnlDataEntryOptions.Margin = new System.Windows.Forms.Padding(0);
             this.pnlDataEntryOptions.Name = "pnlDataEntryOptions";
             this.pnlDataEntryOptions.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.pnlDataEntryOptions.Size = new System.Drawing.Size(180, 551);
+            this.pnlDataEntryOptions.Size = new System.Drawing.Size(180, 557);
             this.pnlDataEntryOptions.TabIndex = 2;
             // 
             // txtComments
@@ -160,7 +161,7 @@
             this.txtComments.Multiline = true;
             this.txtComments.Name = "txtComments";
             this.txtComments.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtComments.Size = new System.Drawing.Size(172, 231);
+            this.txtComments.Size = new System.Drawing.Size(172, 237);
             this.txtComments.TabIndex = 11;
             this.txtComments.TextChanged += new System.EventHandler(this.txtDataEntry_TextChanged);
             // 
@@ -195,7 +196,7 @@
             this.label1.Location = new System.Drawing.Point(0, 62);
             this.label1.Margin = new System.Windows.Forms.Padding(0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 13);
+            this.label1.Size = new System.Drawing.Size(124, 13);
             this.label1.TabIndex = 19;
             this.label1.Text = "Table From Entity Data:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -216,7 +217,7 @@
             this.lblOrderByField.Location = new System.Drawing.Point(-2, 238);
             this.lblOrderByField.Margin = new System.Windows.Forms.Padding(0);
             this.lblOrderByField.Name = "lblOrderByField";
-            this.lblOrderByField.Size = new System.Drawing.Size(82, 13);
+            this.lblOrderByField.Size = new System.Drawing.Size(83, 13);
             this.lblOrderByField.TabIndex = 13;
             this.lblOrderByField.Text = "Order By Field:";
             this.lblOrderByField.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -402,26 +403,26 @@
             this.mnuExportHex,
             this.mnuExportAssembly});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(240, 70);
+            this.mnuExport.Size = new System.Drawing.Size(239, 70);
             // 
             // mnuExportBinary
             // 
             this.mnuExportBinary.Name = "mnuExportBinary";
-            this.mnuExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuExportBinary.Text = "Export as Binary";
             this.mnuExportBinary.Click += new System.EventHandler(this.mnuDataEntry_Click);
             // 
             // mnuExportHex
             // 
             this.mnuExportHex.Name = "mnuExportHex";
-            this.mnuExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuExportHex.Text = "Export as Hex (Clipboard)";
             this.mnuExportHex.Click += new System.EventHandler(this.mnuDataEntry_Click);
             // 
             // mnuExportAssembly
             // 
             this.mnuExportAssembly.Name = "mnuExportAssembly";
-            this.mnuExportAssembly.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportAssembly.Size = new System.Drawing.Size(238, 22);
             this.mnuExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuExportAssembly.Click += new System.EventHandler(this.mnuDataEntry_Click);
             // 

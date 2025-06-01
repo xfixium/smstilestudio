@@ -33,13 +33,13 @@
             this.nudTileID = new System.Windows.Forms.NumericUpDown();
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.btnOptions = new System.Windows.Forms.Button();
+            this.chkSelected = new System.Windows.Forms.CheckBox();
             this.mnuOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuMoveUp = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMoveDown = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuInsert = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRemove = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkSelected = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudTileID)).BeginInit();
             this.tpnlMain.SuspendLayout();
             this.mnuOptions.SuspendLayout();
@@ -102,6 +102,17 @@
             this.btnOptions.UseVisualStyleBackColor = true;
             this.btnOptions.Click += new System.EventHandler(this.btnCharacterMap_Click);
             // 
+            // chkSelected
+            // 
+            this.chkSelected.AutoSize = true;
+            this.chkSelected.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkSelected.Location = new System.Drawing.Point(3, 3);
+            this.chkSelected.Name = "chkSelected";
+            this.chkSelected.Size = new System.Drawing.Size(14, 26);
+            this.chkSelected.TabIndex = 6;
+            this.chkSelected.Text = "checkBox1";
+            this.chkSelected.UseVisualStyleBackColor = true;
+            // 
             // mnuOptions
             // 
             this.mnuOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -145,17 +156,6 @@
             this.mnuRemove.Size = new System.Drawing.Size(184, 22);
             this.mnuRemove.Text = "Remove Character";
             this.mnuRemove.Click += new System.EventHandler(this.mnuCharacterMap_Click);
-            // 
-            // chkSelected
-            // 
-            this.chkSelected.AutoSize = true;
-            this.chkSelected.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkSelected.Location = new System.Drawing.Point(3, 3);
-            this.chkSelected.Name = "chkSelected";
-            this.chkSelected.Size = new System.Drawing.Size(14, 26);
-            this.chkSelected.TabIndex = 6;
-            this.chkSelected.Text = "checkBox1";
-            this.chkSelected.UseVisualStyleBackColor = true;
             // 
             // CharacterItemControl
             // 
