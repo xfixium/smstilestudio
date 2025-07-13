@@ -21,8 +21,9 @@
 //
 
 using System;
-using System.Drawing;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Data
 {
@@ -32,57 +33,96 @@ namespace SMSTileStudio.Data
     [Serializable]
     public class MetaTilemap : GameAsset
     {
+        public MetatileSizeType MetatileSizeType { get; set; } = MetatileSizeType.SixteenBySixteen; // Meta Tile size
         public int Count { get { return Columns * Rows; } }                                         // The number of tiles
         public int Columns { get; set; } = 1;                                                       // The number of columns
         public int Rows { get; set; } = 1;                                                          // The number of rows
-        public MetatileSizeType MetaTileSize { get; set; } = MetatileSizeType.SixteenBySixteen;     // Meta Tile size
-        public List<MetaTile> Tiles { get; set; } = new List<MetaTile>();                           // Metatile tile ids
+        public List<int> MetaTilemapIds { get; set; } = new List<int>();                            // Meta tilemap Metatile ids
+        public List<MetaTile> MetaTiles { get; set; } = new List<MetaTile>();                       // Metatile tiles
 
         /// <summary>
         /// Constructors
         /// </summary>
         public MetaTilemap() { }
-        public MetaTilemap(MetatileSizeType type, int tilemapCols, int tilemapRows)
+        public MetaTilemap(MetatileSizeType type, Bitmap tilemapImage, Bitmap tilesetImage)
         {
-            var size = GetSize(type, tilemapCols, tilemapRows);
-            MetaTileSize = type;
-            Columns = size.Width;
-            Rows = size.Height;
-            Tiles.Clear();
-            for (int i = 0; i < Count; i++)
-                Tiles.Add(new MetaTile());
+            SetMetaTilemap(type, tilemapImage, tilesetImage);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="cols"></param>
-        /// <param name="rows"></param>
-        private Size GetSize(MetatileSizeType type, int cols, int rows)
+        /// <param name="type"></param>
+        /// <param name="tilemapImage"></param>
+        public void SetMetaTilemap(MetatileSizeType type, Bitmap tilemapImage, Bitmap tilesetImage)
         {
-            switch (type)
+            // Get pixel size of a single meta tile, if smaller than the tilemap, return
+            var metaTileSize = Project.GetMetaTileSize(type);
+            if (tilemapImage.Width < metaTileSize.Width || tilemapImage.Height < metaTileSize.Height)
             {
-                case MetatileSizeType.EightBySixteen: return new Size(cols / 8, rows / 16);
-                case MetatileSizeType.SixteenBySixteen: return new Size(cols / 16, rows / 16);
-                case MetatileSizeType.ThirtyTwoByThirtyTwo: return new Size(cols / 32, rows / 32);
-                default: return new Size(cols / 8, rows / 8);
+                MessageBox.Show("Tilemap size must be equal to or larger than a single meta tile", "SMS Tile Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
-        }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cols"></param>
-        /// <param name="rows"></param>
-        public void Resize(int cols, int rows)
-        {
-            var tiles = new List<MetaTile>();
-            for (int i = 0; i < cols * rows; i++)
+            // Clear meta tilemap data, set new meta tilemap values
+            MetaTilemapIds.Clear();
+            MetaTiles.Clear();
+            MetatileSizeType = type;
+            Columns = tilemapImage.Width / metaTileSize.Width;
+            Rows = tilemapImage.Height / metaTileSize.Height;
+
+            int index = 0;
+            var imageData = new List<int[]>();
+            var tilesetData = BitmapUtility.ConvertImageToTileBytesList(tilesetImage);
+            Rectangle rect = new Rectangle(0, 0, metaTileSize.Width, metaTileSize.Height);
+
+            // Iterate through tilemap image, tiled
+            for (int row = 0; row < Rows; row++)
             {
-                if (i < Tiles.Count)
-                    tiles.Add(Tiles[i]);
-                else
-                    tiles.Add(new MetaTile(0));
+                for (int col = 0; col < Columns; col++)
+                {
+                    // Set copy rectangle position
+                    rect.X = col * metaTileSize.Width;
+                    rect.Y = row * metaTileSize.Height;
+
+                    // Copy a section of the image pixel data fast
+                    var compare = BitmapUtility.GetPixels(tilemapImage, rect);
+
+                    // If the compare is empty, skip over validation process
+                    if (compare == null)
+                        continue;
+
+                    // Set match variable
+                    bool match = false;
+
+                    // Iterate through existing unique tiles for a match
+                    for (int i = 0; i < imageData.Count; i++)
+                    {
+                        // If the compare is equal to the tile
+                        if (BitmapUtility.CompareTiles(compare, imageData[i]).Item1 == true)
+                        {
+                            // Match is true
+                            match = true;
+                            MetaTilemapIds.Add(i);
+                            continue;
+                        }
+                    }
+
+                    // No match was found
+                    if (match == false)
+                    {
+                        // Add tile to unique tile list
+                        imageData.Add(compare);
+                        // Add metatile
+                        var metaTile = new MetaTile(index);
+                        metaTile.Image = tilemapImage.Clone(rect, tilemapImage.PixelFormat);
+                        var metaTileData = BitmapUtility.ConvertImageToTileBytesList(metaTile.Image);
+                        metaTile.Tiles.AddRange(BitmapUtility.GetTilesFromTilesetData(metaTileData, tilesetData));
+                        MetaTiles.Add(metaTile);
+                        MetaTilemapIds.Add(index);
+                        index++;
+                    }
+                }
             }
         }
     }

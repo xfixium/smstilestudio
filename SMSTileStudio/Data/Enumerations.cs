@@ -27,6 +27,7 @@ using System.Collections.Generic;
 
 namespace SMSTileStudio.Data
 {
+
     /// <summary>
     /// Compression type enumeration
     /// </summary>

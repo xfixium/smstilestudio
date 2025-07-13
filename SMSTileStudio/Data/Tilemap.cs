@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Data
 {
@@ -200,6 +201,16 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
+        /// Clears Meta Tilemap data
+        /// </summary>
+        public void ClearMetaTilemap()
+        {
+            MetaTilemap?.MetaTiles?.Clear();
+            MetaTilemap?.MetaTilemapIds?.Clear();
+            MetaTilemap = null;
+        }
+
+        /// <summary>
         /// Sets the given tile's 0 - 7 bit value
         /// </summary>
         /// <param name="targetID">The tile id to set</param>
@@ -232,7 +243,7 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Creates a tilemap from selection
+        /// Creates a tilemap from area
         /// </summary>
         /// <returns></returns>
         public Tilemap AreaToTilemap(Rectangle area)
@@ -319,9 +330,9 @@ namespace SMSTileStudio.Data
             bits[10] = tile.FlipY;
             bits[11] = !tile.UseBGPalette;
             bits[12] = tile.Priority;
-            bits[13] = (tile.Bits & (1 << 5)) != 0;
-            bits[14] = (tile.Bits & (1 << 6)) != 0;
-            bits[15] = (tile.Bits & (1 << 7)) != 0;
+            bits[13] = (tile.Bits & (1 << 0)) != 0;
+            bits[14] = (tile.Bits & (1 << 1)) != 0;
+            bits[15] = (tile.Bits & (1 << 2)) != 0;
             byte[] result = new byte[2];
             BitArray arr = new BitArray(bits);
             arr.CopyTo(result, 0);
@@ -543,6 +554,36 @@ namespace SMSTileStudio.Data
                 }
             }
             return (data.ToArray(), colorMap.ToArray());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetMetaTilemapData()
+        {
+            return MetaTilemap?.MetaTilemapIds?.Select(id => (byte)id)?.ToArray() ?? null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetMetaTileData()
+        {
+            if (MetaTilemap?.MetaTiles == null || MetaTilemap?.MetaTiles.Count <= 0) 
+                return null;
+
+            var metaTiles = new List<byte>();
+            foreach (var metaTile in MetaTilemap.MetaTiles)
+            {
+                foreach (var tile in metaTile.Tiles)
+                {
+                    metaTiles.AddRange(GetTileBytes(tile));
+                }
+            }
+            // Add Meta tilemap and Meta tile data
+            return metaTiles.ToArray();
         }
     }
 }

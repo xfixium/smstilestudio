@@ -25,6 +25,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Linq;
+using System.Runtime.InteropServices;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace SMSTileStudio.Data
 {
@@ -789,7 +793,6 @@ namespace SMSTileStudio.Data
             return CompareTiles(tile1, tile2, FlipType.None);
         }
 
-
         /// <summary>
         /// Compares 8 bit integers of two tiles, returns whether they match or not, with flipping
         /// </summary>
@@ -1153,5 +1156,96 @@ namespace SMSTileStudio.Data
             gfx.DrawString(text, font, color, top);
             gfx.DrawString(text, font, color, bottom);
         }
+
+        public static List<Tile> GetTilesFromTilesetData(List<int[]> metaTileData, List<int[]> tilesetData)
+        {
+            var tiles = new List<Tile>();
+            for (int i = 0; i < metaTileData.Count; i++)
+            {
+                var index = 0;
+                for (int j = 0; j < tilesetData.Count; j++)
+                {
+                    if (CompareTiles(metaTileData[i], tilesetData[j]).Item1)
+                    {
+                        tiles.Add(new Tile(index));
+                        break;
+                    }
+                    index++;
+                }
+                if (index >= tilesetData.Count)
+                {
+                    index = 0;
+                    var flip = FlipTile(metaTileData[i], FlipType.Horizontal);
+                    for (int j = 0; j < tilesetData.Count; j++)
+                    {
+                        if (CompareTiles(flip, tilesetData[j]).Item1)
+                        {
+                            tiles.Add(new Tile(index));
+                            break;
+                        }
+                        index++;
+                    }
+                }
+                if (index >= tilesetData.Count)
+                {
+                    index = 0;
+                    var flip = FlipTile(metaTileData[i], FlipType.Vertical);
+                    for (int j = 0; j < tilesetData.Count; j++)
+                    {
+                        if (CompareTiles(flip, tilesetData[j]).Item1)
+                        {
+                            tiles.Add(new Tile(index));
+                            break;
+                        }
+                        index++;
+                    }
+                }
+                if (index >= tilesetData.Count)
+                {
+                    index = 0;
+                    var flip = FlipTile(metaTileData[i], FlipType.Both);
+                    for (int j = 0; j < tilesetData.Count; j++)
+                    {
+                        if (CompareTiles(flip, tilesetData[j]).Item1)
+                        {
+                            tiles.Add(new Tile(index));
+                            break;
+                        }
+                        index++;
+                    }
+                }
+            }
+            return tiles;
+        }
+
+        public static List<int[]> ConvertImageToTileBytesList(Bitmap tileset)
+        {
+            var list = new List<int[]>();
+            var cols = tileset.Width / 8;
+            var rows = tileset.Height / 8;
+            for (int row = 0; row < rows; row++)
+            {
+                for (int col = 0; col < cols; col++)
+                {
+                    list.Add(GetPixels(tileset, new Rectangle(col * 8, row * 8, 8, 8)));
+                }
+            }
+            return list;
+        }
+
+        //public static byte[] GetTileBytes(Bitmap image, Rectangle selection)
+        //{
+        //    // If the selection end point is out of image bounds, return null
+        //    if (selection.X + selection.Width > image.Width || selection.Y + selection.Height > image.Height)
+        //        return null;
+
+        //    // Get image bytes
+        //    BitmapData data = image.LockBits(selection, ImageLockMode.ReadOnly, PixelFormat.Format32bppPArgb);
+        //    int size = data.Stride * selection.Height;
+        //    byte[] bytes = new byte[size];
+        //    Marshal.Copy(data.Scan0, bytes, 0, size);
+        //    image.UnlockBits(data);
+        //    return bytes;
+        //}
     }
 }

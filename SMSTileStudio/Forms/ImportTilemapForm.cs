@@ -236,6 +236,7 @@ namespace SMSTileStudio.Forms
             try
             {
                 pnlTileset.Clear();
+
                 List<PixelTile> pixelTiles = BitmapUtility.GetPixelTiles(_image, _importColors[0], chkAllowDuplicates.Checked, chkIgnoreEmpty.Checked, _flipType);
                 _tilemap.Columns = _image.Width / 8;
                 _tilemap.Rows = _image.Height / 8;

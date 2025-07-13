@@ -87,20 +87,20 @@
             this.lblPosition = new System.Windows.Forms.Label();
             this.lblTile = new System.Windows.Forms.Label();
             this.pnlTilemapToolbar = new System.Windows.Forms.FlowLayoutPanel();
-            this.rbBrush = new System.Windows.Forms.RadioButton();
-            this.rbSelect = new System.Windows.Forms.RadioButton();
-            this.rbFlipX = new System.Windows.Forms.RadioButton();
-            this.rbFlipY = new System.Windows.Forms.RadioButton();
-            this.rbPriority = new System.Windows.Forms.RadioButton();
-            this.rbPalette = new System.Windows.Forms.RadioButton();
-            this.rbTileType = new System.Windows.Forms.RadioButton();
+            this.rbTilemapBrush = new System.Windows.Forms.RadioButton();
+            this.rbTilemapSelect = new System.Windows.Forms.RadioButton();
+            this.rbTilemapFlipX = new System.Windows.Forms.RadioButton();
+            this.rbTilemapFlipY = new System.Windows.Forms.RadioButton();
+            this.rbTilemapPriority = new System.Windows.Forms.RadioButton();
+            this.rbTilemapPalette = new System.Windows.Forms.RadioButton();
+            this.rbTilemapTileType = new System.Windows.Forms.RadioButton();
             this.chkTilemapGrid = new System.Windows.Forms.CheckBox();
-            this.chkAreaGrid = new System.Windows.Forms.CheckBox();
-            this.chkInvertGrids = new System.Windows.Forms.CheckBox();
-            this.chkShowTileAs = new System.Windows.Forms.CheckBox();
+            this.chkTilemapAreaGrid = new System.Windows.Forms.CheckBox();
+            this.chkTilemapInvertGrids = new System.Windows.Forms.CheckBox();
+            this.chkTilemapShowTileAs = new System.Windows.Forms.CheckBox();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.rbShowIndexes = new System.Windows.Forms.RadioButton();
-            this.rbShowIds = new System.Windows.Forms.RadioButton();
+            this.rbTilemapShowIndexes = new System.Windows.Forms.RadioButton();
+            this.rbTilemapShowIds = new System.Windows.Forms.RadioButton();
             this.lblSelection = new System.Windows.Forms.Label();
             this.tabProperties = new System.Windows.Forms.TabControl();
             this.tabTilemapTiles = new System.Windows.Forms.TabPage();
@@ -206,7 +206,34 @@
             this.lblTagName = new System.Windows.Forms.Label();
             this.txtTagName = new System.Windows.Forms.TextBox();
             this.btnAddTag = new System.Windows.Forms.Button();
-            this.tabMetaTiles = new System.Windows.Forms.TabPage();
+            this.tabMetaTilemap = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.pnlMetaTilemapEdit = new SMSTileStudio.Controls.MetaTilemapControl();
+            this.pnlMetaTilemapInfo = new System.Windows.Forms.Panel();
+            this.lblMetaTileProperties = new System.Windows.Forms.Label();
+            this.lblMetaTilemapProperties = new System.Windows.Forms.Label();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.pnlMetaTileOptions = new System.Windows.Forms.Panel();
+            this.pnlMetaTilesEdit = new SMSTileStudio.Controls.MetaTilesControl();
+            this.pnlMetaTileTools = new System.Windows.Forms.FlowLayoutPanel();
+            this.rbMetaTileIds = new System.Windows.Forms.RadioButton();
+            this.rbMetaTilePriority = new System.Windows.Forms.RadioButton();
+            this.rbMetaTilePalette = new System.Windows.Forms.RadioButton();
+            this.rbMetaTileType = new System.Windows.Forms.RadioButton();
+            this.pnlMetaTilePaletteOptions = new System.Windows.Forms.Panel();
+            this.lblMetaTileSize = new System.Windows.Forms.Label();
+            this.cbMetaTileSize = new System.Windows.Forms.ComboBox();
+            this.btnMetaTileOptions = new System.Windows.Forms.Button();
+            this.mnuMetaTileOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuGenerateMetaTilemap = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuClearMetaTilemap = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuExportMetaTilemap = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportMetaTiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportAllMetaData = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkMetaTileApplyEditsByTileId = new System.Windows.Forms.CheckBox();
             this.lblCreateTilemap = new System.Windows.Forms.Label();
             this.lblInfo = new System.Windows.Forms.Label();
             this.mnuExport = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -243,17 +270,6 @@
             this.mnuTilemapExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapExportDecimal = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuExportMetatiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMetatilesBypassCompression = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuMetatilesExportBinary = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMetatilesExportHex = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMetatilesExportAsm = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMetatileMap = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuExportEntities = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEntitiesExportBinary = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEntitiesExportHex = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuEntitiesExportAsm = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuImportTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUpdateTileset = new System.Windows.Forms.ToolStripMenuItem();
@@ -335,6 +351,16 @@
             this.tabTags.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel10.SuspendLayout();
+            this.tabMetaTilemap.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel11.SuspendLayout();
+            this.pnlMetaTilemapInfo.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.pnlMetaTileOptions.SuspendLayout();
+            this.pnlMetaTileTools.SuspendLayout();
+            this.pnlMetaTilePaletteOptions.SuspendLayout();
+            this.mnuMetaTileOptions.SuspendLayout();
             this.mnuExport.SuspendLayout();
             this.mnuImport.SuspendLayout();
             this.mnuTilesetOptions.SuspendLayout();
@@ -579,7 +605,7 @@
             // 
             this.tabMain.Controls.Add(this.tabTilemap);
             this.tabMain.Controls.Add(this.tabTileset);
-            this.tabMain.Controls.Add(this.tabMetaTiles);
+            this.tabMain.Controls.Add(this.tabMetaTilemap);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Margin = new System.Windows.Forms.Padding(0);
@@ -931,17 +957,17 @@
             // pnlTilemapToolbar
             // 
             this.pnlTilemapToolbar.AutoSize = true;
-            this.pnlTilemapToolbar.Controls.Add(this.rbBrush);
-            this.pnlTilemapToolbar.Controls.Add(this.rbSelect);
-            this.pnlTilemapToolbar.Controls.Add(this.rbFlipX);
-            this.pnlTilemapToolbar.Controls.Add(this.rbFlipY);
-            this.pnlTilemapToolbar.Controls.Add(this.rbPriority);
-            this.pnlTilemapToolbar.Controls.Add(this.rbPalette);
-            this.pnlTilemapToolbar.Controls.Add(this.rbTileType);
+            this.pnlTilemapToolbar.Controls.Add(this.rbTilemapBrush);
+            this.pnlTilemapToolbar.Controls.Add(this.rbTilemapSelect);
+            this.pnlTilemapToolbar.Controls.Add(this.rbTilemapFlipX);
+            this.pnlTilemapToolbar.Controls.Add(this.rbTilemapFlipY);
+            this.pnlTilemapToolbar.Controls.Add(this.rbTilemapPriority);
+            this.pnlTilemapToolbar.Controls.Add(this.rbTilemapPalette);
+            this.pnlTilemapToolbar.Controls.Add(this.rbTilemapTileType);
             this.pnlTilemapToolbar.Controls.Add(this.chkTilemapGrid);
-            this.pnlTilemapToolbar.Controls.Add(this.chkAreaGrid);
-            this.pnlTilemapToolbar.Controls.Add(this.chkInvertGrids);
-            this.pnlTilemapToolbar.Controls.Add(this.chkShowTileAs);
+            this.pnlTilemapToolbar.Controls.Add(this.chkTilemapAreaGrid);
+            this.pnlTilemapToolbar.Controls.Add(this.chkTilemapInvertGrids);
+            this.pnlTilemapToolbar.Controls.Add(this.chkTilemapShowTileAs);
             this.pnlTilemapToolbar.Controls.Add(this.panel8);
             this.pnlTilemapToolbar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTilemapToolbar.Location = new System.Drawing.Point(0, 0);
@@ -949,98 +975,98 @@
             this.pnlTilemapToolbar.Size = new System.Drawing.Size(475, 48);
             this.pnlTilemapToolbar.TabIndex = 30;
             // 
-            // rbBrush
+            // rbTilemapBrush
             // 
-            this.rbBrush.AutoSize = true;
-            this.rbBrush.Checked = true;
-            this.rbBrush.Location = new System.Drawing.Point(3, 3);
-            this.rbBrush.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbBrush.Name = "rbBrush";
-            this.rbBrush.Size = new System.Drawing.Size(55, 17);
-            this.rbBrush.TabIndex = 0;
-            this.rbBrush.TabStop = true;
-            this.rbBrush.Text = "Brush";
-            this.tipMain.SetToolTip(this.rbBrush, "Brush (B)");
-            this.rbBrush.UseVisualStyleBackColor = true;
-            this.rbBrush.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapBrush.AutoSize = true;
+            this.rbTilemapBrush.Checked = true;
+            this.rbTilemapBrush.Location = new System.Drawing.Point(3, 3);
+            this.rbTilemapBrush.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapBrush.Name = "rbTilemapBrush";
+            this.rbTilemapBrush.Size = new System.Drawing.Size(55, 17);
+            this.rbTilemapBrush.TabIndex = 0;
+            this.rbTilemapBrush.TabStop = true;
+            this.rbTilemapBrush.Text = "Brush";
+            this.tipMain.SetToolTip(this.rbTilemapBrush, "Brush (B)");
+            this.rbTilemapBrush.UseVisualStyleBackColor = true;
+            this.rbTilemapBrush.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
-            // rbSelect
+            // rbTilemapSelect
             // 
-            this.rbSelect.AutoSize = true;
-            this.rbSelect.Location = new System.Drawing.Point(61, 3);
-            this.rbSelect.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbSelect.Name = "rbSelect";
-            this.rbSelect.Size = new System.Drawing.Size(55, 17);
-            this.rbSelect.TabIndex = 1;
-            this.rbSelect.Text = "Select";
-            this.tipMain.SetToolTip(this.rbSelect, "Select (S)");
-            this.rbSelect.UseVisualStyleBackColor = true;
-            this.rbSelect.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapSelect.AutoSize = true;
+            this.rbTilemapSelect.Location = new System.Drawing.Point(61, 3);
+            this.rbTilemapSelect.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapSelect.Name = "rbTilemapSelect";
+            this.rbTilemapSelect.Size = new System.Drawing.Size(55, 17);
+            this.rbTilemapSelect.TabIndex = 1;
+            this.rbTilemapSelect.Text = "Select";
+            this.tipMain.SetToolTip(this.rbTilemapSelect, "Select (S)");
+            this.rbTilemapSelect.UseVisualStyleBackColor = true;
+            this.rbTilemapSelect.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
-            // rbFlipX
+            // rbTilemapFlipX
             // 
-            this.rbFlipX.AutoSize = true;
-            this.rbFlipX.Location = new System.Drawing.Point(119, 3);
-            this.rbFlipX.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbFlipX.Name = "rbFlipX";
-            this.rbFlipX.Size = new System.Drawing.Size(55, 17);
-            this.rbFlipX.TabIndex = 2;
-            this.rbFlipX.Text = "H Flip";
-            this.tipMain.SetToolTip(this.rbFlipX, "Horizontal Flip (H)");
-            this.rbFlipX.UseVisualStyleBackColor = true;
-            this.rbFlipX.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapFlipX.AutoSize = true;
+            this.rbTilemapFlipX.Location = new System.Drawing.Point(119, 3);
+            this.rbTilemapFlipX.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapFlipX.Name = "rbTilemapFlipX";
+            this.rbTilemapFlipX.Size = new System.Drawing.Size(55, 17);
+            this.rbTilemapFlipX.TabIndex = 2;
+            this.rbTilemapFlipX.Text = "H Flip";
+            this.tipMain.SetToolTip(this.rbTilemapFlipX, "Horizontal Flip (H)");
+            this.rbTilemapFlipX.UseVisualStyleBackColor = true;
+            this.rbTilemapFlipX.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
-            // rbFlipY
+            // rbTilemapFlipY
             // 
-            this.rbFlipY.AutoSize = true;
-            this.rbFlipY.Location = new System.Drawing.Point(177, 3);
-            this.rbFlipY.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbFlipY.Name = "rbFlipY";
-            this.rbFlipY.Size = new System.Drawing.Size(54, 17);
-            this.rbFlipY.TabIndex = 3;
-            this.rbFlipY.Text = "V Flip";
-            this.tipMain.SetToolTip(this.rbFlipY, "Vertical Flip (V)");
-            this.rbFlipY.UseVisualStyleBackColor = true;
-            this.rbFlipY.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapFlipY.AutoSize = true;
+            this.rbTilemapFlipY.Location = new System.Drawing.Point(177, 3);
+            this.rbTilemapFlipY.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapFlipY.Name = "rbTilemapFlipY";
+            this.rbTilemapFlipY.Size = new System.Drawing.Size(54, 17);
+            this.rbTilemapFlipY.TabIndex = 3;
+            this.rbTilemapFlipY.Text = "V Flip";
+            this.tipMain.SetToolTip(this.rbTilemapFlipY, "Vertical Flip (V)");
+            this.rbTilemapFlipY.UseVisualStyleBackColor = true;
+            this.rbTilemapFlipY.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
-            // rbPriority
+            // rbTilemapPriority
             // 
-            this.rbPriority.AutoSize = true;
-            this.rbPriority.Location = new System.Drawing.Point(234, 3);
-            this.rbPriority.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbPriority.Name = "rbPriority";
-            this.rbPriority.Size = new System.Drawing.Size(61, 17);
-            this.rbPriority.TabIndex = 4;
-            this.rbPriority.Text = "Priority";
-            this.tipMain.SetToolTip(this.rbPriority, "Priority (P)");
-            this.rbPriority.UseVisualStyleBackColor = true;
-            this.rbPriority.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapPriority.AutoSize = true;
+            this.rbTilemapPriority.Location = new System.Drawing.Point(234, 3);
+            this.rbTilemapPriority.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapPriority.Name = "rbTilemapPriority";
+            this.rbTilemapPriority.Size = new System.Drawing.Size(61, 17);
+            this.rbTilemapPriority.TabIndex = 4;
+            this.rbTilemapPriority.Text = "Priority";
+            this.tipMain.SetToolTip(this.rbTilemapPriority, "Priority (P)");
+            this.rbTilemapPriority.UseVisualStyleBackColor = true;
+            this.rbTilemapPriority.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
-            // rbPalette
+            // rbTilemapPalette
             // 
-            this.rbPalette.AutoSize = true;
-            this.rbPalette.Location = new System.Drawing.Point(298, 3);
-            this.rbPalette.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbPalette.Name = "rbPalette";
-            this.rbPalette.Size = new System.Drawing.Size(60, 17);
-            this.rbPalette.TabIndex = 5;
-            this.rbPalette.Text = "Palette";
-            this.tipMain.SetToolTip(this.rbPalette, "Palette (L)");
-            this.rbPalette.UseVisualStyleBackColor = true;
-            this.rbPalette.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapPalette.AutoSize = true;
+            this.rbTilemapPalette.Location = new System.Drawing.Point(298, 3);
+            this.rbTilemapPalette.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapPalette.Name = "rbTilemapPalette";
+            this.rbTilemapPalette.Size = new System.Drawing.Size(60, 17);
+            this.rbTilemapPalette.TabIndex = 5;
+            this.rbTilemapPalette.Text = "Palette";
+            this.tipMain.SetToolTip(this.rbTilemapPalette, "Palette (L)");
+            this.rbTilemapPalette.UseVisualStyleBackColor = true;
+            this.rbTilemapPalette.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
-            // rbTileType
+            // rbTilemapTileType
             // 
-            this.rbTileType.AutoSize = true;
-            this.rbTileType.Location = new System.Drawing.Point(361, 3);
-            this.rbTileType.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbTileType.Name = "rbTileType";
-            this.rbTileType.Size = new System.Drawing.Size(47, 17);
-            this.rbTileType.TabIndex = 31;
-            this.rbTileType.Text = "Type";
-            this.tipMain.SetToolTip(this.rbTileType, "Type Bits (T)");
-            this.rbTileType.UseVisualStyleBackColor = true;
-            this.rbTileType.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapTileType.AutoSize = true;
+            this.rbTilemapTileType.Location = new System.Drawing.Point(361, 3);
+            this.rbTilemapTileType.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapTileType.Name = "rbTilemapTileType";
+            this.rbTilemapTileType.Size = new System.Drawing.Size(47, 17);
+            this.rbTilemapTileType.TabIndex = 31;
+            this.rbTilemapTileType.Text = "Type";
+            this.tipMain.SetToolTip(this.rbTilemapTileType, "Type Bits (T)");
+            this.rbTilemapTileType.UseVisualStyleBackColor = true;
+            this.rbTilemapTileType.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
             // chkTilemapGrid
             // 
@@ -1057,80 +1083,80 @@
             this.chkTilemapGrid.UseVisualStyleBackColor = true;
             this.chkTilemapGrid.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
-            // chkAreaGrid
+            // chkTilemapAreaGrid
             // 
-            this.chkAreaGrid.AutoSize = true;
-            this.chkAreaGrid.Location = new System.Drawing.Point(3, 27);
-            this.chkAreaGrid.Name = "chkAreaGrid";
-            this.chkAreaGrid.Size = new System.Drawing.Size(74, 17);
-            this.chkAreaGrid.TabIndex = 32;
-            this.chkAreaGrid.Text = "Area Grid";
-            this.tipMain.SetToolTip(this.chkAreaGrid, "Toggle Area Grid (A)");
-            this.chkAreaGrid.UseVisualStyleBackColor = true;
-            this.chkAreaGrid.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
+            this.chkTilemapAreaGrid.AutoSize = true;
+            this.chkTilemapAreaGrid.Location = new System.Drawing.Point(3, 27);
+            this.chkTilemapAreaGrid.Name = "chkTilemapAreaGrid";
+            this.chkTilemapAreaGrid.Size = new System.Drawing.Size(74, 17);
+            this.chkTilemapAreaGrid.TabIndex = 32;
+            this.chkTilemapAreaGrid.Text = "Area Grid";
+            this.tipMain.SetToolTip(this.chkTilemapAreaGrid, "Toggle Area Grid (A)");
+            this.chkTilemapAreaGrid.UseVisualStyleBackColor = true;
+            this.chkTilemapAreaGrid.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
-            // chkInvertGrids
+            // chkTilemapInvertGrids
             // 
-            this.chkInvertGrids.AutoSize = true;
-            this.chkInvertGrids.Location = new System.Drawing.Point(83, 27);
-            this.chkInvertGrids.Name = "chkInvertGrids";
-            this.chkInvertGrids.Size = new System.Drawing.Size(85, 17);
-            this.chkInvertGrids.TabIndex = 33;
-            this.chkInvertGrids.Text = "Invert Grids";
-            this.tipMain.SetToolTip(this.chkInvertGrids, "Toggle Grid Color (C)");
-            this.chkInvertGrids.UseVisualStyleBackColor = true;
-            this.chkInvertGrids.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
+            this.chkTilemapInvertGrids.AutoSize = true;
+            this.chkTilemapInvertGrids.Location = new System.Drawing.Point(83, 27);
+            this.chkTilemapInvertGrids.Name = "chkTilemapInvertGrids";
+            this.chkTilemapInvertGrids.Size = new System.Drawing.Size(85, 17);
+            this.chkTilemapInvertGrids.TabIndex = 33;
+            this.chkTilemapInvertGrids.Text = "Invert Grids";
+            this.tipMain.SetToolTip(this.chkTilemapInvertGrids, "Toggle Grid Color (C)");
+            this.chkTilemapInvertGrids.UseVisualStyleBackColor = true;
+            this.chkTilemapInvertGrids.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
-            // chkShowTileAs
+            // chkTilemapShowTileAs
             // 
-            this.chkShowTileAs.AutoSize = true;
-            this.chkShowTileAs.Location = new System.Drawing.Point(174, 28);
-            this.chkShowTileAs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
-            this.chkShowTileAs.Name = "chkShowTileAs";
-            this.chkShowTileAs.Size = new System.Drawing.Size(78, 17);
-            this.chkShowTileAs.TabIndex = 13;
-            this.chkShowTileAs.Text = "Show Tile:";
-            this.tipMain.SetToolTip(this.chkShowTileAs, "Show Tile (I)");
-            this.chkShowTileAs.UseVisualStyleBackColor = true;
-            this.chkShowTileAs.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
+            this.chkTilemapShowTileAs.AutoSize = true;
+            this.chkTilemapShowTileAs.Location = new System.Drawing.Point(174, 28);
+            this.chkTilemapShowTileAs.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.chkTilemapShowTileAs.Name = "chkTilemapShowTileAs";
+            this.chkTilemapShowTileAs.Size = new System.Drawing.Size(78, 17);
+            this.chkTilemapShowTileAs.TabIndex = 13;
+            this.chkTilemapShowTileAs.Text = "Show Tile:";
+            this.tipMain.SetToolTip(this.chkTilemapShowTileAs, "Show Tile (I)");
+            this.chkTilemapShowTileAs.UseVisualStyleBackColor = true;
+            this.chkTilemapShowTileAs.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
             // panel8
             // 
-            this.panel8.Controls.Add(this.rbShowIndexes);
-            this.panel8.Controls.Add(this.rbShowIds);
+            this.panel8.Controls.Add(this.rbTilemapShowIndexes);
+            this.panel8.Controls.Add(this.rbTilemapShowIds);
             this.panel8.Location = new System.Drawing.Point(255, 24);
             this.panel8.Margin = new System.Windows.Forms.Padding(0);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(104, 24);
             this.panel8.TabIndex = 34;
             // 
-            // rbShowIndexes
+            // rbTilemapShowIndexes
             // 
-            this.rbShowIndexes.AutoSize = true;
-            this.rbShowIndexes.Dock = System.Windows.Forms.DockStyle.Left;
-            this.rbShowIndexes.Location = new System.Drawing.Point(40, 0);
-            this.rbShowIndexes.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbShowIndexes.Name = "rbShowIndexes";
-            this.rbShowIndexes.Size = new System.Drawing.Size(64, 24);
-            this.rbShowIndexes.TabIndex = 36;
-            this.rbShowIndexes.Text = "Indexes";
-            this.rbShowIndexes.UseVisualStyleBackColor = true;
-            this.rbShowIndexes.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapShowIndexes.AutoSize = true;
+            this.rbTilemapShowIndexes.Dock = System.Windows.Forms.DockStyle.Left;
+            this.rbTilemapShowIndexes.Location = new System.Drawing.Point(40, 0);
+            this.rbTilemapShowIndexes.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapShowIndexes.Name = "rbTilemapShowIndexes";
+            this.rbTilemapShowIndexes.Size = new System.Drawing.Size(64, 24);
+            this.rbTilemapShowIndexes.TabIndex = 36;
+            this.rbTilemapShowIndexes.Text = "Indexes";
+            this.rbTilemapShowIndexes.UseVisualStyleBackColor = true;
+            this.rbTilemapShowIndexes.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
-            // rbShowIds
+            // rbTilemapShowIds
             // 
-            this.rbShowIds.AutoSize = true;
-            this.rbShowIds.Checked = true;
-            this.rbShowIds.Dock = System.Windows.Forms.DockStyle.Left;
-            this.rbShowIds.Location = new System.Drawing.Point(0, 0);
-            this.rbShowIds.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            this.rbShowIds.Name = "rbShowIds";
-            this.rbShowIds.Size = new System.Drawing.Size(40, 24);
-            this.rbShowIds.TabIndex = 37;
-            this.rbShowIds.TabStop = true;
-            this.rbShowIds.Text = "Ids";
-            this.rbShowIds.UseVisualStyleBackColor = true;
-            this.rbShowIds.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            this.rbTilemapShowIds.AutoSize = true;
+            this.rbTilemapShowIds.Checked = true;
+            this.rbTilemapShowIds.Dock = System.Windows.Forms.DockStyle.Left;
+            this.rbTilemapShowIds.Location = new System.Drawing.Point(0, 0);
+            this.rbTilemapShowIds.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbTilemapShowIds.Name = "rbTilemapShowIds";
+            this.rbTilemapShowIds.Size = new System.Drawing.Size(40, 24);
+            this.rbTilemapShowIds.TabIndex = 37;
+            this.rbTilemapShowIds.TabStop = true;
+            this.rbTilemapShowIds.Text = "Ids";
+            this.rbTilemapShowIds.UseVisualStyleBackColor = true;
+            this.rbTilemapShowIds.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
             // 
             // lblSelection
             // 
@@ -1502,9 +1528,10 @@
             // 
             // btnSelectionOptions
             // 
-            this.btnSelectionOptions.Location = new System.Drawing.Point(0, 2);
+            this.btnSelectionOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnSelectionOptions.Location = new System.Drawing.Point(0, 0);
             this.btnSelectionOptions.Name = "btnSelectionOptions";
-            this.btnSelectionOptions.Size = new System.Drawing.Size(168, 23);
+            this.btnSelectionOptions.Size = new System.Drawing.Size(170, 23);
             this.btnSelectionOptions.TabIndex = 22;
             this.btnSelectionOptions.Text = "Selection Options";
             this.btnSelectionOptions.UseVisualStyleBackColor = true;
@@ -1513,7 +1540,7 @@
             // lblTilemapCompression
             // 
             this.lblTilemapCompression.AutoSize = true;
-            this.lblTilemapCompression.Location = new System.Drawing.Point(0, 68);
+            this.lblTilemapCompression.Location = new System.Drawing.Point(0, 67);
             this.lblTilemapCompression.Margin = new System.Windows.Forms.Padding(0);
             this.lblTilemapCompression.Name = "lblTilemapCompression";
             this.lblTilemapCompression.Size = new System.Drawing.Size(77, 13);
@@ -1569,7 +1596,7 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(0, 44);
+            this.txtName.Location = new System.Drawing.Point(0, 42);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(168, 22);
@@ -1580,7 +1607,7 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(0, 28);
+            this.lblName.Location = new System.Drawing.Point(0, 25);
             this.lblName.Margin = new System.Windows.Forms.Padding(0);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(81, 13);
@@ -1618,10 +1645,10 @@
             this.lstTileGrids.FormattingEnabled = true;
             this.lstTileGrids.HorizontalExtent = 166;
             this.lstTileGrids.IntegralHeight = false;
-            this.lstTileGrids.Location = new System.Drawing.Point(8, 184);
+            this.lstTileGrids.Location = new System.Drawing.Point(8, 200);
             this.lstTileGrids.Name = "lstTileGrids";
             this.lstTileGrids.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstTileGrids.Size = new System.Drawing.Size(170, 303);
+            this.lstTileGrids.Size = new System.Drawing.Size(170, 287);
             this.lstTileGrids.TabIndex = 32;
             this.lstTileGrids.TextOffsetX = 2;
             this.lstTileGrids.TextOffsetY = 0;
@@ -1643,14 +1670,13 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel5.Location = new System.Drawing.Point(8, 0);
             this.panel5.Name = "panel5";
-            this.panel5.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
-            this.panel5.Size = new System.Drawing.Size(170, 184);
+            this.panel5.Size = new System.Drawing.Size(170, 200);
             this.panel5.TabIndex = 0;
             // 
             // lblTileGridTileSize
             // 
             this.lblTileGridTileSize.AutoSize = true;
-            this.lblTileGridTileSize.Location = new System.Drawing.Point(1, 64);
+            this.lblTileGridTileSize.Location = new System.Drawing.Point(1, 68);
             this.lblTileGridTileSize.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileGridTileSize.Name = "lblTileGridTileSize";
             this.lblTileGridTileSize.Size = new System.Drawing.Size(50, 13);
@@ -1662,7 +1688,7 @@
             // 
             this.cbTileGridTileSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTileGridTileSize.FormattingEnabled = true;
-            this.cbTileGridTileSize.Location = new System.Drawing.Point(1, 80);
+            this.cbTileGridTileSize.Location = new System.Drawing.Point(0, 86);
             this.cbTileGridTileSize.Name = "cbTileGridTileSize";
             this.cbTileGridTileSize.Size = new System.Drawing.Size(168, 21);
             this.cbTileGridTileSize.TabIndex = 43;
@@ -1671,7 +1697,7 @@
             // lblTileGridRows
             // 
             this.lblTileGridRows.AutoSize = true;
-            this.lblTileGridRows.Location = new System.Drawing.Point(88, 104);
+            this.lblTileGridRows.Location = new System.Drawing.Point(88, 110);
             this.lblTileGridRows.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileGridRows.Name = "lblTileGridRows";
             this.lblTileGridRows.Size = new System.Drawing.Size(38, 13);
@@ -1682,7 +1708,7 @@
             // lblTileGridColumns
             // 
             this.lblTileGridColumns.AutoSize = true;
-            this.lblTileGridColumns.Location = new System.Drawing.Point(0, 104);
+            this.lblTileGridColumns.Location = new System.Drawing.Point(0, 110);
             this.lblTileGridColumns.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileGridColumns.Name = "lblTileGridColumns";
             this.lblTileGridColumns.Size = new System.Drawing.Size(55, 13);
@@ -1692,7 +1718,7 @@
             // 
             // nudTileGridRows
             // 
-            this.nudTileGridRows.Location = new System.Drawing.Point(88, 120);
+            this.nudTileGridRows.Location = new System.Drawing.Point(88, 128);
             this.nudTileGridRows.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -1714,7 +1740,7 @@
             // 
             // nudTileGridColumns
             // 
-            this.nudTileGridColumns.Location = new System.Drawing.Point(0, 120);
+            this.nudTileGridColumns.Location = new System.Drawing.Point(0, 128);
             this.nudTileGridColumns.Maximum = new decimal(new int[] {
             32767,
             0,
@@ -1736,7 +1762,7 @@
             // 
             // nudTileGridValue
             // 
-            this.nudTileGridValue.Location = new System.Drawing.Point(1, 160);
+            this.nudTileGridValue.Location = new System.Drawing.Point(1, 171);
             this.nudTileGridValue.Maximum = new decimal(new int[] {
             255,
             0,
@@ -1750,7 +1776,7 @@
             // lblTileGridValue
             // 
             this.lblTileGridValue.AutoSize = true;
-            this.lblTileGridValue.Location = new System.Drawing.Point(1, 144);
+            this.lblTileGridValue.Location = new System.Drawing.Point(1, 153);
             this.lblTileGridValue.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileGridValue.Name = "lblTileGridValue";
             this.lblTileGridValue.Size = new System.Drawing.Size(38, 13);
@@ -1761,7 +1787,7 @@
             // btnTileGridOptions
             // 
             this.btnTileGridOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnTileGridOptions.Location = new System.Drawing.Point(0, 2);
+            this.btnTileGridOptions.Location = new System.Drawing.Point(0, 0);
             this.btnTileGridOptions.Name = "btnTileGridOptions";
             this.btnTileGridOptions.Size = new System.Drawing.Size(170, 23);
             this.btnTileGridOptions.TabIndex = 35;
@@ -1771,7 +1797,7 @@
             // 
             // txtTileGridName
             // 
-            this.txtTileGridName.Location = new System.Drawing.Point(1, 42);
+            this.txtTileGridName.Location = new System.Drawing.Point(1, 43);
             this.txtTileGridName.MaxLength = 50;
             this.txtTileGridName.Name = "txtTileGridName";
             this.txtTileGridName.Size = new System.Drawing.Size(168, 22);
@@ -1780,7 +1806,7 @@
             // lblTileGridName
             // 
             this.lblTileGridName.AutoSize = true;
-            this.lblTileGridName.Location = new System.Drawing.Point(0, 28);
+            this.lblTileGridName.Location = new System.Drawing.Point(0, 25);
             this.lblTileGridName.Margin = new System.Windows.Forms.Padding(0);
             this.lblTileGridName.Name = "lblTileGridName";
             this.lblTileGridName.Size = new System.Drawing.Size(84, 13);
@@ -1820,9 +1846,9 @@
             this.lstEntities.FormattingEnabled = true;
             this.lstEntities.HorizontalExtent = 166;
             this.lstEntities.IntegralHeight = false;
-            this.lstEntities.Location = new System.Drawing.Point(8, 144);
+            this.lstEntities.Location = new System.Drawing.Point(8, 140);
             this.lstEntities.Name = "lstEntities";
-            this.lstEntities.Size = new System.Drawing.Size(170, 343);
+            this.lstEntities.Size = new System.Drawing.Size(170, 347);
             this.lstEntities.TabIndex = 4;
             this.lstEntities.TextOffsetX = 2;
             this.lstEntities.TextOffsetY = 0;
@@ -1847,12 +1873,12 @@
             this.panel3.Location = new System.Drawing.Point(8, 0);
             this.panel3.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(170, 144);
+            this.panel3.Size = new System.Drawing.Size(170, 140);
             this.panel3.TabIndex = 3;
             // 
             // txtEntityName
             // 
-            this.txtEntityName.Location = new System.Drawing.Point(0, 40);
+            this.txtEntityName.Location = new System.Drawing.Point(0, 41);
             this.txtEntityName.MaxLength = 50;
             this.txtEntityName.Name = "txtEntityName";
             this.txtEntityName.Size = new System.Drawing.Size(168, 22);
@@ -2011,9 +2037,10 @@
             // 
             // button1
             // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(168, 23);
+            this.button1.Size = new System.Drawing.Size(170, 23);
             this.button1.TabIndex = 20;
             this.button1.Text = "Remove Entity";
             this.button1.UseVisualStyleBackColor = true;
@@ -2499,15 +2526,339 @@
             this.btnAddTag.UseVisualStyleBackColor = true;
             this.btnAddTag.Click += new System.EventHandler(this.btnTilemap_Click);
             // 
-            // tabMetaTiles
+            // tabMetaTilemap
             // 
-            this.tabMetaTiles.Location = new System.Drawing.Point(4, 22);
-            this.tabMetaTiles.Name = "tabMetaTiles";
-            this.tabMetaTiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMetaTiles.Size = new System.Drawing.Size(679, 531);
-            this.tabMetaTiles.TabIndex = 2;
-            this.tabMetaTiles.Text = "Meta Tiles";
-            this.tabMetaTiles.UseVisualStyleBackColor = true;
+            this.tabMetaTilemap.Controls.Add(this.tableLayoutPanel1);
+            this.tabMetaTilemap.Location = new System.Drawing.Point(4, 22);
+            this.tabMetaTilemap.Name = "tabMetaTilemap";
+            this.tabMetaTilemap.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMetaTilemap.Size = new System.Drawing.Size(679, 531);
+            this.tabMetaTilemap.TabIndex = 2;
+            this.tabMetaTilemap.Text = "Meta Tilemap";
+            this.tabMetaTilemap.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 198F));
+            this.tableLayoutPanel1.Controls.Add(this.panel11, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tabControl2, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(673, 525);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // panel11
+            // 
+            this.panel11.Controls.Add(this.pnlMetaTilemapEdit);
+            this.panel11.Controls.Add(this.pnlMetaTilemapInfo);
+            this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel11.Location = new System.Drawing.Point(0, 0);
+            this.panel11.Margin = new System.Windows.Forms.Padding(0);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(475, 525);
+            this.panel11.TabIndex = 5;
+            // 
+            // pnlMetaTilemapEdit
+            // 
+            this.pnlMetaTilemapEdit.AutoScroll = true;
+            this.pnlMetaTilemapEdit.AutoScrollMinSize = new System.Drawing.Size(1374, 1413);
+            this.pnlMetaTilemapEdit.Canvas = new System.Drawing.Size(8, 8);
+            this.pnlMetaTilemapEdit.Centered = true;
+            this.pnlMetaTilemapEdit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMetaTilemapEdit.HatchBackColor = System.Drawing.Color.DarkGray;
+            this.pnlMetaTilemapEdit.HatchForeColor = System.Drawing.Color.White;
+            this.pnlMetaTilemapEdit.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
+            this.pnlMetaTilemapEdit.Image = null;
+            this.pnlMetaTilemapEdit.ImageAlpha = 1F;
+            this.pnlMetaTilemapEdit.ImageScale = 3;
+            this.pnlMetaTilemapEdit.InvertGridColor = false;
+            this.pnlMetaTilemapEdit.Location = new System.Drawing.Point(0, 0);
+            this.pnlMetaTilemapEdit.MetaTilemapIds = null;
+            this.pnlMetaTilemapEdit.MetaTilemapProperties = "N/A";
+            this.pnlMetaTilemapEdit.MetaTilemapSize = new System.Drawing.Size(0, 0);
+            this.pnlMetaTilemapEdit.MetaTileSize = new System.Drawing.Size(0, 0);
+            this.pnlMetaTilemapEdit.MinimumScale = 3;
+            this.pnlMetaTilemapEdit.Name = "pnlMetaTilemapEdit";
+            this.pnlMetaTilemapEdit.Size = new System.Drawing.Size(475, 488);
+            this.pnlMetaTilemapEdit.SnapSize = new System.Drawing.Size(8, 8);
+            this.pnlMetaTilemapEdit.TabIndex = 33;
+            this.pnlMetaTilemapEdit.TilemapImage = null;
+            this.pnlMetaTilemapEdit.UseCanvas = false;
+            this.pnlMetaTilemapEdit.UseHatch = true;
+            this.pnlMetaTilemapEdit.UseMouseWheelScaling = true;
+            // 
+            // pnlMetaTilemapInfo
+            // 
+            this.pnlMetaTilemapInfo.Controls.Add(this.lblMetaTileProperties);
+            this.pnlMetaTilemapInfo.Controls.Add(this.lblMetaTilemapProperties);
+            this.pnlMetaTilemapInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlMetaTilemapInfo.Location = new System.Drawing.Point(0, 488);
+            this.pnlMetaTilemapInfo.Name = "pnlMetaTilemapInfo";
+            this.pnlMetaTilemapInfo.Size = new System.Drawing.Size(475, 37);
+            this.pnlMetaTilemapInfo.TabIndex = 31;
+            // 
+            // lblMetaTileProperties
+            // 
+            this.lblMetaTileProperties.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblMetaTileProperties.Location = new System.Drawing.Point(0, 3);
+            this.lblMetaTileProperties.Name = "lblMetaTileProperties";
+            this.lblMetaTileProperties.Size = new System.Drawing.Size(475, 17);
+            this.lblMetaTileProperties.TabIndex = 6;
+            this.lblMetaTileProperties.Text = "Meta Tile Properties: N/A";
+            this.lblMetaTileProperties.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblMetaTilemapProperties
+            // 
+            this.lblMetaTilemapProperties.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.lblMetaTilemapProperties.Location = new System.Drawing.Point(0, 20);
+            this.lblMetaTilemapProperties.Name = "lblMetaTilemapProperties";
+            this.lblMetaTilemapProperties.Size = new System.Drawing.Size(475, 17);
+            this.lblMetaTilemapProperties.TabIndex = 4;
+            this.lblMetaTilemapProperties.Text = "Meta Tilemap Properties: N/A";
+            this.lblMetaTilemapProperties.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage1);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(478, 3);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(192, 519);
+            this.tabControl2.TabIndex = 6;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.pnlMetaTileOptions);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(184, 493);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Meta Tiles";
+            // 
+            // pnlMetaTileOptions
+            // 
+            this.pnlMetaTileOptions.BackColor = System.Drawing.SystemColors.Control;
+            this.pnlMetaTileOptions.Controls.Add(this.pnlMetaTilesEdit);
+            this.pnlMetaTileOptions.Controls.Add(this.pnlMetaTileTools);
+            this.pnlMetaTileOptions.Controls.Add(this.pnlMetaTilePaletteOptions);
+            this.pnlMetaTileOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMetaTileOptions.Location = new System.Drawing.Point(3, 3);
+            this.pnlMetaTileOptions.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlMetaTileOptions.Name = "pnlMetaTileOptions";
+            this.pnlMetaTileOptions.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
+            this.pnlMetaTileOptions.Size = new System.Drawing.Size(178, 487);
+            this.pnlMetaTileOptions.TabIndex = 4;
+            // 
+            // pnlMetaTilesEdit
+            // 
+            this.pnlMetaTilesEdit.ApplyEditsToAllMetaTiles = true;
+            this.pnlMetaTilesEdit.AutoScroll = true;
+            this.pnlMetaTilesEdit.AutoScrollMinSize = new System.Drawing.Size(459, 1020);
+            this.pnlMetaTilesEdit.Canvas = new System.Drawing.Size(8, 8);
+            this.pnlMetaTilesEdit.Centered = true;
+            this.pnlMetaTilesEdit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlMetaTilesEdit.EditMode = SMSTileStudio.Data.TileEditType.TileID;
+            this.pnlMetaTilesEdit.HatchBackColor = System.Drawing.Color.DarkGray;
+            this.pnlMetaTilesEdit.HatchForeColor = System.Drawing.Color.White;
+            this.pnlMetaTilesEdit.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
+            this.pnlMetaTilesEdit.Image = null;
+            this.pnlMetaTilesEdit.ImageAlpha = 1F;
+            this.pnlMetaTilesEdit.ImageScale = 3;
+            this.pnlMetaTilesEdit.InvertGridColor = false;
+            this.pnlMetaTilesEdit.Location = new System.Drawing.Point(8, 130);
+            this.pnlMetaTilesEdit.MetaTileProperties = "N/A";
+            this.pnlMetaTilesEdit.MetaTiles = null;
+            this.pnlMetaTilesEdit.MinimumScale = 1;
+            this.pnlMetaTilesEdit.Name = "pnlMetaTilesEdit";
+            this.pnlMetaTilesEdit.Size = new System.Drawing.Size(170, 357);
+            this.pnlMetaTilesEdit.SnapSize = new System.Drawing.Size(8, 8);
+            this.pnlMetaTilesEdit.TabIndex = 22;
+            this.pnlMetaTilesEdit.TypeValue = ((byte)(0));
+            this.pnlMetaTilesEdit.UseCanvas = false;
+            this.pnlMetaTilesEdit.UseHatch = true;
+            this.pnlMetaTilesEdit.UseMouseWheelScaling = false;
+            this.pnlMetaTilesEdit.MetaTileChanged += new SMSTileStudio.Controls.MetaTilesControl.MetaTileChangedHandler(this.pnlMetaTilesEdit_MetaTileChanged);
+            // 
+            // pnlMetaTileTools
+            // 
+            this.pnlMetaTileTools.AutoSize = true;
+            this.pnlMetaTileTools.Controls.Add(this.rbMetaTileIds);
+            this.pnlMetaTileTools.Controls.Add(this.rbMetaTilePriority);
+            this.pnlMetaTileTools.Controls.Add(this.rbMetaTilePalette);
+            this.pnlMetaTileTools.Controls.Add(this.rbMetaTileType);
+            this.pnlMetaTileTools.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlMetaTileTools.Location = new System.Drawing.Point(8, 84);
+            this.pnlMetaTileTools.Name = "pnlMetaTileTools";
+            this.pnlMetaTileTools.Size = new System.Drawing.Size(170, 46);
+            this.pnlMetaTileTools.TabIndex = 31;
+            // 
+            // rbMetaTileIds
+            // 
+            this.rbMetaTileIds.AutoSize = true;
+            this.rbMetaTileIds.Checked = true;
+            this.rbMetaTileIds.Dock = System.Windows.Forms.DockStyle.Left;
+            this.rbMetaTileIds.Location = new System.Drawing.Point(3, 3);
+            this.rbMetaTileIds.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbMetaTileIds.Name = "rbMetaTileIds";
+            this.rbMetaTileIds.Size = new System.Drawing.Size(40, 17);
+            this.rbMetaTileIds.TabIndex = 38;
+            this.rbMetaTileIds.TabStop = true;
+            this.rbMetaTileIds.Text = "Ids";
+            this.rbMetaTileIds.UseVisualStyleBackColor = true;
+            this.rbMetaTileIds.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            // 
+            // rbMetaTilePriority
+            // 
+            this.rbMetaTilePriority.AutoSize = true;
+            this.rbMetaTilePriority.Location = new System.Drawing.Point(46, 3);
+            this.rbMetaTilePriority.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbMetaTilePriority.Name = "rbMetaTilePriority";
+            this.rbMetaTilePriority.Size = new System.Drawing.Size(61, 17);
+            this.rbMetaTilePriority.TabIndex = 4;
+            this.rbMetaTilePriority.Text = "Priority";
+            this.rbMetaTilePriority.UseVisualStyleBackColor = true;
+            this.rbMetaTilePriority.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            // 
+            // rbMetaTilePalette
+            // 
+            this.rbMetaTilePalette.AutoSize = true;
+            this.rbMetaTilePalette.Location = new System.Drawing.Point(110, 3);
+            this.rbMetaTilePalette.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbMetaTilePalette.Name = "rbMetaTilePalette";
+            this.rbMetaTilePalette.Size = new System.Drawing.Size(60, 17);
+            this.rbMetaTilePalette.TabIndex = 5;
+            this.rbMetaTilePalette.Text = "Palette";
+            this.rbMetaTilePalette.UseVisualStyleBackColor = true;
+            this.rbMetaTilePalette.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            // 
+            // rbMetaTileType
+            // 
+            this.rbMetaTileType.AutoSize = true;
+            this.rbMetaTileType.Location = new System.Drawing.Point(3, 26);
+            this.rbMetaTileType.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
+            this.rbMetaTileType.Name = "rbMetaTileType";
+            this.rbMetaTileType.Size = new System.Drawing.Size(47, 17);
+            this.rbMetaTileType.TabIndex = 31;
+            this.rbMetaTileType.Text = "Type";
+            this.rbMetaTileType.UseVisualStyleBackColor = true;
+            this.rbMetaTileType.CheckedChanged += new System.EventHandler(this.rbTilemap_CheckedChanged);
+            // 
+            // pnlMetaTilePaletteOptions
+            // 
+            this.pnlMetaTilePaletteOptions.Controls.Add(this.lblMetaTileSize);
+            this.pnlMetaTilePaletteOptions.Controls.Add(this.cbMetaTileSize);
+            this.pnlMetaTilePaletteOptions.Controls.Add(this.btnMetaTileOptions);
+            this.pnlMetaTilePaletteOptions.Controls.Add(this.chkMetaTileApplyEditsByTileId);
+            this.pnlMetaTilePaletteOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlMetaTilePaletteOptions.Location = new System.Drawing.Point(8, 0);
+            this.pnlMetaTilePaletteOptions.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
+            this.pnlMetaTilePaletteOptions.Name = "pnlMetaTilePaletteOptions";
+            this.pnlMetaTilePaletteOptions.Size = new System.Drawing.Size(170, 84);
+            this.pnlMetaTilePaletteOptions.TabIndex = 3;
+            // 
+            // lblMetaTileSize
+            // 
+            this.lblMetaTileSize.AutoSize = true;
+            this.lblMetaTileSize.Location = new System.Drawing.Point(1, 26);
+            this.lblMetaTileSize.Margin = new System.Windows.Forms.Padding(0);
+            this.lblMetaTileSize.Name = "lblMetaTileSize";
+            this.lblMetaTileSize.Size = new System.Drawing.Size(79, 13);
+            this.lblMetaTileSize.TabIndex = 44;
+            this.lblMetaTileSize.Text = "Meta Tile Size:";
+            this.lblMetaTileSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbMetaTileSize
+            // 
+            this.cbMetaTileSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMetaTileSize.FormattingEnabled = true;
+            this.cbMetaTileSize.Location = new System.Drawing.Point(1, 42);
+            this.cbMetaTileSize.Name = "cbMetaTileSize";
+            this.cbMetaTileSize.Size = new System.Drawing.Size(168, 21);
+            this.cbMetaTileSize.TabIndex = 45;
+            // 
+            // btnMetaTileOptions
+            // 
+            this.btnMetaTileOptions.ContextMenuStrip = this.mnuMetaTileOptions;
+            this.btnMetaTileOptions.Location = new System.Drawing.Point(0, 0);
+            this.btnMetaTileOptions.Name = "btnMetaTileOptions";
+            this.btnMetaTileOptions.Size = new System.Drawing.Size(168, 23);
+            this.btnMetaTileOptions.TabIndex = 22;
+            this.btnMetaTileOptions.Text = "Meta Tile Options";
+            this.btnMetaTileOptions.UseVisualStyleBackColor = true;
+            this.btnMetaTileOptions.Click += new System.EventHandler(this.btnTilemap_Click);
+            // 
+            // mnuMetaTileOptions
+            // 
+            this.mnuMetaTileOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuGenerateMetaTilemap,
+            this.mnuClearMetaTilemap,
+            this.toolStripMenuItem8,
+            this.mnuExportMetaTilemap,
+            this.mnuExportMetaTiles,
+            this.mnuExportAllMetaData});
+            this.mnuMetaTileOptions.Name = "mnuMetaTileOptions";
+            this.mnuMetaTileOptions.Size = new System.Drawing.Size(198, 120);
+            // 
+            // mnuGenerateMetaTilemap
+            // 
+            this.mnuGenerateMetaTilemap.Name = "mnuGenerateMetaTilemap";
+            this.mnuGenerateMetaTilemap.Size = new System.Drawing.Size(197, 22);
+            this.mnuGenerateMetaTilemap.Text = "Generate Meta Tilemap";
+            this.mnuGenerateMetaTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuClearMetaTilemap
+            // 
+            this.mnuClearMetaTilemap.Name = "mnuClearMetaTilemap";
+            this.mnuClearMetaTilemap.Size = new System.Drawing.Size(197, 22);
+            this.mnuClearMetaTilemap.Text = "Clear Meta Tilemap";
+            this.mnuClearMetaTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(194, 6);
+            // 
+            // mnuExportMetaTilemap
+            // 
+            this.mnuExportMetaTilemap.Name = "mnuExportMetaTilemap";
+            this.mnuExportMetaTilemap.Size = new System.Drawing.Size(197, 22);
+            this.mnuExportMetaTilemap.Text = "Export Meta Tilemap";
+            this.mnuExportMetaTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuExportMetaTiles
+            // 
+            this.mnuExportMetaTiles.Name = "mnuExportMetaTiles";
+            this.mnuExportMetaTiles.Size = new System.Drawing.Size(197, 22);
+            this.mnuExportMetaTiles.Text = "Export Meta Tiles";
+            this.mnuExportMetaTiles.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuExportAllMetaData
+            // 
+            this.mnuExportAllMetaData.Name = "mnuExportAllMetaData";
+            this.mnuExportAllMetaData.Size = new System.Drawing.Size(197, 22);
+            this.mnuExportAllMetaData.Text = "Export All Meta Data";
+            this.mnuExportAllMetaData.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // chkMetaTileApplyEditsByTileId
+            // 
+            this.chkMetaTileApplyEditsByTileId.AutoSize = true;
+            this.chkMetaTileApplyEditsByTileId.Checked = true;
+            this.chkMetaTileApplyEditsByTileId.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMetaTileApplyEditsByTileId.Location = new System.Drawing.Point(0, 66);
+            this.chkMetaTileApplyEditsByTileId.Name = "chkMetaTileApplyEditsByTileId";
+            this.chkMetaTileApplyEditsByTileId.Size = new System.Drawing.Size(131, 17);
+            this.chkMetaTileApplyEditsByTileId.TabIndex = 39;
+            this.chkMetaTileApplyEditsByTileId.Text = "Apply edits by Tile Id";
+            this.chkMetaTileApplyEditsByTileId.UseVisualStyleBackColor = true;
+            this.chkMetaTileApplyEditsByTileId.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
             // lblCreateTilemap
             // 
@@ -2538,23 +2889,21 @@
             this.toolStripMenuItem2,
             this.mnuExportPalette,
             this.mnuExportTileset,
-            this.mnuExportTilemap,
-            this.mnuExportMetatiles,
-            this.mnuExportEntities});
+            this.mnuExportTilemap});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(181, 164);
+            this.mnuExport.Size = new System.Drawing.Size(154, 98);
             // 
             // mnuExportAll
             // 
             this.mnuExportAll.Name = "mnuExportAll";
-            this.mnuExportAll.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportAll.Size = new System.Drawing.Size(153, 22);
             this.mnuExportAll.Text = "Export All";
             this.mnuExportAll.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(150, 6);
             // 
             // mnuExportPalette
             // 
@@ -2566,7 +2915,7 @@
             this.mnuPaletteExportHex,
             this.mnuPaletteExportAssembly});
             this.mnuExportPalette.Name = "mnuExportPalette";
-            this.mnuExportPalette.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportPalette.Size = new System.Drawing.Size(153, 22);
             this.mnuExportPalette.Text = "Export Palette";
             // 
             // mnuExportBgPalette
@@ -2620,7 +2969,7 @@
             this.mnuTilesetExportHex,
             this.mnuTilesetExportAssembly});
             this.mnuExportTileset.Name = "mnuExportTileset";
-            this.mnuExportTileset.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportTileset.Size = new System.Drawing.Size(153, 22);
             this.mnuExportTileset.Text = "Export Tileset";
             // 
             // mnuTilesetBypassCompression
@@ -2701,7 +3050,7 @@
             this.mnuTilemapExportAssembly,
             this.mnuTilemapExportDecimal});
             this.mnuExportTilemap.Name = "mnuExportTilemap";
-            this.mnuExportTilemap.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportTilemap.Size = new System.Drawing.Size(153, 22);
             this.mnuExportTilemap.Text = "Export Tilemap";
             // 
             // mnuTilemapBypassCompression
@@ -2793,86 +3142,6 @@
             this.mnuTilemapExportDecimal.Size = new System.Drawing.Size(238, 22);
             this.mnuTilemapExportDecimal.Text = "Export as Decimal (Clipboard)";
             this.mnuTilemapExportDecimal.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
-            // mnuExportMetatiles
-            // 
-            this.mnuExportMetatiles.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuMetatilesBypassCompression,
-            this.mnuSeparator5,
-            this.mnuMetatilesExportBinary,
-            this.mnuMetatilesExportHex,
-            this.mnuMetatilesExportAsm,
-            this.mnuMetatileMap});
-            this.mnuExportMetatiles.Name = "mnuExportMetatiles";
-            this.mnuExportMetatiles.Size = new System.Drawing.Size(180, 22);
-            this.mnuExportMetatiles.Text = "Export Metatiles";
-            // 
-            // mnuMetatilesBypassCompression
-            // 
-            this.mnuMetatilesBypassCompression.CheckOnClick = true;
-            this.mnuMetatilesBypassCompression.Name = "mnuMetatilesBypassCompression";
-            this.mnuMetatilesBypassCompression.Size = new System.Drawing.Size(238, 22);
-            this.mnuMetatilesBypassCompression.Text = "Bypass Compression";
-            // 
-            // mnuSeparator5
-            // 
-            this.mnuSeparator5.Name = "mnuSeparator5";
-            this.mnuSeparator5.Size = new System.Drawing.Size(235, 6);
-            // 
-            // mnuMetatilesExportBinary
-            // 
-            this.mnuMetatilesExportBinary.Name = "mnuMetatilesExportBinary";
-            this.mnuMetatilesExportBinary.Size = new System.Drawing.Size(238, 22);
-            this.mnuMetatilesExportBinary.Text = "Export as Binary";
-            // 
-            // mnuMetatilesExportHex
-            // 
-            this.mnuMetatilesExportHex.Name = "mnuMetatilesExportHex";
-            this.mnuMetatilesExportHex.Size = new System.Drawing.Size(238, 22);
-            this.mnuMetatilesExportHex.Text = "Export as Hex (Clipboard)";
-            // 
-            // mnuMetatilesExportAsm
-            // 
-            this.mnuMetatilesExportAsm.Name = "mnuMetatilesExportAsm";
-            this.mnuMetatilesExportAsm.Size = new System.Drawing.Size(238, 22);
-            this.mnuMetatilesExportAsm.Text = "Export as Assembly (Clipboard)";
-            // 
-            // mnuMetatileMap
-            // 
-            this.mnuMetatileMap.Name = "mnuMetatileMap";
-            this.mnuMetatileMap.Size = new System.Drawing.Size(238, 22);
-            this.mnuMetatileMap.Text = "Export Metatile Map";
-            // 
-            // mnuExportEntities
-            // 
-            this.mnuExportEntities.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuEntitiesExportBinary,
-            this.mnuEntitiesExportHex,
-            this.mnuEntitiesExportAsm});
-            this.mnuExportEntities.Name = "mnuExportEntities";
-            this.mnuExportEntities.Size = new System.Drawing.Size(180, 22);
-            this.mnuExportEntities.Text = "Export Entities";
-            // 
-            // mnuEntitiesExportBinary
-            // 
-            this.mnuEntitiesExportBinary.Name = "mnuEntitiesExportBinary";
-            this.mnuEntitiesExportBinary.Size = new System.Drawing.Size(238, 22);
-            this.mnuEntitiesExportBinary.Text = "Export as Binary";
-            this.mnuEntitiesExportBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
-            // mnuEntitiesExportHex
-            // 
-            this.mnuEntitiesExportHex.Name = "mnuEntitiesExportHex";
-            this.mnuEntitiesExportHex.Size = new System.Drawing.Size(238, 22);
-            this.mnuEntitiesExportHex.Text = "Export as Hex (Clipboard)";
-            this.mnuEntitiesExportHex.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
-            // mnuEntitiesExportAsm
-            // 
-            this.mnuEntitiesExportAsm.Name = "mnuEntitiesExportAsm";
-            this.mnuEntitiesExportAsm.Size = new System.Drawing.Size(238, 22);
-            this.mnuEntitiesExportAsm.Text = "Export as Assembly (Clipboard)";
-            this.mnuEntitiesExportAsm.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuImport
             // 
@@ -3142,6 +3411,19 @@
             this.panel9.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
+            this.tabMetaTilemap.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel11.ResumeLayout(false);
+            this.pnlMetaTilemapInfo.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.pnlMetaTileOptions.ResumeLayout(false);
+            this.pnlMetaTileOptions.PerformLayout();
+            this.pnlMetaTileTools.ResumeLayout(false);
+            this.pnlMetaTileTools.PerformLayout();
+            this.pnlMetaTilePaletteOptions.ResumeLayout(false);
+            this.pnlMetaTilePaletteOptions.PerformLayout();
+            this.mnuMetaTileOptions.ResumeLayout(false);
             this.mnuExport.ResumeLayout(false);
             this.mnuImport.ResumeLayout(false);
             this.mnuTilesetOptions.ResumeLayout(false);
@@ -3178,7 +3460,7 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Panel pnlTilemap;
         private System.Windows.Forms.CheckBox chkTilemapGrid;
-        private System.Windows.Forms.CheckBox chkShowTileAs;
+        private System.Windows.Forms.CheckBox chkTilemapShowTileAs;
         private System.Windows.Forms.TableLayoutPanel tpnlTileset;
         private System.Windows.Forms.CheckBox chkTilesetGrid;
         private System.Windows.Forms.CheckBox chkTilesetShowTileIds;
@@ -3235,12 +3517,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem mnuSetSelectionPalette;
         private System.Windows.Forms.ToolStripMenuItem mnuUnsetSelectionPalette;
-        private System.Windows.Forms.RadioButton rbSelect;
-        private System.Windows.Forms.RadioButton rbPalette;
-        private System.Windows.Forms.RadioButton rbPriority;
-        private System.Windows.Forms.RadioButton rbFlipY;
-        private System.Windows.Forms.RadioButton rbFlipX;
-        private System.Windows.Forms.RadioButton rbBrush;
+        private System.Windows.Forms.RadioButton rbTilemapSelect;
+        private System.Windows.Forms.RadioButton rbTilemapPalette;
+        private System.Windows.Forms.RadioButton rbTilemapPriority;
+        private System.Windows.Forms.RadioButton rbTilemapFlipY;
+        private System.Windows.Forms.RadioButton rbTilemapFlipX;
+        private System.Windows.Forms.RadioButton rbTilemapBrush;
         private System.Windows.Forms.RadioButton rbTilesetSwap;
         private System.Windows.Forms.TabControl tabProperties;
         private System.Windows.Forms.TabPage tabTilemapTiles;
@@ -3255,10 +3537,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem mnuExportAll;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem mnuExportEntities;
-        private System.Windows.Forms.ToolStripMenuItem mnuEntitiesExportBinary;
-        private System.Windows.Forms.ToolStripMenuItem mnuEntitiesExportHex;
-        private System.Windows.Forms.ToolStripMenuItem mnuEntitiesExportAsm;
         private System.Windows.Forms.NumericUpDown nudEntityY;
         private System.Windows.Forms.Label lblEntityY;
         private System.Windows.Forms.NumericUpDown nudEntityX;
@@ -3293,22 +3571,15 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.RadioButton rbTilesetType;
         private System.Windows.Forms.NumericUpDown nudTileType;
-        private System.Windows.Forms.RadioButton rbTileType;
+        private System.Windows.Forms.RadioButton rbTilemapTileType;
         private System.Windows.Forms.Label lblTileType;
         private System.Windows.Forms.Panel pnlTileset;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ToolStripMenuItem mnuClearSelection;
-        private System.Windows.Forms.ToolStripMenuItem mnuExportMetatiles;
-        private System.Windows.Forms.ToolStripMenuItem mnuMetatilesBypassCompression;
-        private System.Windows.Forms.ToolStripMenuItem mnuMetatilesExportBinary;
-        private System.Windows.Forms.ToolStripMenuItem mnuMetatilesExportHex;
-        private System.Windows.Forms.ToolStripMenuItem mnuMetatilesExportAsm;
-        private System.Windows.Forms.ToolStripSeparator mnuSeparator5;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label lblPosition;
         private System.Windows.Forms.Label lblTile;
-        private System.Windows.Forms.ToolStripMenuItem mnuMetatileMap;
         private System.Windows.Forms.ToolStripMenuItem mnuCropTilemap;
         private System.Windows.Forms.ToolStripMenuItem mnuRemoveByRange;
         private System.Windows.Forms.ToolTip tipMain;
@@ -3323,7 +3594,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown nudAreaGridRows;
         private System.Windows.Forms.NumericUpDown nudAreaGridCols;
-        private System.Windows.Forms.CheckBox chkAreaGrid;
+        private System.Windows.Forms.CheckBox chkTilemapAreaGrid;
         private ListBoxControl lstTileGrids;
         private System.Windows.Forms.Button btnTileGridOptions;
         private System.Windows.Forms.TextBox txtTileGridName;
@@ -3337,11 +3608,11 @@
         private System.Windows.Forms.Button btnTilemapDuplicate;
         private System.Windows.Forms.Button btnTilemapNew;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.CheckBox chkInvertGrids;
+        private System.Windows.Forms.CheckBox chkTilemapInvertGrids;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem mnuExportImagesFromAreaGrid;
         private System.Windows.Forms.ToolStripMenuItem mnuExportBinariesFromAreaGrid;
-        private System.Windows.Forms.TabPage tabMetaTiles;
+        private System.Windows.Forms.TabPage tabMetaTilemap;
         private System.Windows.Forms.ToolStripMenuItem mnuExportTileGrid;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabTilesetOptions;
@@ -3387,8 +3658,8 @@
         private System.Windows.Forms.Label lblTileGridValue;
         private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedIndexes;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.RadioButton rbShowIndexes;
-        private System.Windows.Forms.RadioButton rbShowIds;
+        private System.Windows.Forms.RadioButton rbTilemapShowIndexes;
+        private System.Windows.Forms.RadioButton rbTilemapShowIds;
         private System.Windows.Forms.ToolStripMenuItem mnuTilemapExportDecimal;
         private System.Windows.Forms.ToolStripMenuItem mnuExportAreaToBinary;
         private System.Windows.Forms.ToolStripMenuItem mnuExportSelectedIndexesToDecimal;
@@ -3404,5 +3675,32 @@
         private System.Windows.Forms.Label lblSelection;
         private System.Windows.Forms.ToolStripMenuItem mnuExportSGBinary;
         private System.Windows.Forms.ToolStripMenuItem mnuExportAsSGBinary;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.Panel pnlMetaTilemapInfo;
+        private System.Windows.Forms.Label lblMetaTilemapProperties;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Panel pnlMetaTileOptions;
+        private System.Windows.Forms.Panel pnlMetaTilePaletteOptions;
+        private System.Windows.Forms.Button btnMetaTileOptions;
+        private System.Windows.Forms.Label lblMetaTileSize;
+        private System.Windows.Forms.ComboBox cbMetaTileSize;
+        private MetaTilemapControl pnlMetaTilemapEdit;
+        private MetaTilesControl pnlMetaTilesEdit;
+        private System.Windows.Forms.ContextMenuStrip mnuMetaTileOptions;
+        private System.Windows.Forms.ToolStripMenuItem mnuGenerateMetaTilemap;
+        private System.Windows.Forms.ToolStripMenuItem mnuClearMetaTilemap;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportMetaTilemap;
+        private System.Windows.Forms.Label lblMetaTileProperties;
+        private System.Windows.Forms.FlowLayoutPanel pnlMetaTileTools;
+        private System.Windows.Forms.RadioButton rbMetaTilePriority;
+        private System.Windows.Forms.RadioButton rbMetaTilePalette;
+        private System.Windows.Forms.RadioButton rbMetaTileType;
+        private System.Windows.Forms.RadioButton rbMetaTileIds;
+        private System.Windows.Forms.CheckBox chkMetaTileApplyEditsByTileId;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportMetaTiles;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportAllMetaData;
     }
 }

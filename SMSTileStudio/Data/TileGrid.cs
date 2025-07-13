@@ -49,7 +49,7 @@ namespace SMSTileStudio.Data
         public TileGrid(Size tileSize, int cols, int rows)
         {
             TileSize = tileSize;
-            TileSizeType = GetMetatileSizeType(tileSize);
+            TileSizeType = Project.GetMetatileSizeType(tileSize);
             Columns = cols;
             Rows = rows;
             Tiles.Clear();
@@ -68,43 +68,12 @@ namespace SMSTileStudio.Data
         {
             Name = name;
             TileSizeType = tileSize;
-            TileSize = GetTileSize(tileSize);
+            TileSize = Project.GetMetaTileSize(tileSize);
             Columns = cols;
             Rows = rows;
             Tiles.Clear();
             for (int i = 0; i < Columns * Rows; i++)
                 Tiles.Add(0);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static MetatileSizeType GetMetatileSizeType(Size tileSize)
-        {
-            if (tileSize == new Size(8, 16))
-                return MetatileSizeType.EightBySixteen;
-            else if (tileSize == new Size(16, 16))
-                return MetatileSizeType.SixteenBySixteen;
-            else if (tileSize == new Size(32, 32))
-                return MetatileSizeType.ThirtyTwoByThirtyTwo;
-            else
-                return MetatileSizeType.SixteenBySixteen;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static Size GetTileSize(MetatileSizeType tileSizeType)
-        {
-            switch (tileSizeType)
-            {
-                case MetatileSizeType.EightBySixteen: return new Size(8, 16);
-                case MetatileSizeType.SixteenBySixteen: return new Size (16, 16);
-                case MetatileSizeType.ThirtyTwoByThirtyTwo: return new Size (32, 32);
-                default: return new Size(16, 16);
-            }
         }
 
         /// <summary>

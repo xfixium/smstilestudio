@@ -172,6 +172,18 @@
     <Compile Include="Controls\MetaSpriteSelectControl.Designer.cs">
       <DependentUpon>MetaSpriteSelectControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MetaTilemapControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\MetaTilemapControl.Designer.cs">
+      <DependentUpon>MetaTilemapControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MetaTilesControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\MetaTilesControl.Designer.cs">
+      <DependentUpon>MetaTilesControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PaletteControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

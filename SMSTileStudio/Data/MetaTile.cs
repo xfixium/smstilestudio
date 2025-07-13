@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace SMSTileStudio.Data
 {
@@ -32,8 +33,8 @@ namespace SMSTileStudio.Data
     public class MetaTile
     {
         public int TileID { get; set; }                            // Metatile tile id
-        public byte Value { get; set; }                            // Extra general use variable for meta tile
-        public List<Tile> Tiles { get; set; } = new List<Tile>();  // Metatile tile ids
+        public Bitmap Image { get; set; }                          // Metatile graphic
+        public List<Tile> Tiles { get; set; } = new List<Tile>();  // Metatile tiles
 
         /// <summary>
         /// Constructors

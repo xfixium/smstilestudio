@@ -355,5 +355,36 @@ namespace SMSTileStudio.Data
             };
             return defaultPalettes;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static MetatileSizeType GetMetatileSizeType(Size tileSize)
+        {
+            if (tileSize == new Size(8, 16))
+                return MetatileSizeType.EightBySixteen;
+            else if (tileSize == new Size(16, 16))
+                return MetatileSizeType.SixteenBySixteen;
+            else if (tileSize == new Size(32, 32))
+                return MetatileSizeType.ThirtyTwoByThirtyTwo;
+            else
+                return MetatileSizeType.SixteenBySixteen;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static Size GetMetaTileSize(MetatileSizeType tileSizeType)
+        {
+            switch (tileSizeType)
+            {
+                case MetatileSizeType.EightBySixteen: return new Size(8, 16);
+                case MetatileSizeType.SixteenBySixteen: return new Size(16, 16);
+                case MetatileSizeType.ThirtyTwoByThirtyTwo: return new Size(32, 32);
+                default: return new Size(16, 16);
+            }
+        }
     }
 }

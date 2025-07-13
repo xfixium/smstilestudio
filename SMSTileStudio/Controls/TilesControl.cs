@@ -208,7 +208,6 @@ namespace SMSTileStudio.Controls
                     RectangleF rect = new RectangleF(point.X, point.Y, (SnapSize.Width + 1) * ImageScale, (SnapSize.Height + 1) * ImageScale);
                     BitmapUtility.DrawTextOutline(gfx, (index + (UseOffset ? Offset : 0)).ToString(), font, Brushes.Black, rect, format);
                     gfx.DrawString((index + (UseOffset ? Offset : 0)).ToString(), font, Brushes.White, rect, format);
-
                     index++;
                 }
             }
