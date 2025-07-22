@@ -29,7 +29,7 @@ namespace SMSTileStudio.Data
     [Serializable]
     public class TileGrid : GameAsset
     {
-        public MetatileSizeType TileSizeType { get; set; } = MetatileSizeType.SixteenBySixteen;     // Tile size type
+        public MetaTileSizeType TileSizeType { get; set; } = MetaTileSizeType.SixteenBySixteen;     // Tile size type
         public Size TileSize { get; set; } = new Size(16, 16);                                      // Tile size of a grids cell
         public int Columns { get; set; } = 1;                                                       // The number of columns
         public int Rows { get; set; } = 1;                                                          // The number of rows
@@ -64,7 +64,7 @@ namespace SMSTileStudio.Data
         /// <param name="name"></param>
         /// <param name="cols"></param>
         /// <param name="rows"></param>
-        public TileGrid(MetatileSizeType tileSize, string name, int cols, int rows)
+        public TileGrid(MetaTileSizeType tileSize, string name, int cols, int rows)
         {
             Name = name;
             TileSizeType = tileSize;

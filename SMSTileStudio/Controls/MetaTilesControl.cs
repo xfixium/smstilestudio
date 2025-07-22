@@ -35,6 +35,7 @@ namespace SMSTileStudio.Controls
         public event MetaTileChangedHandler MetaTileChanged;
         public delegate void MetaTileChangedHandler();
         private int _tabSize = 0;
+        private bool _showHexValues = false;
         private bool _invertGridColor;
         private TileEditType _editMode = TileEditType.TileID;
 
@@ -44,6 +45,7 @@ namespace SMSTileStudio.Controls
         public List<MetaTile> MetaTiles { get; set; }
         public string MetaTileProperties { get; set; } = "N/A";
         public bool ApplyEditsToAllMetaTiles { get; set; } = true;
+        public bool ShowHexValues { get { return _showHexValues; } set { _showHexValues = value; Invalidate(); } }
         public bool InvertGridColor { get { return _invertGridColor; } set { _invertGridColor = value; UpdateTiles(); } }
         public byte TypeValue { get; set; } = 0;
         public TileEditType EditMode { get { return _editMode; } set { _editMode = value; Invalidate(); } }
@@ -173,67 +175,41 @@ namespace SMSTileStudio.Controls
                 return;
 
             int index = 0;
-            int bgSize = SnapSize.Width == 32 ? -38 : SnapSize.Width == 16 ? -20 : -8;
             Font font = new Font(Font.Name, 5 + ImageScale, FontStyle.Regular);
+            Font smallFont = new Font(Font.Name, 5 + ImageScale - 2, FontStyle.Regular);
             StringFormat format = new StringFormat();
             format.Alignment = StringAlignment.Center;
             format.LineAlignment = StringAlignment.Center;
             format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip;
             foreach (var metaTile in MetaTiles)
             {
+                Font drawFont = font;
                 int tileIndex = 0;
                 string value = "";
                 var rects = GetTileRects(index, origin);
-                switch (EditMode)
+                foreach (var tile in rects)
                 {
-                    case TileEditType.Priority:
-                        foreach (var tile in rects)
-                        {
-                            if (tileIndex >= MetaTiles[index].Tiles.Count)
-                                continue;
+                    if (tileIndex >= MetaTiles[index].Tiles.Count)
+                        continue;
 
-                            value = MetaTiles[index].Tiles[tileIndex].Priority ? "1" : "0";
-                            BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, tile, format);
-                            gfx.DrawString(value, font, Brushes.White, tile, format);
-                            tileIndex++;
-                        }
-                        break;
-                    case TileEditType.PaletteIndex:
-                        foreach (var tile in rects)
-                        {
-                            if (tileIndex >= MetaTiles[index].Tiles.Count)
-                                continue;
-
-                            value = MetaTiles[index].Tiles[tileIndex].UseBGPalette ? "BG" : "SPR";
-                            BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, tile, format);
-                            gfx.DrawString(value, font, Brushes.White, tile, format);
-                            tileIndex++;
-                        }
-                        break;
-                    case TileEditType.Bits:
-                        foreach (var tile in rects)
-                        {
-                            if (tileIndex >= MetaTiles[index].Tiles.Count)
-                                continue;
-
-                            value = MetaTiles[index].Tiles[tileIndex].Bits.ToString();
-                            BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, tile, format);
-                            gfx.DrawString(value, font, Brushes.White, tile, format);
-                            tileIndex++;
-                        }
-                        break;
-                    default:
-                        foreach (var tile in rects)
-                        {
-                            if (tileIndex >= MetaTiles[index].Tiles.Count)
-                                continue;
-
-                            value = MetaTiles[index].Tiles[tileIndex].TileID.ToString();
-                            BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, tile, format);
-                            gfx.DrawString(value, font, Brushes.White, tile, format);
-                            tileIndex++;
-                        }
-                        break;
+                    switch (EditMode)
+                    {
+                        case TileEditType.Priority: value = MetaTiles[index].Tiles[tileIndex].Priority ? "1" : "0"; break;
+                        case TileEditType.PaletteIndex: value = MetaTiles[index].Tiles[tileIndex].UseBGPalette ? "BG" : "SPR"; break;
+                        case TileEditType.Bits: value = MetaTiles[index].Tiles[tileIndex].Bits.ToString(); break;
+                        case TileEditType.TileValue:
+                            int id = MetaTiles[index].Tiles[tileIndex].GetTileValue();
+                            value = _showHexValues ? string.Format("${0:X4}", id) : id.ToString();
+                            drawFont = _showHexValues ? smallFont : font;
+                            break;
+                        default:
+                            int id2 = MetaTiles[index].Tiles[tileIndex].TileID;
+                            value = _showHexValues ? string.Format("${0:X2}", id2) : id2.ToString();
+                            break;
+                    }
+                    BitmapUtility.DrawTextOutline(gfx, value, drawFont, Brushes.Black, tile, format);
+                    gfx.DrawString(value, drawFont, Brushes.White, tile, format);
+                    tileIndex++;
                 }
                 value = index.ToString();
                 Point point = new Point((origin.X * ImageScale) + AutoScrollPosition.X, (index * SnapSize.Height * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
@@ -311,13 +287,16 @@ namespace SMSTileStudio.Controls
                 {
                     foreach (var metaTile in MetaTiles)
                     {
-                        point.X = 0;
-                        gfx.FillRectangle(Brushes.White, new Rectangle(point.X, point.Y, _tabSize, _tabSize));
-                        point.X = _tabSize + 1;
-                        gfx.DrawImageUnscaled(metaTile.Image, point);
-                        point.X = _tabSize;
-                        gfx.DrawRectangle(pen, new Rectangle(point, metaTileSize));
-                        point.Y += SnapSize.Height;
+                        using (var bitmap = BitmapUtility.PixelsToBitmap(metaTile.Image, metaTileSize.Width, metaTileSize.Height))
+                        {
+                            point.X = 0;
+                            gfx.FillRectangle(Brushes.White, new Rectangle(point.X, point.Y, _tabSize, _tabSize));
+                            point.X = _tabSize + 1;
+                            gfx.DrawImageUnscaled(bitmap, point);
+                            point.X = _tabSize;
+                            gfx.DrawRectangle(pen, new Rectangle(point, metaTileSize));
+                            point.Y += SnapSize.Height;
+                        }
                     }
                 }
             }

@@ -36,8 +36,8 @@ namespace SMSTileStudio.Controls
         /// </summary>
         public event TileChangedHandler TileChanged;
         public delegate void TileChangedHandler();
-        public event EntitiesChangedHandler EntitiesChanged;
-        public delegate void EntitiesChangedHandler();
+        //public event EntitiesChangedHandler EntitiesChanged;
+        //public delegate void EntitiesChangedHandler();
         public event PositionChangedHandler PositionChanged;
         public delegate void PositionChangedHandler();
 

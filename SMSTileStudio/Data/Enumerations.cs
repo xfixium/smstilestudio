@@ -155,7 +155,9 @@ namespace SMSTileStudio.Data
         [Description("Merge Tiles")]
         Merge = 10,
         [Description("Tile Grid")]
-        TileGrid = 11
+        TileGrid = 11,
+        [Description("Tile Value")]
+        TileValue = 12
     }
 
     /// <summary>
@@ -172,7 +174,7 @@ namespace SMSTileStudio.Data
     /// <summary>
     /// Metatile size type enumeration
     /// </summary>
-    public enum MetatileSizeType : int
+    public enum MetaTileSizeType : int
     {
         [Description("8 x 16")]
         EightBySixteen = 0,

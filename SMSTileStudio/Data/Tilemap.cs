@@ -24,9 +24,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SMSTileStudio.Data
 {
@@ -266,6 +268,9 @@ namespace SMSTileStudio.Data
                         tilemap.Tiles.Add(Tiles[index].DeepClone());
                 }
             }
+            if (MetaTilemap != null && MetaTilemap.MetaTiles != null)
+                tilemap.MetaTilemap = MetaTilemap.AreaToMetaTilemap(area);
+
             return tilemap;
         }
 
@@ -560,21 +565,56 @@ namespace SMSTileStudio.Data
         /// 
         /// </summary>
         /// <returns></returns>
-        public byte[] GetMetaTilemapData()
+        public byte[] GetMetaTilemapData(bool gsLibFormat)
         {
-            return MetaTilemap?.MetaTilemapIds?.Select(id => (byte)id)?.ToArray() ?? null;
+            var data = MetaTilemap?.MetaTilemapIds?.Select(id => (byte)id)?.ToArray() ?? null;
+            if (data == null)
+                return null;
+
+            if (gsLibFormat)
+            {
+                var gsLibData = new List<byte>();
+                gsLibData.AddRange(GetUShortBytes(MetaTilemap.MetaTilemapIds.Count)); // Size in bytes
+                gsLibData.AddRange(GetUShortBytes(MetaTilemap.Columns));  // Meta tile count horizontally
+                gsLibData.AddRange(GetUShortBytes(MetaTilemap.Rows));  // Meta tile count vertically
+                gsLibData.AddRange(GetUShortBytes(MetaTilemap.Columns * MetaTilemap.MetaTileSize.Width));  // Width in pixels
+                gsLibData.AddRange(GetUShortBytes(MetaTilemap.Rows * MetaTilemap.MetaTileSize.Height));  // Height in pixels
+                gsLibData.AddRange(GetUShortBytes(MetaTilemap.Columns * 13));  // Width in meta tiles * 13
+                gsLibData.Add(1);
+                foreach (var tileId in data)
+                {
+                    var id = tileId + 1;
+                    byte parsedId = (byte)(((id << 3) & 248) + ((id >> 5) & 7));
+                    gsLibData.Add(parsedId);
+                }
+                return gsLibData.ToArray();
+            }
+            else
+            {
+                return data;
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public byte[] GetMetaTileData()
+        public byte[] GetMetaTileData(bool gsLibFormat)
         {
             if (MetaTilemap?.MetaTiles == null || MetaTilemap?.MetaTiles.Count <= 0) 
                 return null;
 
             var metaTiles = new List<byte>();
+            if (gsLibFormat)
+            {
+                // Create GSLib header (8 bytes 2 bytes = total size in bytes, 6 bytes = unused
+                var bytes = (MetaTilemap.MetaTiles.Count * ((MetaTilemap.MetaTileSize.Width / 8) * (MetaTilemap.MetaTileSize.Height / 8) * 2)) + 8;
+                metaTiles.AddRange(GetUShortBytes(bytes));
+                metaTiles.Add((byte)(MetaTilemap.MetaTileSize.Width / 8));
+                metaTiles.Add((byte)(MetaTilemap.MetaTileSize.Height / 8));
+                metaTiles.AddRange(new byte[] { 0, 0, 0, 0 });
+            }
+
             foreach (var metaTile in MetaTilemap.MetaTiles)
             {
                 foreach (var tile in metaTile.Tiles)

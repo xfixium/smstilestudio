@@ -360,29 +360,29 @@ namespace SMSTileStudio.Data
         /// 
         /// </summary>
         /// <returns></returns>
-        public static MetatileSizeType GetMetatileSizeType(Size tileSize)
+        public static MetaTileSizeType GetMetatileSizeType(Size tileSize)
         {
             if (tileSize == new Size(8, 16))
-                return MetatileSizeType.EightBySixteen;
+                return MetaTileSizeType.EightBySixteen;
             else if (tileSize == new Size(16, 16))
-                return MetatileSizeType.SixteenBySixteen;
+                return MetaTileSizeType.SixteenBySixteen;
             else if (tileSize == new Size(32, 32))
-                return MetatileSizeType.ThirtyTwoByThirtyTwo;
+                return MetaTileSizeType.ThirtyTwoByThirtyTwo;
             else
-                return MetatileSizeType.SixteenBySixteen;
+                return MetaTileSizeType.SixteenBySixteen;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public static Size GetMetaTileSize(MetatileSizeType tileSizeType)
+        public static Size GetMetaTileSize(MetaTileSizeType tileSizeType)
         {
             switch (tileSizeType)
             {
-                case MetatileSizeType.EightBySixteen: return new Size(8, 16);
-                case MetatileSizeType.SixteenBySixteen: return new Size(16, 16);
-                case MetatileSizeType.ThirtyTwoByThirtyTwo: return new Size(32, 32);
+                case MetaTileSizeType.EightBySixteen: return new Size(8, 16);
+                case MetaTileSizeType.SixteenBySixteen: return new Size(16, 16);
+                case MetaTileSizeType.ThirtyTwoByThirtyTwo: return new Size(32, 32);
                 default: return new Size(16, 16);
             }
         }

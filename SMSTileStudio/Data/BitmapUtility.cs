@@ -25,10 +25,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Runtime.InteropServices;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace SMSTileStudio.Data
 {
@@ -1180,7 +1176,7 @@ namespace SMSTileStudio.Data
                     {
                         if (CompareTiles(flip, tilesetData[j]).Item1)
                         {
-                            tiles.Add(new Tile(index));
+                            tiles.Add(new Tile { TileID = index, FlipX = true });
                             break;
                         }
                         index++;
@@ -1194,7 +1190,7 @@ namespace SMSTileStudio.Data
                     {
                         if (CompareTiles(flip, tilesetData[j]).Item1)
                         {
-                            tiles.Add(new Tile(index));
+                            tiles.Add(new Tile { TileID = index, FlipY = true });
                             break;
                         }
                         index++;
@@ -1208,7 +1204,7 @@ namespace SMSTileStudio.Data
                     {
                         if (CompareTiles(flip, tilesetData[j]).Item1)
                         {
-                            tiles.Add(new Tile(index));
+                            tiles.Add(new Tile { TileID = index, FlipX = true, FlipY = true });
                             break;
                         }
                         index++;
@@ -1233,19 +1229,39 @@ namespace SMSTileStudio.Data
             return list;
         }
 
-        //public static byte[] GetTileBytes(Bitmap image, Rectangle selection)
-        //{
-        //    // If the selection end point is out of image bounds, return null
-        //    if (selection.X + selection.Width > image.Width || selection.Y + selection.Height > image.Height)
-        //        return null;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static Bitmap GetMetaTileImage(List<MetaTile> metaTiles, Size metaTileSize, bool gsLibFormat)
+        {
+            if (metaTiles == null)
+                return null;
 
-        //    // Get image bytes
-        //    BitmapData data = image.LockBits(selection, ImageLockMode.ReadOnly, PixelFormat.Format32bppPArgb);
-        //    int size = data.Stride * selection.Height;
-        //    byte[] bytes = new byte[size];
-        //    Marshal.Copy(data.Scan0, bytes, 0, size);
-        //    image.UnlockBits(data);
-        //    return bytes;
-        //}
+            var width = metaTiles.Count < 16 ? metaTileSize.Width * metaTiles.Count : metaTileSize.Width * 16;
+            var cols = width / metaTileSize.Width;
+            int rows = (int)Math.Ceiling(metaTiles.Count / Convert.ToDouble(cols));
+            var image = new Bitmap(width, rows * metaTileSize.Height);
+            var index = 0;
+            using (var gfx = Graphics.FromImage(image))
+            {
+                for (int row = 0; row < rows; row++)
+                {
+                    for (int col = 0; col < cols; col++)
+                    {
+                        if (index >= metaTiles.Count)
+                            break;
+
+                        var point = new Point(col * metaTileSize.Width, row * metaTileSize.Height);
+                        using (var bitmap = BitmapUtility.PixelsToBitmap(metaTiles[index].Image, metaTileSize.Width, metaTileSize.Height))
+                        {
+                            gfx.DrawImageUnscaled(bitmap, new Rectangle(point, metaTileSize));
+                        }
+                        index++;
+                    }
+                }
+            }
+            return image;
+        }
     }
 }

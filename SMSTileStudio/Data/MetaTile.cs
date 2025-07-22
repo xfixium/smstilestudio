@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace SMSTileStudio.Data
 {
@@ -33,7 +32,7 @@ namespace SMSTileStudio.Data
     public class MetaTile
     {
         public int TileID { get; set; }                            // Metatile tile id
-        public Bitmap Image { get; set; }                          // Metatile graphic
+        public int[] Image { get; set; }                           // Metatile graphic
         public List<Tile> Tiles { get; set; } = new List<Tile>();  // Metatile tiles
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace SMSTileStudio.Data
         /// <returns>Object information string</returns>
         public override string ToString()
         {
-            return "ID: " + TileID.ToString();
+            return $"ID: {TileID}";
         }
     }
 }

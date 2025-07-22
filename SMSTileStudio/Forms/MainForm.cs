@@ -77,7 +77,7 @@ namespace SMSTileStudio.Forms
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 throw new Exception("There was an issue loading the project file. Please try again.");
             }
