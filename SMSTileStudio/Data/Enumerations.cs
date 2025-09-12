@@ -176,10 +176,12 @@ namespace SMSTileStudio.Data
     /// </summary>
     public enum MetaSpriteEditType
     {
-        [Description("Sprites")]
-        Sprites = 0,
+        [Description("Sprite Edit")]
+        SpriteEdit = 0,
+        [Description("Sprite Select")]
+        SpriteSelect = 1,
         [Description("Rects")]
-        Rects = 1
+        Rects = 12
     }
 
     /// <summary>

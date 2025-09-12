@@ -464,7 +464,7 @@ namespace SMSTileStudio.Controls
             else if (checkBox == chkTransparent)
                 pnlMetaSpriteEdit.ShowTransparent = chkTransparent.Checked;
             else if (checkBox == chkGridSnap)
-                pnlMetaSpriteEdit.ShowOrigin = chkShowOrigin.Checked;
+                pnlMetaSpriteEdit.SnapToGrid = chkGridSnap.Checked;
             else if (checkBox == chkTilesetGrid)
                 pnlTilesetEdit.UseGrid = chkTilesetGrid.Checked;
         }
@@ -487,10 +487,18 @@ namespace SMSTileStudio.Controls
             //else if (numeric == nudSpriteConfig && _frame != null)
             //    _frame.SpriteConfig = (int)nudSpriteConfig.Value;
             else if (numeric == nudSpriteX && lstSprites.SelectedItem != null)
+            {
                 (lstSprites.SelectedItem as Sprite).X = (int)nudSpriteX.Value;
+                App.Project.UpdateAsset(_metaSprite);
+                UpdateImages();
+                lstSprites_SelectedIndexChanged(this, EventArgs.Empty);
+            }
             else if (numeric == nudSpriteY && lstSprites.SelectedItem != null)
+            {
                 (lstSprites.SelectedItem as Sprite).Y = (int)nudSpriteY.Value;
-
+                App.Project.UpdateAsset(_metaSprite);
+                UpdateImages();
+            }
             UpdateMetaSprite();
         }
 
@@ -889,6 +897,12 @@ namespace SMSTileStudio.Controls
                         btnMetaSprite_Click(btnRight, EventArgs.Empty);
                     break;
             }
+        }
+
+        // 
+        private void pnlMetaSpriteEdit_PositionChanged()
+        {
+            lblPosition.Text = pnlMetaSpriteEdit.GetPositionInformation();
         }
     }
 }

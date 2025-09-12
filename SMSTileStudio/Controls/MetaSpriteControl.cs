@@ -36,7 +36,9 @@ namespace SMSTileStudio.Controls
         /// </summary>
         public event MetaSpriteChangedHandler MetaSpriteChanged;
         public delegate void MetaSpriteChangedHandler();
-        private MetaSpriteEditType _editMode = MetaSpriteEditType.Sprites;
+        public event PositionChangedHandler PositionChanged;
+        public delegate void PositionChangedHandler();
+        private MetaSpriteEditType _editMode = MetaSpriteEditType.SpriteSelect;
         private SpriteModeType _spriteMode = SpriteModeType.Normal;
         private bool _useGrid = true;
         private bool _showSprites = true;
@@ -46,6 +48,7 @@ namespace SMSTileStudio.Controls
         private bool _snapToGrid = true;
         private int _antOffset = 0;
         private Point _offset = new Point(128, 112);
+        private Point _origin = Point.Empty;
         private Point _position = Point.Empty;
         private Timer _antsTimer = new Timer();
         private MetaSpriteFrame _frame = null;
@@ -137,6 +140,23 @@ namespace SMSTileStudio.Controls
             base.OnKeyUp(e);
         }
 
+        private Point GetPosition(Point location, Rectangle area)
+        {
+            int x = 0, y = 0;
+            if (SnapToGrid)
+            {
+                x = ((location.X - area.X) / ImageScale / SnapSize.Width * SnapSize.Width) - _offset.X;
+                y = ((location.Y - area.Y) / ImageScale / SnapSize.Height * SnapSize.Height) - _offset.Y;
+            }
+            else
+            {
+                x = ((location.X - area.X) / ImageScale) - _offset.X;
+                y = ((location.Y - area.Y) / ImageScale) - _offset.Y;
+            }
+
+            return new Point(x, y);
+        }
+
         /// <summary>
         /// On mouse down
         /// </summary>
@@ -153,19 +173,18 @@ namespace SMSTileStudio.Controls
             if (area.Contains(e.Location) == false)
                 return;
 
-            int x = ((e.Location.X - area.X) / ImageScale / SnapSize.Width * SnapSize.Width) - _offset.X;
-            int y = ((e.Location.Y - area.Y) / ImageScale / SnapSize.Height * SnapSize.Height) - _offset.Y;
+            var pos = GetPosition(e.Location, area);
+            _origin = pos;
             int width = 8;
             int height = _spriteMode == SpriteModeType.Normal ? 8 : 16;
-            _position = new Point(x, y);
             switch (_editMode)
             {
-                case MetaSpriteEditType.Sprites:
+                case MetaSpriteEditType.SpriteSelect:
                     var selected = new List<Sprite>();
                     // Check if clicked an already selected sprite, return
                     foreach (var sprite in _selectedSprites)
                     {
-                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(new Point(x, y)))
+                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(pos))
                         {
                             return;
                         }
@@ -173,7 +192,7 @@ namespace SMSTileStudio.Controls
                     // Get selected sprite
                     foreach (var sprite in _frame.Sprites)
                     {
-                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(new Point(x, y)))
+                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(pos))
                         {
                             if (CtrlHeld)
                             {
@@ -192,7 +211,7 @@ namespace SMSTileStudio.Controls
                 case MetaSpriteEditType.Rects:
                     foreach (var collision in _frame.Collisions)
                     {
-                        if (collision.Contains(new Point(x, y)))
+                        if (collision.Contains(pos))
                         {
                             _selectedCollision = collision;
                             break;
@@ -211,29 +230,31 @@ namespace SMSTileStudio.Controls
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            if (e.Button != MouseButtons.Left)
-                return;
 
             Point origin = GetOrigin();
-            Rectangle rect = new Rectangle(origin.X * ImageScale + AutoScrollPosition.X, origin.Y * ImageScale + AutoScrollPosition.Y, Image.Width * ImageScale, Image.Height * ImageScale);
-            if (rect.Contains(e.Location) == false)
+            Rectangle area = new Rectangle(origin.X * ImageScale + AutoScrollPosition.X, origin.Y * ImageScale + AutoScrollPosition.Y, Image.Width * ImageScale, Image.Height * ImageScale);
+            if (area.Contains(e.Location) == false)
                 return;
 
             // Set selection if snap position changed
-            int x = ((e.Location.X - rect.X) / ImageScale / SnapSize.Width * SnapSize.Width) - _offset.X;
-            int y = ((e.Location.Y - rect.Y) / ImageScale / SnapSize.Height * SnapSize.Height) - _offset.Y;
+            var pos = GetPosition(e.Location, area);
+            _position = pos;
+            PositionChanged?.Invoke();
+
+            if (e.Button != MouseButtons.Left)
+                return;
 
             switch (_editMode)
             {
-                case MetaSpriteEditType.Sprites:
+                case MetaSpriteEditType.SpriteSelect:
                     // Move selection of sprites
                     foreach (var sprite in _selectedSprites)
                     {
-                        sprite.X += x - _position.X;
-                        sprite.Y += y - _position.Y;
+                        sprite.X += pos.X - _origin.X;
+                        sprite.Y += pos.Y - _origin.Y;
                     }
                     // Update position
-                    _position = new Point(x, y);
+                    _origin = pos;
                     break;
                 //case MetaSpriteEditType.Rects:
                 //    if (_selectedCollision != null && (x != _selectedCollision.X || y != _selectedCollision.Y))
@@ -297,7 +318,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawSprites(Graphics gfx, Point origin)
         {
-            if (EditMode != MetaSpriteEditType.Sprites || Image == null || _frame == null)
+            if (EditMode != MetaSpriteEditType.SpriteSelect || Image == null || _frame == null || _selectedSprites == null)
                 return;
 
             var height = SpriteMode == SpriteModeType.Normal ? 8 : 16;
@@ -361,6 +382,11 @@ namespace SMSTileStudio.Controls
             gfx.DrawRectangle(Pens.Red, rect);
             rect.Inflate(-1, -1);
             gfx.DrawRectangle(Pens.Black, rect);
+        }
+
+        public string GetPositionInformation()
+        {
+            return "Position: " + _position.ToString();
         }
 
         /// <summary>
