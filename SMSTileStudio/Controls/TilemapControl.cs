@@ -676,6 +676,9 @@ namespace SMSTileStudio.Controls
                 {
                     for (int col = 0; col < _columns; col++)
                     {
+                        if (index >= _tiles.Count)
+                            continue;
+
                         if (_tiles[index].TileID == TileID)
                         {
                             cell.X = (col * SnapSize.Width) + origin.X;

@@ -106,6 +106,17 @@ namespace SMSTileStudio.Data
     }
 
     /// <summary>
+    /// Describes meta sprite rendering types
+    /// </summary>
+    public enum MetaSpriteType
+    {
+        [Description("Tilesheet")]
+        Tilesheet = 0,
+        [Description("Streamed")]
+        Streamed = 1
+    }
+
+    /// <summary>
     /// Describes tileset edit type
     /// </summary>
     public enum TilesetEditType
@@ -206,7 +217,7 @@ namespace SMSTileStudio.Data
     {
         [Description("Byte")]
         Byte = 0,
-        [Description("Word")]
+        [Description("Int")]
         Word = 1,
         [Description("Long")]
         Long = 2,
@@ -215,7 +226,9 @@ namespace SMSTileStudio.Data
         [Description("Hex")]
         Hex = 4,
         [Description("Bytes")]
-        Bytes = 5
+        Bytes = 5,
+        [Description("Ints")]
+        Ints = 6
     }
 
     /// <summary>

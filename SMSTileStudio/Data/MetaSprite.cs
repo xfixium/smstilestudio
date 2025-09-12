@@ -35,8 +35,10 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Properties
         /// </summary>
+        public Tileset Tilesheet { get; set; } = null;                                    // Tile sheet for entire meta sprite
         public int PaletteID { get; set; } = -2;                                          // The display SPR palette
         public Point Origin { get; set; } = Point.Empty;                                  // The starting origin of the meta sprite
+        public MetaSpriteType MetaSpriteType { get; set; } = MetaSpriteType.Streamed;     // If Meta sprite a streamed type, or sprite sheet type
         public SpriteModeType SpriteMode { get; set; } = SpriteModeType.Normal;           // Sprite mode, 8 x 8 or 8 x 16
         public int TileMinimum { get; set; } = 0;                                         // Minimum amount of tiles, for padding
         public bool UseCollisions { get; set; } = false;                                  // If exporting collision data

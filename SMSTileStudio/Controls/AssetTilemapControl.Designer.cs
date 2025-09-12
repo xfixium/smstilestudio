@@ -212,6 +212,7 @@
             this.pnlMetaTilemapEdit = new SMSTileStudio.Controls.MetaTilemapControl();
             this.mnuMetaTilemapOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuMetaTilemapTilemapFromSelection = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMetaTilemapSelectionToTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMetaTilemapClearSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlMetaTilemapInfo = new System.Windows.Forms.Panel();
             this.lblMetaTileProperties = new System.Windows.Forms.Label();
@@ -311,7 +312,6 @@
             this.mnuDuplicateTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuRemoveTileGrid = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportTileGrid = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMetaTilemapSelectionToTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpImageList.SuspendLayout();
             this.pnlPaletteButtons.SuspendLayout();
@@ -2620,7 +2620,7 @@
             this.mnuMetaTilemapSelectionToTilemap,
             this.mnuMetaTilemapClearSelection});
             this.mnuMetaTilemapOptions.Name = "mnuMetaTilemapOptions";
-            this.mnuMetaTilemapOptions.Size = new System.Drawing.Size(200, 92);
+            this.mnuMetaTilemapOptions.Size = new System.Drawing.Size(200, 70);
             // 
             // mnuMetaTilemapTilemapFromSelection
             // 
@@ -2628,6 +2628,13 @@
             this.mnuMetaTilemapTilemapFromSelection.Size = new System.Drawing.Size(199, 22);
             this.mnuMetaTilemapTilemapFromSelection.Text = "Tilemap From Selection";
             this.mnuMetaTilemapTilemapFromSelection.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuMetaTilemapSelectionToTilemap
+            // 
+            this.mnuMetaTilemapSelectionToTilemap.Name = "mnuMetaTilemapSelectionToTilemap";
+            this.mnuMetaTilemapSelectionToTilemap.Size = new System.Drawing.Size(199, 22);
+            this.mnuMetaTilemapSelectionToTilemap.Text = "Selection To Tilemap";
+            this.mnuMetaTilemapSelectionToTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuMetaTilemapClearSelection
             // 
@@ -3519,13 +3526,6 @@
             this.mnuExportTileGrid.Size = new System.Drawing.Size(171, 22);
             this.mnuExportTileGrid.Text = "Export Tile Grid";
             this.mnuExportTileGrid.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
-            // mnuMetaTilemapSelectionToTilemap
-            // 
-            this.mnuMetaTilemapSelectionToTilemap.Name = "mnuMetaTilemapSelectionToTilemap";
-            this.mnuMetaTilemapSelectionToTilemap.Size = new System.Drawing.Size(199, 22);
-            this.mnuMetaTilemapSelectionToTilemap.Text = "Selection To Tilemap";
-            this.mnuMetaTilemapSelectionToTilemap.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // AssetTilemapControl
             // 

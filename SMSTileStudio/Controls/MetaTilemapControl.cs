@@ -350,6 +350,11 @@ namespace SMSTileStudio.Controls
         /// <param name="metaTileSize"></param>
         public void SetMetaTiles(List<int> metaTilemapIds, Bitmap image, Size metaTileSize)
         {
+            if (image == null)
+            {
+                return;
+            }
+
             if (image.Width < metaTileSize.Width || image.Height < metaTileSize.Height)
             {
                 MessageBox.Show("Tilemap size must be equal to or larger than a single meta tile", "SMS Tile Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);

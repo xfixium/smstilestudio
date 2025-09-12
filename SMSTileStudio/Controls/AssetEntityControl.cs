@@ -27,6 +27,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using SMSTileStudio.Data;
 using System.Drawing;
+using System.IO;
 
 namespace SMSTileStudio.Controls
 {
@@ -69,33 +70,29 @@ namespace SMSTileStudio.Controls
             if (!HasData || !(sender is ToolStripMenuItem menuItem))
                 return;
 
-            //if (menuItem == mnuExportBinary)
-            //{
-            //    using (SaveFileDialog dialog = new SaveFileDialog())
-            //    {
-            //        dialog.Title = "Export Binary Data (" + _dialog.Name + ")";
-            //        dialog.Filter = "Binary File|*.bin";
-            //        dialog.FileName = _dialog.Name.ToLower().Replace(" ", "_") + "_text";
-            //        if (dialog.ShowDialog() == DialogResult.OK)
-            //        {
-            //            using (FileStream fs = new FileStream(dialog.FileName, FileMode.Create))
-            //            {
-            //                using (BinaryWriter bw = new BinaryWriter(fs))
-            //                {
-            //                    bw.Write(_dialog.GetDialogData(true));
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+            if (menuItem == mnuExportBinary)
+            {
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.Title = "Export Binary Data (" + _entity.Name + ")";
+                    dialog.Filter = "Binary File|*.bin";
+                    dialog.FileName = _entity.Name.ToLower().Replace(" ", "_") + "_data";
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        using (FileStream fs = new FileStream(dialog.FileName, FileMode.Create))
+                        {
+                            using (BinaryWriter bw = new BinaryWriter(fs))
+                            {
+                                bw.Write(_entity.GetEntityData(true));
+                            }
+                        }
+                    }
+                }
+            }
             //else if (menuItem == mnuExportHex)
-            //    Clipboard.SetText(_dialog.GetASMString(true));
+            //    Clipboard.SetText(_entity.GetASMString(true));
             //else if (menuItem == mnuExportAssembly)
-            //    Clipboard.SetText(_dialog.GetASMString(false));
-            //else if (menuItem == mnuReindexCharacters)
-            //    pnlCharacters.Reindex();
-            //else if (menuItem == mnuRemoveCharacters)
-            //    pnlCharacters.RemoveSelected();
+            //    Clipboard.SetText(_entity.GetASMString(false));
         }
 
         /// <summary>
@@ -136,6 +133,11 @@ namespace SMSTileStudio.Controls
                 _entity.Fields.Add(new EntityField(EntityFieldType.Byte, "Field " + _entity.Fields.Count, "0"));
                 UpdateEntity();
                 CreateFieldsUI();
+            }
+            else if (HasData && button == btnExport)
+            {
+                mnuExport.Show(btnExport, new Point(0, btnExport.Height));
+                return;
             }
             else if (button.Name.ToLower().Contains("removefield"))
             {
@@ -293,7 +295,7 @@ namespace SMSTileStudio.Controls
             {
                 ctrl.Margin = Padding.Empty;
             }
-            (ctrls[0] as ComboBox).Items.AddRange(new object[] { EntityFieldType.Byte, EntityFieldType.Word, EntityFieldType.Long, EntityFieldType.Text, EntityFieldType.Hex, EntityFieldType.Bytes });
+            (ctrls[0] as ComboBox).Items.AddRange(new object[] { EntityFieldType.Byte, EntityFieldType.Word, EntityFieldType.Long, EntityFieldType.Text, EntityFieldType.Hex, EntityFieldType.Bytes, EntityFieldType.Ints });
             (ctrls[0] as ComboBox).SelectedItem = field.ValueType;
             (ctrls[0] as ComboBox).SelectedIndexChanged += cbEntity_SelectedIndexChanged;
             (ctrls[2] as TextBox).TextChanged += txtEntity_TextChanged;

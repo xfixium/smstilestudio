@@ -80,6 +80,7 @@
             this.mnuExportBinary.Name = "mnuExportBinary";
             this.mnuExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuExportBinary.Text = "Export as Binary";
+            this.mnuExportBinary.Click += new System.EventHandler(this.mnuEntity_Click);
             // 
             // tpnlEntities
             // 
@@ -237,7 +238,7 @@
             this.mnuExportHex,
             this.mnuExportAssembly});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(239, 70);
+            this.mnuExport.Size = new System.Drawing.Size(239, 92);
             // 
             // mnuExportHex
             // 

@@ -61,13 +61,26 @@ namespace SMSTileStudio.Controls
             if (cbTilesetCompression.Items.Count > 0)
                 cbTilesetCompression.SelectedIndex = 0;
 
-            //cbSpriteMode.ValueMember = "Value";
-            cbSpriteMode.DisplayMember = "Description";
-            cbSpriteMode.DataSource = Enum.GetValues(typeof(SpriteModeType));
-            if (cbSpriteMode.Items.Count > 0)
-                cbSpriteMode.SelectedIndex = 0;
+            ////cbSpriteMode.ValueMember = "Value";
+            //cbSpriteMode.DisplayMember = "Description";
+            //cbSpriteMode.DataSource = Enum.GetValues(typeof(SpriteModeType));
+            //if (cbSpriteMode.Items.Count > 0)
+            //    cbSpriteMode.SelectedIndex = 0;
 
             pnlMetaSpriteEdit.Image = new Bitmap(256, 224);
+        }
+
+        /// <summary>
+        /// Override key presses
+        /// </summary>
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            // Do action based on key
+            if (tabMain.SelectedTab == tabSpriteEdit)
+                HandleInput(keyData);
+            
+            // Process
+            return base.ProcessDialogKey(keyData);
         }
 
         /// <summary>
@@ -154,6 +167,119 @@ namespace SMSTileStudio.Controls
             }
             else if (HasData && button == btnImport)
             {
+                mnuImport.Show(btnImport, new Point(0, btnImport.Height));
+                return;
+            }
+            else if (HasData && button == btnExport)
+            {
+                mnuExport.Show(btnExport, new Point(0, btnExport.Height));
+                return;
+            }
+            else if (HasData && button == btnFrameOptions)
+            {
+                mnuFrameOptions.Show(btnFrameOptions, new Point(0, btnFrameOptions.Height));
+                return;
+            }
+            else if (HasData && button == btnSpriteOptions)
+            {
+                mnuSpriteOptions.Show(btnSpriteOptions, new Point(0, btnSpriteOptions.Height));
+                return;
+            }
+            //else if (HasFrameData && button == btnSpriteConfigAll)
+            //{
+            //    foreach (var frame in _metaSprite.Frames)
+            //        frame.SpriteConfig = (int)nudSpriteConfig.Value;
+            //}
+            //else if (HasFrameData && button == btnDurationAll)
+            //{
+            //    foreach (var frame in _metaSprite.Frames)
+            //        frame.Duration = (int)nudDuration.Value;
+            //}
+            else if (HasData && button.Name == btnAddTile.Name)
+            {
+                if (_frame == null || _frame.Tileset == null)
+                    return;
+
+                _frame.Tileset.AddEmptyTile();
+                UpdateMetaSprite();
+            }
+            else if (HasData && button == btnRemoveTile)
+            {
+                pnlTilesetEdit.RemoveSelection();
+                UpdateMetaSprite();
+                pnlSelectedTile.Clear();
+            }
+            else if (HasData && button == btnDeselectTile)
+            {
+                pnlTilesetEdit.ClearSelection();
+                pnlSelectedTile.Clear();
+            }
+            else if (HasData && button == btnSwapSelectedPixel && HasFrameData)
+            {
+                if (pnlSelectedTile.SelectedColor == 255)
+                {
+                    MessageBox.Show("No swap color hs been selected. Select a color from the palette.");
+                    return;
+                }
+
+                if (pnlSelectedTile.TargetColor == 255)
+                {
+                    MessageBox.Show("No target color hs been selected. Right click on a tile pixel to select the color to be swapped.");
+                    return;
+                }
+
+                foreach (var frame in _metaSprite.Frames)
+                {
+                    frame.Tileset.SwapPixels(pnlSelectedTile.TargetColor, pnlSelectedTile.SelectedColor);
+                }
+
+                int tileId = pnlTilesetEdit.TileID;
+
+                App.Project.UpdateAsset(_metaSprite);
+                UpdateImages();
+                pnlTilesetEdit.TileID = tileId;
+                pnlTilesetEdit_TileSelectionChanged();
+            }
+            else if (HasData && button == btnLeft)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).X--;
+
+                SaveSelectedSprites();
+            }
+            else if (HasData && button == btnUp)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).Y--;
+
+                SaveSelectedSprites();
+            }
+            else if (HasData && button == btnRight)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).X++;
+
+                SaveSelectedSprites();
+            }
+            else if (HasData && button == btnDown)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).Y++;
+
+                SaveSelectedSprites();
+            }
+        }
+
+        /// <summary>
+        /// Export menu item click
+        /// </summary>
+        private void mnuMetaSprite_Click(object sender, EventArgs e)
+        {
+            if (!HasData || !(sender is ToolStripMenuItem menuItem))
+                return;
+
+            if (menuItem == mnuImportStreamed)
+            {
                 string path = string.Empty;
                 using (OpenFileDialog ofd = new OpenFileDialog())
                 {
@@ -192,97 +318,47 @@ namespace SMSTileStudio.Controls
                     lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
                 }
             }
-            else if (HasData && button == btnExport)
+            else if (menuItem == mnuImportTilesetSprite)
             {
-                mnuExport.Show(btnExport, new Point(0, btnExport.Height));
-                return;
-            }
-            else if (HasFrameData && button == btnSpriteConfigAll)
-            {
-                foreach (var frame in _metaSprite.Frames)
-                    frame.SpriteConfig = (int)nudSpriteConfig.Value;
-            }
-            else if (HasFrameData && button == btnDurationAll)
-            {
-                foreach (var frame in _metaSprite.Frames)
-                    frame.Duration = (int)nudDuration.Value;
-            }
-            else if (HasData && button.Name == btnAddTile.Name)
-            {
-                if (_frame == null || _frame.Tileset == null)
-                    return;
-
-                _frame.Tileset.AddEmptyTile();
-                UpdateMetaSprite();
-            }
-            else if (HasData && button == btnRemoveTile)
-            {
-                pnlTilesetEdit.RemoveSelection();
-                UpdateMetaSprite();
-                pnlSelectedTile.Clear();
-            }
-            else if (HasData && button == btnDeselectTile)
-            {
-                pnlTilesetEdit.ClearSelection();
-                pnlSelectedTile.Clear();
-            }
-            else if (HasData && button == btnSwapSelectedPixel && HasFrameData)
-            {
-                if (pnlSelectedTile.SelectedColor == 255)
+                string path = string.Empty;
+                using (OpenFileDialog ofd = new OpenFileDialog())
                 {
-                    MessageBox.Show("No swap color hs been selected. Select a color from the palette.");
+                    ofd.Filter = "PNG Image File|*.png";
+                    if (ofd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    path = ofd.FileName;
+                }
+
+                Bitmap image;
+                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    image = (Bitmap)Image.FromStream(fs);
+                }
+
+                if (image == null)
+                {
+                    MessageBox.Show("There was an issue getting the image data.");
                     return;
                 }
 
-                if (pnlSelectedTile.TargetColor == 255)
+                List<Color> importColors = BitmapUtility.GetColors(image);
+                if (importColors.Count > 16)
                 {
-                    MessageBox.Show("No target color hs been selected. Click on a tile pixel to select the color to be swapped.");
+                    MessageBox.Show("The image has more than 16 colors, reduce the image colors and try again.");
                     return;
                 }
 
-                _frame.Tileset.SwapPixels(pnlSelectedTile.TargetColor, pnlSelectedTile.SelectedColor);
-                UpdateMetaSprite();
-                pnlTilesetEdit_TileSelectionChanged();
+                using (var form = new ImportSpriteSheetForm(BitmapUtility.Get32bitImage(image), _metaSprite, importColors))
+                {
+                    if (form.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    lstMetaSprites.Items[lstMetaSprites.SelectedIndex] = App.Project.GetAsset(_metaSprite.ID) as MetaSprite;
+                    lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
+                }
             }
-            else if (HasData && button == btnLeft)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).X--;
-
-                SetSelectedSprites();
-            }
-            else if (HasData && button == btnUp)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).Y--;
-
-                SetSelectedSprites();
-            }
-            else if (HasData && button == btnRight)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).X++;
-
-                SetSelectedSprites();
-            }
-            else if (HasData && button == btnDown)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).Y++;
-
-                SetSelectedSprites();
-            }
-        }
-
-        /// <summary>
-        /// Export menu item click
-        /// </summary>
-        private void mnuMetaSprite_Click(object sender, EventArgs e)
-        {
-            if (!HasData || !(sender is ToolStripMenuItem menuItem))
-                return;
-
-            if (menuItem == mnuTilesetExportImage && HasFrameData)
+            else if (menuItem == mnuTilesetExportImage && HasFrameData)
                 ExportTileset(_metaSprite.Name.ToLower().Replace(' ', '_') + "_tiles");
             else if (menuItem == mnuTilesetExportBinary && HasFrameData)
             {
@@ -406,10 +482,10 @@ namespace SMSTileStudio.Controls
                 _metaSprite.Offset = (int)nudOffset.Value;
             else if (numeric == nudTileMinimum)
                 _metaSprite.TileMinimum = (int)nudTileMinimum.Value;
-            else if (numeric == nudDuration && _frame != null)
-                _frame.Duration = (int)nudDuration.Value;
-            else if (numeric == nudSpriteConfig && _frame != null)
-                _frame.SpriteConfig = (int)nudSpriteConfig.Value;
+            //else if (numeric == nudDuration && _frame != null)
+            //    _frame.Duration = (int)nudDuration.Value;
+            //else if (numeric == nudSpriteConfig && _frame != null)
+            //    _frame.SpriteConfig = (int)nudSpriteConfig.Value;
             else if (numeric == nudSpriteX && lstSprites.SelectedItem != null)
                 (lstSprites.SelectedItem as Sprite).X = (int)nudSpriteX.Value;
             else if (numeric == nudSpriteY && lstSprites.SelectedItem != null)
@@ -427,10 +503,10 @@ namespace SMSTileStudio.Controls
             if (!(sender is ComboBox comboBox) || comboBox.SelectedItem == null)
                 return;
 
-            // Perform action based on control
-            if (comboBox == cbSpriteMode && HasData)
-                _metaSprite.SpriteMode = (SpriteModeType)cbSpriteMode.SelectedItem;
-            else if (comboBox == cbSprPalette && HasData)
+            //// Perform action based on control
+            //if (comboBox == cbSpriteMode && HasData)
+            //    _metaSprite.SpriteMode = (SpriteModeType)cbSpriteMode.SelectedItem;
+            if (comboBox == cbSprPalette && HasData)
                 _metaSprite.PaletteID = (cbSprPalette.SelectedItem as Palette).ID;
             else if (comboBox == cbTilesetCompression && HasFrameData)
                 _frame.Tileset.CompressionType = (CompressionType)cbTilesetCompression.SelectedItem.GetType().GetProperty("value").GetValue(cbTilesetCompression.SelectedItem, null);
@@ -448,6 +524,17 @@ namespace SMSTileStudio.Controls
 
             Loading = true;
             pnlMetaSpriteEdit.SelectedSprites = GetSelectedSprites();
+            _sprite = (lstSprites.SelectedItem as Sprite);
+            nudSpriteX.Value = _sprite.X;
+            nudSpriteY.Value = _sprite.Y;
+            Loading = false;
+        }
+
+        private void pnlMetaSpriteEdit_MetaSpriteChanged()
+        {
+            Loading = true;
+            lstSprites.ClearSelected();
+            SetSelectedSprites(pnlMetaSpriteEdit.SelectedSprites);
             _sprite = (lstSprites.SelectedItem as Sprite);
             nudSpriteX.Value = _sprite.X;
             nudSpriteY.Value = _sprite.Y;
@@ -490,14 +577,14 @@ namespace SMSTileStudio.Controls
 
             _frame.Tileset.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
             pnlSelectedTile.Image = BitmapUtility.GetPixelTileImage(pnlSelectedTile.Pixels, pnlSelectedTile.Palette, pnlSelectedTile.ClientSize);
+            App.Project.UpdateAsset(_metaSprite);
             UpdateImages();
-            UpdateMetaSprite();
         }
 
         /// <summary>
         /// Sets selected sprites for editing
         /// </summary>
-        private void SetSelectedSprites()
+        private void SaveSelectedSprites()
         {
             _sprites.Clear();
             for (int i = 0; i < lstSprites.Items.Count; i++)
@@ -526,11 +613,23 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
+        /// Sets selected sprites for editing
+        /// </summary>
+        private void SetSelectedSprites(List<Sprite> selected)
+        {
+            for (int i = 0; i < lstSprites.Items.Count; i++)
+            {
+                if (selected.Contains(lstSprites.Items[i] as Sprite))
+                    lstSprites.SetSelected(i, true);
+            }
+        }
+
+        /// <summary>
         /// Exports a tileset image
         /// </summary>
         private void ExportTileset(string filename)
         {
-            if (!HasData || HasFrameData)
+            if (!HasData || !HasFrameData)
                 return;
 
             try
@@ -688,8 +787,8 @@ namespace SMSTileStudio.Controls
             _frame = _metaSprite == null || _metaSprite.Frames.Count <= 0 ? null : _metaSprite.Frames[_frameIndex];
             nudTileMinimum.Value = _metaSprite == null ? 0 : _metaSprite.TileMinimum;
             nudOffset.Value = _metaSprite == null ? 0 : _metaSprite.Offset;
-            nudDuration.Value = _frame == null ? 0 : _frame.Duration;
-            nudSpriteConfig.Value = _frame == null ? 0 : _frame.SpriteConfig;
+            //nudDuration.Value = _frame == null ? 0 : _frame.Duration;
+            //nudSpriteConfig.Value = _frame == null ? 0 : _frame.SpriteConfig;
             //pnlMetaSpriteEdit.SpriteMode = _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode;
             txtName.Text = _metaSprite == null ? string.Empty : _metaSprite.Name;
             cbSprPalette.SelectedItem = (Palette)App.Project.GetAsset(_metaSprite == null ? -2 : _metaSprite.PaletteID);
@@ -699,7 +798,7 @@ namespace SMSTileStudio.Controls
             pnlMetaSpriteEdit.Palette = _selectedPalette;
             pnlMetaSpriteEdit.LoadFrame(_frame, _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode);
             cbTilesetCompression.SelectedItem = !HasFrameData ? CompressionType.None : _frame.Tileset.CompressionType;
-            cbSpriteMode.SelectedItem = _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode;
+            //cbSpriteMode.SelectedItem = _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode;
             lblCurrentFrameValue.Text = _metaSprite == null || _metaSprite.Frames.Count <= 0 ? "0 / 0" : _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
 
             lstSprites.Items.Clear();
@@ -742,13 +841,10 @@ namespace SMSTileStudio.Controls
             }
 
             var sprPalette = cbSprPalette.SelectedItem as Palette;
-            //pnlTilemapEdit.Image = BitmapUtility.GetSpriteImage(_tilemap.Tileset, _tilemap, bgPalette, sprPalette);
-            //pnlTilemapEdit.SetTilemap(_tilemap);
             pnlTilesetEdit.Image = BitmapUtility.GetTilesetImage(_frame.Tileset, _selectedPalette, 16);
             pnlTilesetEdit.SetTileset(_frame.Tileset, _selectedPalette.Colors);
-            //pnlTiles.Image = BitmapUtility.GetTilesetImage(_frame.Tileset, _selectedPalette, 6);
-            //pnlTiles.Offset = _tilemap.Offset;
-            //pnlTiles.TileCount = _tilemap.Tileset.TileCount;
+            pnlTiles.Image = BitmapUtility.GetTilesetImage(_frame.Tileset, _selectedPalette, 6);
+            pnlTiles.TileCount = _frame.Tileset.TileCount;
             lblInfo.Text = _metaSprite.GetInfo(_frameIndex);
         }
 
@@ -766,6 +862,33 @@ namespace SMSTileStudio.Controls
             lblInfo.Text = _metaSprite == null ? "No Meta Sprite information" : _metaSprite.GetInfo(_frameIndex);
             LoadUI();
             Loading = false;
+        }
+
+        public void HandleInput(Keys keyData)
+        {
+            if (ActiveControl is TextBox)
+                return;
+
+            // Do action based on key
+            switch (keyData)
+            {
+                case Keys.Up:
+                    if (tabMain.SelectedTab == tabSpriteEdit)
+                        btnMetaSprite_Click(btnUp, EventArgs.Empty);
+                    break;
+                case Keys.Down:
+                    if (tabMain.SelectedTab == tabSpriteEdit)
+                        btnMetaSprite_Click(btnDown, EventArgs.Empty);
+                    break;
+                case Keys.Left:
+                    if (tabMain.SelectedTab == tabSpriteEdit)
+                        btnMetaSprite_Click(btnLeft, EventArgs.Empty);
+                    break;
+                case Keys.Right:
+                    if (tabMain.SelectedTab == tabSpriteEdit)
+                        btnMetaSprite_Click(btnRight, EventArgs.Empty);
+                    break;
+            }
         }
     }
 }

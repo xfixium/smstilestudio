@@ -106,6 +106,14 @@ namespace SMSTileStudio.Data
                     case EntityFieldType.Long:
                         data.AddRange(GetLong(field.Value));
                         break;
+
+                    case EntityFieldType.Ints:
+                        var values = field.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var val in values)
+                        {
+                            data.AddRange(GetWord(val));
+                        }
+                        break;
                 }
             }
             return getRawData ? data.ToArray() : GetExportData(data);
@@ -173,6 +181,10 @@ namespace SMSTileStudio.Data
                     return value;
 
                 case EntityFieldType.Bytes:
+                    // todo: parse string
+                    return value;
+
+                case EntityFieldType.Ints:
                     // todo: parse string
                     return value;
 

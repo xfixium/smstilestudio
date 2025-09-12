@@ -257,6 +257,7 @@ namespace SMSTileStudio.Data
             var offset = (area.Y / 8 * Columns) + (area.X / 8);
             tilemap.Columns = area.Width / 8;
             tilemap.Rows = area.Height / 8;
+            tilemap.Tileset = Tileset.DeepClone();
             for (int row = 0; row < tilemap.Rows; row++)
             {
                 for (int col = 0; col < tilemap.Columns; col++)

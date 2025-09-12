@@ -53,7 +53,7 @@ namespace SMSTileStudio.Controls
         /// Properties
         /// </summary>
         public TilesetEditType EditMode { get; set; } = TilesetEditType.Select;
-        public int TileID { get { return _source; } }
+        public int TileID { get { return _source; } set { _source = value; } }
         public int TypeValue { get; set; }
         public List<byte> Pixels { get { return _pixels; } }
         public List<Color> Palette { set { _palette = value; } }

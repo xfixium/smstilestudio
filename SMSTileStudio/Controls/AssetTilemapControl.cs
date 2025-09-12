@@ -531,31 +531,6 @@ namespace SMSTileStudio.Controls
                     }
                 }
             }
-            else if (HasData && _tilemap.MetaTilemap != null && menuItem == mnuMetaTilemapSelectionToTilemap)
-            {
-                Tilemap subMap = _tilemap.AreaToTilemap(pnlMetaTilemapEdit.Selection);
-                if (subMap == null)
-                    return;
-
-                using (var form = new TilemapSelectForm(false))
-                {
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        if (form.Tilemaps.Count <= 0)
-                            return;
-
-                        foreach (var tilemap in form.Tilemaps)
-                        {
-                            tilemap.Tiles = subMap.Tiles.DeepClone();
-                            tilemap.Columns = subMap.Columns;
-                            tilemap.Rows = subMap.Rows;
-                            tilemap.Tileset = _tilemap.Tileset.DeepClone();
-                            tilemap.MetaTilemap = _tilemap.MetaTilemap.DeepClone();
-                            App.Project.UpdateAsset(tilemap);
-                        }
-                    }
-                }
-            }
             // Crop tilemap from selection
             else if (HasData && menuItem == mnuCropTilemap && _tilemap.Tileset != null)
             {
@@ -811,6 +786,33 @@ namespace SMSTileStudio.Controls
                     lstTilemaps.SelectedItem = tilemap;
 
                 return;
+            }
+            else if (HasData && _tilemap.MetaTilemap != null && menuItem == mnuMetaTilemapSelectionToTilemap)
+            {
+                Tilemap subMap = _tilemap.AreaToTilemap(pnlMetaTilemapEdit.Selection);
+                if (subMap == null)
+                    return;
+
+                using (var form = new TilemapSelectForm(false))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        if (form.Tilemaps.Count <= 0)
+                            return;
+
+                        foreach (var tilemap in form.Tilemaps)
+                        {
+                            subMap.ID = tilemap.ID;
+                            tilemap.ID = subMap.ID;
+                            tilemap.Tiles = subMap.Tiles.DeepClone();
+                            tilemap.Tileset = subMap.Tileset.DeepClone();
+                            tilemap.Columns = subMap.Columns;
+                            tilemap.Rows = subMap.Rows;
+                            tilemap.MetaTilemap = subMap.MetaTilemap.DeepClone();
+                            App.Project.UpdateAsset(tilemap);
+                        }
+                    }
+                }
             }
             // Clears meta tilemap selection
             else if (HasData && menuItem == mnuMetaTilemapClearSelection)
@@ -1250,6 +1252,11 @@ namespace SMSTileStudio.Controls
             else if (checkBox == chkTilesetGrid)
             {
                 pnlTilesetEdit.UseGrid = chkTilesetGrid.Checked;
+            }
+            else if (HasData && checkBox == chkUseAttributes)
+            {
+                _tilemap.UseTileAttributes = chkUseAttributes.Checked;
+                UpdateTilemap();
             }
             else if (checkBox == chkMetaTileApplyEditsByTileId)
             {

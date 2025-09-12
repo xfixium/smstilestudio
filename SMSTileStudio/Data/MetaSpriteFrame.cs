@@ -43,6 +43,7 @@ namespace SMSTileStudio.Data
         /// Constructors
         /// </summary>
         public MetaSpriteFrame() { }
+        public MetaSpriteFrame(Tileset tileset) { Tileset = tileset; }
         public MetaSpriteFrame(Rectangle bounds, Tileset tileset) { Bounds = bounds; Tileset = tileset; }
 
         public override string ToString()

@@ -46,6 +46,7 @@ namespace SMSTileStudio.Controls
         private bool _snapToGrid = true;
         private int _antOffset = 0;
         private Point _offset = new Point(128, 112);
+        private Point _position = Point.Empty;
         private Timer _antsTimer = new Timer();
         private MetaSpriteFrame _frame = null;
         private List<Sprite> _selectedSprites = new List<Sprite>();
@@ -55,7 +56,7 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Properties
         /// </summary>
-        public List<Sprite> SelectedSprites { set { _selectedSprites = value; UpdateBackBuffer(); } }
+        public List<Sprite> SelectedSprites { get { return _selectedSprites; } set { _selectedSprites = value; UpdateBackBuffer(); } }
         public Palette Palette { set { _palette = value; UpdateBackBuffer(); } }
         public MetaSpriteEditType EditMode { get { return _editMode; } set { _editMode = value; UpdateBackBuffer(); } }
         public SpriteModeType SpriteMode { get { return _spriteMode; } set { _spriteMode = value; UpdateBackBuffer(); } }
@@ -65,6 +66,7 @@ namespace SMSTileStudio.Controls
         public bool ShowOrigin { get { return _showOrigin; } set { _showOrigin = value; UpdateBackBuffer(); } }
         public bool SnapToGrid { get { return _snapToGrid; } set { _snapToGrid = value; } }
         public bool ShowTransparent { get { return _showTransparent; } set { _showTransparent = value; UpdateBackBuffer(); } }
+        public bool CtrlHeld { get; set; } = false;
 
         /// <summary>
         /// Constructors
@@ -113,11 +115,26 @@ namespace SMSTileStudio.Controls
             if (Image == null)
                 return;
 
-
             DrawRects(gfx, origin);
             DrawGrid(gfx, origin);
             DrawOrigin(gfx, origin);
             DrawSprites(gfx, origin);
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.ControlKey || e.KeyData == Keys.Control || e.KeyData == (Keys.ControlKey | Keys.Control))
+            {
+                CtrlHeld = true;
+            }
+
+            base.OnKeyDown(e);
+        }
+
+        protected override void OnKeyUp(KeyEventArgs e)
+        {
+            CtrlHeld = false;
+            base.OnKeyUp(e);
         }
 
         /// <summary>
@@ -128,10 +145,7 @@ namespace SMSTileStudio.Controls
             base.OnMouseDown(e);
             Focus();
 
-            if (Image == null)
-                return;
-
-            if (e.Button != MouseButtons.Left)
+            if (Image == null || e.Button != MouseButtons.Left)
                 return;
 
             Point origin = GetOrigin();
@@ -139,21 +153,40 @@ namespace SMSTileStudio.Controls
             if (area.Contains(e.Location) == false)
                 return;
 
-            int x = (e.Location.X - area.X) / ImageScale / SnapSize.Width * SnapSize.Width;
-            int y = (e.Location.Y - area.Y) / ImageScale / SnapSize.Height * SnapSize.Height;
+            int x = ((e.Location.X - area.X) / ImageScale / SnapSize.Width * SnapSize.Width) - _offset.X;
+            int y = ((e.Location.Y - area.Y) / ImageScale / SnapSize.Height * SnapSize.Height) - _offset.Y;
             int width = 8;
             int height = _spriteMode == SpriteModeType.Normal ? 8 : 16;
+            _position = new Point(x, y);
             switch (_editMode)
             {
                 case MetaSpriteEditType.Sprites:
+                    var selected = new List<Sprite>();
+                    // Check if clicked an already selected sprite, return
+                    foreach (var sprite in _selectedSprites)
+                    {
+                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(new Point(x, y)))
+                        {
+                            return;
+                        }
+                    }
+                    // Get selected sprite
                     foreach (var sprite in _frame.Sprites)
                     {
                         if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(new Point(x, y)))
                         {
-                            _selectedSprites.Add(sprite);
+                            if (CtrlHeld)
+                            {
+                                _selectedSprites.Add(sprite);
+                            }
+                            selected.Add(sprite);
                             break;
                         }
                     }
+                    if (selected.Count <= 0)
+                        return;
+                    else if (!CtrlHeld)
+                        _selectedSprites = selected;
                     break;
 
                 case MetaSpriteEditType.Rects:
@@ -187,32 +220,39 @@ namespace SMSTileStudio.Controls
                 return;
 
             // Set selection if snap position changed
-            int x = (e.Location.X - rect.X) / ImageScale / SnapSize.Width * SnapSize.Width;
-            int y = (e.Location.Y - rect.Y) / ImageScale / SnapSize.Height * SnapSize.Height;
+            int x = ((e.Location.X - rect.X) / ImageScale / SnapSize.Width * SnapSize.Width) - _offset.X;
+            int y = ((e.Location.Y - rect.Y) / ImageScale / SnapSize.Height * SnapSize.Height) - _offset.Y;
 
             switch (_editMode)
             {
                 case MetaSpriteEditType.Sprites:
+                    // Move selection of sprites
                     foreach (var sprite in _selectedSprites)
                     {
-                        if ((x != sprite.X + x || y != sprite.Y + y))
-                        {
-                            sprite.X = sprite.X + x;
-                            sprite.Y = sprite.Y + y;
-                        }
+                        sprite.X += x - _position.X;
+                        sprite.Y += y - _position.Y;
                     }
-                break;
-                case MetaSpriteEditType.Rects:
-                    if (_selectedCollision != null && (x != _selectedCollision.X || y != _selectedCollision.Y))
-                    {
-                        _selectedCollision.X = x;
-                        _selectedCollision.Y = y;
-                    }
-                break;
+                    // Update position
+                    _position = new Point(x, y);
+                    break;
+                //case MetaSpriteEditType.Rects:
+                //    if (_selectedCollision != null && (x != _selectedCollision.X || y != _selectedCollision.Y))
+                //    {
+                //        _selectedCollision.X = x;
+                //        _selectedCollision.Y = y;
+                //    }
+                //break;
             }
 
             // Force redraw
-            Invalidate();
+            UpdateBackBuffer();
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            MetaSpriteChanged?.Invoke();
+            UpdateBackBuffer();
+            base.OnMouseUp(e);
         }
 
         /// <summary>

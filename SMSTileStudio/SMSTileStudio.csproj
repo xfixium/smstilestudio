@@ -277,6 +277,12 @@
     <Compile Include="Forms\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ImportSpriteSheetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ImportSpriteSheetForm.Designer.cs">
+      <DependentUpon>ImportSpriteSheetForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ImportMetaSpriteForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -364,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ImportSpriteSheetForm.resx">
+      <DependentUpon>ImportSpriteSheetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportMetaSpriteForm.resx">
       <DependentUpon>ImportMetaSpriteForm.cs</DependentUpon>
