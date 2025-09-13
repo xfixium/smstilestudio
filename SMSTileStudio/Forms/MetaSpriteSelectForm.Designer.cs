@@ -233,7 +233,7 @@
             this.pnlMetaSprite.Centered = true;
             this.tpnlMain.SetColumnSpan(this.pnlMetaSprite, 2);
             this.pnlMetaSprite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMetaSprite.EditMode = SMSTileStudio.Data.MetaSpriteEditType.SpriteSelect;
+            this.pnlMetaSprite.EditMode = SMSTileStudio.Data.MetaSpriteEditType.Sprites;
             this.pnlMetaSprite.HatchBackColor = System.Drawing.Color.DarkGray;
             this.pnlMetaSprite.HatchForeColor = System.Drawing.Color.White;
             this.pnlMetaSprite.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;

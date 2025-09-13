@@ -73,28 +73,20 @@ namespace SMSTileStudio.Data
         {
             var offset = 0;
             var name = Name.ToLower().Replace(" ", "_");
-            var durations = new StringBuilder();
-            durations.AppendLine("// " + name);
-            durations.Append("const unsigned char " + name + "_durations[] = { ");
             var sprites = new StringBuilder();
             var frames = new StringBuilder();
-            frames.Append("const unsigned char *" + name + "_frames[] = { ");
+            frames.Append("const unsigned char *" + name + "[] = { ");
             for (int i = 0; i < Frames.Count; i++)
             {
-                durations.Append(Frames[i].Duration + ", ");
                 sprites.Append("const unsigned char " + name + "_" + i.ToString("D2") + "[] = { ");
                 foreach (var s in Frames[i].Sprites)
-                    sprites.Append(s.X + ", " + s.Y + ", " + (s.TileID + offset + Offset) + ", ");
+                    sprites.Append(s.X + ", " + s.Y + ", " + (s.TileID + Offset) + ", ");
                 sprites.Append("METASPRITE_END };" + Environment.NewLine);
                 frames.Append(name + "_" + i.ToString("D2") + ", ");
-                if (!streaming)
-                    offset += Frames[i].Tileset.TileCount;
             }
-            durations.Append(" };");
             frames.Append(" };");
-            var di = durations.ToString().Trim().LastIndexOf(", ");
             var fi = frames.ToString().Trim().LastIndexOf(", ");
-            return (Frames.Count > 1 ? durations.ToString().Trim().Remove(di, 2) + Environment.NewLine : "") + sprites.ToString().Trim() + (Frames.Count > 1 ? Environment.NewLine + frames.ToString().Trim().Remove(fi, 2) : "");
+            return sprites.ToString().Trim() + (Frames.Count > 1 ? Environment.NewLine + frames.ToString().Trim().Remove(fi, 2) : "");
         }
 
         /// <summary>
@@ -106,7 +98,7 @@ namespace SMSTileStudio.Data
             var name = Name.ToLower().Replace(" ", "_");
             var text = new StringBuilder();
             var frames = new StringBuilder();
-            frames.Append("const unsigned char *" + name + "_frames[] = { ");
+            frames.Append("const unsigned char *" + name + " = { ");
             for (var i = 0; i < sprites.Count; i++)
             {
                 text.Append("const unsigned char " + name + "_" + i.ToString("D2") + "[] = { ");
@@ -129,7 +121,7 @@ namespace SMSTileStudio.Data
             int length = GetMetaSpriteData(false, true).Length;
             var metaSpriteInfo = "ID: " + ID + " | Name: " + Name + " | Length: " + length + " | Sprite Mode: " + SpriteMode.ToString();
             var spriteInfo = frame == null ? "No Sprite information" : " | Sprite Count: " + frame.Sprites.Count;
-            var tilesetInfo = frame == null ? "No Tileset information" : frame.Tileset.GetInfo();
+            var tilesetInfo = frame == null ? "No Tileset information" : frame?.Tileset?.GetInfo() ?? "";
             return "Meta Sprite: " + metaSpriteInfo + spriteInfo + " | Tileset: " + tilesetInfo;
         }
 
@@ -300,7 +292,7 @@ namespace SMSTileStudio.Data
                 //    bytes.Add(0);
                 //}
                 //tiles = frame.Tileset.TileCount;
-                pixels += frame.Tileset.GetTilesetData(true, TileMinimum).Length;
+                pixels += frame.Tileset == null ? 0 : frame.Tileset.GetTilesetData(true, TileMinimum).Length;
             }
 
             bytes.InsertRange(1, header);

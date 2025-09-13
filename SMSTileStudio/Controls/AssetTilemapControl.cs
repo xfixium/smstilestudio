@@ -1460,6 +1460,12 @@ namespace SMSTileStudio.Controls
             pnlSelectedTile.SelectedColor = (byte)pnlSprPalette.SelectedIndex;
         }
 
+        // Tilemap editor mouse enter
+        private void pnlTilemapEdit_MouseEnter(object sender, EventArgs e)
+        {
+            pnlTilemapEdit.Focus();
+        }
+
         #region Exports
 
         private void ExportPaletteImage(string filename)

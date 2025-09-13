@@ -34,11 +34,15 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Fields
         /// </summary>
-        public event MetaSpriteChangedHandler MetaSpriteChanged;
-        public delegate void MetaSpriteChangedHandler();
+        public event SpritesChangedHandler SpritesChanged;
+        public delegate void SpritesChangedHandler();
+        public event SpriteAddedHandler SpriteAdded;
+        public delegate void SpriteAddedHandler(int x, int y, int tileId);
+        public event SpriteRemovedHandler SpriteRemoved;
+        public delegate void SpriteRemovedHandler(Sprite sprite);
         public event PositionChangedHandler PositionChanged;
         public delegate void PositionChangedHandler();
-        private MetaSpriteEditType _editMode = MetaSpriteEditType.SpriteSelect;
+        private MetaSpriteEditType _editMode = MetaSpriteEditType.Sprites;
         private SpriteModeType _spriteMode = SpriteModeType.Normal;
         private bool _useGrid = true;
         private bool _showSprites = true;
@@ -46,6 +50,7 @@ namespace SMSTileStudio.Controls
         private bool _showOrigin = true;
         private bool _showTransparent = true;
         private bool _snapToGrid = true;
+        private bool _click = false;
         private int _antOffset = 0;
         private Point _offset = new Point(128, 112);
         private Point _origin = Point.Empty;
@@ -63,6 +68,7 @@ namespace SMSTileStudio.Controls
         public Palette Palette { set { _palette = value; UpdateBackBuffer(); } }
         public MetaSpriteEditType EditMode { get { return _editMode; } set { _editMode = value; UpdateBackBuffer(); } }
         public SpriteModeType SpriteMode { get { return _spriteMode; } set { _spriteMode = value; UpdateBackBuffer(); } }
+        public int TileID { get; set; }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
         public bool ShowSprites { get { return _showSprites; } set { _showSprites = value; UpdateBackBuffer(); } }
         public bool ShowCollisions { get { return _showCollisions; } set { _showCollisions = value; UpdateBackBuffer(); } }
@@ -140,10 +146,10 @@ namespace SMSTileStudio.Controls
             base.OnKeyUp(e);
         }
 
-        private Point GetPosition(Point location, Rectangle area)
+        private Point GetPosition(Point location, Rectangle area, bool snapped)
         {
             int x = 0, y = 0;
-            if (SnapToGrid)
+            if (snapped)
             {
                 x = ((location.X - area.X) / ImageScale / SnapSize.Width * SnapSize.Width) - _offset.X;
                 y = ((location.Y - area.Y) / ImageScale / SnapSize.Height * SnapSize.Height) - _offset.Y;
@@ -163,9 +169,8 @@ namespace SMSTileStudio.Controls
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            Focus();
 
-            if (Image == null || e.Button != MouseButtons.Left)
+            if (Image == null)
                 return;
 
             Point origin = GetOrigin();
@@ -173,27 +178,44 @@ namespace SMSTileStudio.Controls
             if (area.Contains(e.Location) == false)
                 return;
 
-            var pos = GetPosition(e.Location, area);
+            var pos = GetPosition(e.Location, area, SnapToGrid);
+            var pos2 = GetPosition(e.Location, area, false);
             _origin = pos;
             int width = 8;
             int height = _spriteMode == SpriteModeType.Normal ? 8 : 16;
             switch (_editMode)
             {
-                case MetaSpriteEditType.SpriteSelect:
+                case MetaSpriteEditType.Sprites:
+                    if (e.Button == MouseButtons.Right)
+                    {
+                        // Get selected sprite
+                        foreach (var sprite in _frame.Sprites)
+                        {
+                            if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(pos2))
+                            {
+                                _selectedSprites.Remove(sprite);
+                                SpriteRemoved?.Invoke(sprite);
+                                break;
+                            }
+                        }
+                        return;
+                    }
                     var selected = new List<Sprite>();
                     // Check if clicked an already selected sprite, return
                     foreach (var sprite in _selectedSprites)
                     {
-                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(pos))
+                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(pos2))
                         {
+                            _click = true;
                             return;
                         }
                     }
                     // Get selected sprite
                     foreach (var sprite in _frame.Sprites)
                     {
-                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(pos))
+                        if (new Rectangle(sprite.X, sprite.Y, width, height).Contains(pos2))
                         {
+                            _click = true;
                             if (CtrlHeld)
                             {
                                 _selectedSprites.Add(sprite);
@@ -203,7 +225,10 @@ namespace SMSTileStudio.Controls
                         }
                     }
                     if (selected.Count <= 0)
+                    {
+                        SpriteAdded?.Invoke(pos.X, pos.Y, TileID);
                         return;
+                    }
                     else if (!CtrlHeld)
                         _selectedSprites = selected;
                     break;
@@ -219,8 +244,7 @@ namespace SMSTileStudio.Controls
                     }
                     break;
             }
-
-            MetaSpriteChanged?.Invoke();
+            SpritesChanged?.Invoke();
             UpdateBackBuffer();
         }
 
@@ -237,16 +261,16 @@ namespace SMSTileStudio.Controls
                 return;
 
             // Set selection if snap position changed
-            var pos = GetPosition(e.Location, area);
+            var pos = GetPosition(e.Location, area, SnapToGrid);
             _position = pos;
             PositionChanged?.Invoke();
 
-            if (e.Button != MouseButtons.Left)
+            if (e.Button != MouseButtons.Left || _click == false)
                 return;
 
             switch (_editMode)
             {
-                case MetaSpriteEditType.SpriteSelect:
+                case MetaSpriteEditType.Sprites:
                     // Move selection of sprites
                     foreach (var sprite in _selectedSprites)
                     {
@@ -271,7 +295,8 @@ namespace SMSTileStudio.Controls
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            MetaSpriteChanged?.Invoke();
+            _click = false;
+            SpritesChanged?.Invoke();
             UpdateBackBuffer();
             base.OnMouseUp(e);
         }
@@ -318,7 +343,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawSprites(Graphics gfx, Point origin)
         {
-            if (EditMode != MetaSpriteEditType.SpriteSelect || Image == null || _frame == null || _selectedSprites == null)
+            if (EditMode != MetaSpriteEditType.Sprites || Image == null || _frame == null || _frame.Tileset == null || _selectedSprites == null)
                 return;
 
             var height = SpriteMode == SpriteModeType.Normal ? 8 : 16;

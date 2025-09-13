@@ -711,6 +711,7 @@
             this.pnlTilemapEdit.UseOffset = false;
             this.pnlTilemapEdit.TileChanged += new SMSTileStudio.Controls.TilemapControl.TileChangedHandler(this.pnlTilemapEdit_TileChanged);
             this.pnlTilemapEdit.PositionChanged += new SMSTileStudio.Controls.TilemapControl.PositionChangedHandler(this.pnlTilemapEdit_PositionChanged);
+            this.pnlTilemapEdit.MouseEnter += new System.EventHandler(this.pnlTilemapEdit_MouseEnter);
             // 
             // mnuSelectOptions
             // 
@@ -2120,6 +2121,7 @@
             this.pnlTilesetEdit.Size = new System.Drawing.Size(476, 501);
             this.pnlTilesetEdit.SnapSize = new System.Drawing.Size(8, 8);
             this.pnlTilesetEdit.TabIndex = 1;
+            this.pnlTilesetEdit.TileID = -1;
             this.pnlTilesetEdit.TypeValue = 0;
             this.pnlTilesetEdit.UseCanvas = false;
             this.pnlTilesetEdit.UseGrid = true;
