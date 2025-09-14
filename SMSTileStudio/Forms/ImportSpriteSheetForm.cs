@@ -95,7 +95,7 @@ namespace SMSTileStudio.Forms
             var tileset = new Tileset();
             tileset.Pixels = BitmapUtility.PixelTilesToSMSTiles(_pixelTiles, pnlPalette.SPRPalette, pnlPalette.SPRPalette);
             _sprite.Tilesheet = tileset;
-            _sprite.MetaSpriteType = MetaSpriteType.Tilesheet;
+            _sprite.MetaSpriteType = MetaSpriteType.Tileset;
             _sprite.Frames.Add(new MetaSpriteFrame(tileset.DeepClone()));
             App.Project.UpdateAsset(_sprite.DeepClone());
             DialogResult = DialogResult.OK;

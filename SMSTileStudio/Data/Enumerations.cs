@@ -99,7 +99,7 @@ namespace SMSTileStudio.Data
     /// </summary>
     public enum SpriteModeType
     {
-        [Description("Normal (8 x 8)")]
+        [Description("Standard (8 x 8)")]
         Normal = 0,
         [Description("Tall (8 x 16)")]
         Tall = 1
@@ -110,8 +110,8 @@ namespace SMSTileStudio.Data
     /// </summary>
     public enum MetaSpriteType
     {
-        [Description("Tilesheet")]
-        Tilesheet = 0,
+        [Description("Tileset")]
+        Tileset = 0,
         [Description("Streamed")]
         Streamed = 1
     }

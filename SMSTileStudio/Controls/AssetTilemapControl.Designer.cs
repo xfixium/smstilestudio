@@ -1326,7 +1326,7 @@
             // 
             this.lblHighlighterCountValue.AutoSize = true;
             this.lblHighlighterCountValue.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHighlighterCountValue.ForeColor = System.Drawing.Color.Goldenrod;
+            this.lblHighlighterCountValue.ForeColor = System.Drawing.Color.DeepPink;
             this.lblHighlighterCountValue.Location = new System.Drawing.Point(115, 22);
             this.lblHighlighterCountValue.Name = "lblHighlighterCountValue";
             this.lblHighlighterCountValue.Size = new System.Drawing.Size(13, 13);
