@@ -1453,17 +1453,11 @@ namespace SMSTileStudio.Controls
         }
 
         /// <summary>
-        /// Sprite palette selected color changed
+        /// Sprite palette selected color changeds
         /// </summary>
         private void pnlSPRPalette_SelectedColorChanged()
         {
             pnlSelectedTile.SelectedColor = (byte)pnlSprPalette.SelectedIndex;
-        }
-
-        // Tilemap editor mouse enter
-        private void pnlTilemapEdit_MouseEnter(object sender, EventArgs e)
-        {
-            pnlTilemapEdit.Focus();
         }
 
         #region Exports

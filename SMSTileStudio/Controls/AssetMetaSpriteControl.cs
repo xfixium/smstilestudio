@@ -42,6 +42,7 @@ namespace SMSTileStudio.Controls
         private Palette _selectedPalette = null;
         private MetaSpriteFrame _frame = null;
         private Sprite _sprite = null;
+        private List<Sprite> _spriteClipboard = new List<Sprite>();
         private List<int> _sprites = new List<int>();
         private int _frameIndex = 0;
 
@@ -118,6 +119,7 @@ namespace SMSTileStudio.Controls
                     _frameIndex = _metaSprite.Frames.Count - 1;
 
                 Loading = true;
+                pnlMetaSpriteEdit.ClearSelected();
                 LoadUI();
                 Loading = false;
                 lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
@@ -130,7 +132,9 @@ namespace SMSTileStudio.Controls
                     _frameIndex = 0;
 
                 Loading = true;
+                pnlMetaSpriteEdit.ClearSelected();
                 LoadUI();
+                UpdateImages();
                 Loading = false;
                 lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
@@ -207,9 +211,31 @@ namespace SMSTileStudio.Controls
                 App.Project.UpdateAsset(_metaSprite);
                 return;
             }
+            else if (HasData && button == btnSpriteCopy)
+            {
+                _spriteClipboard.AddRange(pnlMetaSpriteEdit.SelectedSprites.DeepClone());
+                return;
+            }
+            else if (HasData && button == btnSpritePaste)
+            {
+                _frame.Sprites.AddRange(_spriteClipboard.DeepClone());
+                App.Project.UpdateAsset(_metaSprite);
+                LoadUI();
+                UpdateImages();
+                return;
+            }
             else if (HasData && button == btnRemoveSelection)
             {
+                if (MessageBox.Show("Are you sure you want to remove the selected sprite(s)?", "SMS Tile STudio", MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
 
+                foreach (var sprite in pnlMetaSpriteEdit.SelectedSprites)
+                    _frame.Sprites.Remove(sprite);
+
+                pnlMetaSpriteEdit.ClearSelected();
+                App.Project.UpdateAsset(_metaSprite);
+                LoadUI();
+                UpdateImages();
                 return;
             }
             //else if (HasFrameData && button == btnSpriteConfigAll)
@@ -376,7 +402,48 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                using (var form = new ImportSpriteSheetForm(BitmapUtility.Get32bitImage(image), _metaSprite, importColors))
+                using (var form = new ImportSpriteSheetForm(BitmapUtility.Get32bitImage(image), _metaSprite, importColors, false))
+                {
+                    if (form.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    lstMetaSprites.Items[lstMetaSprites.SelectedIndex] = App.Project.GetAsset(_metaSprite.ID) as MetaSprite;
+                    lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
+                    pnlMetaSpriteEdit.SelectedSprites.Clear();
+                }
+            }
+            else if (menuItem == mnuUpdateTileset)
+            {
+                string path = string.Empty;
+                using (OpenFileDialog ofd = new OpenFileDialog())
+                {
+                    ofd.Filter = "PNG Image File|*.png";
+                    if (ofd.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    path = ofd.FileName;
+                }
+
+                Bitmap image;
+                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    image = (Bitmap)Image.FromStream(fs);
+                }
+
+                if (image == null)
+                {
+                    MessageBox.Show("There was an issue getting the image data.");
+                    return;
+                }
+
+                List<Color> importColors = BitmapUtility.GetColors(image);
+                if (importColors.Count > 16)
+                {
+                    MessageBox.Show("The image has more than 16 colors, reduce the image colors and try again.");
+                    return;
+                }
+
+                using (var form = new ImportSpriteSheetForm(BitmapUtility.Get32bitImage(image), _metaSprite, importColors, true))
                 {
                     if (form.ShowDialog() != DialogResult.OK)
                         return;
@@ -429,16 +496,22 @@ namespace SMSTileStudio.Controls
             //    Clipboard.SetText(_metaSprite.GetASMString(true));
             //else if (menuItem == mnuMetaSpriteExportAssembly)
             //    Clipboard.SetText(_metaSprite.GetASMString(false));
-            //else if (menuItem == mnuMetaSpriteExportDKSMSText)
-            //    Clipboard.SetText(_metaSprite.GetDKSMSString(mnuMetaSpriteStreaming.Checked));
+            else if (menuItem == mnuMetaSpriteExportDKSMSText)
+                Clipboard.SetText(_metaSprite.GetDKSMSString());
             //else if (menuItem == mnuExportSelectionDevKitSMS)
             //    Clipboard.SetText(_metaSprite.GetDKSMSString(GetSelectedSprites()));
             else if (menuItem == mnuInsertFrame)
             {
-                // Create new frame, and select tit
+                // Create new frame, and select it
                 _metaSprite.Frames.Add(new MetaSpriteFrame(_metaSprite.Tilesheet.DeepClone()));
-                UpdateMetaSprite();
-                btnMetaSprite_Click(btnNextFrame, EventArgs.Empty);
+                lstSprites.SelectedItems.Clear();
+                pnlMetaSpriteEdit.ClearSelected();
+                App.Project.UpdateAsset(_metaSprite);
+                _frameIndex = _metaSprite.Frames.Count - 1;
+                Loading = true;
+                LoadUI();
+                Loading = false;
+                lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
         }
 
@@ -531,12 +604,23 @@ namespace SMSTileStudio.Controls
                 App.Project.UpdateAsset(_metaSprite);
                 UpdateImages();
                 lstSprites_SelectedIndexChanged(this, EventArgs.Empty);
+                return;
             }
             else if (numeric == nudSpriteY && lstSprites.SelectedItem != null)
             {
                 (lstSprites.SelectedItem as Sprite).Y = (int)nudSpriteY.Value;
                 App.Project.UpdateAsset(_metaSprite);
                 UpdateImages();
+                lstSprites_SelectedIndexChanged(this, EventArgs.Empty);
+                return;
+            }
+            else if (numeric == nudSpriteTileID && lstSprites.SelectedItem != null)
+            {
+                (lstSprites.SelectedItem as Sprite).TileID = (int)nudSpriteTileID.Value;
+                App.Project.UpdateAsset(_metaSprite);
+                UpdateImages();
+                lstSprites_SelectedIndexChanged(this, EventArgs.Empty);
+                return;
             }
             UpdateMetaSprite();
         }
@@ -579,6 +663,7 @@ namespace SMSTileStudio.Controls
             }
             nudSpriteX.Value = _sprite.X;
             nudSpriteY.Value = _sprite.Y;
+            nudSpriteTileID.Value = _sprite.TileID;
             Loading = false;
         }
 
@@ -597,6 +682,7 @@ namespace SMSTileStudio.Controls
             }
             nudSpriteX.Value = _sprite.X;
             nudSpriteY.Value = _sprite.Y;
+            nudSpriteTileID.Value = _sprite.TileID;
             Loading = false;
         }
 
@@ -642,6 +728,7 @@ namespace SMSTileStudio.Controls
             if (!HasData)
                 return;
 
+            _metaSprite.Tilesheet.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
             _frame.Tileset.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
             pnlSelectedTile.Image = BitmapUtility.GetPixelTileImage(pnlSelectedTile.Pixels, pnlSelectedTile.Palette, pnlSelectedTile.ClientSize);
             App.Project.UpdateAsset(_metaSprite);

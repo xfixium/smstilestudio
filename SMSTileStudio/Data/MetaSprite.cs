@@ -69,9 +69,8 @@ namespace SMSTileStudio.Data
         /// Gets an c array string for DevKit SMS
         /// </summary>
         /// <returns></returns>
-        public string GetDKSMSString(bool streaming)
+        public string GetDKSMSString()
         {
-            var offset = 0;
             var name = Name.ToLower().Replace(" ", "_");
             var sprites = new StringBuilder();
             var frames = new StringBuilder();

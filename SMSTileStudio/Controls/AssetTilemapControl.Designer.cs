@@ -711,7 +711,6 @@
             this.pnlTilemapEdit.UseOffset = false;
             this.pnlTilemapEdit.TileChanged += new SMSTileStudio.Controls.TilemapControl.TileChangedHandler(this.pnlTilemapEdit_TileChanged);
             this.pnlTilemapEdit.PositionChanged += new SMSTileStudio.Controls.TilemapControl.PositionChangedHandler(this.pnlTilemapEdit_PositionChanged);
-            this.pnlTilemapEdit.MouseEnter += new System.EventHandler(this.pnlTilemapEdit_MouseEnter);
             // 
             // mnuSelectOptions
             // 

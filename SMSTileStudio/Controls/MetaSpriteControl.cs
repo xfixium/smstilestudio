@@ -428,6 +428,16 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Clears editor data
         /// </summary>
+        public void ClearSelected()
+        {
+            _selectedSprites.Clear();
+            _selectedCollision = Rectangle.Empty;
+            UpdateBackBuffer();
+        }
+
+        /// <summary>
+        /// Clears editor data
+        /// </summary>
         public void Clear()
         {
             if (_frame != null)

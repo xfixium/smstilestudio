@@ -41,6 +41,7 @@ namespace SMSTileStudio.Forms
         private List<PixelTile> _originalPixelTiles = new List<PixelTile>();
         private List<PixelTile> _pixelTiles = new List<PixelTile>();
         private List<Color> _importColors = new List<Color>();
+        private bool _updating = false;
         //private bool _initalizing = true;
 
         /// <summary>
@@ -49,13 +50,17 @@ namespace SMSTileStudio.Forms
         /// <param name="image"></param>
         /// <param name="sprite"></param>
         /// <param name="importColors"></param>
-        public ImportSpriteSheetForm(Bitmap image, MetaSprite sprite, List<Color> importColors)
+        public ImportSpriteSheetForm(Bitmap image, MetaSprite sprite, List<Color> importColors, bool updating)
         {
             InitializeComponent();
-
+            _updating = updating;
             Text = "Import Graphics for " + sprite.Name;
             _sprite = sprite.DeepClone();
-            _sprite.Frames.Clear();
+            if (!_updating)
+                _sprite.Frames.Clear();
+            else
+                cbSpriteMode.Enabled = false;
+
             _image = image;
             _sprPalette = (Palette)App.Project.GetAsset(sprite.PaletteID);
             _importColors = importColors;
@@ -80,6 +85,9 @@ namespace SMSTileStudio.Forms
             }
             else if (comboBox == cbSpriteMode && _sprite != null)
             {
+                if (_updating)
+                    return;
+
                 _sprite.Frames.Clear();
                 _sprite.SpriteMode = (SpriteModeType)cbSpriteMode.SelectedItem.GetValue();
                 LoadUI();
@@ -95,9 +103,20 @@ namespace SMSTileStudio.Forms
             var tileset = new Tileset();
             tileset.Pixels = BitmapUtility.PixelTilesToSMSTiles(_pixelTiles, pnlPalette.SPRPalette, pnlPalette.SPRPalette);
             _sprite.Tilesheet = tileset;
-            _sprite.MetaSpriteType = MetaSpriteType.Tileset;
-            _sprite.Frames.Add(new MetaSpriteFrame(tileset.DeepClone()));
-            App.Project.UpdateAsset(_sprite.DeepClone());
+            if (_updating)
+            {
+                foreach (var frame in _sprite.Frames)
+                    frame.Tileset = tileset.DeepClone();
+
+                App.Project.UpdateAsset(_sprite.DeepClone());
+            }
+            else
+            {
+                _sprite.MetaSpriteType = MetaSpriteType.Tileset;
+                _sprite.Frames.Add(new MetaSpriteFrame(tileset.DeepClone()));
+                App.Project.UpdateAsset(_sprite.DeepClone());
+            }
+
             DialogResult = DialogResult.OK;
         }
 
