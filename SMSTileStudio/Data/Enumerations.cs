@@ -99,7 +99,7 @@ namespace SMSTileStudio.Data
     /// </summary>
     public enum SpriteModeType
     {
-        [Description("Standard (8 x 8)")]
+        [Description("Block (8 x 8)")]
         Normal = 0,
         [Description("Tall (8 x 16)")]
         Tall = 1

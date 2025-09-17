@@ -21,11 +21,11 @@
 //
 
 using System;
-using System.Text;
-using System.Linq;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 
 namespace SMSTileStudio.Data
 {
@@ -59,7 +59,7 @@ namespace SMSTileStudio.Data
             StringBuilder sb = new StringBuilder();
             if (!hex)
                 sb.Append(".db ");
-            byte[] data = GetMetaSpriteData(true, true);
+            byte[] data = GetMetaSpriteData();
             foreach (byte b in data)
                 sb.Append((hex ? "" : "$") + b.ToString("X2") + " ");
             return sb.ToString().Trim();
@@ -117,7 +117,7 @@ namespace SMSTileStudio.Data
         public string GetInfo(int frameIndex)
         {
             var frame = frameIndex >= Frames.Count || frameIndex < 0 ? null : Frames[frameIndex];
-            int length = GetMetaSpriteData(false, true).Length;
+            int length = GetMetaSpriteData().Length;
             var metaSpriteInfo = "ID: " + ID + " | Name: " + Name + " | Length: " + length + " | Sprite Mode: " + SpriteMode.ToString();
             var spriteInfo = frame == null ? "No Sprite information" : " | Sprite Count: " + frame.Sprites.Count;
             var tilesetInfo = frame == null ? "No Tileset information" : frame?.Tileset?.GetInfo() ?? "";
@@ -138,6 +138,34 @@ namespace SMSTileStudio.Data
                     s.X += hx + lx;
                 }
             }
+        }
+
+        // Move given frame to the left
+        public bool MoveFrameLeft(MetaSpriteFrame frame)
+        {
+            // Get frame index
+            var index = Frames.IndexOf(frame);
+            // If first frame, return
+            if (index <= 0)
+                return false;
+
+            Frames.RemoveAt(index);
+            Frames.Insert(index - 1, frame);
+            return true;
+        }
+
+        // Move given frame to the right
+        public bool MoveFrameRight(MetaSpriteFrame frame)
+        {
+            // Get frame index
+            var index = Frames.IndexOf(frame);
+            // If first frame, return
+            if (index >= Frames.Count - 1)
+                return false;
+
+            Frames.RemoveAt(index);
+            Frames.Insert(index + 1, frame);
+            return true;
         }
 
         /// <summary>
@@ -251,51 +279,44 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Gets meta sprite data
         /// </summary>
-        /// <param name="getRawData">If ignoring compression and data length limitation</param>
-        /// <param name="framed">If tile index base starts at zero, or accumulative from last frame tileset</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetMetaSpriteData(bool getRawData, bool framed)
+        public byte[] GetMetaSpriteData()
         {
-            List<byte> header = new List<byte>();
-            List<byte> bytes = new List<byte>();
-            var headerSize = Frames.Count * 2;
-            var pixels = 0;
-            //var tiles = 0;
-
-            // Data Structure:
-            // 0 = Frame count
-            // 1 - ?? Header, data start location for each frame (2 bytes each)
-            // Frame Data:
-            // 0 = Frame tileset data start location (2 bytes)
-            // 1 = Frame sprite config (1 byte)
-            // 2 = Frame duration time (1 byte)
-            // 3 = Frame sprite count (1 byte)
-            // Frame Sprite Data:
-            // 0 = Sprite X position (1 byte)
-            // 1 = Sprite Y position (1 byte)
-            // 2 = Sprite tile id (1 byte)
-            // 3 = Reserved
-            bytes.Add((byte)Frames.Count);
+            var bytes = new List<byte>();
             foreach (var frame in Frames)
             {
-                header.AddRange(GetShort((ushort)(bytes.Count + headerSize)));
-                bytes.AddRange(GetShort((ushort)(pixels / 2)));
-                bytes.Add((byte)frame.SpriteConfig);
-                bytes.Add((byte)frame.Duration);
-                //bytes.Add((byte)frame.Sprites.Count);
-                //foreach (var sprite in frame.Sprites)
-                //{
-                //    bytes.Add((byte)sprite.X);
-                //    bytes.Add((byte)sprite.Y);
-                //    bytes.Add((byte)(sprite.TileID + (framed ? 0 : tiles) + Offset));
-                //    bytes.Add(0);
-                //}
-                //tiles = frame.Tileset.TileCount;
-                pixels += frame.Tileset == null ? 0 : frame.Tileset.GetTilesetData(true, TileMinimum).Length;
+                foreach (var sprite in frame.Sprites)
+                {
+                    bytes.Add((byte)sprite.X);
+                    bytes.Add((byte)sprite.Y);
+                    bytes.Add((byte)sprite.TileID);
+                }
             }
+            return bytes.ToArray();
+        }
 
-            bytes.InsertRange(1, header);
-            return getRawData ? bytes.ToArray() : GetExportData(bytes);
+        /// <summary>
+        /// Gets meta sprite frame data
+        /// </summary>
+        /// <returns>An array of bytes</returns>
+        public List<byte[]> GetMetaSpriteFrameData(bool terminator)
+        {
+            var frames = new List<byte[]>();
+            foreach (var frame in Frames)
+            {
+                var bytes = new List<byte>();
+                foreach (var sprite in frame.Sprites)
+                {
+                    bytes.Add((byte)sprite.X);
+                    bytes.Add((byte)sprite.Y);
+                    bytes.Add((byte)sprite.TileID);
+                }
+                if (terminator)
+                    bytes.Add(128);
+
+                frames.Add(bytes.ToArray());
+            }
+            return frames;
         }
     }
 }
