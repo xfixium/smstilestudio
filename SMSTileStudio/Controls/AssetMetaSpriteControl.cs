@@ -1039,9 +1039,9 @@ namespace SMSTileStudio.Controls
             _selectedPalette = cbSprPalette.SelectedItem as Palette;
             lblEmpty.Text = _metaSprite == null ? "No Meta Sprite information" : _metaSprite.GetInfo(_frameIndex);
             chkSpriteType.Text = "Sprite Type: " + (_metaSprite == null ? "N/A" : _metaSprite.SpriteMode.GetDescription());
-            chkSpriteType.Checked = _metaSprite.SpriteMode == SpriteModeType.Normal;
+            chkSpriteType.Checked = _metaSprite == null ? true : _metaSprite.SpriteMode == SpriteModeType.Normal;
             chkMetaSpriteType.Text = "Meta Sprite Type: " + (_metaSprite == null ? "N/A" : _metaSprite.MetaSpriteType.GetDescription());
-            chkMetaSpriteType.Checked = _metaSprite.MetaSpriteType == MetaSpriteType.Tileset;
+            chkMetaSpriteType.Checked = _metaSprite == null ? true : _metaSprite.MetaSpriteType == MetaSpriteType.Tileset;
             pnlMetaSpriteEdit.Palette = _selectedPalette;
             pnlMetaSpriteEdit.LoadFrame(_frame, _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode);
             cbTilesetCompression.SelectedItem = !HasFrameData ? CompressionType.None : _frame.Tileset.CompressionType;

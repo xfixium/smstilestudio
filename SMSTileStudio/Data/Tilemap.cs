@@ -24,11 +24,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SMSTileStudio.Data
 {
@@ -144,6 +141,46 @@ namespace SMSTileStudio.Data
                 }
                 tile.TileID = tileId;
             }
+        }
+
+        // Optimizes the tilemap with only the tiles it is using from the current tileset
+        // Typical use case is creating a lean tileset after calling tilemap from selection
+        // but can be used on any tilemap to weed out possible unused tiles
+        public Tilemap Optimize()
+        {
+            // New optimized tilemap
+            var optimized = this.DeepClone();
+
+            // Get tiles used
+            var index = 0;
+            var parsed = new Dictionary<int, int>();
+            var tiles = new List<Tile>();
+            var tileset = new Tileset();
+            foreach (var tile in Tiles)
+            {
+                // Clone tile
+                var adjusted = tile.DeepClone();
+                // Find match, if the tile id already exists, set adjusted tile id, and continue
+                if (parsed.ContainsKey(tile.TileID))
+                {
+                    adjusted.TileID = parsed[tile.TileID];
+                    tiles.Add(adjusted);
+                    continue;
+                }
+
+                // Adjust tile ids to match new optimized tileset
+                adjusted.TileID = index;
+                tiles.Add(adjusted);
+                parsed.Add(tile.TileID, adjusted.TileID);
+                // Get pixels for the current tile ID
+                tileset.Pixels.AddRange(Tileset.Pixels.GetRange(tile.TileID * 64, 64));
+                index++;
+            }
+
+            // Set optimized tile data
+            optimized.Tiles = tiles;
+            optimized.Tileset = tileset;
+            return optimized;
         }
 
         /// <summary>

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SMSTileStudio.Forms;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using SMSTileStudio.Forms;
 
 namespace SMSTileStudio
 {

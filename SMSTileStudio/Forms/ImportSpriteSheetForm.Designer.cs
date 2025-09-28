@@ -30,17 +30,17 @@
         {
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.grpOptions = new System.Windows.Forms.GroupBox();
+            this.pnlSprPalette = new SMSTileStudio.Controls.PaletteControl();
             this.lblSpriteMode = new System.Windows.Forms.Label();
             this.cbSpriteMode = new System.Windows.Forms.ComboBox();
             this.lblSprPalette = new System.Windows.Forms.Label();
             this.cbSprPalette = new System.Windows.Forms.ComboBox();
             this.grpImage = new System.Windows.Forms.GroupBox();
+            this.pnlSpriteSheet = new SMSTileStudio.Controls.ImageControl();
             this.pnlButtons = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.pnlPalette = new SMSTileStudio.Controls.PaletteSpriteControl();
-            this.pnlSprPalette = new SMSTileStudio.Controls.PaletteControl();
-            this.pnlSpriteSheet = new SMSTileStudio.Controls.ImageControl();
             this.tpnlMain.SuspendLayout();
             this.grpOptions.SuspendLayout();
             this.grpImage.SuspendLayout();
@@ -65,7 +65,7 @@
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.75472F));
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tpnlMain.Size = new System.Drawing.Size(758, 537);
-            this.tpnlMain.TabIndex = 1;
+            this.tpnlMain.TabIndex = 0;
             // 
             // grpOptions
             // 
@@ -84,6 +84,15 @@
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Meta Sprite Options";
             // 
+            // pnlSprPalette
+            // 
+            this.pnlSprPalette.Location = new System.Drawing.Point(8, 112);
+            this.pnlSprPalette.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pnlSprPalette.Name = "pnlSprPalette";
+            this.pnlSprPalette.ReadOnly = false;
+            this.pnlSprPalette.Size = new System.Drawing.Size(168, 40);
+            this.pnlSprPalette.TabIndex = 4;
+            // 
             // lblSpriteMode
             // 
             this.lblSpriteMode.AutoSize = true;
@@ -91,7 +100,7 @@
             this.lblSpriteMode.Margin = new System.Windows.Forms.Padding(0);
             this.lblSpriteMode.Name = "lblSpriteMode";
             this.lblSpriteMode.Size = new System.Drawing.Size(73, 13);
-            this.lblSpriteMode.TabIndex = 35;
+            this.lblSpriteMode.TabIndex = 0;
             this.lblSpriteMode.Text = "Sprite Mode:";
             this.lblSpriteMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -102,7 +111,7 @@
             this.cbSpriteMode.Location = new System.Drawing.Point(8, 44);
             this.cbSpriteMode.Name = "cbSpriteMode";
             this.cbSpriteMode.Size = new System.Drawing.Size(168, 21);
-            this.cbSpriteMode.TabIndex = 36;
+            this.cbSpriteMode.TabIndex = 1;
             this.cbSpriteMode.SelectedIndexChanged += new System.EventHandler(this.cbMetaSprite_SelectedIndexChanged);
             // 
             // lblSprPalette
@@ -112,7 +121,7 @@
             this.lblSprPalette.Margin = new System.Windows.Forms.Padding(0);
             this.lblSprPalette.Name = "lblSprPalette";
             this.lblSprPalette.Size = new System.Drawing.Size(78, 13);
-            this.lblSprPalette.TabIndex = 22;
+            this.lblSprPalette.TabIndex = 2;
             this.lblSprPalette.Text = "Sprite Palette:";
             this.lblSprPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -123,7 +132,7 @@
             this.cbSprPalette.Location = new System.Drawing.Point(8, 88);
             this.cbSprPalette.Name = "cbSprPalette";
             this.cbSprPalette.Size = new System.Drawing.Size(168, 21);
-            this.cbSprPalette.TabIndex = 23;
+            this.cbSprPalette.TabIndex = 3;
             this.cbSprPalette.SelectedIndexChanged += new System.EventHandler(this.cbMetaSprite_SelectedIndexChanged);
             // 
             // grpImage
@@ -138,6 +147,27 @@
             this.grpImage.TabIndex = 1;
             this.grpImage.TabStop = false;
             this.grpImage.Text = "Image";
+            // 
+            // pnlSpriteSheet
+            // 
+            this.pnlSpriteSheet.Canvas = new System.Drawing.Size(8, 8);
+            this.pnlSpriteSheet.Centered = true;
+            this.pnlSpriteSheet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlSpriteSheet.HatchBackColor = System.Drawing.Color.DarkGray;
+            this.pnlSpriteSheet.HatchForeColor = System.Drawing.Color.White;
+            this.pnlSpriteSheet.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
+            this.pnlSpriteSheet.Image = null;
+            this.pnlSpriteSheet.ImageAlpha = 1F;
+            this.pnlSpriteSheet.ImageScale = 1;
+            this.pnlSpriteSheet.Location = new System.Drawing.Point(8, 23);
+            this.pnlSpriteSheet.MinimumScale = 1;
+            this.pnlSpriteSheet.Name = "pnlSpriteSheet";
+            this.pnlSpriteSheet.Size = new System.Drawing.Size(545, 367);
+            this.pnlSpriteSheet.SnapSize = new System.Drawing.Size(8, 8);
+            this.pnlSpriteSheet.TabIndex = 0;
+            this.pnlSpriteSheet.UseCanvas = false;
+            this.pnlSpriteSheet.UseHatch = true;
+            this.pnlSpriteSheet.UseMouseWheelScaling = true;
             // 
             // pnlButtons
             // 
@@ -175,41 +205,13 @@
             // pnlPalette
             // 
             this.tpnlMain.SetColumnSpan(this.pnlPalette, 2);
-            this.pnlPalette.Location = new System.Drawing.Point(194, 407);
+            this.pnlPalette.Location = new System.Drawing.Point(195, 409);
+            this.pnlPalette.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pnlPalette.Name = "pnlPalette";
-            this.pnlPalette.Size = new System.Drawing.Size(561, 100);
-            this.pnlPalette.TabIndex = 6;
+            this.pnlPalette.Size = new System.Drawing.Size(559, 96);
+            this.pnlPalette.TabIndex = 2;
             this.pnlPalette.ColorShifted += new SMSTileStudio.Controls.PaletteSpriteControl.ColorShiftedHandler(this.pnlPalette_ColorShifted);
             this.pnlPalette.SelectedColorChanged += new SMSTileStudio.Controls.PaletteSpriteControl.SelectedColorChangedHandler(this.pnlPalette_SelectedColorChanged);
-            // 
-            // pnlSprPalette
-            // 
-            this.pnlSprPalette.Location = new System.Drawing.Point(8, 112);
-            this.pnlSprPalette.Name = "pnlSprPalette";
-            this.pnlSprPalette.ReadOnly = false;
-            this.pnlSprPalette.Size = new System.Drawing.Size(168, 40);
-            this.pnlSprPalette.TabIndex = 37;
-            // 
-            // pnlSpriteSheet
-            // 
-            this.pnlSpriteSheet.Canvas = new System.Drawing.Size(8, 8);
-            this.pnlSpriteSheet.Centered = true;
-            this.pnlSpriteSheet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlSpriteSheet.HatchBackColor = System.Drawing.Color.DarkGray;
-            this.pnlSpriteSheet.HatchForeColor = System.Drawing.Color.White;
-            this.pnlSpriteSheet.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
-            this.pnlSpriteSheet.Image = null;
-            this.pnlSpriteSheet.ImageAlpha = 1F;
-            this.pnlSpriteSheet.ImageScale = 1;
-            this.pnlSpriteSheet.Location = new System.Drawing.Point(8, 23);
-            this.pnlSpriteSheet.MinimumScale = 1;
-            this.pnlSpriteSheet.Name = "pnlSpriteSheet";
-            this.pnlSpriteSheet.Size = new System.Drawing.Size(545, 367);
-            this.pnlSpriteSheet.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlSpriteSheet.TabIndex = 0;
-            this.pnlSpriteSheet.UseCanvas = false;
-            this.pnlSpriteSheet.UseHatch = true;
-            this.pnlSpriteSheet.UseMouseWheelScaling = true;
             // 
             // ImportSpriteSheetForm
             // 
@@ -226,7 +228,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Import Meta Sprite";
+            this.Text = "Update Meta Sprite Tileset";
             this.tpnlMain.ResumeLayout(false);
             this.grpOptions.ResumeLayout(false);
             this.grpOptions.PerformLayout();

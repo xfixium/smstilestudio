@@ -334,6 +334,13 @@ namespace SMSTileStudio.Controls
                     }
                 }
             }
+            // Optimize tilemap
+            else if (HasData && menuItem == mnuOptimizeTilemap && _tilemap.Tileset != null)
+            {
+                _tilemap = _tilemap.Optimize();
+                UpdateTilemap();
+                UpdateImages();
+            }
             // Rename tilemaps in bulk
             else if (HasData && menuItem == mnuTilemapBulkRename)
             {
