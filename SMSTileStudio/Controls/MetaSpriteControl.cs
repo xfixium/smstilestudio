@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -60,14 +60,13 @@ namespace SMSTileStudio.Controls
         private List<Sprite> _selectedSprites = new List<Sprite>();
         private Palette _palette = null;
         private Rectangle _selectedCollision = Rectangle.Empty;
+        private bool _invertGridColor = false;
 
         /// <summary>
         /// Properties
         /// </summary>
         public List<Sprite> SelectedSprites { get { return _selectedSprites; } set { _selectedSprites = value; UpdateBackBuffer(); } }
-        public Palette Palette { set { _palette = value; UpdateBackBuffer(); } }
         public MetaSpriteEditType EditMode { get { return _editMode; } set { _editMode = value; UpdateBackBuffer(); } }
-        public SpriteModeType SpriteMode { get { return _spriteMode; } set { _spriteMode = value; UpdateBackBuffer(); } }
         public int TileID { get; set; }
         public bool UseGrid { get { return _useGrid; } set { _useGrid = value; UpdateBackBuffer(); } }
         public bool ShowSprites { get { return _showSprites; } set { _showSprites = value; UpdateBackBuffer(); } }
@@ -76,6 +75,7 @@ namespace SMSTileStudio.Controls
         public bool SnapToGrid { get { return _snapToGrid; } set { _snapToGrid = value; } }
         public bool ShowTransparent { get { return _showTransparent; } set { _showTransparent = value; UpdateBackBuffer(); } }
         public bool CtrlHeld { get; set; } = false;
+        public bool InvertGridColor { get { return _invertGridColor; } set { _invertGridColor = value; UpdateBackBuffer(); } }
 
         /// <summary>
         /// Constructors
@@ -312,7 +312,7 @@ namespace SMSTileStudio.Controls
             int cols = (int)Math.Floor(Image.Width / (double)(SnapSize.Width));
             int rows = (int)Math.Floor(Image.Height / (double)(SnapSize.Height));
             Rectangle cell = new Rectangle(0, 0, SnapSize.Width, SnapSize.Height);
-            using (Pen gridPen = new Pen(Color.FromArgb(80, Color.Black)))
+            using (Pen gridPen = new Pen(Color.FromArgb(80, _invertGridColor ? Color.White : Color.Black)))
             {
                 for (int row = 0; row < rows; row++)
                 {
@@ -346,14 +346,14 @@ namespace SMSTileStudio.Controls
             if (EditMode != MetaSpriteEditType.Sprites || Image == null || _frame == null || _frame.Tileset == null || _selectedSprites == null)
                 return;
 
-            var height = SpriteMode == SpriteModeType.Normal ? 8 : 16;
+            var height = _spriteMode == SpriteModeType.Normal ? 8 : 16;
             if (_frame != null)
             {
                 using (var img = BitmapUtility.GetTilesetImage(255, _frame.Tileset, _palette, _showTransparent))
                 {
                     foreach (var sprite in _frame.Sprites)
                     {
-                        if (SpriteMode == SpriteModeType.Normal)
+                        if (_spriteMode == SpriteModeType.Normal)
                         {
                             var rect = new Rectangle(sprite.TileID * 8, 0, 8, 8);
                             using (var tile = img.Clone(rect, img.PixelFormat))
@@ -418,8 +418,9 @@ namespace SMSTileStudio.Controls
         /// 
         /// </summary>
         /// <param name="frame"></param>
-        public void LoadFrame(MetaSpriteFrame frame, SpriteModeType spriteMode)
+        public void LoadFrame(MetaSpriteFrame frame, Palette palette, SpriteModeType spriteMode)
         {
+            _palette = palette;
             _spriteMode = spriteMode;
             _frame = frame;
             UpdateBackBuffer();

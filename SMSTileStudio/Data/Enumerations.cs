@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -45,23 +45,6 @@ namespace SMSTileStudio.Data
         DataEntry = 4,
         [Description("Entity")]
         Entity = 5
-    }
-
-    /// <summary>
-    /// Compression type enumeration
-    /// </summary>
-    public enum CompressionType : int
-    {
-        [Description("None")]
-        None = 0,
-        [Description("PS RLE Planar 4")]
-        PSRLEPlanar4 = 1,
-        [Description("PS RLE Linear")]
-        PSRLELinear = 2,
-        [Description("PS RLE Planar 2")]
-        PSRLEPlanar2 = 3,
-        [Description("Sonic 1")]
-        Sonic1 = 4
     }
 
     /// <summary>
@@ -183,6 +166,21 @@ namespace SMSTileStudio.Data
     }
 
     /// <summary>
+    /// Tile Grid size type enumeration
+    /// </summary>
+    public enum TileGridSizeType : int
+    {
+        [Description("8 x 8")]
+        EightByEight = 0,
+        [Description("8 x 16")]
+        EightBySixteen = 1,
+        [Description("16 x 16")]
+        SixteenBySixteen = 2,
+        [Description("32 x 32")]
+        ThirtyTwoByThirtyTwo = 3
+    }
+
+    /// <summary>
     /// Metatile size type enumeration
     /// </summary>
     public enum MetaTileSizeType : int
@@ -218,17 +216,17 @@ namespace SMSTileStudio.Data
         [Description("Byte")]
         Byte = 0,
         [Description("Int")]
-        Word = 1,
+        Int = 1,
         [Description("Long")]
         Long = 2,
-        [Description("Text")]
-        Text = 3,
-        [Description("Hex")]
-        Hex = 4,
         [Description("Bytes")]
-        Bytes = 5,
+        Bytes = 3,
         [Description("Ints")]
-        Ints = 6
+        Ints = 4,
+        [Description("Longs")]
+        Longs = 5,
+        [Description("Text")]
+        Text = 7
     }
 
     /// <summary>
@@ -243,7 +241,7 @@ namespace SMSTileStudio.Data
     }
 
     /// <summary>
-    /// Describes bits per pixel types
+    /// Describes text format types
     /// </summary>
     public enum TextType
     {

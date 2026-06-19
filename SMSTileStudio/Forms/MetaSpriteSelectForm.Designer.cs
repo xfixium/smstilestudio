@@ -249,7 +249,6 @@
             this.pnlMetaSprite.ShowTransparent = true;
             this.pnlMetaSprite.Size = new System.Drawing.Size(321, 167);
             this.pnlMetaSprite.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlMetaSprite.SpriteMode = SMSTileStudio.Data.SpriteModeType.Normal;
             this.pnlMetaSprite.TabIndex = 22;
             this.pnlMetaSprite.UseCanvas = false;
             this.pnlMetaSprite.UseGrid = true;

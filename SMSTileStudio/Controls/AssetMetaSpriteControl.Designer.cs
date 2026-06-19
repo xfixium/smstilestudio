@@ -32,34 +32,36 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssetMetaSpriteControl));
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.lblEmpty = new System.Windows.Forms.Label();
-            this.grpSpriteList = new System.Windows.Forms.GroupBox();
-            this.lstMetaSprites = new SMSTileStudio.Controls.ListBoxControl();
-            this.pnlPaletteButtons = new System.Windows.Forms.Panel();
+            this.grpSprites = new System.Windows.Forms.GroupBox();
+            this.tpnlMetaSprites = new System.Windows.Forms.TableLayoutPanel();
             this.btnExport = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnRemove = new System.Windows.Forms.Button();
-            this.btnMirror = new System.Windows.Forms.Button();
-            this.btnDuplicate = new System.Windows.Forms.Button();
-            this.btnNew = new System.Windows.Forms.Button();
-            this.pnlMetaSpriteOptions = new System.Windows.Forms.Panel();
-            this.chkMetaSpriteType = new System.Windows.Forms.CheckBox();
-            this.nudTileMinimum = new System.Windows.Forms.NumericUpDown();
-            this.lblTileMinimum = new System.Windows.Forms.Label();
-            this.lblOffset = new System.Windows.Forms.Label();
             this.nudOffset = new System.Windows.Forms.NumericUpDown();
-            this.chkSpriteType = new System.Windows.Forms.CheckBox();
+            this.lstMetaSprites = new SMSTileStudio.Controls.ListBoxControl();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.lblOffset = new System.Windows.Forms.Label();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.nudTileMinimum = new System.Windows.Forms.NumericUpDown();
+            this.btnMirror = new System.Windows.Forms.Button();
             this.pnlFrames = new System.Windows.Forms.Panel();
-            this.lblCurrentFrameValue = new System.Windows.Forms.Label();
-            this.lblCurrentFrame = new System.Windows.Forms.Label();
             this.pnlSpriteListTools = new System.Windows.Forms.Panel();
             this.lblSpriteFrame = new System.Windows.Forms.Label();
             this.btnPreviousFrame = new System.Windows.Forms.Button();
             this.btnNextFrame = new System.Windows.Forms.Button();
+            this.btnDuplicate = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
+            this.chkMetaSpriteType = new System.Windows.Forms.CheckBox();
+            this.lblTileMinimum = new System.Windows.Forms.Label();
+            this.chkSpriteType = new System.Windows.Forms.CheckBox();
+            this.tpnlCurrentFrame = new System.Windows.Forms.TableLayoutPanel();
+            this.lblCurrentFrame = new System.Windows.Forms.Label();
+            this.lblCurrentFrameValue = new System.Windows.Forms.Label();
             this.pnlContent = new System.Windows.Forms.Panel();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.tabSpriteEdit = new System.Windows.Forms.TabPage();
             this.tpnlSprite = new System.Windows.Forms.TableLayoutPanel();
             this.pnlMetaSpriteProperties = new System.Windows.Forms.Panel();
+            this.tpnlMetaSpriteOptions = new System.Windows.Forms.TableLayoutPanel();
+            this.btnFrameOptions = new System.Windows.Forms.Button();
             this.tabSpritesRects = new System.Windows.Forms.TabControl();
             this.tabSprites = new System.Windows.Forms.TabPage();
             this.lstSprites = new SMSTileStudio.Controls.ListBoxControl();
@@ -95,10 +97,8 @@
             this.nudCollisionWidth = new System.Windows.Forms.NumericUpDown();
             this.nudCollisionX = new System.Windows.Forms.NumericUpDown();
             this.lblCollisionX = new System.Windows.Forms.Label();
-            this.pnlSpriteOptions = new System.Windows.Forms.Panel();
-            this.btnFrameOptions = new System.Windows.Forms.Button();
-            this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
             this.pnlSpriteEditorContainer = new System.Windows.Forms.Panel();
             this.pnlMetaSpriteEdit = new SMSTileStudio.Controls.MetaSpriteControl();
             this.pnlPosition = new System.Windows.Forms.Panel();
@@ -110,26 +110,26 @@
             this.chkTransparent = new System.Windows.Forms.CheckBox();
             this.chkGrid = new System.Windows.Forms.CheckBox();
             this.chkGridSnap = new System.Windows.Forms.CheckBox();
+            this.chkMetaSpriteInvertGrids = new System.Windows.Forms.CheckBox();
             this.pnlInfo = new System.Windows.Forms.FlowLayoutPanel();
             this.lblInfo = new System.Windows.Forms.Label();
             this.tabTilesetEdit = new System.Windows.Forms.TabPage();
             this.tpnlTileset = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlTilesetProperties = new System.Windows.Forms.Panel();
-            this.btnDeselectTile = new System.Windows.Forms.Button();
-            this.chkTilesetGrid = new System.Windows.Forms.CheckBox();
-            this.btnRemoveTile = new System.Windows.Forms.Button();
-            this.chkTilesetIndexes = new System.Windows.Forms.CheckBox();
-            this.btnAddTile = new System.Windows.Forms.Button();
-            this.pnlSprPalette = new SMSTileStudio.Controls.PaletteControl();
+            this.tpnlTilesetOptions = new System.Windows.Forms.TableLayoutPanel();
             this.pnlSelectedTile = new SMSTileStudio.Controls.TileControl();
+            this.btnTilesetOptions = new System.Windows.Forms.Button();
             this.btnSwapSelectedPixel = new System.Windows.Forms.Button();
-            this.lblTile = new System.Windows.Forms.Label();
+            this.pnlSprPalette = new SMSTileStudio.Controls.PaletteControl();
             this.lblTilesetCompression = new System.Windows.Forms.Label();
+            this.lblSelectedTile = new System.Windows.Forms.Label();
             this.cbTilesetCompression = new System.Windows.Forms.ComboBox();
-            this.lblSprPalette = new System.Windows.Forms.Label();
             this.cbSprPalette = new System.Windows.Forms.ComboBox();
+            this.lblSprPalette = new System.Windows.Forms.Label();
             this.pnlTilesetEditContainer = new System.Windows.Forms.Panel();
             this.pnlTilesetEdit = new SMSTileStudio.Controls.TilesetImageControl();
+            this.flpnlTilesetTools = new System.Windows.Forms.FlowLayoutPanel();
+            this.chkTilesetGrid = new System.Windows.Forms.CheckBox();
+            this.chkTilesetShowTileIds = new System.Windows.Forms.CheckBox();
             this.lblDefault = new System.Windows.Forms.Label();
             this.mnuExport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuExportTileset = new System.Windows.Forms.ToolStripMenuItem();
@@ -138,9 +138,10 @@
             this.mnuTilesetExportBinaries = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportMetaSprite = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMetaSpriteExportBinary = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMetaSpriteExportDKSMSBinary = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuMetaSpriteExportDKSMSText = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportMetaSpriteCollisionDataOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportMetaSpriteSpriteDataOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuMetaSpriteExportDKSMSText = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuImportTilesetSprite = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImportStreamed = new System.Windows.Forms.ToolStripMenuItem();
@@ -152,20 +153,27 @@
             this.mnuMoveFrameRight = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDeleteFrame = new System.Windows.Forms.ToolStripMenuItem();
             this.tipMain = new System.Windows.Forms.ToolTip(this.components);
-            this.mnuMetaSpriteExportDKSMSBinary = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTilesetOptions = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuAddTile = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTilesetCopyTile = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTilesetPasteTile = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuDeselectTile = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuRemoveTile = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
-            this.grpSpriteList.SuspendLayout();
-            this.pnlPaletteButtons.SuspendLayout();
-            this.pnlMetaSpriteOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTileMinimum)).BeginInit();
+            this.grpSprites.SuspendLayout();
+            this.tpnlMetaSprites.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudOffset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTileMinimum)).BeginInit();
             this.pnlFrames.SuspendLayout();
             this.pnlSpriteListTools.SuspendLayout();
+            this.tpnlCurrentFrame.SuspendLayout();
             this.pnlContent.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tabSpriteEdit.SuspendLayout();
             this.tpnlSprite.SuspendLayout();
             this.pnlMetaSpriteProperties.SuspendLayout();
+            this.tpnlMetaSpriteOptions.SuspendLayout();
             this.tabSpritesRects.SuspendLayout();
             this.tabSprites.SuspendLayout();
             this.pnlSpriteProperties.SuspendLayout();
@@ -180,18 +188,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudCollisionHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCollisionWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCollisionX)).BeginInit();
-            this.pnlSpriteOptions.SuspendLayout();
             this.pnlSpriteEditorContainer.SuspendLayout();
             this.pnlPosition.SuspendLayout();
             this.pnlTools.SuspendLayout();
             this.pnlInfo.SuspendLayout();
             this.tabTilesetEdit.SuspendLayout();
             this.tpnlTileset.SuspendLayout();
-            this.pnlTilesetProperties.SuspendLayout();
+            this.tpnlTilesetOptions.SuspendLayout();
             this.pnlTilesetEditContainer.SuspendLayout();
+            this.flpnlTilesetTools.SuspendLayout();
             this.mnuExport.SuspendLayout();
             this.mnuImport.SuspendLayout();
             this.mnuFrameOptions.SuspendLayout();
+            this.mnuTilesetOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // tpnlMain
@@ -200,7 +209,7 @@
             this.tpnlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 196F));
             this.tpnlMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tpnlMain.Controls.Add(this.lblEmpty, 0, 1);
-            this.tpnlMain.Controls.Add(this.grpSpriteList, 0, 0);
+            this.tpnlMain.Controls.Add(this.grpSprites, 0, 0);
             this.tpnlMain.Controls.Add(this.pnlContent, 1, 0);
             this.tpnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tpnlMain.Location = new System.Drawing.Point(0, 0);
@@ -208,7 +217,7 @@
             this.tpnlMain.RowCount = 2;
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tpnlMain.Size = new System.Drawing.Size(890, 583);
+            this.tpnlMain.Size = new System.Drawing.Size(770, 505);
             this.tpnlMain.TabIndex = 4;
             // 
             // lblEmpty
@@ -216,254 +225,188 @@
             this.tpnlMain.SetColumnSpan(this.lblEmpty, 2);
             this.lblEmpty.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblEmpty.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmpty.Location = new System.Drawing.Point(3, 557);
+            this.lblEmpty.Location = new System.Drawing.Point(3, 479);
             this.lblEmpty.Name = "lblEmpty";
-            this.lblEmpty.Size = new System.Drawing.Size(884, 26);
+            this.lblEmpty.Size = new System.Drawing.Size(764, 26);
             this.lblEmpty.TabIndex = 3;
             this.lblEmpty.Text = "No Meta Sprite information";
             this.lblEmpty.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // grpSpriteList
+            // grpSprites
             // 
-            this.grpSpriteList.Controls.Add(this.lstMetaSprites);
-            this.grpSpriteList.Controls.Add(this.pnlPaletteButtons);
-            this.grpSpriteList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grpSpriteList.Location = new System.Drawing.Point(0, 0);
-            this.grpSpriteList.Margin = new System.Windows.Forms.Padding(0);
-            this.grpSpriteList.Name = "grpSpriteList";
-            this.grpSpriteList.Padding = new System.Windows.Forms.Padding(12, 4, 12, 12);
-            this.grpSpriteList.Size = new System.Drawing.Size(196, 557);
-            this.grpSpriteList.TabIndex = 0;
-            this.grpSpriteList.TabStop = false;
-            this.grpSpriteList.Text = "Meta Sprites";
+            this.grpSprites.Controls.Add(this.tpnlMetaSprites);
+            this.grpSprites.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpSprites.Location = new System.Drawing.Point(0, 0);
+            this.grpSprites.Margin = new System.Windows.Forms.Padding(0);
+            this.grpSprites.Name = "grpSprites";
+            this.grpSprites.Padding = new System.Windows.Forms.Padding(12, 4, 12, 12);
+            this.grpSprites.Size = new System.Drawing.Size(196, 479);
+            this.grpSprites.TabIndex = 0;
+            this.grpSprites.TabStop = false;
+            this.grpSprites.Text = "Meta Sprites";
             // 
-            // lstMetaSprites
+            // tpnlMetaSprites
             // 
-            this.lstMetaSprites.DisableHighlighting = false;
-            this.lstMetaSprites.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lstMetaSprites.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.lstMetaSprites.FormattingEnabled = true;
-            this.lstMetaSprites.HorizontalExtent = 168;
-            this.lstMetaSprites.IntegralHeight = false;
-            this.lstMetaSprites.Location = new System.Drawing.Point(12, 280);
-            this.lstMetaSprites.Name = "lstMetaSprites";
-            this.lstMetaSprites.Size = new System.Drawing.Size(172, 265);
-            this.lstMetaSprites.TabIndex = 1;
-            this.lstMetaSprites.TextOffsetX = 2;
-            this.lstMetaSprites.TextOffsetY = 0;
-            this.lstMetaSprites.SelectedIndexChanged += new System.EventHandler(this.lstMetaSprites_SelectedIndexChanged);
-            // 
-            // pnlPaletteButtons
-            // 
-            this.pnlPaletteButtons.Controls.Add(this.btnExport);
-            this.pnlPaletteButtons.Controls.Add(this.btnImport);
-            this.pnlPaletteButtons.Controls.Add(this.btnRemove);
-            this.pnlPaletteButtons.Controls.Add(this.btnMirror);
-            this.pnlPaletteButtons.Controls.Add(this.btnDuplicate);
-            this.pnlPaletteButtons.Controls.Add(this.btnNew);
-            this.pnlPaletteButtons.Controls.Add(this.pnlMetaSpriteOptions);
-            this.pnlPaletteButtons.Controls.Add(this.pnlFrames);
-            this.pnlPaletteButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlPaletteButtons.Location = new System.Drawing.Point(12, 19);
-            this.pnlPaletteButtons.Name = "pnlPaletteButtons";
-            this.pnlPaletteButtons.Size = new System.Drawing.Size(172, 261);
-            this.pnlPaletteButtons.TabIndex = 0;
+            this.tpnlMetaSprites.ColumnCount = 2;
+            this.tpnlMetaSprites.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlMetaSprites.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlMetaSprites.Controls.Add(this.btnExport, 0, 11);
+            this.tpnlMetaSprites.Controls.Add(this.nudOffset, 1, 5);
+            this.tpnlMetaSprites.Controls.Add(this.lstMetaSprites, 0, 12);
+            this.tpnlMetaSprites.Controls.Add(this.btnImport, 0, 10);
+            this.tpnlMetaSprites.Controls.Add(this.lblOffset, 1, 4);
+            this.tpnlMetaSprites.Controls.Add(this.btnRemove, 0, 9);
+            this.tpnlMetaSprites.Controls.Add(this.nudTileMinimum, 0, 5);
+            this.tpnlMetaSprites.Controls.Add(this.btnMirror, 0, 8);
+            this.tpnlMetaSprites.Controls.Add(this.pnlFrames, 0, 0);
+            this.tpnlMetaSprites.Controls.Add(this.btnDuplicate, 0, 7);
+            this.tpnlMetaSprites.Controls.Add(this.btnNew, 0, 6);
+            this.tpnlMetaSprites.Controls.Add(this.chkMetaSpriteType, 0, 3);
+            this.tpnlMetaSprites.Controls.Add(this.lblTileMinimum, 0, 4);
+            this.tpnlMetaSprites.Controls.Add(this.chkSpriteType, 0, 2);
+            this.tpnlMetaSprites.Controls.Add(this.tpnlCurrentFrame, 0, 1);
+            this.tpnlMetaSprites.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlMetaSprites.Location = new System.Drawing.Point(12, 19);
+            this.tpnlMetaSprites.Name = "tpnlMetaSprites";
+            this.tpnlMetaSprites.RowCount = 13;
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSprites.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlMetaSprites.Size = new System.Drawing.Size(172, 448);
+            this.tpnlMetaSprites.TabIndex = 2;
             // 
             // btnExport
             // 
-            this.btnExport.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnExport.Location = new System.Drawing.Point(0, 235);
-            this.btnExport.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlMetaSprites.SetColumnSpan(this.btnExport, 2);
+            this.btnExport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExport.Location = new System.Drawing.Point(2, 241);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(172, 23);
+            this.btnExport.Size = new System.Drawing.Size(168, 24);
             this.btnExport.TabIndex = 8;
             this.btnExport.Text = "Export Options";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnMetaSprite_Click);
             // 
-            // btnImport
-            // 
-            this.btnImport.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnImport.Location = new System.Drawing.Point(0, 212);
-            this.btnImport.Margin = new System.Windows.Forms.Padding(0);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(172, 23);
-            this.btnImport.TabIndex = 3;
-            this.btnImport.Text = "Import Graphics";
-            this.btnImport.UseVisualStyleBackColor = true;
-            this.btnImport.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnRemove.Location = new System.Drawing.Point(0, 189);
-            this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(172, 23);
-            this.btnRemove.TabIndex = 1;
-            this.btnRemove.Text = "Remove Meta Sprite";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // btnMirror
-            // 
-            this.btnMirror.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnMirror.Location = new System.Drawing.Point(0, 166);
-            this.btnMirror.Name = "btnMirror";
-            this.btnMirror.Size = new System.Drawing.Size(172, 23);
-            this.btnMirror.TabIndex = 35;
-            this.btnMirror.Text = "Mirror Meta Sprite";
-            this.btnMirror.UseVisualStyleBackColor = true;
-            this.btnMirror.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // btnDuplicate
-            // 
-            this.btnDuplicate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnDuplicate.Location = new System.Drawing.Point(0, 143);
-            this.btnDuplicate.Name = "btnDuplicate";
-            this.btnDuplicate.Size = new System.Drawing.Size(172, 23);
-            this.btnDuplicate.TabIndex = 7;
-            this.btnDuplicate.Text = "Duplicate Meta Sprite";
-            this.btnDuplicate.UseVisualStyleBackColor = true;
-            this.btnDuplicate.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // btnNew
-            // 
-            this.btnNew.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnNew.Location = new System.Drawing.Point(0, 120);
-            this.btnNew.Margin = new System.Windows.Forms.Padding(0);
-            this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(172, 23);
-            this.btnNew.TabIndex = 0;
-            this.btnNew.Text = "New Meta Sprite";
-            this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // pnlMetaSpriteOptions
-            // 
-            this.pnlMetaSpriteOptions.Controls.Add(this.chkMetaSpriteType);
-            this.pnlMetaSpriteOptions.Controls.Add(this.nudTileMinimum);
-            this.pnlMetaSpriteOptions.Controls.Add(this.lblTileMinimum);
-            this.pnlMetaSpriteOptions.Controls.Add(this.lblOffset);
-            this.pnlMetaSpriteOptions.Controls.Add(this.nudOffset);
-            this.pnlMetaSpriteOptions.Controls.Add(this.chkSpriteType);
-            this.pnlMetaSpriteOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlMetaSpriteOptions.Location = new System.Drawing.Point(0, 40);
-            this.pnlMetaSpriteOptions.Name = "pnlMetaSpriteOptions";
-            this.pnlMetaSpriteOptions.Size = new System.Drawing.Size(172, 80);
-            this.pnlMetaSpriteOptions.TabIndex = 34;
-            // 
-            // chkMetaSpriteType
-            // 
-            this.chkMetaSpriteType.AutoSize = true;
-            this.chkMetaSpriteType.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chkMetaSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMetaSpriteType.ForeColor = System.Drawing.Color.SlateBlue;
-            this.chkMetaSpriteType.Location = new System.Drawing.Point(0, 17);
-            this.chkMetaSpriteType.Name = "chkMetaSpriteType";
-            this.chkMetaSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.chkMetaSpriteType.Size = new System.Drawing.Size(172, 17);
-            this.chkMetaSpriteType.TabIndex = 28;
-            this.chkMetaSpriteType.Text = "Meta Sprite Type: N/A";
-            this.chkMetaSpriteType.UseVisualStyleBackColor = true;
-            this.chkMetaSpriteType.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
-            // 
-            // nudTileMinimum
-            // 
-            this.nudTileMinimum.Location = new System.Drawing.Point(4, 52);
-            this.nudTileMinimum.Maximum = new decimal(new int[] {
-            512,
-            0,
-            0,
-            0});
-            this.nudTileMinimum.Name = "nudTileMinimum";
-            this.nudTileMinimum.Size = new System.Drawing.Size(76, 22);
-            this.nudTileMinimum.TabIndex = 25;
-            this.nudTileMinimum.ValueChanged += new System.EventHandler(this.nudMetaSprite_ValueChanged);
-            // 
-            // lblTileMinimum
-            // 
-            this.lblTileMinimum.AutoSize = true;
-            this.lblTileMinimum.Location = new System.Drawing.Point(2, 36);
-            this.lblTileMinimum.Margin = new System.Windows.Forms.Padding(0);
-            this.lblTileMinimum.Name = "lblTileMinimum";
-            this.lblTileMinimum.Size = new System.Drawing.Size(78, 13);
-            this.lblTileMinimum.TabIndex = 24;
-            this.lblTileMinimum.Text = "Tile Minimum:";
-            this.lblTileMinimum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblOffset
-            // 
-            this.lblOffset.AutoSize = true;
-            this.lblOffset.Location = new System.Drawing.Point(88, 36);
-            this.lblOffset.Margin = new System.Windows.Forms.Padding(0);
-            this.lblOffset.Name = "lblOffset";
-            this.lblOffset.Size = new System.Drawing.Size(62, 13);
-            this.lblOffset.TabIndex = 22;
-            this.lblOffset.Text = "Tile Offset:";
-            this.lblOffset.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // nudOffset
             // 
-            this.nudOffset.Location = new System.Drawing.Point(88, 52);
+            this.nudOffset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudOffset.Location = new System.Drawing.Point(88, 98);
+            this.nudOffset.Margin = new System.Windows.Forms.Padding(2);
             this.nudOffset.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.nudOffset.Name = "nudOffset";
-            this.nudOffset.Size = new System.Drawing.Size(76, 22);
+            this.nudOffset.Size = new System.Drawing.Size(82, 22);
             this.nudOffset.TabIndex = 23;
             this.nudOffset.ValueChanged += new System.EventHandler(this.nudMetaSprite_ValueChanged);
             // 
-            // chkSpriteType
+            // lstMetaSprites
             // 
-            this.chkSpriteType.AutoSize = true;
-            this.chkSpriteType.Dock = System.Windows.Forms.DockStyle.Top;
-            this.chkSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkSpriteType.ForeColor = System.Drawing.Color.DeepPink;
-            this.chkSpriteType.Location = new System.Drawing.Point(0, 0);
-            this.chkSpriteType.Name = "chkSpriteType";
-            this.chkSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.chkSpriteType.Size = new System.Drawing.Size(172, 17);
-            this.chkSpriteType.TabIndex = 27;
-            this.chkSpriteType.Text = "Sprite Type: N/A";
-            this.chkSpriteType.UseVisualStyleBackColor = true;
-            this.chkSpriteType.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            this.tpnlMetaSprites.SetColumnSpan(this.lstMetaSprites, 2);
+            this.lstMetaSprites.DisableHighlighting = false;
+            this.lstMetaSprites.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstMetaSprites.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.lstMetaSprites.FormattingEnabled = true;
+            this.lstMetaSprites.HorizontalExtent = 162;
+            this.lstMetaSprites.IntegralHeight = false;
+            this.lstMetaSprites.Location = new System.Drawing.Point(3, 268);
+            this.lstMetaSprites.Name = "lstMetaSprites";
+            this.lstMetaSprites.Size = new System.Drawing.Size(166, 177);
+            this.lstMetaSprites.TabIndex = 1;
+            this.lstMetaSprites.TextOffsetX = 2;
+            this.lstMetaSprites.TextOffsetY = 0;
+            this.lstMetaSprites.SelectedIndexChanged += new System.EventHandler(this.lstMetaSprites_SelectedIndexChanged);
+            // 
+            // btnImport
+            // 
+            this.tpnlMetaSprites.SetColumnSpan(this.btnImport, 2);
+            this.btnImport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnImport.Location = new System.Drawing.Point(2, 217);
+            this.btnImport.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(168, 24);
+            this.btnImport.TabIndex = 3;
+            this.btnImport.Text = "Import Graphics";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnMetaSprite_Click);
+            // 
+            // lblOffset
+            // 
+            this.lblOffset.AutoSize = true;
+            this.lblOffset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblOffset.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOffset.Location = new System.Drawing.Point(86, 78);
+            this.lblOffset.Margin = new System.Windows.Forms.Padding(0);
+            this.lblOffset.Name = "lblOffset";
+            this.lblOffset.Size = new System.Drawing.Size(86, 18);
+            this.lblOffset.TabIndex = 22;
+            this.lblOffset.Text = "Tile Offset:";
+            this.lblOffset.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnRemove
+            // 
+            this.tpnlMetaSprites.SetColumnSpan(this.btnRemove, 2);
+            this.btnRemove.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRemove.Location = new System.Drawing.Point(2, 193);
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(168, 24);
+            this.btnRemove.TabIndex = 1;
+            this.btnRemove.Text = "Remove Meta Sprite";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnMetaSprite_Click);
+            // 
+            // nudTileMinimum
+            // 
+            this.nudTileMinimum.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudTileMinimum.Location = new System.Drawing.Point(2, 98);
+            this.nudTileMinimum.Margin = new System.Windows.Forms.Padding(2);
+            this.nudTileMinimum.Maximum = new decimal(new int[] {
+            512,
+            0,
+            0,
+            0});
+            this.nudTileMinimum.Name = "nudTileMinimum";
+            this.nudTileMinimum.Size = new System.Drawing.Size(82, 22);
+            this.nudTileMinimum.TabIndex = 25;
+            this.nudTileMinimum.ValueChanged += new System.EventHandler(this.nudMetaSprite_ValueChanged);
+            // 
+            // btnMirror
+            // 
+            this.tpnlMetaSprites.SetColumnSpan(this.btnMirror, 2);
+            this.btnMirror.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnMirror.Location = new System.Drawing.Point(2, 169);
+            this.btnMirror.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnMirror.Name = "btnMirror";
+            this.btnMirror.Size = new System.Drawing.Size(168, 24);
+            this.btnMirror.TabIndex = 35;
+            this.btnMirror.Text = "Mirror Meta Sprite";
+            this.btnMirror.UseVisualStyleBackColor = true;
+            this.btnMirror.Click += new System.EventHandler(this.btnMetaSprite_Click);
             // 
             // pnlFrames
             // 
-            this.pnlFrames.Controls.Add(this.lblCurrentFrameValue);
-            this.pnlFrames.Controls.Add(this.lblCurrentFrame);
+            this.tpnlMetaSprites.SetColumnSpan(this.pnlFrames, 2);
             this.pnlFrames.Controls.Add(this.pnlSpriteListTools);
-            this.pnlFrames.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlFrames.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlFrames.Location = new System.Drawing.Point(0, 0);
+            this.pnlFrames.Margin = new System.Windows.Forms.Padding(0);
             this.pnlFrames.Name = "pnlFrames";
-            this.pnlFrames.Size = new System.Drawing.Size(172, 40);
+            this.pnlFrames.Size = new System.Drawing.Size(172, 20);
             this.pnlFrames.TabIndex = 33;
-            // 
-            // lblCurrentFrameValue
-            // 
-            this.lblCurrentFrameValue.AutoSize = true;
-            this.lblCurrentFrameValue.Location = new System.Drawing.Point(87, 24);
-            this.lblCurrentFrameValue.Margin = new System.Windows.Forms.Padding(0);
-            this.lblCurrentFrameValue.Name = "lblCurrentFrameValue";
-            this.lblCurrentFrameValue.Size = new System.Drawing.Size(29, 13);
-            this.lblCurrentFrameValue.TabIndex = 26;
-            this.lblCurrentFrameValue.Text = "0 / 0";
-            this.lblCurrentFrameValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblCurrentFrame
-            // 
-            this.lblCurrentFrame.AutoSize = true;
-            this.lblCurrentFrame.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentFrame.Location = new System.Drawing.Point(1, 24);
-            this.lblCurrentFrame.Margin = new System.Windows.Forms.Padding(0);
-            this.lblCurrentFrame.Name = "lblCurrentFrame";
-            this.lblCurrentFrame.Size = new System.Drawing.Size(84, 13);
-            this.lblCurrentFrame.TabIndex = 25;
-            this.lblCurrentFrame.Text = "Current Frame:";
-            this.lblCurrentFrame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pnlSpriteListTools
             // 
@@ -479,6 +422,7 @@
             // lblSpriteFrame
             // 
             this.lblSpriteFrame.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSpriteFrame.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSpriteFrame.Location = new System.Drawing.Point(21, 0);
             this.lblSpriteFrame.Name = "lblSpriteFrame";
             this.lblSpriteFrame.Size = new System.Drawing.Size(130, 21);
@@ -510,6 +454,120 @@
             this.btnNextFrame.UseVisualStyleBackColor = true;
             this.btnNextFrame.Click += new System.EventHandler(this.btnMetaSprite_Click);
             // 
+            // btnDuplicate
+            // 
+            this.tpnlMetaSprites.SetColumnSpan(this.btnDuplicate, 2);
+            this.btnDuplicate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDuplicate.Location = new System.Drawing.Point(2, 145);
+            this.btnDuplicate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnDuplicate.Name = "btnDuplicate";
+            this.btnDuplicate.Size = new System.Drawing.Size(168, 24);
+            this.btnDuplicate.TabIndex = 7;
+            this.btnDuplicate.Text = "Duplicate Meta Sprite";
+            this.btnDuplicate.UseVisualStyleBackColor = true;
+            this.btnDuplicate.Click += new System.EventHandler(this.btnMetaSprite_Click);
+            // 
+            // btnNew
+            // 
+            this.tpnlMetaSprites.SetColumnSpan(this.btnNew, 2);
+            this.btnNew.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNew.Location = new System.Drawing.Point(2, 121);
+            this.btnNew.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnNew.Name = "btnNew";
+            this.btnNew.Size = new System.Drawing.Size(168, 24);
+            this.btnNew.TabIndex = 0;
+            this.btnNew.Text = "New Meta Sprite";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnMetaSprite_Click);
+            // 
+            // chkMetaSpriteType
+            // 
+            this.chkMetaSpriteType.AutoSize = true;
+            this.tpnlMetaSprites.SetColumnSpan(this.chkMetaSpriteType, 2);
+            this.chkMetaSpriteType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkMetaSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkMetaSpriteType.ForeColor = System.Drawing.Color.SlateBlue;
+            this.chkMetaSpriteType.Location = new System.Drawing.Point(2, 60);
+            this.chkMetaSpriteType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
+            this.chkMetaSpriteType.Name = "chkMetaSpriteType";
+            this.chkMetaSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.chkMetaSpriteType.Size = new System.Drawing.Size(168, 18);
+            this.chkMetaSpriteType.TabIndex = 28;
+            this.chkMetaSpriteType.Text = "Sprite Type: N/A";
+            this.chkMetaSpriteType.UseVisualStyleBackColor = true;
+            this.chkMetaSpriteType.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            // 
+            // lblTileMinimum
+            // 
+            this.lblTileMinimum.AutoSize = true;
+            this.lblTileMinimum.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTileMinimum.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTileMinimum.Location = new System.Drawing.Point(0, 78);
+            this.lblTileMinimum.Margin = new System.Windows.Forms.Padding(0);
+            this.lblTileMinimum.Name = "lblTileMinimum";
+            this.lblTileMinimum.Size = new System.Drawing.Size(86, 18);
+            this.lblTileMinimum.TabIndex = 24;
+            this.lblTileMinimum.Text = "Tile Minimum:";
+            this.lblTileMinimum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // chkSpriteType
+            // 
+            this.chkSpriteType.AutoSize = true;
+            this.tpnlMetaSprites.SetColumnSpan(this.chkSpriteType, 2);
+            this.chkSpriteType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkSpriteType.ForeColor = System.Drawing.Color.DeepPink;
+            this.chkSpriteType.Location = new System.Drawing.Point(2, 40);
+            this.chkSpriteType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
+            this.chkSpriteType.Name = "chkSpriteType";
+            this.chkSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.chkSpriteType.Size = new System.Drawing.Size(168, 18);
+            this.chkSpriteType.TabIndex = 27;
+            this.chkSpriteType.Text = "Sprite Size: N/A";
+            this.chkSpriteType.UseVisualStyleBackColor = true;
+            this.chkSpriteType.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            // 
+            // tpnlCurrentFrame
+            // 
+            this.tpnlCurrentFrame.ColumnCount = 2;
+            this.tpnlMetaSprites.SetColumnSpan(this.tpnlCurrentFrame, 2);
+            this.tpnlCurrentFrame.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.18182F));
+            this.tpnlCurrentFrame.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.81818F));
+            this.tpnlCurrentFrame.Controls.Add(this.lblCurrentFrame, 0, 0);
+            this.tpnlCurrentFrame.Controls.Add(this.lblCurrentFrameValue, 1, 0);
+            this.tpnlCurrentFrame.Location = new System.Drawing.Point(0, 20);
+            this.tpnlCurrentFrame.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlCurrentFrame.Name = "tpnlCurrentFrame";
+            this.tpnlCurrentFrame.RowCount = 1;
+            this.tpnlCurrentFrame.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlCurrentFrame.Size = new System.Drawing.Size(172, 18);
+            this.tpnlCurrentFrame.TabIndex = 36;
+            // 
+            // lblCurrentFrame
+            // 
+            this.lblCurrentFrame.AutoSize = true;
+            this.lblCurrentFrame.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblCurrentFrame.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentFrame.Location = new System.Drawing.Point(2, 2);
+            this.lblCurrentFrame.Margin = new System.Windows.Forms.Padding(2);
+            this.lblCurrentFrame.Name = "lblCurrentFrame";
+            this.lblCurrentFrame.Size = new System.Drawing.Size(113, 14);
+            this.lblCurrentFrame.TabIndex = 25;
+            this.lblCurrentFrame.Text = "Current Frame:";
+            this.lblCurrentFrame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCurrentFrameValue
+            // 
+            this.lblCurrentFrameValue.AutoSize = true;
+            this.lblCurrentFrameValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblCurrentFrameValue.Location = new System.Drawing.Point(117, 0);
+            this.lblCurrentFrameValue.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCurrentFrameValue.Name = "lblCurrentFrameValue";
+            this.lblCurrentFrameValue.Size = new System.Drawing.Size(55, 18);
+            this.lblCurrentFrameValue.TabIndex = 26;
+            this.lblCurrentFrameValue.Text = "0 / 0";
+            this.lblCurrentFrameValue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // pnlContent
             // 
             this.pnlContent.Controls.Add(this.tabMain);
@@ -517,7 +575,7 @@
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlContent.Location = new System.Drawing.Point(199, 3);
             this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Size = new System.Drawing.Size(688, 551);
+            this.pnlContent.Size = new System.Drawing.Size(568, 473);
             this.pnlContent.TabIndex = 1;
             // 
             // tabMain
@@ -529,7 +587,7 @@
             this.tabMain.Margin = new System.Windows.Forms.Padding(0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(688, 551);
+            this.tabMain.Size = new System.Drawing.Size(568, 473);
             this.tabMain.TabIndex = 0;
             this.tabMain.Visible = false;
             // 
@@ -540,7 +598,7 @@
             this.tabSpriteEdit.Location = new System.Drawing.Point(4, 22);
             this.tabSpriteEdit.Name = "tabSpriteEdit";
             this.tabSpriteEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSpriteEdit.Size = new System.Drawing.Size(680, 525);
+            this.tabSpriteEdit.Size = new System.Drawing.Size(560, 447);
             this.tabSpriteEdit.TabIndex = 0;
             this.tabSpriteEdit.Text = "Meta Sprite Edit";
             // 
@@ -556,21 +614,51 @@
             this.tpnlSprite.Name = "tpnlSprite";
             this.tpnlSprite.RowCount = 1;
             this.tpnlSprite.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlSprite.Size = new System.Drawing.Size(674, 519);
+            this.tpnlSprite.Size = new System.Drawing.Size(554, 441);
             this.tpnlSprite.TabIndex = 0;
             // 
             // pnlMetaSpriteProperties
             // 
             this.pnlMetaSpriteProperties.BackColor = System.Drawing.SystemColors.Control;
-            this.pnlMetaSpriteProperties.Controls.Add(this.tabSpritesRects);
-            this.pnlMetaSpriteProperties.Controls.Add(this.pnlSpriteOptions);
+            this.pnlMetaSpriteProperties.Controls.Add(this.tpnlMetaSpriteOptions);
             this.pnlMetaSpriteProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMetaSpriteProperties.Location = new System.Drawing.Point(476, 0);
+            this.pnlMetaSpriteProperties.Location = new System.Drawing.Point(356, 0);
             this.pnlMetaSpriteProperties.Margin = new System.Windows.Forms.Padding(0);
             this.pnlMetaSpriteProperties.Name = "pnlMetaSpriteProperties";
             this.pnlMetaSpriteProperties.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.pnlMetaSpriteProperties.Size = new System.Drawing.Size(198, 519);
+            this.pnlMetaSpriteProperties.Size = new System.Drawing.Size(198, 441);
             this.pnlMetaSpriteProperties.TabIndex = 4;
+            // 
+            // tpnlMetaSpriteOptions
+            // 
+            this.tpnlMetaSpriteOptions.ColumnCount = 1;
+            this.tpnlMetaSpriteOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlMetaSpriteOptions.Controls.Add(this.btnFrameOptions, 0, 0);
+            this.tpnlMetaSpriteOptions.Controls.Add(this.tabSpritesRects, 0, 3);
+            this.tpnlMetaSpriteOptions.Controls.Add(this.lblName, 0, 1);
+            this.tpnlMetaSpriteOptions.Controls.Add(this.txtName, 0, 2);
+            this.tpnlMetaSpriteOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlMetaSpriteOptions.Location = new System.Drawing.Point(8, 0);
+            this.tpnlMetaSpriteOptions.Name = "tpnlMetaSpriteOptions";
+            this.tpnlMetaSpriteOptions.RowCount = 4;
+            this.tpnlMetaSpriteOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSpriteOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlMetaSpriteOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlMetaSpriteOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlMetaSpriteOptions.Size = new System.Drawing.Size(190, 441);
+            this.tpnlMetaSpriteOptions.TabIndex = 22;
+            // 
+            // btnFrameOptions
+            // 
+            this.btnFrameOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFrameOptions.Location = new System.Drawing.Point(2, 0);
+            this.btnFrameOptions.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnFrameOptions.Name = "btnFrameOptions";
+            this.btnFrameOptions.Size = new System.Drawing.Size(186, 24);
+            this.btnFrameOptions.TabIndex = 2;
+            this.btnFrameOptions.Text = "Frame Options";
+            this.btnFrameOptions.UseVisualStyleBackColor = true;
+            this.btnFrameOptions.Click += new System.EventHandler(this.btnMetaSprite_Click);
             // 
             // tabSpritesRects
             // 
@@ -578,10 +666,10 @@
             this.tabSpritesRects.Controls.Add(this.tabTiles);
             this.tabSpritesRects.Controls.Add(this.tabCollisions);
             this.tabSpritesRects.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabSpritesRects.Location = new System.Drawing.Point(8, 68);
+            this.tabSpritesRects.Location = new System.Drawing.Point(3, 69);
             this.tabSpritesRects.Name = "tabSpritesRects";
             this.tabSpritesRects.SelectedIndex = 0;
-            this.tabSpritesRects.Size = new System.Drawing.Size(190, 451);
+            this.tabSpritesRects.Size = new System.Drawing.Size(184, 369);
             this.tabSpritesRects.TabIndex = 21;
             // 
             // tabSprites
@@ -592,7 +680,7 @@
             this.tabSprites.Location = new System.Drawing.Point(4, 22);
             this.tabSprites.Name = "tabSprites";
             this.tabSprites.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSprites.Size = new System.Drawing.Size(182, 425);
+            this.tabSprites.Size = new System.Drawing.Size(176, 343);
             this.tabSprites.TabIndex = 0;
             this.tabSprites.Text = "Sprites";
             // 
@@ -602,12 +690,12 @@
             this.lstSprites.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstSprites.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstSprites.FormattingEnabled = true;
-            this.lstSprites.HorizontalExtent = 172;
+            this.lstSprites.HorizontalExtent = 166;
             this.lstSprites.IntegralHeight = false;
             this.lstSprites.Location = new System.Drawing.Point(3, 160);
             this.lstSprites.Name = "lstSprites";
             this.lstSprites.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lstSprites.Size = new System.Drawing.Size(176, 262);
+            this.lstSprites.Size = new System.Drawing.Size(170, 180);
             this.lstSprites.TabIndex = 19;
             this.lstSprites.TextOffsetX = 2;
             this.lstSprites.TextOffsetY = 0;
@@ -634,7 +722,7 @@
             this.pnlSpriteProperties.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlSpriteProperties.Location = new System.Drawing.Point(3, 3);
             this.pnlSpriteProperties.Name = "pnlSpriteProperties";
-            this.pnlSpriteProperties.Size = new System.Drawing.Size(176, 157);
+            this.pnlSpriteProperties.Size = new System.Drawing.Size(170, 157);
             this.pnlSpriteProperties.TabIndex = 24;
             // 
             // lblAdjustSelected
@@ -840,7 +928,7 @@
             this.tabTiles.Location = new System.Drawing.Point(4, 22);
             this.tabTiles.Name = "tabTiles";
             this.tabTiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTiles.Size = new System.Drawing.Size(182, 425);
+            this.tabTiles.Size = new System.Drawing.Size(176, 343);
             this.tabTiles.TabIndex = 2;
             this.tabTiles.Text = "Tiles";
             // 
@@ -848,7 +936,7 @@
             // 
             this.pnlTiles.AllowSelection = true;
             this.pnlTiles.AutoScroll = true;
-            this.pnlTiles.AutoScrollMinSize = new System.Drawing.Size(477, 1206);
+            this.pnlTiles.AutoScrollMinSize = new System.Drawing.Size(459, 960);
             this.pnlTiles.Canvas = new System.Drawing.Size(8, 8);
             this.pnlTiles.Centered = false;
             this.pnlTiles.ClearTileId = true;
@@ -860,12 +948,13 @@
             this.pnlTiles.ImageAlpha = 1F;
             this.pnlTiles.ImageScale = 3;
             this.pnlTiles.Indexed = false;
+            this.pnlTiles.InvertGridColor = false;
             this.pnlTiles.Location = new System.Drawing.Point(3, 3);
             this.pnlTiles.MinimumScale = 1;
             this.pnlTiles.MinimumSize = new System.Drawing.Size(158, 168);
             this.pnlTiles.Name = "pnlTiles";
             this.pnlTiles.Offset = 0;
-            this.pnlTiles.Size = new System.Drawing.Size(176, 419);
+            this.pnlTiles.Size = new System.Drawing.Size(170, 337);
             this.pnlTiles.SnapSize = new System.Drawing.Size(8, 8);
             this.pnlTiles.TabIndex = 33;
             this.pnlTiles.TileCount = 0;
@@ -885,7 +974,7 @@
             this.tabCollisions.Location = new System.Drawing.Point(4, 22);
             this.tabCollisions.Name = "tabCollisions";
             this.tabCollisions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCollisions.Size = new System.Drawing.Size(182, 425);
+            this.tabCollisions.Size = new System.Drawing.Size(176, 343);
             this.tabCollisions.TabIndex = 1;
             this.tabCollisions.Text = "Collisions";
             // 
@@ -895,11 +984,11 @@
             this.lstCollisions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstCollisions.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstCollisions.FormattingEnabled = true;
-            this.lstCollisions.HorizontalExtent = 172;
+            this.lstCollisions.HorizontalExtent = 166;
             this.lstCollisions.IntegralHeight = false;
             this.lstCollisions.Location = new System.Drawing.Point(3, 88);
             this.lstCollisions.Name = "lstCollisions";
-            this.lstCollisions.Size = new System.Drawing.Size(176, 334);
+            this.lstCollisions.Size = new System.Drawing.Size(170, 252);
             this.lstCollisions.TabIndex = 20;
             this.lstCollisions.TextOffsetX = 2;
             this.lstCollisions.TextOffsetY = 0;
@@ -920,7 +1009,7 @@
             this.pnlCollisionProperties.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlCollisionProperties.Location = new System.Drawing.Point(3, 3);
             this.pnlCollisionProperties.Name = "pnlCollisionProperties";
-            this.pnlCollisionProperties.Size = new System.Drawing.Size(176, 85);
+            this.pnlCollisionProperties.Size = new System.Drawing.Size(170, 85);
             this.pnlCollisionProperties.TabIndex = 25;
             // 
             // nudCollisionType
@@ -1063,49 +1152,29 @@
             this.lblCollisionX.Text = "X:";
             this.lblCollisionX.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pnlSpriteOptions
-            // 
-            this.pnlSpriteOptions.Controls.Add(this.btnFrameOptions);
-            this.pnlSpriteOptions.Controls.Add(this.txtName);
-            this.pnlSpriteOptions.Controls.Add(this.lblName);
-            this.pnlSpriteOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlSpriteOptions.Location = new System.Drawing.Point(8, 0);
-            this.pnlSpriteOptions.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.pnlSpriteOptions.Name = "pnlSpriteOptions";
-            this.pnlSpriteOptions.Size = new System.Drawing.Size(190, 68);
-            this.pnlSpriteOptions.TabIndex = 3;
-            // 
-            // btnFrameOptions
-            // 
-            this.btnFrameOptions.Location = new System.Drawing.Point(0, 40);
-            this.btnFrameOptions.Margin = new System.Windows.Forms.Padding(0);
-            this.btnFrameOptions.Name = "btnFrameOptions";
-            this.btnFrameOptions.Size = new System.Drawing.Size(190, 23);
-            this.btnFrameOptions.TabIndex = 2;
-            this.btnFrameOptions.Text = "Frame Options";
-            this.btnFrameOptions.UseVisualStyleBackColor = true;
-            this.btnFrameOptions.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(0, 16);
-            this.txtName.MaxLength = 50;
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(188, 22);
-            this.txtName.TabIndex = 1;
-            this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtName_KeyDown);
-            this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
-            // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(0, 0);
-            this.lblName.Margin = new System.Windows.Forms.Padding(0);
+            this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblName.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(2, 26);
+            this.lblName.Margin = new System.Windows.Forms.Padding(2);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(101, 13);
+            this.lblName.Size = new System.Drawing.Size(186, 14);
             this.lblName.TabIndex = 0;
             this.lblName.Text = "Meta Sprite Name:";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtName
+            // 
+            this.txtName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtName.Location = new System.Drawing.Point(2, 44);
+            this.txtName.Margin = new System.Windows.Forms.Padding(2);
+            this.txtName.MaxLength = 50;
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(186, 22);
+            this.txtName.TabIndex = 1;
+            this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtName_KeyDown);
+            this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
             // 
             // pnlSpriteEditorContainer
             // 
@@ -1117,13 +1186,13 @@
             this.pnlSpriteEditorContainer.Location = new System.Drawing.Point(0, 0);
             this.pnlSpriteEditorContainer.Margin = new System.Windows.Forms.Padding(0);
             this.pnlSpriteEditorContainer.Name = "pnlSpriteEditorContainer";
-            this.pnlSpriteEditorContainer.Size = new System.Drawing.Size(476, 519);
+            this.pnlSpriteEditorContainer.Size = new System.Drawing.Size(356, 441);
             this.pnlSpriteEditorContainer.TabIndex = 5;
             // 
             // pnlMetaSpriteEdit
             // 
             this.pnlMetaSpriteEdit.AutoScroll = true;
-            this.pnlMetaSpriteEdit.AutoScrollMinSize = new System.Drawing.Size(476, 440);
+            this.pnlMetaSpriteEdit.AutoScrollMinSize = new System.Drawing.Size(356, 326);
             this.pnlMetaSpriteEdit.BackColor = System.Drawing.Color.Gray;
             this.pnlMetaSpriteEdit.Canvas = new System.Drawing.Size(8, 8);
             this.pnlMetaSpriteEdit.Centered = true;
@@ -1136,7 +1205,8 @@
             this.pnlMetaSpriteEdit.Image = null;
             this.pnlMetaSpriteEdit.ImageAlpha = 1F;
             this.pnlMetaSpriteEdit.ImageScale = 1;
-            this.pnlMetaSpriteEdit.Location = new System.Drawing.Point(0, 23);
+            this.pnlMetaSpriteEdit.InvertGridColor = false;
+            this.pnlMetaSpriteEdit.Location = new System.Drawing.Point(0, 46);
             this.pnlMetaSpriteEdit.MinimumScale = 1;
             this.pnlMetaSpriteEdit.Name = "pnlMetaSpriteEdit";
             this.pnlMetaSpriteEdit.SelectedSprites = null;
@@ -1144,9 +1214,8 @@
             this.pnlMetaSpriteEdit.ShowOrigin = true;
             this.pnlMetaSpriteEdit.ShowSprites = true;
             this.pnlMetaSpriteEdit.ShowTransparent = true;
-            this.pnlMetaSpriteEdit.Size = new System.Drawing.Size(476, 440);
+            this.pnlMetaSpriteEdit.Size = new System.Drawing.Size(356, 326);
             this.pnlMetaSpriteEdit.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlMetaSpriteEdit.SpriteMode = SMSTileStudio.Data.SpriteModeType.Normal;
             this.pnlMetaSpriteEdit.TabIndex = 7;
             this.pnlMetaSpriteEdit.TileID = 0;
             this.pnlMetaSpriteEdit.UseCanvas = false;
@@ -1162,9 +1231,9 @@
             // 
             this.pnlPosition.Controls.Add(this.lblPosition);
             this.pnlPosition.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlPosition.Location = new System.Drawing.Point(0, 463);
+            this.pnlPosition.Location = new System.Drawing.Point(0, 372);
             this.pnlPosition.Name = "pnlPosition";
-            this.pnlPosition.Size = new System.Drawing.Size(476, 17);
+            this.pnlPosition.Size = new System.Drawing.Size(356, 17);
             this.pnlPosition.TabIndex = 8;
             // 
             // lblPosition
@@ -1172,7 +1241,7 @@
             this.lblPosition.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblPosition.Location = new System.Drawing.Point(0, 0);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(476, 17);
+            this.lblPosition.Size = new System.Drawing.Size(356, 17);
             this.lblPosition.TabIndex = 4;
             this.lblPosition.Text = "Position:";
             this.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1186,10 +1255,11 @@
             this.pnlTools.Controls.Add(this.chkTransparent);
             this.pnlTools.Controls.Add(this.chkGrid);
             this.pnlTools.Controls.Add(this.chkGridSnap);
+            this.pnlTools.Controls.Add(this.chkMetaSpriteInvertGrids);
             this.pnlTools.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTools.Location = new System.Drawing.Point(0, 0);
             this.pnlTools.Name = "pnlTools";
-            this.pnlTools.Size = new System.Drawing.Size(476, 23);
+            this.pnlTools.Size = new System.Drawing.Size(356, 46);
             this.pnlTools.TabIndex = 6;
             // 
             // chkSprites
@@ -1253,7 +1323,7 @@
             this.chkGrid.AutoSize = true;
             this.chkGrid.Checked = true;
             this.chkGrid.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkGrid.Location = new System.Drawing.Point(309, 3);
+            this.chkGrid.Location = new System.Drawing.Point(3, 26);
             this.chkGrid.Name = "chkGrid";
             this.chkGrid.Size = new System.Drawing.Size(48, 17);
             this.chkGrid.TabIndex = 1;
@@ -1267,7 +1337,7 @@
             this.chkGridSnap.AutoSize = true;
             this.chkGridSnap.Checked = true;
             this.chkGridSnap.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkGridSnap.Location = new System.Drawing.Point(363, 3);
+            this.chkGridSnap.Location = new System.Drawing.Point(57, 26);
             this.chkGridSnap.Name = "chkGridSnap";
             this.chkGridSnap.Size = new System.Drawing.Size(77, 17);
             this.chkGridSnap.TabIndex = 0;
@@ -1276,14 +1346,26 @@
             this.chkGridSnap.UseVisualStyleBackColor = true;
             this.chkGridSnap.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
             // 
+            // chkMetaSpriteInvertGrids
+            // 
+            this.chkMetaSpriteInvertGrids.AutoSize = true;
+            this.chkMetaSpriteInvertGrids.Location = new System.Drawing.Point(140, 26);
+            this.chkMetaSpriteInvertGrids.Name = "chkMetaSpriteInvertGrids";
+            this.chkMetaSpriteInvertGrids.Size = new System.Drawing.Size(85, 17);
+            this.chkMetaSpriteInvertGrids.TabIndex = 34;
+            this.chkMetaSpriteInvertGrids.Text = "Invert Grids";
+            this.tipMain.SetToolTip(this.chkMetaSpriteInvertGrids, "Toggle Grid Color (C)");
+            this.chkMetaSpriteInvertGrids.UseVisualStyleBackColor = true;
+            this.chkMetaSpriteInvertGrids.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            // 
             // pnlInfo
             // 
             this.pnlInfo.AutoSize = true;
             this.pnlInfo.Controls.Add(this.lblInfo);
             this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlInfo.Location = new System.Drawing.Point(0, 480);
+            this.pnlInfo.Location = new System.Drawing.Point(0, 389);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(476, 39);
+            this.pnlInfo.Size = new System.Drawing.Size(356, 52);
             this.pnlInfo.TabIndex = 10;
             // 
             // lblInfo
@@ -1292,7 +1374,7 @@
             this.lblInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblInfo.Location = new System.Drawing.Point(3, 0);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(469, 39);
+            this.lblInfo.Size = new System.Drawing.Size(350, 52);
             this.lblInfo.TabIndex = 9;
             this.lblInfo.Text = resources.GetString("lblInfo.Text");
             this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1304,7 +1386,7 @@
             this.tabTilesetEdit.Location = new System.Drawing.Point(4, 22);
             this.tabTilesetEdit.Name = "tabTilesetEdit";
             this.tabTilesetEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTilesetEdit.Size = new System.Drawing.Size(680, 525);
+            this.tabTilesetEdit.Size = new System.Drawing.Size(560, 447);
             this.tabTilesetEdit.TabIndex = 1;
             this.tabTilesetEdit.Text = "Tileset Edit";
             // 
@@ -1313,101 +1395,50 @@
             this.tpnlTileset.ColumnCount = 2;
             this.tpnlTileset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tpnlTileset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tpnlTileset.Controls.Add(this.pnlTilesetProperties, 1, 0);
+            this.tpnlTileset.Controls.Add(this.tpnlTilesetOptions, 1, 0);
             this.tpnlTileset.Controls.Add(this.pnlTilesetEditContainer, 0, 0);
             this.tpnlTileset.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tpnlTileset.Location = new System.Drawing.Point(3, 3);
             this.tpnlTileset.Name = "tpnlTileset";
             this.tpnlTileset.RowCount = 1;
             this.tpnlTileset.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlTileset.Size = new System.Drawing.Size(674, 519);
+            this.tpnlTileset.Size = new System.Drawing.Size(554, 441);
             this.tpnlTileset.TabIndex = 0;
             // 
-            // pnlTilesetProperties
+            // tpnlTilesetOptions
             // 
-            this.pnlTilesetProperties.Controls.Add(this.btnDeselectTile);
-            this.pnlTilesetProperties.Controls.Add(this.chkTilesetGrid);
-            this.pnlTilesetProperties.Controls.Add(this.btnRemoveTile);
-            this.pnlTilesetProperties.Controls.Add(this.chkTilesetIndexes);
-            this.pnlTilesetProperties.Controls.Add(this.btnAddTile);
-            this.pnlTilesetProperties.Controls.Add(this.pnlSprPalette);
-            this.pnlTilesetProperties.Controls.Add(this.pnlSelectedTile);
-            this.pnlTilesetProperties.Controls.Add(this.btnSwapSelectedPixel);
-            this.pnlTilesetProperties.Controls.Add(this.lblTile);
-            this.pnlTilesetProperties.Controls.Add(this.lblTilesetCompression);
-            this.pnlTilesetProperties.Controls.Add(this.cbTilesetCompression);
-            this.pnlTilesetProperties.Controls.Add(this.lblSprPalette);
-            this.pnlTilesetProperties.Controls.Add(this.cbSprPalette);
-            this.pnlTilesetProperties.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTilesetProperties.Location = new System.Drawing.Point(494, 6);
-            this.pnlTilesetProperties.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.pnlTilesetProperties.Name = "pnlTilesetProperties";
-            this.pnlTilesetProperties.Size = new System.Drawing.Size(180, 513);
-            this.pnlTilesetProperties.TabIndex = 3;
-            // 
-            // btnDeselectTile
-            // 
-            this.btnDeselectTile.Location = new System.Drawing.Point(8, 46);
-            this.btnDeselectTile.Name = "btnDeselectTile";
-            this.btnDeselectTile.Size = new System.Drawing.Size(168, 23);
-            this.btnDeselectTile.TabIndex = 22;
-            this.btnDeselectTile.Text = "Deselect Tile";
-            this.btnDeselectTile.UseVisualStyleBackColor = true;
-            this.btnDeselectTile.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // chkTilesetGrid
-            // 
-            this.chkTilesetGrid.AutoSize = true;
-            this.chkTilesetGrid.Checked = true;
-            this.chkTilesetGrid.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTilesetGrid.Location = new System.Drawing.Point(10, 74);
-            this.chkTilesetGrid.Name = "chkTilesetGrid";
-            this.chkTilesetGrid.Size = new System.Drawing.Size(48, 17);
-            this.chkTilesetGrid.TabIndex = 10;
-            this.chkTilesetGrid.Text = "Grid";
-            this.chkTilesetGrid.UseVisualStyleBackColor = true;
-            this.chkTilesetGrid.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
-            // 
-            // btnRemoveTile
-            // 
-            this.btnRemoveTile.Location = new System.Drawing.Point(8, 23);
-            this.btnRemoveTile.Name = "btnRemoveTile";
-            this.btnRemoveTile.Size = new System.Drawing.Size(168, 23);
-            this.btnRemoveTile.TabIndex = 21;
-            this.btnRemoveTile.Text = "Remove Selected Tile";
-            this.btnRemoveTile.UseVisualStyleBackColor = true;
-            this.btnRemoveTile.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // chkTilesetIndexes
-            // 
-            this.chkTilesetIndexes.AutoSize = true;
-            this.chkTilesetIndexes.Location = new System.Drawing.Point(72, 74);
-            this.chkTilesetIndexes.Name = "chkTilesetIndexes";
-            this.chkTilesetIndexes.Size = new System.Drawing.Size(97, 17);
-            this.chkTilesetIndexes.TabIndex = 11;
-            this.chkTilesetIndexes.Text = "Show Indexes";
-            this.chkTilesetIndexes.UseVisualStyleBackColor = true;
-            this.chkTilesetIndexes.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
-            // 
-            // btnAddTile
-            // 
-            this.btnAddTile.Location = new System.Drawing.Point(8, 0);
-            this.btnAddTile.Margin = new System.Windows.Forms.Padding(0);
-            this.btnAddTile.Name = "btnAddTile";
-            this.btnAddTile.Size = new System.Drawing.Size(168, 23);
-            this.btnAddTile.TabIndex = 20;
-            this.btnAddTile.Text = "Add Empty Tile";
-            this.btnAddTile.UseVisualStyleBackColor = true;
-            this.btnAddTile.Click += new System.EventHandler(this.btnMetaSprite_Click);
-            // 
-            // pnlSprPalette
-            // 
-            this.pnlSprPalette.Location = new System.Drawing.Point(8, 136);
-            this.pnlSprPalette.Name = "pnlSprPalette";
-            this.pnlSprPalette.ReadOnly = false;
-            this.pnlSprPalette.Size = new System.Drawing.Size(168, 40);
-            this.pnlSprPalette.TabIndex = 19;
-            this.pnlSprPalette.SelectedColorChanged += new SMSTileStudio.Controls.PaletteControl.SelectedColorChangedHandler(this.pnlSprPalette_SelectedColorChanged);
+            this.tpnlTilesetOptions.ColumnCount = 1;
+            this.tpnlTilesetOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlTilesetOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlTilesetOptions.Controls.Add(this.pnlSelectedTile, 0, 7);
+            this.tpnlTilesetOptions.Controls.Add(this.btnTilesetOptions, 0, 0);
+            this.tpnlTilesetOptions.Controls.Add(this.btnSwapSelectedPixel, 0, 8);
+            this.tpnlTilesetOptions.Controls.Add(this.pnlSprPalette, 0, 5);
+            this.tpnlTilesetOptions.Controls.Add(this.lblTilesetCompression, 0, 1);
+            this.tpnlTilesetOptions.Controls.Add(this.lblSelectedTile, 0, 6);
+            this.tpnlTilesetOptions.Controls.Add(this.cbTilesetCompression, 0, 2);
+            this.tpnlTilesetOptions.Controls.Add(this.cbSprPalette, 0, 4);
+            this.tpnlTilesetOptions.Controls.Add(this.lblSprPalette, 0, 3);
+            this.tpnlTilesetOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlTilesetOptions.Location = new System.Drawing.Point(377, 3);
+            this.tpnlTilesetOptions.Name = "tpnlTilesetOptions";
+            this.tpnlTilesetOptions.RowCount = 10;
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 14F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 148F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlTilesetOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlTilesetOptions.Size = new System.Drawing.Size(174, 435);
+            this.tpnlTilesetOptions.TabIndex = 22;
             // 
             // pnlSelectedTile
             // 
@@ -1415,13 +1446,15 @@
             this.pnlSelectedTile.AutoScrollMinSize = new System.Drawing.Size(144, 144);
             this.pnlSelectedTile.Canvas = new System.Drawing.Size(8, 8);
             this.pnlSelectedTile.Centered = false;
+            this.tpnlTilesetOptions.SetColumnSpan(this.pnlSelectedTile, 2);
             this.pnlSelectedTile.HatchBackColor = System.Drawing.Color.DarkGray;
             this.pnlSelectedTile.HatchForeColor = System.Drawing.Color.White;
             this.pnlSelectedTile.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
             this.pnlSelectedTile.Image = null;
             this.pnlSelectedTile.ImageAlpha = 1F;
             this.pnlSelectedTile.ImageScale = 1;
-            this.pnlSelectedTile.Location = new System.Drawing.Point(16, 232);
+            this.pnlSelectedTile.Location = new System.Drawing.Point(16, 166);
+            this.pnlSelectedTile.Margin = new System.Windows.Forms.Padding(16, 0, 0, 0);
             this.pnlSelectedTile.MinimumScale = 1;
             this.pnlSelectedTile.Name = "pnlSelectedTile";
             this.pnlSelectedTile.Palette = ((System.Collections.Generic.List<System.Drawing.Color>)(resources.GetObject("pnlSelectedTile.Palette")));
@@ -1437,75 +1470,117 @@
             this.pnlSelectedTile.UseMouseWheelScaling = false;
             this.pnlSelectedTile.PixelChanged += new SMSTileStudio.Controls.TileControl.PixelChangedHandler(this.pnlSelectedTile_PixelChanged);
             // 
+            // btnTilesetOptions
+            // 
+            this.tpnlTilesetOptions.SetColumnSpan(this.btnTilesetOptions, 2);
+            this.btnTilesetOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnTilesetOptions.Location = new System.Drawing.Point(2, 2);
+            this.btnTilesetOptions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
+            this.btnTilesetOptions.Name = "btnTilesetOptions";
+            this.btnTilesetOptions.Size = new System.Drawing.Size(170, 24);
+            this.btnTilesetOptions.TabIndex = 20;
+            this.btnTilesetOptions.Text = "Tileset Options";
+            this.btnTilesetOptions.UseVisualStyleBackColor = true;
+            this.btnTilesetOptions.Click += new System.EventHandler(this.btnMetaSprite_Click);
+            // 
             // btnSwapSelectedPixel
             // 
-            this.btnSwapSelectedPixel.Location = new System.Drawing.Point(8, 384);
+            this.tpnlTilesetOptions.SetColumnSpan(this.btnSwapSelectedPixel, 2);
+            this.btnSwapSelectedPixel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSwapSelectedPixel.Location = new System.Drawing.Point(2, 316);
+            this.btnSwapSelectedPixel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.btnSwapSelectedPixel.Name = "btnSwapSelectedPixel";
-            this.btnSwapSelectedPixel.Size = new System.Drawing.Size(168, 23);
+            this.btnSwapSelectedPixel.Size = new System.Drawing.Size(170, 24);
             this.btnSwapSelectedPixel.TabIndex = 17;
             this.btnSwapSelectedPixel.Text = "Swap Selected Pixel";
             this.btnSwapSelectedPixel.UseVisualStyleBackColor = true;
             this.btnSwapSelectedPixel.Click += new System.EventHandler(this.btnMetaSprite_Click);
             // 
-            // lblTile
+            // pnlSprPalette
             // 
-            this.lblTile.AutoSize = true;
-            this.lblTile.Location = new System.Drawing.Point(8, 216);
-            this.lblTile.Name = "lblTile";
-            this.lblTile.Size = new System.Drawing.Size(73, 13);
-            this.lblTile.TabIndex = 12;
-            this.lblTile.Text = "Selected Tile:";
+            this.tpnlTilesetOptions.SetColumnSpan(this.pnlSprPalette, 2);
+            this.pnlSprPalette.Location = new System.Drawing.Point(2, 110);
+            this.pnlSprPalette.Margin = new System.Windows.Forms.Padding(2);
+            this.pnlSprPalette.Name = "pnlSprPalette";
+            this.pnlSprPalette.ReadOnly = false;
+            this.pnlSprPalette.Size = new System.Drawing.Size(168, 40);
+            this.pnlSprPalette.TabIndex = 19;
+            this.pnlSprPalette.SelectedColorChanged += new SMSTileStudio.Controls.PaletteControl.SelectedColorChangedHandler(this.pnlSprPalette_SelectedColorChanged);
             // 
             // lblTilesetCompression
             // 
-            this.lblTilesetCompression.AutoSize = true;
-            this.lblTilesetCompression.Location = new System.Drawing.Point(8, 176);
-            this.lblTilesetCompression.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlTilesetOptions.SetColumnSpan(this.lblTilesetCompression, 2);
+            this.lblTilesetCompression.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTilesetCompression.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTilesetCompression.Location = new System.Drawing.Point(2, 28);
+            this.lblTilesetCompression.Margin = new System.Windows.Forms.Padding(2);
             this.lblTilesetCompression.Name = "lblTilesetCompression";
-            this.lblTilesetCompression.Size = new System.Drawing.Size(77, 13);
+            this.lblTilesetCompression.Size = new System.Drawing.Size(170, 14);
             this.lblTilesetCompression.TabIndex = 8;
             this.lblTilesetCompression.Text = "Compression:";
             this.lblTilesetCompression.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblSelectedTile
+            // 
+            this.tpnlTilesetOptions.SetColumnSpan(this.lblSelectedTile, 2);
+            this.lblSelectedTile.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSelectedTile.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSelectedTile.Location = new System.Drawing.Point(2, 152);
+            this.lblSelectedTile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 2);
+            this.lblSelectedTile.Name = "lblSelectedTile";
+            this.lblSelectedTile.Size = new System.Drawing.Size(170, 12);
+            this.lblSelectedTile.TabIndex = 12;
+            this.lblSelectedTile.Text = "Selected Tile:";
+            this.lblSelectedTile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // cbTilesetCompression
             // 
+            this.tpnlTilesetOptions.SetColumnSpan(this.cbTilesetCompression, 2);
+            this.cbTilesetCompression.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cbTilesetCompression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTilesetCompression.FormattingEnabled = true;
-            this.cbTilesetCompression.Location = new System.Drawing.Point(8, 192);
+            this.cbTilesetCompression.Location = new System.Drawing.Point(2, 46);
+            this.cbTilesetCompression.Margin = new System.Windows.Forms.Padding(2);
             this.cbTilesetCompression.Name = "cbTilesetCompression";
-            this.cbTilesetCompression.Size = new System.Drawing.Size(168, 21);
+            this.cbTilesetCompression.Size = new System.Drawing.Size(170, 21);
             this.cbTilesetCompression.TabIndex = 9;
             this.cbTilesetCompression.SelectedIndexChanged += new System.EventHandler(this.cbMetaSprite_SelectedIndexChanged);
             // 
+            // cbSprPalette
+            // 
+            this.tpnlTilesetOptions.SetColumnSpan(this.cbSprPalette, 2);
+            this.cbSprPalette.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbSprPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSprPalette.FormattingEnabled = true;
+            this.cbSprPalette.Location = new System.Drawing.Point(2, 86);
+            this.cbSprPalette.Margin = new System.Windows.Forms.Padding(2);
+            this.cbSprPalette.Name = "cbSprPalette";
+            this.cbSprPalette.Size = new System.Drawing.Size(170, 21);
+            this.cbSprPalette.TabIndex = 7;
+            this.cbSprPalette.SelectedIndexChanged += new System.EventHandler(this.cbMetaSprite_SelectedIndexChanged);
+            // 
             // lblSprPalette
             // 
-            this.lblSprPalette.AutoSize = true;
-            this.lblSprPalette.Location = new System.Drawing.Point(8, 96);
-            this.lblSprPalette.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlTilesetOptions.SetColumnSpan(this.lblSprPalette, 2);
+            this.lblSprPalette.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSprPalette.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSprPalette.Location = new System.Drawing.Point(2, 68);
+            this.lblSprPalette.Margin = new System.Windows.Forms.Padding(2, 0, 2, 2);
             this.lblSprPalette.Name = "lblSprPalette";
-            this.lblSprPalette.Size = new System.Drawing.Size(78, 13);
+            this.lblSprPalette.Size = new System.Drawing.Size(170, 14);
             this.lblSprPalette.TabIndex = 6;
             this.lblSprPalette.Text = "Sprite Palette:";
             this.lblSprPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cbSprPalette
-            // 
-            this.cbSprPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSprPalette.FormattingEnabled = true;
-            this.cbSprPalette.Location = new System.Drawing.Point(8, 112);
-            this.cbSprPalette.Name = "cbSprPalette";
-            this.cbSprPalette.Size = new System.Drawing.Size(168, 21);
-            this.cbSprPalette.TabIndex = 7;
-            this.cbSprPalette.SelectedIndexChanged += new System.EventHandler(this.cbMetaSprite_SelectedIndexChanged);
-            // 
             // pnlTilesetEditContainer
             // 
             this.pnlTilesetEditContainer.Controls.Add(this.pnlTilesetEdit);
+            this.pnlTilesetEditContainer.Controls.Add(this.flpnlTilesetTools);
             this.pnlTilesetEditContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTilesetEditContainer.Location = new System.Drawing.Point(0, 0);
             this.pnlTilesetEditContainer.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTilesetEditContainer.Name = "pnlTilesetEditContainer";
-            this.pnlTilesetEditContainer.Size = new System.Drawing.Size(494, 519);
+            this.pnlTilesetEditContainer.Size = new System.Drawing.Size(374, 441);
             this.pnlTilesetEditContainer.TabIndex = 2;
             // 
             // pnlTilesetEdit
@@ -1521,10 +1596,11 @@
             this.pnlTilesetEdit.ImageAlpha = 1F;
             this.pnlTilesetEdit.ImageScale = 1;
             this.pnlTilesetEdit.Indexed = false;
-            this.pnlTilesetEdit.Location = new System.Drawing.Point(0, 0);
+            this.pnlTilesetEdit.InvertGridColor = false;
+            this.pnlTilesetEdit.Location = new System.Drawing.Point(0, 24);
             this.pnlTilesetEdit.MinimumScale = 1;
             this.pnlTilesetEdit.Name = "pnlTilesetEdit";
-            this.pnlTilesetEdit.Size = new System.Drawing.Size(494, 519);
+            this.pnlTilesetEdit.Size = new System.Drawing.Size(374, 417);
             this.pnlTilesetEdit.SnapSize = new System.Drawing.Size(8, 8);
             this.pnlTilesetEdit.TabIndex = 2;
             this.pnlTilesetEdit.TileID = -1;
@@ -1535,12 +1611,50 @@
             this.pnlTilesetEdit.UseMouseWheelScaling = true;
             this.pnlTilesetEdit.TileSelectionChanged += new SMSTileStudio.Controls.TilesetImageControl.TileSelectionHandler(this.pnlTilesetEdit_TileSelectionChanged);
             // 
+            // flpnlTilesetTools
+            // 
+            this.flpnlTilesetTools.Controls.Add(this.chkTilesetGrid);
+            this.flpnlTilesetTools.Controls.Add(this.chkTilesetShowTileIds);
+            this.flpnlTilesetTools.Dock = System.Windows.Forms.DockStyle.Top;
+            this.flpnlTilesetTools.Location = new System.Drawing.Point(0, 0);
+            this.flpnlTilesetTools.Name = "flpnlTilesetTools";
+            this.flpnlTilesetTools.Size = new System.Drawing.Size(374, 24);
+            this.flpnlTilesetTools.TabIndex = 1;
+            // 
+            // chkTilesetGrid
+            // 
+            this.chkTilesetGrid.AutoSize = true;
+            this.chkTilesetGrid.Checked = true;
+            this.chkTilesetGrid.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTilesetGrid.Location = new System.Drawing.Point(3, 4);
+            this.chkTilesetGrid.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.chkTilesetGrid.Name = "chkTilesetGrid";
+            this.chkTilesetGrid.Size = new System.Drawing.Size(48, 17);
+            this.chkTilesetGrid.TabIndex = 10;
+            this.chkTilesetGrid.Text = "Grid";
+            this.tipMain.SetToolTip(this.chkTilesetGrid, "Toggle Grid (G)");
+            this.chkTilesetGrid.UseVisualStyleBackColor = true;
+            this.chkTilesetGrid.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            // 
+            // chkTilesetShowTileIds
+            // 
+            this.chkTilesetShowTileIds.AutoSize = true;
+            this.chkTilesetShowTileIds.Location = new System.Drawing.Point(57, 4);
+            this.chkTilesetShowTileIds.Margin = new System.Windows.Forms.Padding(3, 4, 3, 3);
+            this.chkTilesetShowTileIds.Name = "chkTilesetShowTileIds";
+            this.chkTilesetShowTileIds.Size = new System.Drawing.Size(93, 17);
+            this.chkTilesetShowTileIds.TabIndex = 11;
+            this.chkTilesetShowTileIds.Text = "Show Tile Ids";
+            this.tipMain.SetToolTip(this.chkTilesetShowTileIds, "Show Tile Ids (I)");
+            this.chkTilesetShowTileIds.UseVisualStyleBackColor = true;
+            this.chkTilesetShowTileIds.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            // 
             // lblDefault
             // 
             this.lblDefault.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblDefault.Location = new System.Drawing.Point(0, 0);
             this.lblDefault.Name = "lblDefault";
-            this.lblDefault.Size = new System.Drawing.Size(688, 551);
+            this.lblDefault.Size = new System.Drawing.Size(568, 473);
             this.lblDefault.TabIndex = 1;
             this.lblDefault.Text = "Create or select a meta sprite to edit";
             this.lblDefault.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1551,7 +1665,7 @@
             this.mnuExportTileset,
             this.mnuExportMetaSprite});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(181, 70);
+            this.mnuExport.Size = new System.Drawing.Size(171, 48);
             // 
             // mnuExportTileset
             // 
@@ -1560,27 +1674,27 @@
             this.mnuTilesetExportBinary,
             this.mnuTilesetExportBinaries});
             this.mnuExportTileset.Name = "mnuExportTileset";
-            this.mnuExportTileset.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportTileset.Size = new System.Drawing.Size(170, 22);
             this.mnuExportTileset.Text = "Export Tileset";
             // 
             // mnuTilesetExportImage
             // 
             this.mnuTilesetExportImage.Name = "mnuTilesetExportImage";
-            this.mnuTilesetExportImage.Size = new System.Drawing.Size(180, 22);
+            this.mnuTilesetExportImage.Size = new System.Drawing.Size(165, 22);
             this.mnuTilesetExportImage.Text = "Export as Image";
             this.mnuTilesetExportImage.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
             // mnuTilesetExportBinary
             // 
             this.mnuTilesetExportBinary.Name = "mnuTilesetExportBinary";
-            this.mnuTilesetExportBinary.Size = new System.Drawing.Size(180, 22);
+            this.mnuTilesetExportBinary.Size = new System.Drawing.Size(165, 22);
             this.mnuTilesetExportBinary.Text = "Export as Binary";
             this.mnuTilesetExportBinary.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
             // mnuTilesetExportBinaries
             // 
             this.mnuTilesetExportBinaries.Name = "mnuTilesetExportBinaries";
-            this.mnuTilesetExportBinaries.Size = new System.Drawing.Size(180, 22);
+            this.mnuTilesetExportBinaries.Size = new System.Drawing.Size(165, 22);
             this.mnuTilesetExportBinaries.Text = "Export as Binaries";
             this.mnuTilesetExportBinaries.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
@@ -1593,7 +1707,7 @@
             this.mnuExportMetaSpriteCollisionDataOnly,
             this.mnuExportMetaSpriteSpriteDataOnly});
             this.mnuExportMetaSprite.Name = "mnuExportMetaSprite";
-            this.mnuExportMetaSprite.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportMetaSprite.Size = new System.Drawing.Size(170, 22);
             this.mnuExportMetaSprite.Text = "Export Meta Sprite";
             // 
             // mnuMetaSpriteExportBinary
@@ -1602,6 +1716,20 @@
             this.mnuMetaSpriteExportBinary.Size = new System.Drawing.Size(254, 22);
             this.mnuMetaSpriteExportBinary.Text = "Export as Binary";
             this.mnuMetaSpriteExportBinary.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            // 
+            // mnuMetaSpriteExportDKSMSBinary
+            // 
+            this.mnuMetaSpriteExportDKSMSBinary.Name = "mnuMetaSpriteExportDKSMSBinary";
+            this.mnuMetaSpriteExportDKSMSBinary.Size = new System.Drawing.Size(254, 22);
+            this.mnuMetaSpriteExportDKSMSBinary.Text = "Export for Dev Kit SMS Binary";
+            this.mnuMetaSpriteExportDKSMSBinary.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            // 
+            // mnuMetaSpriteExportDKSMSText
+            // 
+            this.mnuMetaSpriteExportDKSMSText.Name = "mnuMetaSpriteExportDKSMSText";
+            this.mnuMetaSpriteExportDKSMSText.Size = new System.Drawing.Size(254, 22);
+            this.mnuMetaSpriteExportDKSMSText.Text = "Export for Dev Kit SMS (Clipboard)";
+            this.mnuMetaSpriteExportDKSMSText.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
             // mnuExportMetaSpriteCollisionDataOnly
             // 
@@ -1616,13 +1744,6 @@
             this.mnuExportMetaSpriteSpriteDataOnly.Name = "mnuExportMetaSpriteSpriteDataOnly";
             this.mnuExportMetaSpriteSpriteDataOnly.Size = new System.Drawing.Size(254, 22);
             this.mnuExportMetaSpriteSpriteDataOnly.Text = "Export Collision Data (Clipboard)";
-            // 
-            // mnuMetaSpriteExportDKSMSText
-            // 
-            this.mnuMetaSpriteExportDKSMSText.Name = "mnuMetaSpriteExportDKSMSText";
-            this.mnuMetaSpriteExportDKSMSText.Size = new System.Drawing.Size(254, 22);
-            this.mnuMetaSpriteExportDKSMSText.Text = "Export for Dev Kit SMS (Clipboard)";
-            this.mnuMetaSpriteExportDKSMSText.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
             // mnuImport
             // 
@@ -1698,12 +1819,58 @@
             this.mnuDeleteFrame.Text = "Remove Frame";
             this.mnuDeleteFrame.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
-            // mnuMetaSpriteExportDKSMSBinary
+            // mnuTilesetOptions
             // 
-            this.mnuMetaSpriteExportDKSMSBinary.Name = "mnuMetaSpriteExportDKSMSBinary";
-            this.mnuMetaSpriteExportDKSMSBinary.Size = new System.Drawing.Size(254, 22);
-            this.mnuMetaSpriteExportDKSMSBinary.Text = "Export for Dev Kit SMS Binary";
-            this.mnuMetaSpriteExportDKSMSBinary.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            this.mnuTilesetOptions.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem3,
+            this.mnuAddTile,
+            this.mnuTilesetCopyTile,
+            this.mnuTilesetPasteTile,
+            this.mnuDeselectTile,
+            this.mnuRemoveTile});
+            this.mnuTilesetOptions.Name = "mnuTileOptions";
+            this.mnuTilesetOptions.Size = new System.Drawing.Size(164, 120);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(160, 6);
+            // 
+            // mnuAddTile
+            // 
+            this.mnuAddTile.Name = "mnuAddTile";
+            this.mnuAddTile.Size = new System.Drawing.Size(163, 22);
+            this.mnuAddTile.Text = "Add Empty Tile";
+            this.mnuAddTile.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            // 
+            // mnuTilesetCopyTile
+            // 
+            this.mnuTilesetCopyTile.Name = "mnuTilesetCopyTile";
+            this.mnuTilesetCopyTile.Size = new System.Drawing.Size(163, 22);
+            this.mnuTilesetCopyTile.Text = "Copy Tile";
+            this.mnuTilesetCopyTile.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            // 
+            // mnuTilesetPasteTile
+            // 
+            this.mnuTilesetPasteTile.Name = "mnuTilesetPasteTile";
+            this.mnuTilesetPasteTile.Size = new System.Drawing.Size(163, 22);
+            this.mnuTilesetPasteTile.Text = "Paste Tile";
+            this.mnuTilesetPasteTile.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            // 
+            // mnuDeselectTile
+            // 
+            this.mnuDeselectTile.Name = "mnuDeselectTile";
+            this.mnuDeselectTile.Size = new System.Drawing.Size(163, 22);
+            this.mnuDeselectTile.Text = "Deselect Tile";
+            this.mnuDeselectTile.Click += new System.EventHandler(this.mnuMetaSprite_Click);
+            // 
+            // mnuRemoveTile
+            // 
+            this.mnuRemoveTile.Name = "mnuRemoveTile";
+            this.mnuRemoveTile.ShortcutKeyDisplayString = "Del";
+            this.mnuRemoveTile.Size = new System.Drawing.Size(163, 22);
+            this.mnuRemoveTile.Text = "Remove Tile";
+            this.mnuRemoveTile.Click += new System.EventHandler(this.mnuMetaSprite_Click);
             // 
             // AssetMetaSpriteControl
             // 
@@ -1712,22 +1879,24 @@
             this.Controls.Add(this.tpnlMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "AssetMetaSpriteControl";
-            this.Size = new System.Drawing.Size(890, 583);
+            this.Size = new System.Drawing.Size(770, 505);
             this.tpnlMain.ResumeLayout(false);
-            this.grpSpriteList.ResumeLayout(false);
-            this.pnlPaletteButtons.ResumeLayout(false);
-            this.pnlMetaSpriteOptions.ResumeLayout(false);
-            this.pnlMetaSpriteOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudTileMinimum)).EndInit();
+            this.grpSprites.ResumeLayout(false);
+            this.tpnlMetaSprites.ResumeLayout(false);
+            this.tpnlMetaSprites.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudOffset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTileMinimum)).EndInit();
             this.pnlFrames.ResumeLayout(false);
-            this.pnlFrames.PerformLayout();
             this.pnlSpriteListTools.ResumeLayout(false);
+            this.tpnlCurrentFrame.ResumeLayout(false);
+            this.tpnlCurrentFrame.PerformLayout();
             this.pnlContent.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabSpriteEdit.ResumeLayout(false);
             this.tpnlSprite.ResumeLayout(false);
             this.pnlMetaSpriteProperties.ResumeLayout(false);
+            this.tpnlMetaSpriteOptions.ResumeLayout(false);
+            this.tpnlMetaSpriteOptions.PerformLayout();
             this.tabSpritesRects.ResumeLayout(false);
             this.tabSprites.ResumeLayout(false);
             this.pnlSpriteProperties.ResumeLayout(false);
@@ -1744,8 +1913,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudCollisionHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCollisionWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCollisionX)).EndInit();
-            this.pnlSpriteOptions.ResumeLayout(false);
-            this.pnlSpriteOptions.PerformLayout();
             this.pnlSpriteEditorContainer.ResumeLayout(false);
             this.pnlSpriteEditorContainer.PerformLayout();
             this.pnlPosition.ResumeLayout(false);
@@ -1755,12 +1922,14 @@
             this.pnlInfo.PerformLayout();
             this.tabTilesetEdit.ResumeLayout(false);
             this.tpnlTileset.ResumeLayout(false);
-            this.pnlTilesetProperties.ResumeLayout(false);
-            this.pnlTilesetProperties.PerformLayout();
+            this.tpnlTilesetOptions.ResumeLayout(false);
             this.pnlTilesetEditContainer.ResumeLayout(false);
+            this.flpnlTilesetTools.ResumeLayout(false);
+            this.flpnlTilesetTools.PerformLayout();
             this.mnuExport.ResumeLayout(false);
             this.mnuImport.ResumeLayout(false);
             this.mnuFrameOptions.ResumeLayout(false);
+            this.mnuTilesetOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1768,9 +1937,8 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tpnlMain;
-        private System.Windows.Forms.GroupBox grpSpriteList;
+        private System.Windows.Forms.GroupBox grpSprites;
         private ListBoxControl lstMetaSprites;
-        private System.Windows.Forms.Panel pnlPaletteButtons;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnDuplicate;
@@ -1780,27 +1948,12 @@
         private System.Windows.Forms.TabPage tabSpriteEdit;
         private System.Windows.Forms.TableLayoutPanel tpnlSprite;
         private System.Windows.Forms.Panel pnlMetaSpriteProperties;
-        private System.Windows.Forms.Panel pnlSpriteOptions;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Panel pnlSpriteEditorContainer;
         private System.Windows.Forms.TabPage tabTilesetEdit;
         private System.Windows.Forms.TableLayoutPanel tpnlTileset;
-        private System.Windows.Forms.Panel pnlTilesetProperties;
-        private System.Windows.Forms.Button btnDeselectTile;
-        private System.Windows.Forms.Button btnRemoveTile;
-        private System.Windows.Forms.Button btnAddTile;
-        private PaletteControl pnlSprPalette;
-        private TileControl pnlSelectedTile;
-        private System.Windows.Forms.Button btnSwapSelectedPixel;
-        private System.Windows.Forms.Label lblTile;
-        private System.Windows.Forms.Label lblTilesetCompression;
-        private System.Windows.Forms.ComboBox cbTilesetCompression;
-        private System.Windows.Forms.Label lblSprPalette;
-        private System.Windows.Forms.ComboBox cbSprPalette;
         private System.Windows.Forms.Panel pnlTilesetEditContainer;
-        private System.Windows.Forms.CheckBox chkTilesetGrid;
-        private System.Windows.Forms.CheckBox chkTilesetIndexes;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Label lblDefault;
         private System.Windows.Forms.CheckBox chkGrid;
@@ -1844,7 +1997,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuExportMetaSpriteSpriteDataOnly;
         private System.Windows.Forms.ToolStripMenuItem mnuExportMetaSpriteCollisionDataOnly;
         private MetaSpriteControl pnlMetaSpriteEdit;
-        private System.Windows.Forms.Panel pnlMetaSpriteOptions;
         private System.Windows.Forms.NumericUpDown nudTileMinimum;
         private System.Windows.Forms.Label lblTileMinimum;
         private System.Windows.Forms.Label lblCurrentFrame;
@@ -1890,5 +2042,29 @@
         private System.Windows.Forms.CheckBox chkSpriteType;
         private System.Windows.Forms.CheckBox chkMetaSpriteType;
         private System.Windows.Forms.ToolStripMenuItem mnuMetaSpriteExportDKSMSBinary;
+        private System.Windows.Forms.TableLayoutPanel tpnlMetaSpriteOptions;
+        private System.Windows.Forms.TableLayoutPanel tpnlTilesetOptions;
+        private TileControl pnlSelectedTile;
+        private System.Windows.Forms.Button btnTilesetOptions;
+        private System.Windows.Forms.Button btnSwapSelectedPixel;
+        private PaletteControl pnlSprPalette;
+        private System.Windows.Forms.Label lblTilesetCompression;
+        private System.Windows.Forms.Label lblSelectedTile;
+        private System.Windows.Forms.ComboBox cbTilesetCompression;
+        private System.Windows.Forms.ComboBox cbSprPalette;
+        private System.Windows.Forms.Label lblSprPalette;
+        private System.Windows.Forms.ContextMenuStrip mnuTilesetOptions;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem mnuAddTile;
+        private System.Windows.Forms.ToolStripMenuItem mnuTilesetCopyTile;
+        private System.Windows.Forms.ToolStripMenuItem mnuTilesetPasteTile;
+        private System.Windows.Forms.ToolStripMenuItem mnuDeselectTile;
+        private System.Windows.Forms.ToolStripMenuItem mnuRemoveTile;
+        private System.Windows.Forms.FlowLayoutPanel flpnlTilesetTools;
+        private System.Windows.Forms.CheckBox chkTilesetGrid;
+        private System.Windows.Forms.CheckBox chkTilesetShowTileIds;
+        private System.Windows.Forms.TableLayoutPanel tpnlMetaSprites;
+        private System.Windows.Forms.TableLayoutPanel tpnlCurrentFrame;
+        private System.Windows.Forms.CheckBox chkMetaSpriteInvertGrids;
     }
 }

@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,12 @@
 // THE SOFTWARE.
 //
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows.Forms;
 using Newtonsoft.Json;
 using SMSTileStudio.Data;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Forms
 {
@@ -37,6 +36,7 @@ namespace SMSTileStudio.Forms
         /// </summary>
         public MainForm()
         {
+            App.GetCompressors(AppDomain.CurrentDomain.BaseDirectory);
             InitializeComponent();
         }
 
@@ -55,22 +55,23 @@ namespace SMSTileStudio.Forms
                     {
                         using (StreamReader sr = new StreamReader(form.FileName))
                         {
-                            //var test = sr.ReadToEnd();
-                            //App.Project = JsonConvert.DeserializeObject<Project>(test);
-                            //App.Project = System.Text.Json.JsonSerializer.Deserialize<Project>(test);
                             using (JsonReader reader = new JsonTextReader(sr))
                             {
                                 var serializer = new JsonSerializer();
                                 App.Project = serializer.Deserialize<Project>(reader);
+                                App.Project.SetDefaultPalettes();
                             }
                         }
 
-                        if (App.Project.Palettes.Any(x => x.ID < -1))
-                            App.Project.Palettes.RemoveRange(0, 2);
-
+                        // Previous version adjustments
                         foreach (var tilemap in App.Project.Tilemaps)
+                        {
                             if (tilemap.Tiles != null && tilemap.Tiles.Count > 0 && tilemap.FrameCount <= 0)
                                 tilemap.Frames.Add(new TilemapFrame(tilemap.Columns, tilemap.Rows, tilemap.Tiles));
+
+                            foreach (var tileGrid in tilemap.TileGrids)
+                                tileGrid.SetTileGridSizeTypeByTileSize();
+                        }
 
                         LoadData();
                         Text = "SMS Tile Studio - " + form.SafeFileName;

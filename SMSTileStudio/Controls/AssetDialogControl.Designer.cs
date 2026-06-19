@@ -29,12 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssetDialogControl));
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.lblInfo = new System.Windows.Forms.Label();
             this.grpDialogList = new System.Windows.Forms.GroupBox();
+            this.tpnlDialogs = new System.Windows.Forms.TableLayoutPanel();
             this.lstDialogs = new SMSTileStudio.Controls.ListBoxControl();
-            this.pnlButtons = new System.Windows.Forms.Panel();
             this.btnExport = new System.Windows.Forms.Button();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
@@ -46,49 +45,26 @@
             this.tpnlDialog = new System.Windows.Forms.TableLayoutPanel();
             this.pnlDialogOptions = new System.Windows.Forms.Panel();
             this.pnlCharacters = new SMSTileStudio.Controls.CharacterControl();
-            this.pnlSpriteOptions = new System.Windows.Forms.Panel();
-            this.lblDuration = new System.Windows.Forms.Label();
-            this.nudDuration = new System.Windows.Forms.NumericUpDown();
+            this.tpnlDialogOptions = new System.Windows.Forms.TableLayoutPanel();
             this.btnCharacterMapOptions = new System.Windows.Forms.Button();
-            this.lblRow = new System.Windows.Forms.Label();
-            this.lblColumn = new System.Windows.Forms.Label();
-            this.nudRow = new System.Windows.Forms.NumericUpDown();
-            this.nudColumn = new System.Windows.Forms.NumericUpDown();
+            this.nudDuration = new System.Windows.Forms.NumericUpDown();
             this.btnDialogPaste = new System.Windows.Forms.Button();
+            this.nudRow = new System.Windows.Forms.NumericUpDown();
             this.btnDialogCopy = new System.Windows.Forms.Button();
-            this.lblName = new System.Windows.Forms.Label();
-            this.lblOffset = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.nudOffset = new System.Windows.Forms.NumericUpDown();
+            this.lblRow = new System.Windows.Forms.Label();
             this.lblCharacterMap = new System.Windows.Forms.Label();
+            this.nudColumn = new System.Windows.Forms.NumericUpDown();
+            this.lblDuration = new System.Windows.Forms.Label();
+            this.lblColumn = new System.Windows.Forms.Label();
+            this.lblName = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.lblOffset = new System.Windows.Forms.Label();
+            this.nudOffset = new System.Windows.Forms.NumericUpDown();
             this.pnlTextEditor = new System.Windows.Forms.Panel();
             this.pnlSplitter = new System.Windows.Forms.Splitter();
             this.txtTextEditor = new System.Windows.Forms.TextBox();
             this.pnlDialogImage = new SMSTileStudio.Controls.SpriteImageControl();
             this.lblTextEditor = new System.Windows.Forms.Label();
-            this.tabTilesetEdit = new System.Windows.Forms.TabPage();
-            this.tpnlTileset = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlTilesetOptions = new System.Windows.Forms.Panel();
-            this.btnPasteTileset = new System.Windows.Forms.Button();
-            this.btnCopyTileset = new System.Windows.Forms.Button();
-            this.btnDeselectTile = new System.Windows.Forms.Button();
-            this.btnRemoveTile = new System.Windows.Forms.Button();
-            this.chkTilesetGrid = new System.Windows.Forms.CheckBox();
-            this.btnAddTile = new System.Windows.Forms.Button();
-            this.chkTilesetIndexes = new System.Windows.Forms.CheckBox();
-            this.pnlSPRPalette = new SMSTileStudio.Controls.PaletteControl();
-            this.pnlBGPalette = new SMSTileStudio.Controls.PaletteControl();
-            this.pnlSelectedTile = new SMSTileStudio.Controls.TileControl();
-            this.btnSwapSelectedPixel = new System.Windows.Forms.Button();
-            this.lblSelectedTile = new System.Windows.Forms.Label();
-            this.lblTilesetCompression = new System.Windows.Forms.Label();
-            this.cbTilesetCompression = new System.Windows.Forms.ComboBox();
-            this.lblSPRPalette = new System.Windows.Forms.Label();
-            this.cbSPRPalette = new System.Windows.Forms.ComboBox();
-            this.lblBGPalette = new System.Windows.Forms.Label();
-            this.cbBGPalette = new System.Windows.Forms.ComboBox();
-            this.pnlTilesetEditor = new System.Windows.Forms.Panel();
-            this.pnlTilesetEdit = new SMSTileStudio.Controls.TilesetImageControl();
             this.lblCreateDialog = new System.Windows.Forms.Label();
             this.mnuExport = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuExportBinary = new System.Windows.Forms.ToolStripMenuItem();
@@ -100,22 +76,18 @@
             this.mnuRemoveCharacters = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpDialogList.SuspendLayout();
-            this.pnlButtons.SuspendLayout();
+            this.tpnlDialogs.SuspendLayout();
             this.pnlDialogEdit.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tabDialogEdit.SuspendLayout();
             this.tpnlDialog.SuspendLayout();
             this.pnlDialogOptions.SuspendLayout();
-            this.pnlSpriteOptions.SuspendLayout();
+            this.tpnlDialogOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRow)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudColumn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOffset)).BeginInit();
             this.pnlTextEditor.SuspendLayout();
-            this.tabTilesetEdit.SuspendLayout();
-            this.tpnlTileset.SuspendLayout();
-            this.pnlTilesetOptions.SuspendLayout();
-            this.pnlTilesetEditor.SuspendLayout();
             this.mnuExport.SuspendLayout();
             this.mnuCharacterMap.SuspendLayout();
             this.SuspendLayout();
@@ -134,7 +106,7 @@
             this.tpnlMain.RowCount = 2;
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tpnlMain.Size = new System.Drawing.Size(890, 583);
+            this.tpnlMain.Size = new System.Drawing.Size(770, 505);
             this.tpnlMain.TabIndex = 3;
             // 
             // lblInfo
@@ -142,64 +114,76 @@
             this.tpnlMain.SetColumnSpan(this.lblInfo, 2);
             this.lblInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInfo.Location = new System.Drawing.Point(3, 557);
+            this.lblInfo.Location = new System.Drawing.Point(3, 479);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(884, 26);
+            this.lblInfo.Size = new System.Drawing.Size(764, 26);
             this.lblInfo.TabIndex = 3;
             this.lblInfo.Text = "No Dialog information";
             this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // grpDialogList
             // 
-            this.grpDialogList.Controls.Add(this.lstDialogs);
-            this.grpDialogList.Controls.Add(this.pnlButtons);
+            this.grpDialogList.Controls.Add(this.tpnlDialogs);
             this.grpDialogList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpDialogList.Location = new System.Drawing.Point(0, 0);
             this.grpDialogList.Margin = new System.Windows.Forms.Padding(0);
             this.grpDialogList.Name = "grpDialogList";
             this.grpDialogList.Padding = new System.Windows.Forms.Padding(12, 4, 12, 12);
-            this.grpDialogList.Size = new System.Drawing.Size(196, 557);
+            this.grpDialogList.Size = new System.Drawing.Size(196, 479);
             this.grpDialogList.TabIndex = 0;
             this.grpDialogList.TabStop = false;
             this.grpDialogList.Text = "Dialogs";
             // 
+            // tpnlDialogs
+            // 
+            this.tpnlDialogs.ColumnCount = 2;
+            this.tpnlDialogs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlDialogs.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlDialogs.Controls.Add(this.btnExport, 0, 4);
+            this.tpnlDialogs.Controls.Add(this.lstDialogs, 0, 5);
+            this.tpnlDialogs.Controls.Add(this.btnNew, 0, 0);
+            this.tpnlDialogs.Controls.Add(this.btnImport, 0, 3);
+            this.tpnlDialogs.Controls.Add(this.btnDuplicate, 0, 1);
+            this.tpnlDialogs.Controls.Add(this.btnRemove, 0, 2);
+            this.tpnlDialogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlDialogs.Location = new System.Drawing.Point(12, 19);
+            this.tpnlDialogs.Name = "tpnlDialogs";
+            this.tpnlDialogs.RowCount = 6;
+            this.tpnlDialogs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogs.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlDialogs.Size = new System.Drawing.Size(172, 448);
+            this.tpnlDialogs.TabIndex = 2;
+            // 
             // lstDialogs
             // 
+            this.tpnlDialogs.SetColumnSpan(this.lstDialogs, 2);
             this.lstDialogs.DisableHighlighting = false;
             this.lstDialogs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstDialogs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstDialogs.FormattingEnabled = true;
-            this.lstDialogs.HorizontalExtent = 168;
+            this.lstDialogs.HorizontalExtent = 162;
             this.lstDialogs.IntegralHeight = false;
             this.lstDialogs.ItemHeight = 15;
-            this.lstDialogs.Location = new System.Drawing.Point(12, 135);
+            this.lstDialogs.Location = new System.Drawing.Point(3, 123);
             this.lstDialogs.Name = "lstDialogs";
-            this.lstDialogs.Size = new System.Drawing.Size(172, 410);
+            this.lstDialogs.Size = new System.Drawing.Size(166, 322);
             this.lstDialogs.TabIndex = 1;
             this.lstDialogs.TextOffsetX = 2;
             this.lstDialogs.TextOffsetY = 0;
             this.lstDialogs.SelectedIndexChanged += new System.EventHandler(this.lstDialogs_SelectedIndexChanged);
             // 
-            // pnlButtons
-            // 
-            this.pnlButtons.Controls.Add(this.btnExport);
-            this.pnlButtons.Controls.Add(this.btnImport);
-            this.pnlButtons.Controls.Add(this.btnRemove);
-            this.pnlButtons.Controls.Add(this.btnDuplicate);
-            this.pnlButtons.Controls.Add(this.btnNew);
-            this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlButtons.Location = new System.Drawing.Point(12, 19);
-            this.pnlButtons.Name = "pnlButtons";
-            this.pnlButtons.Size = new System.Drawing.Size(172, 116);
-            this.pnlButtons.TabIndex = 0;
-            // 
             // btnExport
             // 
-            this.btnExport.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnExport.Location = new System.Drawing.Point(0, 92);
-            this.btnExport.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlDialogs.SetColumnSpan(this.btnExport, 2);
+            this.btnExport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExport.Location = new System.Drawing.Point(2, 96);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(172, 23);
+            this.btnExport.Size = new System.Drawing.Size(168, 24);
             this.btnExport.TabIndex = 4;
             this.btnExport.Text = "Export Options";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -207,11 +191,12 @@
             // 
             // btnImport
             // 
-            this.btnImport.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnImport.Location = new System.Drawing.Point(0, 69);
-            this.btnImport.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlDialogs.SetColumnSpan(this.btnImport, 2);
+            this.btnImport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnImport.Location = new System.Drawing.Point(2, 72);
+            this.btnImport.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(172, 23);
+            this.btnImport.Size = new System.Drawing.Size(168, 24);
             this.btnImport.TabIndex = 5;
             this.btnImport.Text = "Import Graphics";
             this.btnImport.UseVisualStyleBackColor = true;
@@ -219,11 +204,12 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnRemove.Location = new System.Drawing.Point(0, 46);
-            this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlDialogs.SetColumnSpan(this.btnRemove, 2);
+            this.btnRemove.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRemove.Location = new System.Drawing.Point(2, 48);
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(172, 23);
+            this.btnRemove.Size = new System.Drawing.Size(168, 24);
             this.btnRemove.TabIndex = 2;
             this.btnRemove.Text = "Remove Dialog";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -231,11 +217,12 @@
             // 
             // btnDuplicate
             // 
-            this.btnDuplicate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnDuplicate.Location = new System.Drawing.Point(0, 23);
-            this.btnDuplicate.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlDialogs.SetColumnSpan(this.btnDuplicate, 2);
+            this.btnDuplicate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDuplicate.Location = new System.Drawing.Point(2, 24);
+            this.btnDuplicate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnDuplicate.Name = "btnDuplicate";
-            this.btnDuplicate.Size = new System.Drawing.Size(172, 23);
+            this.btnDuplicate.Size = new System.Drawing.Size(168, 24);
             this.btnDuplicate.TabIndex = 1;
             this.btnDuplicate.Text = "Duplicate Dialog";
             this.btnDuplicate.UseVisualStyleBackColor = true;
@@ -243,11 +230,12 @@
             // 
             // btnNew
             // 
-            this.btnNew.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnNew.Location = new System.Drawing.Point(0, 0);
-            this.btnNew.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlDialogs.SetColumnSpan(this.btnNew, 2);
+            this.btnNew.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNew.Location = new System.Drawing.Point(2, 0);
+            this.btnNew.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(172, 23);
+            this.btnNew.Size = new System.Drawing.Size(168, 24);
             this.btnNew.TabIndex = 0;
             this.btnNew.Text = "New Dialog";
             this.btnNew.UseVisualStyleBackColor = true;
@@ -260,19 +248,18 @@
             this.pnlDialogEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDialogEdit.Location = new System.Drawing.Point(199, 3);
             this.pnlDialogEdit.Name = "pnlDialogEdit";
-            this.pnlDialogEdit.Size = new System.Drawing.Size(688, 551);
+            this.pnlDialogEdit.Size = new System.Drawing.Size(568, 473);
             this.pnlDialogEdit.TabIndex = 1;
             // 
             // tabMain
             // 
             this.tabMain.Controls.Add(this.tabDialogEdit);
-            this.tabMain.Controls.Add(this.tabTilesetEdit);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Margin = new System.Windows.Forms.Padding(0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(688, 551);
+            this.tabMain.Size = new System.Drawing.Size(568, 473);
             this.tabMain.TabIndex = 7;
             this.tabMain.Visible = false;
             // 
@@ -283,7 +270,7 @@
             this.tabDialogEdit.Location = new System.Drawing.Point(4, 22);
             this.tabDialogEdit.Name = "tabDialogEdit";
             this.tabDialogEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDialogEdit.Size = new System.Drawing.Size(680, 525);
+            this.tabDialogEdit.Size = new System.Drawing.Size(560, 447);
             this.tabDialogEdit.TabIndex = 0;
             this.tabDialogEdit.Text = "Dialog Edit";
             // 
@@ -291,7 +278,7 @@
             // 
             this.tpnlDialog.ColumnCount = 2;
             this.tpnlDialog.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlDialog.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.tpnlDialog.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 190F));
             this.tpnlDialog.Controls.Add(this.pnlDialogOptions, 1, 0);
             this.tpnlDialog.Controls.Add(this.pnlTextEditor, 0, 0);
             this.tpnlDialog.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -299,20 +286,20 @@
             this.tpnlDialog.Name = "tpnlDialog";
             this.tpnlDialog.RowCount = 1;
             this.tpnlDialog.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlDialog.Size = new System.Drawing.Size(674, 519);
+            this.tpnlDialog.Size = new System.Drawing.Size(554, 441);
             this.tpnlDialog.TabIndex = 0;
             // 
             // pnlDialogOptions
             // 
             this.pnlDialogOptions.BackColor = System.Drawing.SystemColors.Control;
             this.pnlDialogOptions.Controls.Add(this.pnlCharacters);
-            this.pnlDialogOptions.Controls.Add(this.pnlSpriteOptions);
+            this.pnlDialogOptions.Controls.Add(this.tpnlDialogOptions);
             this.pnlDialogOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDialogOptions.Location = new System.Drawing.Point(494, 0);
+            this.pnlDialogOptions.Location = new System.Drawing.Point(364, 0);
             this.pnlDialogOptions.Margin = new System.Windows.Forms.Padding(0);
             this.pnlDialogOptions.Name = "pnlDialogOptions";
             this.pnlDialogOptions.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.pnlDialogOptions.Size = new System.Drawing.Size(180, 519);
+            this.pnlDialogOptions.Size = new System.Drawing.Size(190, 441);
             this.pnlDialogOptions.TabIndex = 4;
             // 
             // pnlCharacters
@@ -320,191 +307,230 @@
             this.pnlCharacters.AutoScroll = true;
             this.pnlCharacters.CharacterMap = null;
             this.pnlCharacters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlCharacters.Location = new System.Drawing.Point(8, 200);
+            this.pnlCharacters.Location = new System.Drawing.Point(8, 196);
             this.pnlCharacters.Name = "pnlCharacters";
-            this.pnlCharacters.Size = new System.Drawing.Size(172, 319);
+            this.pnlCharacters.Size = new System.Drawing.Size(182, 245);
             this.pnlCharacters.TabIndex = 4;
             this.pnlCharacters.CharacterMapChanged += new SMSTileStudio.Controls.CharacterControl.CharacterMapChangedHandler(this.pnlCharacters_CharacterMapChanged);
             // 
-            // pnlSpriteOptions
+            // tpnlDialogOptions
             // 
-            this.pnlSpriteOptions.Controls.Add(this.lblDuration);
-            this.pnlSpriteOptions.Controls.Add(this.nudDuration);
-            this.pnlSpriteOptions.Controls.Add(this.btnCharacterMapOptions);
-            this.pnlSpriteOptions.Controls.Add(this.lblRow);
-            this.pnlSpriteOptions.Controls.Add(this.lblColumn);
-            this.pnlSpriteOptions.Controls.Add(this.nudRow);
-            this.pnlSpriteOptions.Controls.Add(this.nudColumn);
-            this.pnlSpriteOptions.Controls.Add(this.btnDialogPaste);
-            this.pnlSpriteOptions.Controls.Add(this.btnDialogCopy);
-            this.pnlSpriteOptions.Controls.Add(this.lblName);
-            this.pnlSpriteOptions.Controls.Add(this.lblOffset);
-            this.pnlSpriteOptions.Controls.Add(this.txtName);
-            this.pnlSpriteOptions.Controls.Add(this.nudOffset);
-            this.pnlSpriteOptions.Controls.Add(this.lblCharacterMap);
-            this.pnlSpriteOptions.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlSpriteOptions.Location = new System.Drawing.Point(8, 0);
-            this.pnlSpriteOptions.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.pnlSpriteOptions.Name = "pnlSpriteOptions";
-            this.pnlSpriteOptions.Size = new System.Drawing.Size(172, 200);
-            this.pnlSpriteOptions.TabIndex = 3;
+            this.tpnlDialogOptions.ColumnCount = 2;
+            this.tpnlDialogOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlDialogOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tpnlDialogOptions.Controls.Add(this.btnCharacterMapOptions, 0, 8);
+            this.tpnlDialogOptions.Controls.Add(this.nudDuration, 1, 3);
+            this.tpnlDialogOptions.Controls.Add(this.btnDialogPaste, 1, 7);
+            this.tpnlDialogOptions.Controls.Add(this.nudRow, 1, 5);
+            this.tpnlDialogOptions.Controls.Add(this.btnDialogCopy, 0, 7);
+            this.tpnlDialogOptions.Controls.Add(this.lblRow, 1, 4);
+            this.tpnlDialogOptions.Controls.Add(this.lblCharacterMap, 0, 6);
+            this.tpnlDialogOptions.Controls.Add(this.nudColumn, 0, 5);
+            this.tpnlDialogOptions.Controls.Add(this.lblDuration, 1, 2);
+            this.tpnlDialogOptions.Controls.Add(this.lblColumn, 0, 4);
+            this.tpnlDialogOptions.Controls.Add(this.lblName, 0, 0);
+            this.tpnlDialogOptions.Controls.Add(this.txtName, 0, 1);
+            this.tpnlDialogOptions.Controls.Add(this.lblOffset, 0, 2);
+            this.tpnlDialogOptions.Controls.Add(this.nudOffset, 0, 3);
+            this.tpnlDialogOptions.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tpnlDialogOptions.Location = new System.Drawing.Point(8, 0);
+            this.tpnlDialogOptions.Name = "tpnlDialogOptions";
+            this.tpnlDialogOptions.RowCount = 10;
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tpnlDialogOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlDialogOptions.Size = new System.Drawing.Size(182, 196);
+            this.tpnlDialogOptions.TabIndex = 5;
             // 
-            // lblDuration
+            // btnCharacterMapOptions
             // 
-            this.lblDuration.AutoSize = true;
-            this.lblDuration.Location = new System.Drawing.Point(86, 40);
-            this.lblDuration.Margin = new System.Windows.Forms.Padding(0);
-            this.lblDuration.Name = "lblDuration";
-            this.lblDuration.Size = new System.Drawing.Size(90, 13);
-            this.lblDuration.TabIndex = 50;
-            this.lblDuration.Text = "Frame Duration:";
-            this.lblDuration.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tpnlDialogOptions.SetColumnSpan(this.btnCharacterMapOptions, 2);
+            this.btnCharacterMapOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCharacterMapOptions.Location = new System.Drawing.Point(2, 170);
+            this.btnCharacterMapOptions.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnCharacterMapOptions.Name = "btnCharacterMapOptions";
+            this.btnCharacterMapOptions.Size = new System.Drawing.Size(178, 26);
+            this.btnCharacterMapOptions.TabIndex = 49;
+            this.btnCharacterMapOptions.Text = "Character Map Options";
+            this.btnCharacterMapOptions.UseVisualStyleBackColor = true;
+            this.btnCharacterMapOptions.Click += new System.EventHandler(this.btnDialog_Click);
             // 
             // nudDuration
             // 
-            this.nudDuration.Location = new System.Drawing.Point(88, 56);
+            this.nudDuration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudDuration.Location = new System.Drawing.Point(93, 62);
+            this.nudDuration.Margin = new System.Windows.Forms.Padding(2);
             this.nudDuration.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.nudDuration.Name = "nudDuration";
-            this.nudDuration.Size = new System.Drawing.Size(80, 22);
+            this.nudDuration.Size = new System.Drawing.Size(87, 22);
             this.nudDuration.TabIndex = 51;
             this.nudDuration.ValueChanged += new System.EventHandler(this.nudDialog_ValueChanged);
             // 
-            // btnCharacterMapOptions
+            // btnDialogPaste
             // 
-            this.btnCharacterMapOptions.Location = new System.Drawing.Point(0, 168);
-            this.btnCharacterMapOptions.Name = "btnCharacterMapOptions";
-            this.btnCharacterMapOptions.Size = new System.Drawing.Size(168, 23);
-            this.btnCharacterMapOptions.TabIndex = 49;
-            this.btnCharacterMapOptions.Text = "Character Map Options";
-            this.btnCharacterMapOptions.UseVisualStyleBackColor = true;
-            this.btnCharacterMapOptions.Click += new System.EventHandler(this.btnDialog_Click);
-            // 
-            // lblRow
-            // 
-            this.lblRow.AutoSize = true;
-            this.lblRow.Location = new System.Drawing.Point(88, 80);
-            this.lblRow.Margin = new System.Windows.Forms.Padding(0);
-            this.lblRow.Name = "lblRow";
-            this.lblRow.Size = new System.Drawing.Size(77, 13);
-            this.lblRow.TabIndex = 48;
-            this.lblRow.Text = "Starting Row:";
-            this.lblRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblColumn
-            // 
-            this.lblColumn.AutoSize = true;
-            this.lblColumn.Location = new System.Drawing.Point(0, 80);
-            this.lblColumn.Margin = new System.Windows.Forms.Padding(0);
-            this.lblColumn.Name = "lblColumn";
-            this.lblColumn.Size = new System.Drawing.Size(71, 13);
-            this.lblColumn.TabIndex = 47;
-            this.lblColumn.Text = "Starting Col:";
-            this.lblColumn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDialogPaste.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDialogPaste.Location = new System.Drawing.Point(93, 144);
+            this.btnDialogPaste.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnDialogPaste.Name = "btnDialogPaste";
+            this.btnDialogPaste.Size = new System.Drawing.Size(87, 26);
+            this.btnDialogPaste.TabIndex = 44;
+            this.btnDialogPaste.Text = "Paste";
+            this.btnDialogPaste.UseVisualStyleBackColor = true;
+            this.btnDialogPaste.Click += new System.EventHandler(this.btnDialog_Click);
             // 
             // nudRow
             // 
-            this.nudRow.Location = new System.Drawing.Point(88, 96);
+            this.nudRow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudRow.Location = new System.Drawing.Point(93, 104);
+            this.nudRow.Margin = new System.Windows.Forms.Padding(2);
             this.nudRow.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.nudRow.Name = "nudRow";
-            this.nudRow.Size = new System.Drawing.Size(80, 22);
+            this.nudRow.Size = new System.Drawing.Size(87, 22);
             this.nudRow.TabIndex = 46;
             this.nudRow.ValueChanged += new System.EventHandler(this.nudDialog_ValueChanged);
             // 
+            // btnDialogCopy
+            // 
+            this.btnDialogCopy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDialogCopy.Location = new System.Drawing.Point(2, 144);
+            this.btnDialogCopy.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnDialogCopy.Name = "btnDialogCopy";
+            this.btnDialogCopy.Size = new System.Drawing.Size(87, 26);
+            this.btnDialogCopy.TabIndex = 43;
+            this.btnDialogCopy.Text = "Copy";
+            this.btnDialogCopy.UseVisualStyleBackColor = true;
+            this.btnDialogCopy.Click += new System.EventHandler(this.btnDialog_Click);
+            // 
+            // lblRow
+            // 
+            this.lblRow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblRow.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRow.Location = new System.Drawing.Point(93, 86);
+            this.lblRow.Margin = new System.Windows.Forms.Padding(2);
+            this.lblRow.Name = "lblRow";
+            this.lblRow.Size = new System.Drawing.Size(87, 14);
+            this.lblRow.TabIndex = 48;
+            this.lblRow.Text = "Starting Row:";
+            this.lblRow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblCharacterMap
+            // 
+            this.tpnlDialogOptions.SetColumnSpan(this.lblCharacterMap, 2);
+            this.lblCharacterMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblCharacterMap.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCharacterMap.Location = new System.Drawing.Point(2, 128);
+            this.lblCharacterMap.Margin = new System.Windows.Forms.Padding(2);
+            this.lblCharacterMap.Name = "lblCharacterMap";
+            this.lblCharacterMap.Size = new System.Drawing.Size(178, 14);
+            this.lblCharacterMap.TabIndex = 4;
+            this.lblCharacterMap.Text = "Character Map:";
+            this.lblCharacterMap.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // nudColumn
             // 
-            this.nudColumn.Location = new System.Drawing.Point(0, 96);
+            this.nudColumn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudColumn.Location = new System.Drawing.Point(2, 104);
+            this.nudColumn.Margin = new System.Windows.Forms.Padding(2);
             this.nudColumn.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.nudColumn.Name = "nudColumn";
-            this.nudColumn.Size = new System.Drawing.Size(80, 22);
+            this.nudColumn.Size = new System.Drawing.Size(87, 22);
             this.nudColumn.TabIndex = 45;
             this.nudColumn.ValueChanged += new System.EventHandler(this.nudDialog_ValueChanged);
             // 
-            // btnDialogPaste
+            // lblDuration
             // 
-            this.btnDialogPaste.Location = new System.Drawing.Point(84, 144);
-            this.btnDialogPaste.Name = "btnDialogPaste";
-            this.btnDialogPaste.Size = new System.Drawing.Size(84, 23);
-            this.btnDialogPaste.TabIndex = 44;
-            this.btnDialogPaste.Text = "Paste";
-            this.btnDialogPaste.UseVisualStyleBackColor = true;
-            this.btnDialogPaste.Click += new System.EventHandler(this.btnDialog_Click);
+            this.lblDuration.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblDuration.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDuration.Location = new System.Drawing.Point(91, 42);
+            this.lblDuration.Margin = new System.Windows.Forms.Padding(0);
+            this.lblDuration.Name = "lblDuration";
+            this.lblDuration.Size = new System.Drawing.Size(91, 18);
+            this.lblDuration.TabIndex = 50;
+            this.lblDuration.Text = "Frame Duration:";
+            this.lblDuration.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // btnDialogCopy
+            // lblColumn
             // 
-            this.btnDialogCopy.Location = new System.Drawing.Point(0, 144);
-            this.btnDialogCopy.Name = "btnDialogCopy";
-            this.btnDialogCopy.Size = new System.Drawing.Size(84, 23);
-            this.btnDialogCopy.TabIndex = 43;
-            this.btnDialogCopy.Text = "Copy";
-            this.btnDialogCopy.UseVisualStyleBackColor = true;
-            this.btnDialogCopy.Click += new System.EventHandler(this.btnDialog_Click);
+            this.lblColumn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblColumn.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblColumn.Location = new System.Drawing.Point(2, 86);
+            this.lblColumn.Margin = new System.Windows.Forms.Padding(2);
+            this.lblColumn.Name = "lblColumn";
+            this.lblColumn.Size = new System.Drawing.Size(87, 14);
+            this.lblColumn.TabIndex = 47;
+            this.lblColumn.Text = "Starting Col:";
+            this.lblColumn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(0, 0);
-            this.lblName.Margin = new System.Windows.Forms.Padding(0);
+            this.tpnlDialogOptions.SetColumnSpan(this.lblName, 2);
+            this.lblName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblName.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblName.Location = new System.Drawing.Point(2, 2);
+            this.lblName.Margin = new System.Windows.Forms.Padding(2);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(76, 13);
+            this.lblName.Size = new System.Drawing.Size(178, 14);
             this.lblName.TabIndex = 0;
             this.lblName.Text = "Dialog Name:";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // txtName
+            // 
+            this.tpnlDialogOptions.SetColumnSpan(this.txtName, 2);
+            this.txtName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtName.Location = new System.Drawing.Point(2, 20);
+            this.txtName.Margin = new System.Windows.Forms.Padding(2);
+            this.txtName.MaxLength = 50;
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(178, 22);
+            this.txtName.TabIndex = 1;
+            this.txtName.TextChanged += new System.EventHandler(this.txtDialog_TextChanged);
+            // 
             // lblOffset
             // 
-            this.lblOffset.AutoSize = true;
-            this.lblOffset.Location = new System.Drawing.Point(0, 40);
-            this.lblOffset.Margin = new System.Windows.Forms.Padding(0);
+            this.lblOffset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblOffset.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOffset.Location = new System.Drawing.Point(2, 44);
+            this.lblOffset.Margin = new System.Windows.Forms.Padding(2);
             this.lblOffset.Name = "lblOffset";
-            this.lblOffset.Size = new System.Drawing.Size(77, 13);
+            this.lblOffset.Size = new System.Drawing.Size(87, 14);
             this.lblOffset.TabIndex = 2;
             this.lblOffset.Text = "Tile ID Offset:";
             this.lblOffset.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(0, 16);
-            this.txtName.MaxLength = 50;
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(168, 22);
-            this.txtName.TabIndex = 1;
-            this.txtName.TextChanged += new System.EventHandler(this.txtDialog_TextChanged);
-            // 
             // nudOffset
             // 
-            this.nudOffset.Location = new System.Drawing.Point(0, 56);
+            this.nudOffset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudOffset.Location = new System.Drawing.Point(2, 62);
+            this.nudOffset.Margin = new System.Windows.Forms.Padding(2);
             this.nudOffset.Maximum = new decimal(new int[] {
             255,
             0,
             0,
             0});
             this.nudOffset.Name = "nudOffset";
-            this.nudOffset.Size = new System.Drawing.Size(80, 22);
+            this.nudOffset.Size = new System.Drawing.Size(87, 22);
             this.nudOffset.TabIndex = 3;
             this.nudOffset.ValueChanged += new System.EventHandler(this.nudDialog_ValueChanged);
-            // 
-            // lblCharacterMap
-            // 
-            this.lblCharacterMap.AutoSize = true;
-            this.lblCharacterMap.Location = new System.Drawing.Point(0, 128);
-            this.lblCharacterMap.Margin = new System.Windows.Forms.Padding(0);
-            this.lblCharacterMap.Name = "lblCharacterMap";
-            this.lblCharacterMap.Size = new System.Drawing.Size(85, 13);
-            this.lblCharacterMap.TabIndex = 4;
-            this.lblCharacterMap.Text = "Character Map:";
-            this.lblCharacterMap.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pnlTextEditor
             // 
@@ -516,17 +542,17 @@
             this.pnlTextEditor.Location = new System.Drawing.Point(0, 0);
             this.pnlTextEditor.Margin = new System.Windows.Forms.Padding(0);
             this.pnlTextEditor.Name = "pnlTextEditor";
-            this.pnlTextEditor.Size = new System.Drawing.Size(494, 519);
+            this.pnlTextEditor.Size = new System.Drawing.Size(364, 441);
             this.pnlTextEditor.TabIndex = 5;
             // 
             // pnlSplitter
             // 
             this.pnlSplitter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlSplitter.Location = new System.Drawing.Point(0, 248);
+            this.pnlSplitter.Location = new System.Drawing.Point(0, 170);
             this.pnlSplitter.MinExtra = 128;
             this.pnlSplitter.MinSize = 128;
             this.pnlSplitter.Name = "pnlSplitter";
-            this.pnlSplitter.Size = new System.Drawing.Size(494, 8);
+            this.pnlSplitter.Size = new System.Drawing.Size(364, 8);
             this.pnlSplitter.TabIndex = 4;
             this.pnlSplitter.TabStop = false;
             // 
@@ -537,7 +563,7 @@
             this.txtTextEditor.Multiline = true;
             this.txtTextEditor.Name = "txtTextEditor";
             this.txtTextEditor.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtTextEditor.Size = new System.Drawing.Size(494, 232);
+            this.txtTextEditor.Size = new System.Drawing.Size(364, 154);
             this.txtTextEditor.TabIndex = 6;
             this.txtTextEditor.TextChanged += new System.EventHandler(this.txtDialog_TextChanged);
             // 
@@ -554,10 +580,10 @@
             this.pnlDialogImage.Image = null;
             this.pnlDialogImage.ImageAlpha = 1F;
             this.pnlDialogImage.ImageScale = 1;
-            this.pnlDialogImage.Location = new System.Drawing.Point(0, 256);
+            this.pnlDialogImage.Location = new System.Drawing.Point(0, 178);
             this.pnlDialogImage.MinimumScale = 1;
             this.pnlDialogImage.Name = "pnlDialogImage";
-            this.pnlDialogImage.Size = new System.Drawing.Size(494, 263);
+            this.pnlDialogImage.Size = new System.Drawing.Size(364, 263);
             this.pnlDialogImage.SnapSize = new System.Drawing.Size(8, 8);
             this.pnlDialogImage.TabIndex = 6;
             this.pnlDialogImage.UseCanvas = false;
@@ -567,302 +593,20 @@
             // lblTextEditor
             // 
             this.lblTextEditor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblTextEditor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTextEditor.Location = new System.Drawing.Point(0, 0);
             this.lblTextEditor.Name = "lblTextEditor";
-            this.lblTextEditor.Size = new System.Drawing.Size(494, 24);
+            this.lblTextEditor.Size = new System.Drawing.Size(364, 24);
             this.lblTextEditor.TabIndex = 7;
-            this.lblTextEditor.Text = "Text Editor";
+            this.lblTextEditor.Text = "Text Editor:";
             this.lblTextEditor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tabTilesetEdit
-            // 
-            this.tabTilesetEdit.BackColor = System.Drawing.SystemColors.Control;
-            this.tabTilesetEdit.Controls.Add(this.tpnlTileset);
-            this.tabTilesetEdit.Location = new System.Drawing.Point(4, 22);
-            this.tabTilesetEdit.Name = "tabTilesetEdit";
-            this.tabTilesetEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTilesetEdit.Size = new System.Drawing.Size(680, 525);
-            this.tabTilesetEdit.TabIndex = 1;
-            this.tabTilesetEdit.Text = "Tileset Edit";
-            // 
-            // tpnlTileset
-            // 
-            this.tpnlTileset.ColumnCount = 2;
-            this.tpnlTileset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlTileset.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tpnlTileset.Controls.Add(this.pnlTilesetOptions, 1, 0);
-            this.tpnlTileset.Controls.Add(this.pnlTilesetEditor, 0, 0);
-            this.tpnlTileset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlTileset.Location = new System.Drawing.Point(3, 3);
-            this.tpnlTileset.Name = "tpnlTileset";
-            this.tpnlTileset.RowCount = 1;
-            this.tpnlTileset.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlTileset.Size = new System.Drawing.Size(674, 519);
-            this.tpnlTileset.TabIndex = 0;
-            // 
-            // pnlTilesetOptions
-            // 
-            this.pnlTilesetOptions.Controls.Add(this.btnPasteTileset);
-            this.pnlTilesetOptions.Controls.Add(this.btnCopyTileset);
-            this.pnlTilesetOptions.Controls.Add(this.btnDeselectTile);
-            this.pnlTilesetOptions.Controls.Add(this.btnRemoveTile);
-            this.pnlTilesetOptions.Controls.Add(this.chkTilesetGrid);
-            this.pnlTilesetOptions.Controls.Add(this.btnAddTile);
-            this.pnlTilesetOptions.Controls.Add(this.chkTilesetIndexes);
-            this.pnlTilesetOptions.Controls.Add(this.pnlSPRPalette);
-            this.pnlTilesetOptions.Controls.Add(this.pnlBGPalette);
-            this.pnlTilesetOptions.Controls.Add(this.pnlSelectedTile);
-            this.pnlTilesetOptions.Controls.Add(this.btnSwapSelectedPixel);
-            this.pnlTilesetOptions.Controls.Add(this.lblSelectedTile);
-            this.pnlTilesetOptions.Controls.Add(this.lblTilesetCompression);
-            this.pnlTilesetOptions.Controls.Add(this.cbTilesetCompression);
-            this.pnlTilesetOptions.Controls.Add(this.lblSPRPalette);
-            this.pnlTilesetOptions.Controls.Add(this.cbSPRPalette);
-            this.pnlTilesetOptions.Controls.Add(this.lblBGPalette);
-            this.pnlTilesetOptions.Controls.Add(this.cbBGPalette);
-            this.pnlTilesetOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTilesetOptions.Location = new System.Drawing.Point(494, 0);
-            this.pnlTilesetOptions.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlTilesetOptions.Name = "pnlTilesetOptions";
-            this.pnlTilesetOptions.Size = new System.Drawing.Size(180, 519);
-            this.pnlTilesetOptions.TabIndex = 3;
-            // 
-            // btnPasteTileset
-            // 
-            this.btnPasteTileset.Location = new System.Drawing.Point(92, 72);
-            this.btnPasteTileset.Name = "btnPasteTileset";
-            this.btnPasteTileset.Size = new System.Drawing.Size(84, 23);
-            this.btnPasteTileset.TabIndex = 42;
-            this.btnPasteTileset.Text = "Paste";
-            this.btnPasteTileset.UseVisualStyleBackColor = true;
-            this.btnPasteTileset.Click += new System.EventHandler(this.btnDialog_Click);
-            // 
-            // btnCopyTileset
-            // 
-            this.btnCopyTileset.Location = new System.Drawing.Point(8, 72);
-            this.btnCopyTileset.Name = "btnCopyTileset";
-            this.btnCopyTileset.Size = new System.Drawing.Size(84, 23);
-            this.btnCopyTileset.TabIndex = 41;
-            this.btnCopyTileset.Text = "Copy";
-            this.btnCopyTileset.UseVisualStyleBackColor = true;
-            this.btnCopyTileset.Click += new System.EventHandler(this.btnDialog_Click);
-            // 
-            // btnDeselectTile
-            // 
-            this.btnDeselectTile.Location = new System.Drawing.Point(8, 48);
-            this.btnDeselectTile.Name = "btnDeselectTile";
-            this.btnDeselectTile.Size = new System.Drawing.Size(168, 23);
-            this.btnDeselectTile.TabIndex = 40;
-            this.btnDeselectTile.Text = "Deselect Tile";
-            this.btnDeselectTile.UseVisualStyleBackColor = true;
-            this.btnDeselectTile.Click += new System.EventHandler(this.btnDialog_Click);
-            // 
-            // btnRemoveTile
-            // 
-            this.btnRemoveTile.Location = new System.Drawing.Point(8, 24);
-            this.btnRemoveTile.Name = "btnRemoveTile";
-            this.btnRemoveTile.Size = new System.Drawing.Size(168, 23);
-            this.btnRemoveTile.TabIndex = 39;
-            this.btnRemoveTile.Text = "Remove Selected Tile";
-            this.btnRemoveTile.UseVisualStyleBackColor = true;
-            this.btnRemoveTile.Click += new System.EventHandler(this.btnDialog_Click);
-            // 
-            // chkTilesetGrid
-            // 
-            this.chkTilesetGrid.AutoSize = true;
-            this.chkTilesetGrid.Checked = true;
-            this.chkTilesetGrid.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTilesetGrid.Location = new System.Drawing.Point(10, 96);
-            this.chkTilesetGrid.Name = "chkTilesetGrid";
-            this.chkTilesetGrid.Size = new System.Drawing.Size(48, 17);
-            this.chkTilesetGrid.TabIndex = 31;
-            this.chkTilesetGrid.Text = "Grid";
-            this.chkTilesetGrid.UseVisualStyleBackColor = true;
-            // 
-            // btnAddTile
-            // 
-            this.btnAddTile.Location = new System.Drawing.Point(8, 0);
-            this.btnAddTile.Margin = new System.Windows.Forms.Padding(0);
-            this.btnAddTile.Name = "btnAddTile";
-            this.btnAddTile.Size = new System.Drawing.Size(168, 23);
-            this.btnAddTile.TabIndex = 38;
-            this.btnAddTile.Text = "Add Empty Tile";
-            this.btnAddTile.UseVisualStyleBackColor = true;
-            this.btnAddTile.Click += new System.EventHandler(this.btnDialog_Click);
-            // 
-            // chkTilesetIndexes
-            // 
-            this.chkTilesetIndexes.AutoSize = true;
-            this.chkTilesetIndexes.Location = new System.Drawing.Point(58, 96);
-            this.chkTilesetIndexes.Name = "chkTilesetIndexes";
-            this.chkTilesetIndexes.Size = new System.Drawing.Size(97, 17);
-            this.chkTilesetIndexes.TabIndex = 32;
-            this.chkTilesetIndexes.Text = "Show Indexes";
-            this.chkTilesetIndexes.UseVisualStyleBackColor = true;
-            // 
-            // pnlSPRPalette
-            // 
-            this.pnlSPRPalette.Location = new System.Drawing.Point(8, 240);
-            this.pnlSPRPalette.Name = "pnlSPRPalette";
-            this.pnlSPRPalette.ReadOnly = false;
-            this.pnlSPRPalette.Size = new System.Drawing.Size(168, 40);
-            this.pnlSPRPalette.TabIndex = 37;
-            // 
-            // pnlBGPalette
-            // 
-            this.pnlBGPalette.Location = new System.Drawing.Point(8, 160);
-            this.pnlBGPalette.Name = "pnlBGPalette";
-            this.pnlBGPalette.ReadOnly = false;
-            this.pnlBGPalette.Size = new System.Drawing.Size(168, 40);
-            this.pnlBGPalette.TabIndex = 36;
-            // 
-            // pnlSelectedTile
-            // 
-            this.pnlSelectedTile.AutoScroll = true;
-            this.pnlSelectedTile.AutoScrollMinSize = new System.Drawing.Size(144, 144);
-            this.pnlSelectedTile.Canvas = new System.Drawing.Size(8, 8);
-            this.pnlSelectedTile.Centered = false;
-            this.pnlSelectedTile.HatchBackColor = System.Drawing.Color.DarkGray;
-            this.pnlSelectedTile.HatchForeColor = System.Drawing.Color.White;
-            this.pnlSelectedTile.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
-            this.pnlSelectedTile.Image = null;
-            this.pnlSelectedTile.ImageAlpha = 1F;
-            this.pnlSelectedTile.ImageScale = 1;
-            this.pnlSelectedTile.Location = new System.Drawing.Point(20, 336);
-            this.pnlSelectedTile.MinimumScale = 1;
-            this.pnlSelectedTile.Name = "pnlSelectedTile";
-            this.pnlSelectedTile.Palette = ((System.Collections.Generic.List<System.Drawing.Color>)(resources.GetObject("pnlSelectedTile.Palette")));
-            this.pnlSelectedTile.Pixels = ((System.Collections.Generic.List<byte>)(resources.GetObject("pnlSelectedTile.Pixels")));
-            this.pnlSelectedTile.SelectedColor = ((byte)(255));
-            this.pnlSelectedTile.SelectedTileID = 0;
-            this.pnlSelectedTile.Size = new System.Drawing.Size(144, 144);
-            this.pnlSelectedTile.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlSelectedTile.TabIndex = 34;
-            this.pnlSelectedTile.TargetColor = ((byte)(255));
-            this.pnlSelectedTile.UseCanvas = false;
-            this.pnlSelectedTile.UseHatch = true;
-            this.pnlSelectedTile.UseMouseWheelScaling = false;
-            // 
-            // btnSwapSelectedPixel
-            // 
-            this.btnSwapSelectedPixel.Location = new System.Drawing.Point(8, 484);
-            this.btnSwapSelectedPixel.Name = "btnSwapSelectedPixel";
-            this.btnSwapSelectedPixel.Size = new System.Drawing.Size(168, 23);
-            this.btnSwapSelectedPixel.TabIndex = 35;
-            this.btnSwapSelectedPixel.Text = "Swap Selected Pixel";
-            this.btnSwapSelectedPixel.UseVisualStyleBackColor = true;
-            this.btnSwapSelectedPixel.Click += new System.EventHandler(this.btnDialog_Click);
-            // 
-            // lblSelectedTile
-            // 
-            this.lblSelectedTile.AutoSize = true;
-            this.lblSelectedTile.Location = new System.Drawing.Point(8, 320);
-            this.lblSelectedTile.Name = "lblSelectedTile";
-            this.lblSelectedTile.Size = new System.Drawing.Size(74, 13);
-            this.lblSelectedTile.TabIndex = 33;
-            this.lblSelectedTile.Text = "Selected Tile:";
-            // 
-            // lblTilesetCompression
-            // 
-            this.lblTilesetCompression.AutoSize = true;
-            this.lblTilesetCompression.Location = new System.Drawing.Point(8, 280);
-            this.lblTilesetCompression.Margin = new System.Windows.Forms.Padding(0);
-            this.lblTilesetCompression.Name = "lblTilesetCompression";
-            this.lblTilesetCompression.Size = new System.Drawing.Size(77, 13);
-            this.lblTilesetCompression.TabIndex = 29;
-            this.lblTilesetCompression.Text = "Compression:";
-            this.lblTilesetCompression.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbTilesetCompression
-            // 
-            this.cbTilesetCompression.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTilesetCompression.FormattingEnabled = true;
-            this.cbTilesetCompression.Location = new System.Drawing.Point(8, 296);
-            this.cbTilesetCompression.Name = "cbTilesetCompression";
-            this.cbTilesetCompression.Size = new System.Drawing.Size(168, 21);
-            this.cbTilesetCompression.TabIndex = 30;
-            // 
-            // lblSPRPalette
-            // 
-            this.lblSPRPalette.AutoSize = true;
-            this.lblSPRPalette.Location = new System.Drawing.Point(8, 200);
-            this.lblSPRPalette.Margin = new System.Windows.Forms.Padding(0);
-            this.lblSPRPalette.Name = "lblSPRPalette";
-            this.lblSPRPalette.Size = new System.Drawing.Size(78, 13);
-            this.lblSPRPalette.TabIndex = 27;
-            this.lblSPRPalette.Text = "Sprite Palette:";
-            this.lblSPRPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbSPRPalette
-            // 
-            this.cbSPRPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSPRPalette.FormattingEnabled = true;
-            this.cbSPRPalette.Location = new System.Drawing.Point(8, 216);
-            this.cbSPRPalette.Name = "cbSPRPalette";
-            this.cbSPRPalette.Size = new System.Drawing.Size(168, 21);
-            this.cbSPRPalette.TabIndex = 28;
-            // 
-            // lblBGPalette
-            // 
-            this.lblBGPalette.AutoSize = true;
-            this.lblBGPalette.Location = new System.Drawing.Point(8, 120);
-            this.lblBGPalette.Margin = new System.Windows.Forms.Padding(0);
-            this.lblBGPalette.Name = "lblBGPalette";
-            this.lblBGPalette.Size = new System.Drawing.Size(110, 13);
-            this.lblBGPalette.TabIndex = 25;
-            this.lblBGPalette.Text = "Background Palette:";
-            this.lblBGPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbBGPalette
-            // 
-            this.cbBGPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBGPalette.FormattingEnabled = true;
-            this.cbBGPalette.Location = new System.Drawing.Point(8, 136);
-            this.cbBGPalette.Name = "cbBGPalette";
-            this.cbBGPalette.Size = new System.Drawing.Size(168, 21);
-            this.cbBGPalette.TabIndex = 26;
-            // 
-            // pnlTilesetEditor
-            // 
-            this.pnlTilesetEditor.Controls.Add(this.pnlTilesetEdit);
-            this.pnlTilesetEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTilesetEditor.Location = new System.Drawing.Point(0, 0);
-            this.pnlTilesetEditor.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlTilesetEditor.Name = "pnlTilesetEditor";
-            this.pnlTilesetEditor.Size = new System.Drawing.Size(494, 519);
-            this.pnlTilesetEditor.TabIndex = 2;
-            // 
-            // pnlTilesetEdit
-            // 
-            this.pnlTilesetEdit.Canvas = new System.Drawing.Size(8, 8);
-            this.pnlTilesetEdit.Centered = true;
-            this.pnlTilesetEdit.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTilesetEdit.EditMode = SMSTileStudio.Data.TilesetEditType.Select;
-            this.pnlTilesetEdit.HatchBackColor = System.Drawing.Color.DarkGray;
-            this.pnlTilesetEdit.HatchForeColor = System.Drawing.Color.White;
-            this.pnlTilesetEdit.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
-            this.pnlTilesetEdit.Image = null;
-            this.pnlTilesetEdit.ImageAlpha = 1F;
-            this.pnlTilesetEdit.ImageScale = 1;
-            this.pnlTilesetEdit.Indexed = false;
-            this.pnlTilesetEdit.Location = new System.Drawing.Point(0, 0);
-            this.pnlTilesetEdit.MinimumScale = 1;
-            this.pnlTilesetEdit.Name = "pnlTilesetEdit";
-            this.pnlTilesetEdit.Size = new System.Drawing.Size(494, 519);
-            this.pnlTilesetEdit.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlTilesetEdit.TabIndex = 2;
-            this.pnlTilesetEdit.TypeValue = 0;
-            this.pnlTilesetEdit.UseCanvas = false;
-            this.pnlTilesetEdit.UseGrid = true;
-            this.pnlTilesetEdit.UseHatch = true;
-            this.pnlTilesetEdit.UseMouseWheelScaling = true;
             // 
             // lblCreateDialog
             // 
             this.lblCreateDialog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCreateDialog.Location = new System.Drawing.Point(0, 0);
             this.lblCreateDialog.Name = "lblCreateDialog";
-            this.lblCreateDialog.Size = new System.Drawing.Size(688, 551);
+            this.lblCreateDialog.Size = new System.Drawing.Size(568, 473);
             this.lblCreateDialog.TabIndex = 6;
             this.lblCreateDialog.Text = "Create or select a dialog to edit";
             this.lblCreateDialog.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -874,26 +618,26 @@
             this.mnuExportHex,
             this.mnuExportAssembly});
             this.mnuExport.Name = "mnuExportOptions";
-            this.mnuExport.Size = new System.Drawing.Size(240, 70);
+            this.mnuExport.Size = new System.Drawing.Size(239, 70);
             // 
             // mnuExportBinary
             // 
             this.mnuExportBinary.Name = "mnuExportBinary";
-            this.mnuExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuExportBinary.Text = "Export as Binary";
             this.mnuExportBinary.Click += new System.EventHandler(this.mnuDialog_Click);
             // 
             // mnuExportHex
             // 
             this.mnuExportHex.Name = "mnuExportHex";
-            this.mnuExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuExportHex.Text = "Export as Hex (Clipboard)";
             this.mnuExportHex.Click += new System.EventHandler(this.mnuDialog_Click);
             // 
             // mnuExportAssembly
             // 
             this.mnuExportAssembly.Name = "mnuExportAssembly";
-            this.mnuExportAssembly.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportAssembly.Size = new System.Drawing.Size(238, 22);
             this.mnuExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuExportAssembly.Click += new System.EventHandler(this.mnuDialog_Click);
             // 
@@ -932,28 +676,23 @@
             this.Controls.Add(this.tpnlMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "AssetDialogControl";
-            this.Size = new System.Drawing.Size(890, 583);
+            this.Size = new System.Drawing.Size(770, 505);
             this.tpnlMain.ResumeLayout(false);
             this.grpDialogList.ResumeLayout(false);
-            this.pnlButtons.ResumeLayout(false);
+            this.tpnlDialogs.ResumeLayout(false);
             this.pnlDialogEdit.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
             this.tabDialogEdit.ResumeLayout(false);
             this.tpnlDialog.ResumeLayout(false);
             this.pnlDialogOptions.ResumeLayout(false);
-            this.pnlSpriteOptions.ResumeLayout(false);
-            this.pnlSpriteOptions.PerformLayout();
+            this.tpnlDialogOptions.ResumeLayout(false);
+            this.tpnlDialogOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRow)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudColumn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudOffset)).EndInit();
             this.pnlTextEditor.ResumeLayout(false);
             this.pnlTextEditor.PerformLayout();
-            this.tabTilesetEdit.ResumeLayout(false);
-            this.tpnlTileset.ResumeLayout(false);
-            this.pnlTilesetOptions.ResumeLayout(false);
-            this.pnlTilesetOptions.PerformLayout();
-            this.pnlTilesetEditor.ResumeLayout(false);
             this.mnuExport.ResumeLayout(false);
             this.mnuCharacterMap.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -966,7 +705,6 @@
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.GroupBox grpDialogList;
         private ListBoxControl lstDialogs;
-        private System.Windows.Forms.Panel pnlButtons;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnDuplicate;
@@ -983,34 +721,10 @@
         private System.Windows.Forms.TabPage tabDialogEdit;
         private System.Windows.Forms.TableLayoutPanel tpnlDialog;
         private System.Windows.Forms.Panel pnlDialogOptions;
-        private System.Windows.Forms.Panel pnlSpriteOptions;
         private System.Windows.Forms.Panel pnlTextEditor;
         private System.Windows.Forms.Splitter pnlSplitter;
         private SpriteImageControl pnlDialogImage;
         private System.Windows.Forms.Label lblTextEditor;
-        private System.Windows.Forms.TabPage tabTilesetEdit;
-        private System.Windows.Forms.TableLayoutPanel tpnlTileset;
-        private System.Windows.Forms.Panel pnlTilesetOptions;
-        private System.Windows.Forms.Panel pnlTilesetEditor;
-        private TilesetImageControl pnlTilesetEdit;
-        private System.Windows.Forms.Button btnPasteTileset;
-        private System.Windows.Forms.Button btnCopyTileset;
-        private System.Windows.Forms.Button btnDeselectTile;
-        private System.Windows.Forms.Button btnRemoveTile;
-        private System.Windows.Forms.CheckBox chkTilesetGrid;
-        private System.Windows.Forms.Button btnAddTile;
-        private System.Windows.Forms.CheckBox chkTilesetIndexes;
-        private PaletteControl pnlSPRPalette;
-        private PaletteControl pnlBGPalette;
-        private TileControl pnlSelectedTile;
-        private System.Windows.Forms.Button btnSwapSelectedPixel;
-        private System.Windows.Forms.Label lblSelectedTile;
-        private System.Windows.Forms.Label lblTilesetCompression;
-        private System.Windows.Forms.ComboBox cbTilesetCompression;
-        private System.Windows.Forms.Label lblSPRPalette;
-        private System.Windows.Forms.ComboBox cbSPRPalette;
-        private System.Windows.Forms.Label lblBGPalette;
-        private System.Windows.Forms.ComboBox cbBGPalette;
         private System.Windows.Forms.Button btnImport;
         private CharacterControl pnlCharacters;
         private System.Windows.Forms.Button btnDialogPaste;
@@ -1030,5 +744,7 @@
         private System.Windows.Forms.ToolStripMenuItem mnuExportBinary;
         private System.Windows.Forms.ToolStripMenuItem mnuExportHex;
         private System.Windows.Forms.ToolStripMenuItem mnuExportAssembly;
+        private System.Windows.Forms.TableLayoutPanel tpnlDialogOptions;
+        private System.Windows.Forms.TableLayoutPanel tpnlDialogs;
     }
 }

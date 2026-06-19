@@ -122,7 +122,7 @@
             this.mnuInsert,
             this.mnuRemove});
             this.mnuOptions.Name = "mnuOptions";
-            this.mnuOptions.Size = new System.Drawing.Size(185, 98);
+            this.mnuOptions.Size = new System.Drawing.Size(185, 120);
             // 
             // mnuMoveUp
             // 

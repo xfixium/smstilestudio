@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -50,7 +50,8 @@ namespace SMSTileStudio.Data
         // Default project palettes
         public void SetDefaultPalettes()
         {
-            Palettes.AddRange(GetDefaultPalettes());
+            Palettes.RemoveAll(x => x.ID < -1);
+            Palettes.InsertRange(0, GetDefaultPalettes());
         }
 
         /// <summary>
@@ -354,37 +355,6 @@ namespace SMSTileStudio.Data
                 new Palette(-4, "SG Default", sgColors)
             };
             return defaultPalettes;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static MetaTileSizeType GetMetatileSizeType(Size tileSize)
-        {
-            if (tileSize == new Size(8, 16))
-                return MetaTileSizeType.EightBySixteen;
-            else if (tileSize == new Size(16, 16))
-                return MetaTileSizeType.SixteenBySixteen;
-            else if (tileSize == new Size(32, 32))
-                return MetaTileSizeType.ThirtyTwoByThirtyTwo;
-            else
-                return MetaTileSizeType.SixteenBySixteen;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static Size GetMetaTileSize(MetaTileSizeType tileSizeType)
-        {
-            switch (tileSizeType)
-            {
-                case MetaTileSizeType.EightBySixteen: return new Size(8, 16);
-                case MetaTileSizeType.SixteenBySixteen: return new Size(16, 16);
-                case MetaTileSizeType.ThirtyTwoByThirtyTwo: return new Size(32, 32);
-                default: return new Size(16, 16);
-            }
         }
     }
 }

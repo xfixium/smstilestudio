@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -71,9 +71,10 @@ namespace SMSTileStudio.Data
         /// </summary>
         /// <param name="getRawData">If ignoring compression and data length limitation</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetDataEntryData(bool getRawData)
+        public byte[] GetDataEntryData(Compressor compression)
         {
-            return getRawData ? Data.ToArray() : GetExportData(Data);
+            // TODO: Add compression option
+            return compression == null ? Data.ToArray() : Data.ToArray();
         }
     }
 }

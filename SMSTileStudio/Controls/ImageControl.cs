@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -363,8 +363,11 @@ namespace SMSTileStudio.Controls
             OnAfterDrawOnBackbuffer(ref gfx, ref origin);
 
             if (gfx != null)
+            {
                 gfx.Dispose();
-
+                gfx = null;
+            }
+                
             // Flip to screen
             Invalidate();
         }
@@ -428,6 +431,11 @@ namespace SMSTileStudio.Controls
             size.Width = Math.Max(ClientSize.Width, size.Width);
             size.Height = Math.Max(ClientSize.Height, size.Height);
             return size;
+        }
+
+        public Rectangle GetViewport()
+        {
+            return new Rectangle(Math.Abs(AutoScrollPosition.X), Math.Abs(AutoScrollPosition.Y), ClientSize.Width, ClientSize.Height);
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,14 +20,14 @@
 // THE SOFTWARE.
 //
 
+using SMSTileStudio.Data;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using SMSTileStudio.Data;
 
 namespace SMSTileStudio.Controls
 {
@@ -140,7 +140,7 @@ namespace SMSTileStudio.Controls
                         {
                             using (BinaryWriter bw = new BinaryWriter(fs))
                             {
-                                bw.Write(_dataEntry.GetDataEntryData(true));
+                                bw.Write(_dataEntry.GetDataEntryData(null));
                             }
                         }
                     }

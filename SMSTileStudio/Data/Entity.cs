@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +53,7 @@ namespace SMSTileStudio.Data
                 switch (field.ValueType)
                 {
                     case EntityFieldType.Byte: count++; break;
-                    case EntityFieldType.Word: count += 2; break;
+                    case EntityFieldType.Int: count += 2; break;
                     case EntityFieldType.Long: count += 4; break;
                     default: count += field.Value.Length; break;
                 }
@@ -90,33 +90,49 @@ namespace SMSTileStudio.Data
         /// <returns></returns>
         public byte[] GetEntityData(bool getRawData)
         {
-            List<byte> data = new List<byte>();
-            foreach (var field in Fields)
+            try
             {
-                switch (field.ValueType)
+                List<byte> data = new List<byte>();
+                foreach (var field in Fields)
                 {
-                    case EntityFieldType.Byte:
-                        data.Add(Convert.ToByte(field.Value));
-                        break;
+                    switch (field.ValueType)
+                    {
+                        case EntityFieldType.Byte:
+                            data.Add(Convert.ToByte(field.Value));
+                            break;
 
-                    case EntityFieldType.Word:
-                        data.AddRange(GetWord(field.Value));
-                        break;
+                        case EntityFieldType.Int:
+                            data.AddRange(GetWord(field.Value));
+                            break;
 
-                    case EntityFieldType.Long:
-                        data.AddRange(GetLong(field.Value));
-                        break;
+                        case EntityFieldType.Long:
+                            data.AddRange(GetLong(field.Value));
+                            break;
 
-                    case EntityFieldType.Ints:
-                        var values = field.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var val in values)
-                        {
-                            data.AddRange(GetWord(val));
-                        }
-                        break;
+                        case EntityFieldType.Bytes:
+                            var bytes = field.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var b in bytes)
+                            {
+                                data.Add(byte.Parse(b));
+                            }
+                            break;
+
+                        case EntityFieldType.Ints:
+                            var ints = field.Value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var i in ints)
+                            {
+                                data.AddRange(GetWord(i));
+                            }
+                            break;
+                    }
                 }
+                // TODO: Add compression option
+                return getRawData ? data.ToArray() : data.ToArray();
             }
-            return getRawData ? data.ToArray() : GetExportData(data);
+            catch 
+            {
+                throw new Exception("Error converting value(s) to data type. Review value(s), and try again.");
+            }
         }
 
         /// <summary>
@@ -162,7 +178,7 @@ namespace SMSTileStudio.Data
                     else
                         return "0";
 
-                case EntityFieldType.Word:
+                case EntityFieldType.Int:
                     ushort w;
                     if (ushort.TryParse(value, out w))
                         return w.ToString();
@@ -176,15 +192,15 @@ namespace SMSTileStudio.Data
                     else
                         return "0";
 
-                case EntityFieldType.Hex:
-                    // todo: parse string
-                    return value;
-
                 case EntityFieldType.Bytes:
                     // todo: parse string
                     return value;
 
                 case EntityFieldType.Ints:
+                    // todo: parse string
+                    return value;
+
+                case EntityFieldType.Longs:
                     // todo: parse string
                     return value;
 

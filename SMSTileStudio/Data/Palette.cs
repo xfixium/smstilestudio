@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,10 @@
 //
 
 using System;
-using System.Text;
-using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Text;
 
 namespace SMSTileStudio.Data
 {
@@ -197,26 +197,26 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets assembly string
+        /// Gets data string
         /// </summary>
         /// <returns>Object assembly string</returns>
-        public string GetASMString(bool hex, bool gameGear)
+        public string GetDataString(bool asm, bool gameGear)
         {
             StringBuilder sb = new StringBuilder();
-            if (!hex)
+            if (asm)
                 sb.Append(".db ");
-            byte[] data = GetPaletteData(true, gameGear);
-            foreach (byte b in data)
-                sb.Append((hex ? "" : "$") + b.ToString("X2") + " ");
+            byte[] data = GetPaletteData(null, gameGear);
+            for (int i = 0; i < data.Length; i++)
+                sb.Append((asm ? "$" : "") + data[i].ToString("X2") + " ");
             return sb.ToString().Trim();
         }
 
         /// <summary>
         /// Gets palette data
         /// </summary>
-        /// <param name="getRawData">If ignoring compression</param>
+        /// <param name="compressor">Compressor being used, null for no compression</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetPaletteData(bool getRawData, bool gameGear)
+        public byte[] GetPaletteData(Compressor compressor, bool gameGear)
         {
             List<byte> bytes = new List<byte>();
             if (gameGear)
@@ -224,7 +224,9 @@ namespace SMSTileStudio.Data
             else
                 bytes.AddRange(GetColors(Colors.GetRange(0, Colors.Count)));
 
-            return getRawData ? bytes.ToArray() : GetExportData(bytes);
+            // TODO: Add compression option
+            int length = gameGear ? Length * 2 : Length;
+            return compressor == null ? bytes.GetRange(0, length).ToArray() : bytes.ToArray();
         }
 
         /// <summary>

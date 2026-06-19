@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -92,9 +92,9 @@ namespace SMSTileStudio.Controls
         /// </summary>
         /// <param name="ctrl">Combobox to get the selected CompressionType from</param>
         /// <returns>The selected CompressionType</returns>
-        public CompressionType GetCompressionType(ComboBox ctrl)
+        public string GetCompressionType(ComboBox ctrl)
         {
-            return (CompressionType)ctrl.SelectedItem.GetType().GetProperty("value").GetValue(ctrl.SelectedItem, null);
+            return (string)ctrl.SelectedItem.GetType().GetProperty("Name").GetValue(ctrl.SelectedItem, null);
         }
 
         /// <summary>
@@ -102,13 +102,20 @@ namespace SMSTileStudio.Controls
         /// </summary>
         /// <param name="ctrl">Combobox to set the selected CompressionType to</param>
         /// <param name="type">The CompressionType to set</param>
-        public void SetCompressionType(ComboBox ctrl, CompressionType type)
+        public void SetCompressionType(ComboBox ctrl, string type)
         {
             foreach (var item in ctrl.Items)
             {
-                var t = item.GetType().GetProperty("value").GetValue(item, null);
+                var t = item.GetType().GetProperty("Name").GetValue(item, null);
                 if (t.ToString() == type.ToString())
+                {
                     ctrl.SelectedItem = item;
+                    return;
+                }
+            }
+            if (ctrl.Items.Count > 0)
+            {
+                ctrl.SelectedIndex = 0;
             }
         }
     }

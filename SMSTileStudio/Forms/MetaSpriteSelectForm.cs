@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -77,8 +77,8 @@ namespace SMSTileStudio.Forms
                 return;
             }
 
-            pnlMetaSprite.Palette = sprPalette;
-            pnlMetaSprite.LoadFrame(metaSprite.Frames[0], metaSprite == null ? SpriteModeType.Normal : metaSprite.SpriteMode);
+            //pnlMetaSprite.Palette = sprPalette;
+            pnlMetaSprite.LoadFrame(metaSprite.Frames[0], sprPalette, metaSprite == null ? SpriteModeType.Normal : metaSprite.SpriteMode);
             pnlTileset.Image = BitmapUtility.GetTilesetImage(metaSprite.GetTileset(), sprPalette, 16);
         }
 

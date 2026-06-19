@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
 //
 
 using System;
-using System.Collections.Generic;
 
 namespace SMSTileStudio.Data
 {
@@ -34,9 +33,9 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Properties
         /// </summary>
-        public CompressionType CompressionType { get; set; } = CompressionType.None;            // Compression used for this asset, if any
         public GameAssetType GameAssetType { get; set; }                                        // Game asset type
-        public bool UsesCompression { get { return CompressionType != CompressionType.None; } } // If the game asset uses compression
+        public string CompressionType { get; set; } = "None";                                   // Compression used for this asset, if any
+        public bool UsesCompression { get { return CompressionType != "None"; } }               // If the game asset uses compression
         public int ID { get; set; } = -1;                                                       // Unique ID or byte position in ROM data
         public string Name { get; set; } = "";                                                  // The name of the asset
         public int Length { get; set; } = 0;                                                    // The size, in bytes (Compressed or otherwise)
@@ -49,25 +48,6 @@ namespace SMSTileStudio.Data
         /// </summary>
         public GameAsset() { }
         public GameAsset(int id, string name) { ID = id; Name = name; }
-
-        /// <summary>
-        /// Makes sure the given bytes (For export) are either truncated by the original asset length, 
-        /// padded if not enough bytes, or overridden if the length is bigger than the original asset length
-        /// Also handles compression of exported bytes
-        /// </summary>
-        /// <param name="bytes">The bytes to export</param>
-        /// <returns>A finalized array of bytes</returns>
-        public byte[] GetExportData(List<byte> bytes)
-        {
-            if (CompressionType != CompressionType.None)
-            {
-                //byte[] compressed = Compression.Compress(CompressionType, bytes.ToArray());
-                //bytes.Clear();
-                //bytes.AddRange(compressed);
-            }
-
-            return bytes.ToArray();
-        }
 
         /// <summary>
         /// ToString override

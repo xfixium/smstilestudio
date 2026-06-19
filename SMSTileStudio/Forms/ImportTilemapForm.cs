@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,13 @@ namespace SMSTileStudio.Forms
         private Palette _sprPalette = null;
         private List<Color> _importColors = new List<Color>();
         private bool _initalizing = true;
+        private bool _update = false;
         private FlipType _flipType = FlipType.None;
+
+        /// <summary>
+        /// Properties
+        /// </summary>
+        public Tilemap Tilemap { get { return _tilemap; } }
 
         /// <summary>
         /// Constructor
@@ -52,11 +58,12 @@ namespace SMSTileStudio.Forms
         {
             InitializeComponent();
 
-            Text = "Import Graphics for " + tilemap.Name;
-            _tilemap = tilemap.DeepClone();
+            Text = tilemap != null ? "Import Graphics for " + tilemap.Name : "Import Graphics";
+            _update = tilemap != null;
+            _tilemap = tilemap != null ? tilemap.DeepClone() : new Tilemap();
             _image = image;
-            _bgPalette = (Palette)App.Project.GetAsset(tilemap.BgPaletteID);
-            _sprPalette = (Palette)App.Project.GetAsset(tilemap.SprPaletteID);
+            _bgPalette = (Palette)App.Project.GetAsset(_tilemap.BgPaletteID);
+            _sprPalette = (Palette)App.Project.GetAsset(_tilemap.SprPaletteID);
             _importColors = importColors;
             LoadData();
             LoadUI();
@@ -204,7 +211,19 @@ namespace SMSTileStudio.Forms
             _tilemap.SprPaletteID = _sprPalette.ID;
             _tilemap.Tileset = new Tileset();
             _tilemap.Tileset.Pixels = BitmapUtility.PixelTilesToSMSTiles(pixelTiles, _bgPalette.Colors, _sprPalette.Colors);
-            App.Project.UpdateAsset(_tilemap.DeepClone());
+            var compression = _tilemap.Tileset.CompressionType;
+            _tilemap.Tileset.CompressionType = compression;
+            // If updating an existing tilemap
+            if (_update)
+                App.Project.UpdateAsset(_tilemap.DeepClone());
+            // Create a new tilemap
+            else
+            {
+                var tilemap = App.Project.CreateAsset(GameAssetType.Tilemap);
+                _tilemap.ID = tilemap.ID;
+                _tilemap.Name = tilemap.Name;
+                App.Project.UpdateAsset(_tilemap);
+            }
             DialogResult = DialogResult.OK;
         }
 
@@ -222,7 +241,7 @@ namespace SMSTileStudio.Forms
         private void SetPalettes()
         {
             pnlBGPalette.SetPalette(_bgPalette.Colors);
-            pnlSPRPalette.SetPalette(_sprPalette.Colors);
+            pnlSprPalette.SetPalette(_sprPalette.Colors);
             pnlPalettes.SetPalette(_importColors, _bgPalette.Colors, _sprPalette.Colors);
             pnlTileset.UpdateTiles(pnlPalettes.BGImport, pnlPalettes.SPRImport, pnlPalettes.BGPalette, pnlPalettes.SPRPalette);
             UpdateImage();
@@ -236,13 +255,12 @@ namespace SMSTileStudio.Forms
             try
             {
                 pnlTileset.Clear();
-
-                List<PixelTile> pixelTiles = BitmapUtility.GetPixelTiles(_image, _importColors[0], chkAllowDuplicates.Checked, chkIgnoreEmpty.Checked, _flipType);
+                var data = BitmapUtility.GetPixelTiles(_image, _importColors[0], chkAllowDuplicates.Checked, chkIgnoreEmpty.Checked, _flipType);
                 _tilemap.Columns = _image.Width / 8;
                 _tilemap.Rows = _image.Height / 8;
-                _tilemap.Tiles = BitmapUtility.GetTilesFromImage(pixelTiles, _image, 0, _flipType);
+                _tilemap.Tiles = data.Item2; // BitmapUtility.GetTilesFromImage(pixelTiles, _image, 0, _flipType);
                 pnlImage.SetTiles(_tilemap.Tiles, _tilemap.Columns, _tilemap.Rows);
-                pnlTileset.SetPixelTiles(pixelTiles);
+                pnlTileset.SetPixelTiles(data.Item1);
                 SetPalettes();
                 lblTileCount.Text = "Tile Count: " + pnlTileset.TileCount;
                 UpdateImage();

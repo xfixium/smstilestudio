@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SMSTileStudio.Data
 {
@@ -400,7 +403,7 @@ namespace SMSTileStudio.Data
         /// <returns>Object information string</returns>
         public string GetInfo()
         {
-            int length = GetTilemapData(false, OrientationType.Horizontal).Length;
+            int length = GetTilemapData(null, OrientationType.Horizontal).Length;
             var tilemapInfo = "ID: " + ID + " | Name: " + Name + " | Cols: " + Columns + " | Rows: " + Rows + " | Tile Count: " + Tiles.Count + " tiles | Length: " + length + " bytes";
             var tilesetInfo = Tileset == null ? "No Tileset information" : Tileset.GetInfo();
             return "Tilemap: " + tilemapInfo + " | Tileset: " + tilesetInfo;
@@ -465,9 +468,9 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Gets tilemap data
         /// </summary>
-        /// <param name="getRawData">If ignoring compression and data length limitation</param>
+        /// <param name="compressor">Compressor being used, null for no compression</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetTilemapData(bool getRawData, OrientationType orientation)
+        public byte[] GetTilemapData(Compressor compressor, OrientationType orientation)
         {
             List<byte> bytes = new List<byte>();
             switch (orientation)
@@ -496,7 +499,7 @@ namespace SMSTileStudio.Data
                     //        bytes.AddRange(UseTileAttributes ? GetTileBytes(Tiles[(Columns * row) + col]) : new byte[] { (byte)Tiles[(Columns * row) + col].TileID });
                     break;
             }
-            return getRawData ? bytes.ToArray() : GetExportData(bytes);
+            return compressor == null ? bytes.ToArray() : compressor.CompressTilemap(bytes.ToArray(), Columns, Rows).ToArray();
         }
 
         /// <summary>
@@ -602,6 +605,7 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="gsLibFormat">If using GSLib format for output</param>
         /// <returns></returns>
         public byte[] GetMetaTilemapData(bool gsLibFormat)
         {
@@ -636,6 +640,7 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="gsLibFormat">If using GSLib format for output</param>
         /// <returns></returns>
         public byte[] GetMetaTileData(bool gsLibFormat)
         {
@@ -662,6 +667,87 @@ namespace SMSTileStudio.Data
             }
             // Add Meta tilemap and Meta tile data
             return metaTiles.ToArray();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="image"></param>
+        public List<PixelTile> SetTilemap(Bitmap image, bool allowDuplicates, bool ignoreEmpty, Color backColor, FlipType flipType)
+        {
+            // If tilemap is smaller than a single tile, return
+            if (image.Width < 8 || image.Height < 8)
+            {
+                MessageBox.Show("Tilemap size must be equal to or larger than a single tile", "SMS Tile Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return new List<PixelTile>();
+            }
+
+            // Clear tiles
+            if (Tileset == null)
+                Tileset = new Tileset();
+            Tiles.Clear();
+            Tileset.Pixels.Clear();
+            Columns = image.Width / 8;
+            Rows = image.Height / 8;
+
+            int index = 0;
+            var imageData = new List<PixelTile>();
+            var rect = new Rectangle(0, 0, 8, 8);
+
+            // Iterate through tilemap image, tiled
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Columns; col++)
+                {
+                    // Set copy rectangle position
+                    rect.X = col * 8;
+                    rect.Y = row * 8;
+
+                    // Copy a section of the image pixel data fast
+                    PixelTile compare = new PixelTile(BitmapUtility.GetPixels(image, new Rectangle(col * 8, row * 8, 8, 8)));
+                    // var compare = BitmapUtility.GetPixels(tilemapImage, rect);
+
+                    // If the compare is empty, skip over validation process
+                    if (compare == null)
+                        continue;
+
+                    // Set match variable
+                    bool match = false;
+
+                    // Iterate through existing unique tiles for a match
+                    for (int i = 0; i < imageData.Count; i++)
+                    {
+                        // If the compare is equal to the tile
+                        var tile = BitmapUtility.CompareTiles(compare.Pixels.ToArray(), imageData[i].Pixels.ToArray(), flipType);
+                        if (tile.Item1 == true)
+                        {
+                            // Already have the tile pixels, add tile
+                            match = true;
+                            Tiles.Add(new Tile(i, tile.Item2));
+                            break;
+                        }
+                    }
+
+                    if (match && !allowDuplicates)
+                        continue;
+
+                    if (ignoreEmpty && BitmapUtility.IsEmptyTile(compare.Pixels.ToArray(), backColor.ToArgb()))
+                        continue;
+
+                    // No match was found
+                    if (match == false)
+                    {
+                        // Add tile to unique tile list
+                        imageData.Add(compare);
+                        //Tileset.Pixels.AddRange(compare);
+                        Tiles.Add(new Tile(index));
+                        index++;
+                    }
+                }
+            }
+
+            return imageData;
         }
     }
 }

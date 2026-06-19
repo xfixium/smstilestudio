@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ namespace SMSTileStudio.Data
         public int Rows { get; set; } = 1;                                                          // The number of rows
         public List<int> MetaTilemapIds { get; set; } = new List<int>();                            // Meta tilemap Metatile ids
         public List<MetaTile> MetaTiles { get; set; } = new List<MetaTile>();                       // Metatile tiles
-        public Size MetaTileSize { get { return Project.GetMetaTileSize(MetaTileSizeType); } }
+        public Size MetaTileSize { get { return MetaTile.GetMetaTileSize(MetaTileSizeType); } }
 
         /// <summary>
         /// Constructors
@@ -86,7 +86,7 @@ namespace SMSTileStudio.Data
         public void SetMetaTilemap(MetaTileSizeType type, Bitmap tilemapImage, Bitmap tilesetImage)
         {
             // Get pixel size of a single meta tile, if smaller than the tilemap, return
-            var metaTileSize = Project.GetMetaTileSize(type);
+            var metaTileSize = MetaTile.GetMetaTileSize(type);
             if (tilemapImage.Width < metaTileSize.Width || tilemapImage.Height < metaTileSize.Height)
             {
                 MessageBox.Show("Tilemap size must be equal to or larger than a single meta tile", "SMS Tile Studio", MessageBoxButtons.OK, MessageBoxIcon.Information);

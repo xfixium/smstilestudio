@@ -20,39 +20,33 @@
 // THE SOFTWARE.
 //
 
-namespace SMSTileStudio.Controls
+using System;
+using System.Collections.Generic;
+
+// Code base on: https://github.com/maxim-zhao/bmp2tile/blob/master/source/bmp2tile/ICompressor.cs
+namespace SMSTileStudio.Data
 {
-    partial class TileSelectControl
+    /// <summary>
+    /// Interface for something that can convert tiles or tilemaps to bytes
+    /// </summary>
+    public interface ICompressor : IDisposable
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        string Extension { get; }
+        string Name { get; }
+        CompressorCapabilities Capabilities { get; }
+    }
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+    internal interface ICompressorImpl : ICompressor
+    {
+        IEnumerable<byte> CompressTiles(byte[] pixels, int count, bool asChunky);
+        IEnumerable<byte> CompressTilemap(byte[] tilemap, int columns, int rows);
+    }
 
-        #region Component Designer generated code
-
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        #endregion
+    [Flags]
+    public enum CompressorCapabilities
+    {
+        None = 0,
+        Tiles,
+        Tilemap
     }
 }

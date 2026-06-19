@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -88,9 +88,9 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Gets tilemap data
         /// </summary>
-        /// <param name="getRawData">If ignoring compression and data length limitation</param>
+        /// <param name="compressor">Compressor being used, null for no compression</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetDialogData(bool getRawData)
+        public byte[] GetDialogData(Compressor compressor)
         {
             List<byte> bytes = new List<byte>();
             foreach (var c in Text)
@@ -106,7 +106,8 @@ namespace SMSTileStudio.Data
                 var charSet = CharacterMap.FirstOrDefault(x => x.Character == c);
                 bytes.Add(charSet == null ? (byte)Offset : (byte)(charSet.TileID + Offset));
             }
-            return getRawData ? bytes.ToArray() : GetExportData(bytes);
+            // TODO: Add compression option
+            return compressor == null ? bytes.ToArray() : bytes.ToArray();
         }
     }
 

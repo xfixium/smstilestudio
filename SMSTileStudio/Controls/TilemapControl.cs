@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -68,6 +68,7 @@ namespace SMSTileStudio.Controls
         private Point _brushOrigin = Point.Empty;
         private Bitmap _brushBitmap = null;
         private Entity _selectedEntity = null;
+        private Size _areaGridSize = new Size(32, 24);
 
         /// <summary>
         /// Properties
@@ -160,7 +161,7 @@ namespace SMSTileStudio.Controls
         public bool InvertGridColor { get { return _invertGridColor; } set { _invertGridColor = value; UpdateBackBuffer(); } }
         public int HighlightCount { get; private set; } = 0;
         public byte TypeValue { get; set; } = 0;
-        public Size AreaGridSize { get; set; } = new Size(32, 24);
+        public Size AreaGridSize { get { return _areaGridSize; } set { _areaGridSize = value; UpdateBackBuffer(); } }
         public Size BlockSize { get; set; } = new Size(16, 16);
         public byte BlockValue { get; set; } = 0;
         public bool ShowIndexes { get { return _showIndexes; } set { _showIndexes = value; UpdateBackBuffer(); } }
@@ -235,9 +236,9 @@ namespace SMSTileStudio.Controls
             DrawAreaGrid(gfx, origin);
             DrawHighlights(gfx, origin);
             DrawSelection(gfx, origin);
-            DrawEntities(gfx, origin);
+            //DrawEntities(gfx, origin);
             DrawBrush(gfx, origin);
-            DrawMetatiles(gfx, origin);
+            //DrawMetatiles(gfx, origin);
             DrawTileGrid(gfx, origin);
         }
 
@@ -285,7 +286,8 @@ namespace SMSTileStudio.Controls
                     _scrollTimer.Start();
                     _selectOrigin = new Point(x, y);
                     _selection = new Rectangle(new Point(x, y), snap);
-                    break;
+                    UpdateBackBuffer();
+                    return;
                 case TileEditType.Entities:
                     // Set default scroll position and start the auto scroll timer
                     _scrollCapture = new Point(-AutoScrollPosition.X, -AutoScrollPosition.Y);
@@ -509,7 +511,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawAttributeValue(Graphics gfx, Point origin)
         {
-            if (Image == null || _tiles.Count <= 0 || EditMode == TileEditType.TileGrid ||
+            if (Image == null || _tiles.Count <= 0 || EditMode == TileEditType.TileGrid || EditMode == TileEditType.Entities ||
                 (!Indexed && EditMode == TileEditType.TileID) ||
                 (!Indexed && EditMode == TileEditType.Selection))
                 return;
@@ -551,59 +553,63 @@ namespace SMSTileStudio.Controls
             }
         }
 
-        /// <summary>
-        /// Draws block values
-        /// </summary>
-        private void DrawMetatileValues(Graphics gfx, Point origin)
-        {
-            if (_editMode != TileEditType.Metatiles || Image == null || _tiles.Count <= 0 || _metatiles.Count <= 0)
-                return;
+        ///// <summary>
+        ///// Draws block values
+        ///// </summary>
+        //private void DrawMetatileValues(Graphics gfx, Point origin)
+        //{
+        //    if (_editMode != TileEditType.Metatiles || Image == null || _tiles.Count <= 0 || _metatiles.Count <= 0)
+        //        return;
 
-            int index = 0;
-            Font font = new Font(Font.Name, 5 + ImageScale, FontStyle.Regular);
-            StringFormat format = new StringFormat();
-            format.Alignment = StringAlignment.Center;
-            format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip;
-            int cols = (int)Math.Ceiling(Image.Width / (double)(BlockSize.Width));
-            int rows = (int)Math.Ceiling(Image.Height / (double)(BlockSize.Height));
-            for (int row = 0; row < rows; row++)
-            {
-                for (int col = 0; col < cols; col++)
-                {
-                    if (index < _metatiles.Count && _metatiles[index] != null)
-                    {
-                        Point point = new Point((col * BlockSize.Width * ImageScale) + (origin.X * ImageScale) + AutoScrollPosition.X, (row * BlockSize.Height * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
-                        RectangleF rect = new RectangleF(point.X, point.Y, (BlockSize.Width + 1) * ImageScale, (BlockSize.Height + 1) * ImageScale);
-                        string value = (_metatiles[index].TileID).ToString();
-                        BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, rect, format);
-                        gfx.DrawString(value, font, Brushes.White, rect, format);
-                    }
-                    index++;
-                }
-            }
-        }
+        //    int index = 0;
+        //    Font font = new Font(Font.Name, 5 + ImageScale, FontStyle.Regular);
+        //    StringFormat format = new StringFormat();
+        //    format.Alignment = StringAlignment.Center;
+        //    format.FormatFlags = StringFormatFlags.NoWrap | StringFormatFlags.NoClip;
+        //    int cols = (int)Math.Ceiling(Image.Width / (double)(BlockSize.Width));
+        //    int rows = (int)Math.Ceiling(Image.Height / (double)(BlockSize.Height));
+        //    for (int row = 0; row < rows; row++)
+        //    {
+        //        for (int col = 0; col < cols; col++)
+        //        {
+        //            if (index < _metatiles.Count && _metatiles[index] != null)
+        //            {
+        //                Point point = new Point((col * BlockSize.Width * ImageScale) + (origin.X * ImageScale) + AutoScrollPosition.X, (row * BlockSize.Height * ImageScale) + (origin.Y * ImageScale) + AutoScrollPosition.Y);
+        //                RectangleF rect = new RectangleF(point.X, point.Y, (BlockSize.Width + 1) * ImageScale, (BlockSize.Height + 1) * ImageScale);
+        //                string value = (_metatiles[index].TileID).ToString();
+        //                BitmapUtility.DrawTextOutline(gfx, value, font, Brushes.Black, rect, format);
+        //                gfx.DrawString(value, font, Brushes.White, rect, format);
+        //            }
+        //            index++;
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        /// raws block gri
-        /// </summary>
-        /// <param name="gfx"></param>
-        /// <param name="origin"></param>
-        private void DrawMetatiles(Graphics gfx, Point origin)
-        {
-            if (_editMode != TileEditType.Metatiles || Image == null || _tiles.Count <= 0 || _metatiles.Count <= 0)
-                return;
+        ///// <summary>
+        ///// raws block gri
+        ///// </summary>
+        ///// <param name="gfx"></param>
+        ///// <param name="origin"></param>
+        //private void DrawMetatiles(Graphics gfx, Point origin)
+        //{
+        //    if (_editMode != TileEditType.Metatiles || Image == null || _tiles.Count <= 0 || _metatiles.Count <= 0)
+        //        return;
 
-            int cols = (int)Math.Ceiling(Image.Width / (double)(BlockSize.Width));
-            int rows = (int)Math.Ceiling(Image.Height / (double)(BlockSize.Height));
-            Rectangle cell = new Rectangle(0, 0, BlockSize.Width, BlockSize.Height);
-            for (int row = 0; row < rows; row++)
-            {
-                for (int col = 0; col < cols; col++)
-                {
-                    gfx.DrawRectangle(Pens.White, col * BlockSize.Width + origin.X, row * BlockSize.Height + origin.Y, BlockSize.Width, BlockSize.Height);
-                }
-            }
-        }
+        //    int cols = (int)Math.Ceiling(Image.Width / (double)(BlockSize.Width));
+        //    int rows = (int)Math.Ceiling(Image.Height / (double)(BlockSize.Height));
+        //    Rectangle cell = new Rectangle(0, 0, BlockSize.Width, BlockSize.Height);
+
+        //    using (Pen gridPen = new Pen(Color.FromArgb(255, _invertGridColor ? Color.White : Color.Black)))
+        //    {
+        //        for (int row = 0; row < rows; row++)
+        //        {
+        //            for (int col = 0; col < cols; col++)
+        //            {
+        //                gfx.DrawRectangle(gridPen, col * BlockSize.Width + origin.X, row * BlockSize.Height + origin.Y, BlockSize.Width, BlockSize.Height);
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// raws block gri
@@ -615,11 +621,14 @@ namespace SMSTileStudio.Controls
             if (_editMode != TileEditType.TileGrid || Image == null || _tileGrid == null)
                 return;
 
-            for (int row = 0; row < _tileGrid.Rows; row++)
+            using (Pen gridPen = new Pen(Color.FromArgb(255, _invertGridColor ? Color.White : Color.Black)))
             {
-                for (int col = 0; col < _tileGrid.Columns; col++)
+                for (int row = 0; row < _tileGrid.Rows; row++)
                 {
-                    gfx.DrawRectangle(Pens.White, col * BlockSize.Width + origin.X, row * BlockSize.Height + origin.Y, BlockSize.Width, BlockSize.Height);
+                    for (int col = 0; col < _tileGrid.Columns; col++)
+                    {
+                        gfx.DrawRectangle(gridPen, col * BlockSize.Width + origin.X, row * BlockSize.Height + origin.Y, BlockSize.Width, BlockSize.Height);
+                    }
                 }
             }
         }
@@ -661,7 +670,7 @@ namespace SMSTileStudio.Controls
         private void DrawHighlights(Graphics gfx, Point origin)
         {
             HighlightCount = 0;
-            if (!_highlight || Image == null || _tiles.Count <= 0)
+            if (!_highlight || _editMode == TileEditType.TileGrid || _editMode == TileEditType.Entities || Image == null || _tiles.Count <= 0)
                 return;
 
             int index = 0;
@@ -1018,7 +1027,7 @@ namespace SMSTileStudio.Controls
         /// <summary>
         /// Sets the horizontal mirror for the current selection
         /// </summary>
-        public void MirrorXForSelection()
+        public void MirrorXForSelection(bool flip)
         {
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
                 return;
@@ -1031,9 +1040,12 @@ namespace SMSTileStudio.Controls
             {
                 for (int col = 0; col < cols; col++)
                 {
-                    var src = (row * cols) + (cols - 1 - col);
                     var target = (row * _columns) + offset + col;
-                    _tiles[target] = copy.Tiles[src];
+                    if (flip)
+                    {
+                        var src = (row * cols) + (cols - 1 - col);
+                        _tiles[target] = copy.Tiles[src];
+                    }
                     _tiles[target].FlipX = !_tiles[target].FlipX;
                 }
             }
@@ -1047,14 +1059,27 @@ namespace SMSTileStudio.Controls
             if (_selection == Rectangle.Empty || EditMode != TileEditType.Selection)
                 return;
 
+            var copy = SelectionToTilemap();
             var offset = ((_selection.Y / SnapSize.Height) * _columns) + (_selection.X / SnapSize.Width);
             var cols = _selection.Width / SnapSize.Width;
             var rows = _selection.Height / SnapSize.Height;
+
             for (int row = 0; row < rows; row++)
             {
                 for (int col = 0; col < cols; col++)
                 {
-                    _tiles[((row * _columns) + offset) + col].FlipY = flip;
+                    var target = (row * _columns) + offset + col;
+
+                    if (flip)
+                    {
+                        // Vertical mirror: source from the opposite row
+                        var srcRow = rows - 1 - row;
+                        var src = (srcRow * cols) + col;
+                        _tiles[target] = copy.Tiles[src];
+                    }
+
+                    // Always toggle the vertical flip flag
+                    _tiles[target].FlipY = !_tiles[target].FlipY;
                 }
             }
         }
@@ -1077,7 +1102,7 @@ namespace SMSTileStudio.Controls
         /// <returns></returns>
         private string GetTileText()
         {
-            if (_tiles == null || _tiles.Count <= 0 || Position.IsEmpty)
+            if (_tiles == null || _tiles.Count <= 0)
                 return "N/A";
 
             int cols = Image.Width / SnapSize.Width;

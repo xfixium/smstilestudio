@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -194,7 +194,7 @@ namespace SMSTileStudio.Controls
 
                     switch (EditMode)
                     {
-                        case TileEditType.Priority: value = MetaTiles[index].Tiles[tileIndex].Priority ? "1" : "0"; break;
+                        case TileEditType.Priority: value = MetaTiles[index].Tiles[tileIndex].Priority ? "P" : ""; break;
                         case TileEditType.PaletteIndex: value = MetaTiles[index].Tiles[tileIndex].UseBGPalette ? "BG" : "SPR"; break;
                         case TileEditType.Bits: value = MetaTiles[index].Tiles[tileIndex].Bits.ToString(); break;
                         case TileEditType.TileValue:

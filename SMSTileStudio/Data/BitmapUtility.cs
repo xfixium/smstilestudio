@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Data
 {
@@ -479,22 +480,26 @@ namespace SMSTileStudio.Data
         /// <param name="allowDuplicates">If allowing tiles that are the same, not optimizing</param>
         /// <param name="ignoreEmpty">If not including tiles that are comprised only of the transparent color</param>
         /// <param name="flipCheck">Comparison type</param>
-        /// <returns>A list of pixel data, tiled, in 32 bit format</returns>
-        public static List<PixelTile> GetPixelTiles(Bitmap image, Color backColor, bool allowDuplicates, bool ignoreEmpty, FlipType flipCheck)
+        /// <returns>A list of pixel data tiled in 32 bit format, and a list of tilemap tiles</returns>
+        public static (List<PixelTile>, List<Tile>) GetPixelTiles(Bitmap image, Color backColor, bool allowDuplicates, bool ignoreEmpty, FlipType flipCheck)
         {
             List<PixelTile> pixelTiles = new List<PixelTile>();
+            List<Tile> tiles = new List<Tile>();
             int cols = image.Width / 8;
             int rows = image.Height / 8;
+            int index = 0;
             for (int row = 0; row < rows; row++)
             {
                 for (int col = 0; col < cols; col++)
                 {
                     bool match = false;
                     PixelTile pixelTile = new PixelTile(GetPixels(image, new Rectangle(col * 8, row * 8, 8, 8)));
-                    for (int j = 0; j < pixelTiles.Count; j++)
+                    for (int i = 0; i < pixelTiles.Count; i++)
                     {
-                        if (CompareTiles(pixelTile.Pixels.ToArray(), pixelTiles[j].Pixels.ToArray(), flipCheck).Item1)
+                        var tile = CompareTiles(pixelTile.Pixels.ToArray(), pixelTiles[i].Pixels.ToArray(), flipCheck);
+                        if (tile.Item1)
                         {
+                            tiles.Add(new Tile(i, tile.Item2));
                             match = true;
                             break;
                         }
@@ -507,9 +512,11 @@ namespace SMSTileStudio.Data
                         continue;
 
                     pixelTiles.Add(pixelTile);
+                    tiles.Add(new Tile(index));
+                    index++;
                 }
             }
-            return pixelTiles;
+            return (pixelTiles, tiles);
         }
 
         /// <summary>
@@ -1018,7 +1025,7 @@ namespace SMSTileStudio.Data
         /// </summary>
         /// <param name="image">The image to get the colors from</param>
         /// <returns>A list of unique colors</returns>
-        public static List<Color> GetColors(Bitmap image)
+        public static List<Color> GetColors(Bitmap image, int max)
         {
             List<Color> palette = new List<Color>();
             int bytes = GetByteCount(image.PixelFormat);
@@ -1047,6 +1054,10 @@ namespace SMSTileStudio.Data
                         if (!palette.Contains(color))
                             palette.Add(color);
 
+                        // If over threshold, no need to keep going, return
+                        if (palette.Count > max)
+                            return palette;
+                            
                         imgPtr += bytes;
                     }
                     imgPtr += offset;

@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SMSTileStudio.Data
@@ -88,27 +89,27 @@ namespace SMSTileStudio.Data
         /// <returns>Object information string</returns>
         public string GetInfo()
         {
-            int length = GetTilesetData(false, 0, TileCount).Length;
+            int length = GetTilesetData(null, 0, TileCount).Length;
             return "Tile Count: " + TileCount + " tiles | Length: " + length + " bytes";
         }
 
         /// <summary>
-        /// Gets tileset data in assembly or hex string
+        /// Gets data string
         /// </summary>
-        /// <param name="hex">If only getting raw hex values</param>
+        /// <param name="asm">If asm formatteds</param>
         /// <returns>Object assembly string</returns>
-        public string GetDataString(bool hex)
+        public string GetDataString(bool asm)
         {
             StringBuilder sb = new StringBuilder();
-            byte[] data = GetTilesetData(true, 0, TileCount);
+            if (asm)
+                sb.Append(".db ");
+            byte[] data = GetTilesetData(null, 0, TileCount);
             for (int i = 0; i < data.Length / 32; i++)
             {
-                string line = hex ? "" : ".db ";
                 for (int j = 0; j < 32; j++)
-                    line += (hex ? "" : "$") + data[i * j + j].ToString("X2") + " ";
-                sb.AppendLine(line.Trim());
+                    sb.Append(((asm ? "$" : "") + data[i * j + j].ToString("X2") + " "));
             }
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
 
         /// <summary>
@@ -172,22 +173,22 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Gets the edit data in bytes
         /// </summary>
-        /// <param name="getRawData">If ignoring compression and data length limitation</param>
+        /// <param name="compressor">Compressor being used, null for no compression</param>
         /// <returns>An array of edit byte data</returns>
-        public byte[] GetTilesetData(bool getRawData)
+        public byte[] GetTilesetData(Compressor compressor)
         {
-            return GetTilesetData(getRawData, 0, TileCount);
+            return GetTilesetData(compressor, 0, TileCount);
         }
 
         /// <summary>
         /// Gets the edit data in bytes
         /// </summary>
-        /// <param name="getRawData">If ignoring compression and data length limitation</param>
+        /// <param name="compressor">Compressor being used, null for no compression</param>
         /// <param name="minimumTileCount">The minimum tiles the tileset should have</param>
         /// <returns>An array of edit byte data</returns>
-        public byte[] GetTilesetData(bool getRawData, int minimumTileCount)
+        public byte[] GetTilesetData(Compressor compressor, int minimumTileCount)
         {
-            var tileset = new List<byte>(GetTilesetData(getRawData, 0, TileCount));
+            var tileset = new List<byte>(GetTilesetData(compressor, 0, TileCount));
             tileset.AddRange(GetPadding(minimumTileCount));
             return tileset.ToArray();
         }
@@ -195,11 +196,11 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Gets the edit data in bytes
         /// </summary>
-        /// <param name="getRawData">If ignoring compression and data length limitation</param>
+        /// <param name="compressor">Compressor being used, null for no compression</param>
         /// <param name="start">Starting index to get data from</param>
         /// <param name="end">Ending index get data to</param>
         /// <returns>An array of edit byte data</returns>
-        public byte[] GetTilesetData(bool getRawData, int start, int end)
+        public byte[] GetTilesetData(Compressor compressor, int start, int end)
         {
             List<byte> bytes = new List<byte>();
             List<byte> pixels = new List<byte>();
@@ -235,7 +236,7 @@ namespace SMSTileStudio.Data
             var s = start * 32;
             var count = (end * 32) - s;
             var data = bytes.GetRange(s, count);
-            return getRawData ? data.ToArray() : GetExportData(data);
+            return compressor == null ? data.ToArray() : compressor.CompressTiles(data.ToArray(), data.Count / 32, false).ToArray();
         }
 
         /// <summary>

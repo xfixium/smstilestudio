@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace SMSTileStudio.Data
 {
@@ -40,6 +41,37 @@ namespace SMSTileStudio.Data
         /// </summary>
         public MetaTile() { }
         public MetaTile(int id) { TileID = id; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static MetaTileSizeType GetMetatileSizeType(Size tileSize)
+        {
+            if (tileSize == new Size(8, 16))
+                return MetaTileSizeType.EightBySixteen;
+            else if (tileSize == new Size(16, 16))
+                return MetaTileSizeType.SixteenBySixteen;
+            else if (tileSize == new Size(32, 32))
+                return MetaTileSizeType.ThirtyTwoByThirtyTwo;
+            else
+                return MetaTileSizeType.SixteenBySixteen;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static Size GetMetaTileSize(MetaTileSizeType tileSizeType)
+        {
+            switch (tileSizeType)
+            {
+                case MetaTileSizeType.EightBySixteen: return new Size(8, 16);
+                case MetaTileSizeType.SixteenBySixteen: return new Size(16, 16);
+                case MetaTileSizeType.ThirtyTwoByThirtyTwo: return new Size(32, 32);
+                default: return new Size(16, 16);
+            }
+        }
 
         /// <summary>
         /// Gets object information string

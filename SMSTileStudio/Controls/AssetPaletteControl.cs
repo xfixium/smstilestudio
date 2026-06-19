@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private Palette _palette;
         private Point _lastPosition = Point.Empty;
+        private bool _hasGameGearColor = false;
 
         /// <summary>
         /// Properties
@@ -97,27 +98,13 @@ namespace SMSTileStudio.Controls
                 if (palette != null)
                     lstPalettes.SelectedItem = palette;
             }
-            else if (HasData && button == btnDuplicate)
-            {
-                palette = (Palette)App.Project.DuplicateAsset(_palette);
-                LoadData(palette == null);
-                if (palette != null)
-                    lstPalettes.SelectedItem = palette;
-            }
-            else if (HasData && button == btnRemove)
-            {
-                if (MessageBox.Show("Are you sure you want to remove " + _palette.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                {
-                    App.Project.RemoveAsset(_palette);
-                    LoadData(true);
-                    lstPalettes_SelectedIndexChanged(this, EventArgs.Empty);
-                    OnAssetsChanged();
-                }
-            }
             else if (button == btnImport)
             {
                 if (!HasData)
+                {
+                    MessageBox.Show("Select a palette to import colors to.");
                     return;
+                }
 
                 string path = string.Empty;
                 using (OpenFileDialog ofd = new OpenFileDialog())
@@ -141,13 +128,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                List<Color> importColors = BitmapUtility.GetColors(image);
-                if (importColors == null)
-                {
-                    MessageBox.Show("The image format: " + image.PixelFormat.ToString() + " is not supported.");
-                    return;
-                }
-
+                List<Color> importColors = BitmapUtility.GetColors(image, 16);
                 if (importColors.Count > 16)
                 {
                     MessageBox.Show("The image has more than 16 colors, reduce the image colors and try again.");
@@ -178,6 +159,40 @@ namespace SMSTileStudio.Controls
                 _palette = palette;
                 LoadUI();
                 return;
+            }
+            else if (HasData && button == btnDuplicate)
+            {
+                palette = (Palette)App.Project.DuplicateAsset(_palette);
+                LoadData(palette == null);
+                if (palette != null)
+                    lstPalettes.SelectedItem = palette;
+            }
+            else if (HasData && button == btnRemove)
+            {
+                if (MessageBox.Show("Are you sure you want to remove " + _palette.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    App.Project.RemoveAsset(_palette);
+                    LoadData(true);
+                    lstPalettes_SelectedIndexChanged(this, EventArgs.Empty);
+                    OnAssetsChanged();
+                }
+            }
+            else if (HasData && button == btnDuplicate)
+            {
+                palette = (Palette)App.Project.DuplicateAsset(_palette);
+                LoadData(palette == null);
+                if (palette != null)
+                    lstPalettes.SelectedItem = palette;
+            }
+            else if (HasData && button == btnRemove)
+            {
+                if (MessageBox.Show("Are you sure you want to remove " + _palette.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                {
+                    App.Project.RemoveAsset(_palette);
+                    LoadData(true);
+                    lstPalettes_SelectedIndexChanged(this, EventArgs.Empty);
+                    OnAssetsChanged();
+                }
             }
             else if (HasData && button == btnExport)
             {
@@ -270,16 +285,16 @@ namespace SMSTileStudio.Controls
                         {
                             using (BinaryWriter bw = new BinaryWriter(fs))
                             {
-                                bw.Write(_palette.GetPaletteData(true, BitmapUtility.CheckForGameGearColors(_palette.Colors)));
+                                bw.Write(_palette.GetPaletteData(null, BitmapUtility.CheckForGameGearColors(_palette.Colors)));
                             }
                         }
                     }
                 }
             }
             else if (menuItem == mnuExportHex)
-                Clipboard.SetText(_palette.GetASMString(true, true));
+                Clipboard.SetText(_palette.GetDataString(false, _hasGameGearColor));
             else if (menuItem == mnuExportAssembly)
-                Clipboard.SetText(_palette.GetASMString(false, true));
+                Clipboard.SetText(_palette.GetDataString(true, _hasGameGearColor));
         }
 
         /// <summary>
@@ -452,7 +467,7 @@ namespace SMSTileStudio.Controls
         {
             // Load UI with selected palette
             tpnlPalette.Visible = lstPalettes.SelectedItem != null;
-            pnlOptions.Visible = lstPalettes.SelectedItem != null;
+            tpnlOptions.Visible = lstPalettes.SelectedItem != null;
             _palette = lstPalettes.SelectedItem == null ? null : lstPalettes.SelectedItem as Palette;
 
             txtName.Text = _palette == null ? string.Empty : _palette.Name;
@@ -462,6 +477,8 @@ namespace SMSTileStudio.Controls
             lstPaletteReferences.Items.Clear();
             if (_palette == null)
                 return;
+
+            _hasGameGearColor = BitmapUtility.CheckForGameGearColors(_palette.Colors);
 
             var paletteID = _palette.ID;
             foreach (var tilemap in App.Project.Tilemaps)

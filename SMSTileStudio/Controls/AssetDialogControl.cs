@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -84,7 +84,7 @@ namespace SMSTileStudio.Controls
                         {
                             using (BinaryWriter bw = new BinaryWriter(fs))
                             {
-                                bw.Write(_dialog.GetDialogData(true));
+                                bw.Write(_dialog.GetDialogData(null));
                             }
                         }
                     }
@@ -157,7 +157,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                List<Color> importColors = BitmapUtility.GetColors(image);
+                List<Color> importColors = BitmapUtility.GetColors(image, 32);
                 if (importColors.Count > 32)
                 {
                     MessageBox.Show("The image has more than 32 colors, reduce the image colors and try again.");

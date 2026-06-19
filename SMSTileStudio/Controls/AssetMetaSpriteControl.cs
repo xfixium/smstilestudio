@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,9 +35,7 @@ namespace SMSTileStudio.Controls
 {
     public partial class AssetMetaSpriteControl : AssetControl
     {
-        /// <summary>
-        /// Fields
-        /// </summary>
+        // Fields
         private MetaSprite _metaSprite = null;
         private Palette _selectedPalette = null;
         private MetaSpriteFrame _frame = null;
@@ -45,10 +43,9 @@ namespace SMSTileStudio.Controls
         private List<Sprite> _spriteClipboard = new List<Sprite>();
         private List<int> _sprites = new List<int>();
         private int _frameIndex = 0;
+        private List<byte> _tileCopy = new List<byte>();
 
-        /// <summary>
-        /// Properties
-        /// </summary>
+        // Properties
         private bool HasData { get { return _metaSprite != null; } }
         private bool HasFrameData { get { return _metaSprite != null && _frame != null && _frame.Tileset != null; } }
 
@@ -58,16 +55,14 @@ namespace SMSTileStudio.Controls
 
             cbTilesetCompression.ValueMember = "Value";
             cbTilesetCompression.DisplayMember = "Description";
-            cbTilesetCompression.DataSource = EnumMethods.GetEnumCollection(typeof(CompressionType));
+            cbTilesetCompression.DataSource = App.GetCompressors(false);
             if (cbTilesetCompression.Items.Count > 0)
                 cbTilesetCompression.SelectedIndex = 0;
 
             pnlMetaSpriteEdit.Image = new Bitmap(256, 224);
         }
 
-        /// <summary>
-        /// Override key presses
-        /// </summary>
+        // Override key presses
         protected override bool ProcessDialogKey(Keys keyData)
         {
             // Do action based on key
@@ -78,9 +73,7 @@ namespace SMSTileStudio.Controls
             return base.ProcessDialogKey(keyData);
         }
 
-        /// <summary>
-        /// Meta Ssprite selection changed
-        /// </summary>
+        // Meta sprite list selection changed
         private void lstMetaSprites_SelectedIndexChanged(object sender, EventArgs e)
         {
             Loading = true;
@@ -95,9 +88,7 @@ namespace SMSTileStudio.Controls
             Loading = false;
         }
 
-        /// <summary>
-        /// Tilemap button click
-        /// </summary>
+        // Meta sprite button click
         private void btnMetaSprite_Click(object sender, EventArgs e)
         {
             // If data not loaded, if button is not sender, return
@@ -105,6 +96,7 @@ namespace SMSTileStudio.Controls
                 return;
 
             // Perform action based on which button was clicked
+            // Previous frame
             if (HasFrameData && button == btnPreviousFrame)
             {
                 if (_frameIndex - 1 > -1)
@@ -118,6 +110,7 @@ namespace SMSTileStudio.Controls
                 Loading = false;
                 lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
+            // Next frame
             else if (HasFrameData && button == btnNextFrame)
             {
                 if (_frameIndex + 1 < _metaSprite.Frames.Count)
@@ -132,6 +125,7 @@ namespace SMSTileStudio.Controls
                 Loading = false;
                 lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
+            // New Meta Sprite
             else if (button == btnNew)
             {
                 MetaSprite metaSprite = (MetaSprite)App.Project.CreateAsset(GameAssetType.MetaSprite);
@@ -139,6 +133,7 @@ namespace SMSTileStudio.Controls
                 if (metaSprite != null)
                     lstMetaSprites.SelectedItem = metaSprite;
             }
+            // Duplicate Meta Sprite
             else if (HasData && button == btnDuplicate)
             {
                 MetaSprite metaSprite = (MetaSprite)App.Project.DuplicateAsset(_metaSprite);
@@ -146,6 +141,7 @@ namespace SMSTileStudio.Controls
                 if (metaSprite != null)
                     lstMetaSprites.SelectedItem = metaSprite;
             }
+            // Mirror selected Meta Sprite
             else if (HasData && button == btnMirror)
             {
                 if (_metaSprite.MetaSpriteType == MetaSpriteType.Tileset)
@@ -159,6 +155,7 @@ namespace SMSTileStudio.Controls
                 if (metaSprite != null)
                     lstMetaSprites.SelectedItem = metaSprite;
             }
+            // Remove selected Meta Sprite
             else if (HasData && button == btnRemove)
             {
                 if (MessageBox.Show("Are you sure you want to remove " + _metaSprite.Name + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
@@ -168,21 +165,25 @@ namespace SMSTileStudio.Controls
                     lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
                 }
             }
+            // Import Meta Sprite graphics
             else if (HasData && button == btnImport)
             {
                 mnuImport.Show(btnImport, new Point(0, btnImport.Height));
                 return;
             }
+            // Export selected Meta Sprite
             else if (HasData && button == btnExport)
             {
                 mnuExport.Show(btnExport, new Point(0, btnExport.Height));
                 return;
             }
+            // Display frame options menu
             else if (HasData && button == btnFrameOptions)
             {
                 mnuFrameOptions.Show(btnFrameOptions, new Point(0, btnFrameOptions.Height));
                 return;
             }
+            // Move selected sprites up the sprite list
             else if (HasData && button == btnSelectionMoveUpList)
             {
                 lstSprites.MoveSelectedItemsUp();
@@ -194,6 +195,7 @@ namespace SMSTileStudio.Controls
                 App.Project.UpdateAsset(_metaSprite);
                 return;
             }
+            // Move selected sprites down the sprite list
             else if (HasData && button == btnSelectionMoveDownList)
             {
                 lstSprites.MoveSelectedItemsDown();
@@ -205,11 +207,13 @@ namespace SMSTileStudio.Controls
                 App.Project.UpdateAsset(_metaSprite);
                 return;
             }
+            // Copy selected sprites
             else if (HasData && button == btnSpriteCopy)
             {
                 _spriteClipboard.AddRange(pnlMetaSpriteEdit.SelectedSprites.DeepClone());
                 return;
             }
+            // Paste selected sprites
             else if (HasData && button == btnSpritePaste)
             {
                 _frame.Sprites.AddRange(_spriteClipboard.DeepClone());
@@ -218,6 +222,7 @@ namespace SMSTileStudio.Controls
                 UpdateImages();
                 return;
             }
+            // Remove selected sprites
             else if (HasData && button == btnRemoveSelection)
             {
                 if (MessageBox.Show("Are you sure you want to remove the selected sprite(s)?", "SMS Tile STudio", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -232,25 +237,45 @@ namespace SMSTileStudio.Controls
                 UpdateImages();
                 return;
             }
-            else if (HasData && button.Name == btnAddTile.Name)
+            // Move selected sprites left a pixel
+            else if (HasData && button == btnLeft)
             {
-                if (_frame == null || _frame.Tileset == null)
-                    return;
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).X--;
 
-                _frame.Tileset.AddEmptyTile();
-                UpdateMetaSprite();
+                SaveSelectedSprites();
             }
-            else if (HasData && button == btnRemoveTile)
+            // Move selected sprites up a pixel
+            else if (HasData && button == btnUp)
             {
-                pnlTilesetEdit.RemoveSelection();
-                UpdateMetaSprite();
-                pnlSelectedTile.Clear();
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).Y--;
+
+                SaveSelectedSprites();
             }
-            else if (HasData && button == btnDeselectTile)
+            // Move selected sprites right a pixel
+            else if (HasData && button == btnRight)
             {
-                pnlTilesetEdit.ClearSelection();
-                pnlSelectedTile.Clear();
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).X++;
+
+                SaveSelectedSprites();
             }
+            // Move selected sprites down a pixel
+            else if (HasData && button == btnDown)
+            {
+                foreach (var sprite in lstSprites.SelectedItems)
+                    (sprite as Sprite).Y++;
+
+                SaveSelectedSprites();
+            }
+            // Display tileset options menu
+            else if (HasData && button == btnTilesetOptions)
+            {
+                mnuTilesetOptions.Show(btnTilesetOptions, new Point(0, btnTilesetOptions.Height));
+                return;
+            }
+            // Swap colors on selected tile
             else if (HasData && button == btnSwapSelectedPixel && HasFrameData)
             {
                 if (pnlSelectedTile.SelectedColor == 255)
@@ -277,44 +302,15 @@ namespace SMSTileStudio.Controls
                 pnlTilesetEdit.TileID = tileId;
                 pnlTilesetEdit_TileSelectionChanged();
             }
-            else if (HasData && button == btnLeft)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).X--;
-
-                SaveSelectedSprites();
-            }
-            else if (HasData && button == btnUp)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).Y--;
-
-                SaveSelectedSprites();
-            }
-            else if (HasData && button == btnRight)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).X++;
-
-                SaveSelectedSprites();
-            }
-            else if (HasData && button == btnDown)
-            {
-                foreach (var sprite in lstSprites.SelectedItems)
-                    (sprite as Sprite).Y++;
-
-                SaveSelectedSprites();
-            }
         }
 
-        /// <summary>
-        /// Export menu item click
-        /// </summary>
+        // Meta sprite menu click
         private void mnuMetaSprite_Click(object sender, EventArgs e)
         {
             if (!HasData || !(sender is ToolStripMenuItem menuItem))
                 return;
 
+            // Import streamed graphics
             if (menuItem == mnuImportStreamed)
             {
                 string path = string.Empty;
@@ -339,7 +335,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                List<Color> importColors = BitmapUtility.GetColors(image);
+                List<Color> importColors = BitmapUtility.GetColors(image, 16);
                 if (importColors.Count > 16)
                 {
                     MessageBox.Show("The image has more than 16 colors, reduce the image colors and try again.");
@@ -355,6 +351,7 @@ namespace SMSTileStudio.Controls
                     lstMetaSprites_SelectedIndexChanged(this, EventArgs.Empty);
                 }
             }
+            // Import tileset graphics
             else if (menuItem == mnuImportTilesetSprite)
             {
                 string path = string.Empty;
@@ -379,7 +376,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                List<Color> importColors = BitmapUtility.GetColors(image);
+                List<Color> importColors = BitmapUtility.GetColors(image, 16);
                 if (importColors.Count > 16)
                 {
                     MessageBox.Show("The image has more than 16 colors, reduce the image colors and try again.");
@@ -396,6 +393,7 @@ namespace SMSTileStudio.Controls
                     pnlMetaSpriteEdit.SelectedSprites.Clear();
                 }
             }
+            // Update tileset
             else if (menuItem == mnuUpdateTileset)
             {
                 string path = string.Empty;
@@ -420,7 +418,7 @@ namespace SMSTileStudio.Controls
                     return;
                 }
 
-                List<Color> importColors = BitmapUtility.GetColors(image);
+                List<Color> importColors = BitmapUtility.GetColors(image, 16);
                 if (importColors.Count > 16)
                 {
                     MessageBox.Show("The image has more than 16 colors, reduce the image colors and try again.");
@@ -437,14 +435,17 @@ namespace SMSTileStudio.Controls
                     pnlMetaSpriteEdit.SelectedSprites.Clear();
                 }
             }
+            // Export tileset as image
             else if (menuItem == mnuTilesetExportImage && HasFrameData)
                 ExportTileset(_metaSprite.Name.ToLower().Replace(' ', '_') + "_tiles");
+            // Export tileset as binay data
             else if (menuItem == mnuTilesetExportBinary && HasFrameData)
             {
                 var minimum = (int)nudTileMinimum.Value;
                 var fileName = _metaSprite.Name.ToLower().Replace(' ', '_') + "_tiles";
-                ExportData(_metaSprite.GetAllTilesetData(true, minimum), fileName);
+                ExportData(_metaSprite.GetAllTilesetData(App.GetCompressor(_frame.Tileset.CompressionType, false), minimum), fileName);
             }
+            // Export tilesets as multiple binary files
             else if (menuItem == mnuTilesetExportBinaries && HasFrameData)
             {
                 var minimum = (int)nudTileMinimum.Value;
@@ -458,7 +459,7 @@ namespace SMSTileStudio.Controls
                     {
                         var bytes = new List<byte>();
                         foreach (var metaSprite in form.MetaSprites)
-                            bytes.AddRange(metaSprite.GetAllTilesetData(true, minimum));
+                            bytes.AddRange(metaSprite.GetAllTilesetData(App.GetCompressor(_frame.Tileset.CompressionType, false), minimum));
 
                         ExportData(bytes.ToArray(), fileName);
                     }
@@ -472,6 +473,7 @@ namespace SMSTileStudio.Controls
             //    Clipboard.SetText(HasFrameData ? _frame.Tileset.GetDataString(true) : "");
             //else if (menuItem == mnuTilesetExportAssembly && HasFrameData)
             //    Clipboard.SetText(_frame.Tileset.GetDataString(true));
+            // Export meta sprite as binary file
             else if (HasData && menuItem == mnuMetaSpriteExportBinary)
                 ExportData(_metaSprite.GetMetaSpriteFrameData(false));
             //else if (menuItem == mnuMetaSpriteExportBinaryFramed)
@@ -480,10 +482,13 @@ namespace SMSTileStudio.Controls
             //    Clipboard.SetText(_metaSprite.GetASMString(true));
             //else if (menuItem == mnuMetaSpriteExportAssembly)
             //    Clipboard.SetText(_metaSprite.GetASMString(false));
+            // Export meta sprite as DevKit SMS binary file
             else if (HasData && menuItem == mnuMetaSpriteExportDKSMSBinary)
                 ExportData(_metaSprite.GetMetaSpriteFrameData(true));
+            // Export meta sprite as DevKit SMS C code
             else if (HasData && menuItem == mnuMetaSpriteExportDKSMSText)
                 Clipboard.SetText(_metaSprite.GetDKSMSString());
+            // Add a frame to the meta sprite
             else if (HasData && menuItem == mnuAddFrame)
             {
                 // Create new frame, and select it
@@ -497,6 +502,7 @@ namespace SMSTileStudio.Controls
                 Loading = false;
                 lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
+            // Move the selected frame to the left
             else if (HasData && menuItem == mnuMoveFrameLeft)
             {
                 // Move current frame left
@@ -510,6 +516,7 @@ namespace SMSTileStudio.Controls
                 Loading = false;
                 lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
+            // Move the selected frame to the right
             else if (HasData && menuItem == mnuMoveFrameRight)
             {
                 // Move current frame right
@@ -523,6 +530,7 @@ namespace SMSTileStudio.Controls
                 Loading = false;
                 lblCurrentFrameValue.Text = _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
             }
+            // Delete the selected frame
             else if (HasFrameData && menuItem == mnuDeleteFrame)
             {
                 if (MessageBox.Show("Are you sure you want to delete this frame?", "SMS Tile Studio", MessageBoxButtons.YesNo) == DialogResult.No)
@@ -532,11 +540,52 @@ namespace SMSTileStudio.Controls
                 _metaSprite.Frames.Remove(_frame);
                 UpdateMetaSprite();
             }
+            // Remove selected tile
+            else if (HasFrameData && menuItem == mnuRemoveTile)
+            {
+                int tileID = pnlTilesetEdit.TileID;
+                pnlTilesetEdit.RemoveSelection();
+                _frame.Tileset.Pixels = pnlTilesetEdit.Pixels.DeepClone();
+                UpdateMetaSprite();
+                UpdateImages();
+                pnlSelectedTile.Clear();
+            }
+            // Add new tile to front of tileset
+            else if (HasFrameData && menuItem == mnuAddTile)
+            {
+                _frame.Tileset.AddEmptyTile();
+                UpdateMetaSprite();
+                UpdateImages();
+            }
+            // Copy selected tile from tileset
+            else if (HasFrameData && menuItem == mnuTilesetCopyTile)
+            {
+                if (pnlTilesetEdit.TileID < 0)
+                    return;
+
+                _tileCopy = _frame.Tileset.GetTilePixels(pnlTilesetEdit.TileID);
+                UpdateMetaSprite();
+                UpdateImages();
+            }
+            // Paste tile from tile copy at the selected tile id
+            else if (HasFrameData && menuItem == mnuTilesetPasteTile)
+            {
+                if (_tileCopy == null || pnlTilesetEdit.TileID < 0)
+                    return;
+
+                _frame.Tileset.SetTilePixels(pnlTilesetEdit.TileID, _tileCopy);
+                UpdateMetaSprite();
+                UpdateImages();
+            }
+            // Deselects tile from tileset editor
+            else if (HasFrameData && menuItem == mnuDeselectTile)
+            {
+                pnlTilesetEdit.ClearSelection();
+                pnlSelectedTile.Clear();
+            }
         }
 
-        /// <summary>
-        /// Meta Sprite name changed
-        /// </summary>
+        // Meta sprite name changed
         private void txtName_KeyDown(object sender, KeyEventArgs e)
         {
             if (!HasData || Loading || lstMetaSprites.SelectedItem == null || e.KeyCode != Keys.Enter)
@@ -549,9 +598,7 @@ namespace SMSTileStudio.Controls
             UpdateMetaSprite();
         }
 
-        /// <summary>
-        /// Meta Sprite name changed
-        /// </summary>
+        // Meta sprite name changed
         private void txtName_Leave(object sender, EventArgs e)
         {
             if (!HasData || Loading || lstMetaSprites.SelectedItem == null)
@@ -561,53 +608,54 @@ namespace SMSTileStudio.Controls
             UpdateMetaSprite();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        private void rbMetaSprite_CheckedChanged(object sender, EventArgs e)
-        {
-            // If data not loaded, if button is not sender, return
-            if (!(sender is RadioButton radio))
-                return;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
+        // Meta sprite checkbox checked changed
         private void chkMetaSprite_CheckedChanged(object sender, EventArgs e)
         {
             // If data not loaded, if button is not sender, return
             if (!(sender is CheckBox checkBox))
                 return;
 
-            // Perform action based on control
-            if (checkBox == chkTilesetIndexes)
-                pnlTilesetEdit.Indexed = chkTilesetIndexes.Checked;
+            // Toggle meta sprite type, streamed or tileset
+            if (HasData && checkBox == chkMetaSpriteType)
+            {
+                _metaSprite.MetaSpriteType = chkMetaSpriteType.Checked ? MetaSpriteType.Tileset : MetaSpriteType.Streamed;
+                UpdateMetaSprite();
+            }
+            // Toggle showing selected sprite rects
             else if (checkBox == chkSprites)
                 pnlMetaSpriteEdit.ShowSprites = chkSprites.Checked;
+            // Toggle showing the grid
             else if (checkBox == chkGrid)
             {
                 pnlMetaSpriteEdit.UseGrid = chkGrid.Checked;
                 pnlTiles.UseGrid = chkGrid.Checked;
             }
+            // Toggle showing the sprite origin
             else if (checkBox == chkShowOrigin)
                 pnlMetaSpriteEdit.ShowOrigin = chkShowOrigin.Checked;
+            // Toggle showing the transparent color
             else if (checkBox == chkTransparent)
                 pnlMetaSpriteEdit.ShowTransparent = chkTransparent.Checked;
+            // Toggle snapping sprites to grid
             else if (checkBox == chkGridSnap)
                 pnlMetaSpriteEdit.SnapToGrid = chkGridSnap.Checked;
-            else if (checkBox == chkTilesetGrid)
-                pnlTilesetEdit.UseGrid = chkTilesetGrid.Checked;
+            else if (checkBox == chkMetaSpriteInvertGrids)
+            {
+                pnlMetaSpriteEdit.InvertGridColor = chkMetaSpriteInvertGrids.Checked;
+                pnlTilesetEdit.InvertGridColor= chkMetaSpriteInvertGrids.Checked;
+            }
+            // Toggle sprite type, normal or tall
             else if (HasData && checkBox == chkSpriteType)
             {
                 _metaSprite.SpriteMode = chkSpriteType.Checked ? SpriteModeType.Normal : SpriteModeType.Tall;
                 UpdateMetaSprite();
             }
-            else if (HasData && checkBox == chkMetaSpriteType)
-            {
-                _metaSprite.MetaSpriteType = chkMetaSpriteType.Checked ? MetaSpriteType.Tileset : MetaSpriteType.Streamed;
-                UpdateMetaSprite();
-            }
+            // Toggle tileset edit grid
+            else if (checkBox == chkTilesetGrid)
+                pnlTilesetEdit.UseGrid = chkTilesetGrid.Checked;
+            // Toggle tileset edit tile ids
+            else if (checkBox == chkTilesetShowTileIds)
+                pnlTilesetEdit.Indexed = chkTilesetShowTileIds.Checked;
         }
 
         /// <summary>
@@ -650,9 +698,7 @@ namespace SMSTileStudio.Controls
             UpdateMetaSprite();
         }
 
-        /// <summary>
-        /// Tilemap combobox selection changed
-        /// </summary>
+        // Meta sprite combobox selection changed
         private void cbMetaSprite_SelectedIndexChanged(object sender, EventArgs e)
         {
             // If combobox is sender
@@ -665,14 +711,22 @@ namespace SMSTileStudio.Controls
             if (comboBox == cbSprPalette && HasData)
                 _metaSprite.PaletteID = (cbSprPalette.SelectedItem as Palette).ID;
             else if (comboBox == cbTilesetCompression && HasFrameData)
-                _frame.Tileset.CompressionType = (CompressionType)cbTilesetCompression.SelectedItem.GetType().GetProperty("value").GetValue(cbTilesetCompression.SelectedItem, null);
+            {
+                foreach (var frame in _metaSprite.Frames)
+                    frame.Tileset.CompressionType = (string)cbTilesetCompression.SelectedItem.GetType().GetProperty("value").GetValue(cbTilesetCompression.SelectedItem, null);
+            }
+            //else if (comboBox == cbSprPalette)
+            //{
+            //    var palette = comboBox.SelectedItem as Palette;
+            //    pnlSprPalette.SetPalette((comboBox.SelectedItem as Palette).Colors);
+            //    LoadUI();
+            //    return;
+            //}
 
             UpdateMetaSprite();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        // Sprite list selected changed
         private void lstSprites_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!HasData || lstSprites.SelectedItem == null)
@@ -692,6 +746,7 @@ namespace SMSTileStudio.Controls
             Loading = false;
         }
 
+        // Sprite edit changed
         private void pnlMetaSpriteEdit_MetaSpriteChanged()
         {
             if (lstSprites.SelectedItem == null)
@@ -711,9 +766,8 @@ namespace SMSTileStudio.Controls
             Loading = false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+
+        // Collision list selected changed
         private void lstCollisions_SelectedIndexChanged(object sender, EventArgs e)
         {
             Loading = true;
@@ -733,9 +787,8 @@ namespace SMSTileStudio.Controls
             pnlSelectedTile.Image = BitmapUtility.GetPixelTileImage(pnlSelectedTile.Pixels, pnlSelectedTile.Palette, pnlSelectedTile.ClientSize);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+
+        // Tile palette tile selection changed
         private void pnlTiles_TileSelectionChanged()
         {
             pnlMetaSpriteEdit.TileID = pnlTiles.TileID;
@@ -753,8 +806,11 @@ namespace SMSTileStudio.Controls
             if (!HasData)
                 return;
 
-            _metaSprite.Tilesheet.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
-            _frame.Tileset.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
+            if (_metaSprite.MetaSpriteType == MetaSpriteType.Tileset)
+                _metaSprite.Tilesheet.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
+            else
+                _frame.Tileset.SetTilePixels(pnlSelectedTile.SelectedTileID, pnlSelectedTile.Pixels);
+
             pnlSelectedTile.Image = BitmapUtility.GetPixelTileImage(pnlSelectedTile.Pixels, pnlSelectedTile.Palette, pnlSelectedTile.ClientSize);
             App.Project.UpdateAsset(_metaSprite);
             UpdateImages();
@@ -957,7 +1013,7 @@ namespace SMSTileStudio.Controls
                         var filename = metaSprite.Name.ToLower().Replace(' ', '_') + "_tiles.bin";
                         try
                         {
-                            var data = metaSprite.GetAllTilesetData(true, minimum);
+                            var data = metaSprite.GetAllTilesetData(App.GetCompressor(_frame.Tileset.CompressionType, false), minimum);
                             using (FileStream fs = new FileStream(dialog.SelectedPath + "\\" + filename, FileMode.Create))
                             {
                                 using (BinaryWriter bw = new BinaryWriter(fs))
@@ -1009,8 +1065,11 @@ namespace SMSTileStudio.Controls
                 lstMetaSprites.Items.Add(asset);
 
             cbSprPalette.Items.Clear();
-            foreach (var asset in App.Project.Palettes)
-                cbSprPalette.Items.Add(asset);
+            cbSprPalette.Items.AddRange(App.Project.GetPaletteArray());
+
+            //cbSprPalette.Items.Clear();
+            //foreach (var asset in App.Project.Palettes)
+            //    cbSprPalette.Items.Add(asset);
 
             if (loadDefault && lstMetaSprites.Items.Count > 0)
                 lstMetaSprites.SelectedIndex = 0;
@@ -1032,19 +1091,17 @@ namespace SMSTileStudio.Controls
             _frame = _metaSprite == null || _metaSprite.Frames.Count <= 0 ? null : _metaSprite.Frames[_frameIndex];
             nudTileMinimum.Value = _metaSprite == null ? 0 : _metaSprite.TileMinimum;
             nudOffset.Value = _metaSprite == null ? 0 : _metaSprite.Offset;
-            pnlMetaSpriteEdit.SpriteMode = _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode;
             txtName.Text = _metaSprite == null ? string.Empty : _metaSprite.Name;
             cbSprPalette.SelectedItem = (Palette)App.Project.GetAsset(_metaSprite == null ? -2 : _metaSprite.PaletteID);
             pnlSprPalette.SetPalette(cbSprPalette.SelectedItem == null ? null : (cbSprPalette.SelectedItem as Palette).Colors);
             _selectedPalette = cbSprPalette.SelectedItem as Palette;
             lblEmpty.Text = _metaSprite == null ? "No Meta Sprite information" : _metaSprite.GetInfo(_frameIndex);
-            chkSpriteType.Text = "Sprite Type: " + (_metaSprite == null ? "N/A" : _metaSprite.SpriteMode.GetDescription());
+            chkSpriteType.Text = "Sprite Size: " + (_metaSprite == null ? "N/A" : _metaSprite.SpriteMode.GetDescription());
             chkSpriteType.Checked = _metaSprite == null ? true : _metaSprite.SpriteMode == SpriteModeType.Normal;
-            chkMetaSpriteType.Text = "Meta Sprite Type: " + (_metaSprite == null ? "N/A" : _metaSprite.MetaSpriteType.GetDescription());
+            chkMetaSpriteType.Text = "Sprite Type: " + (_metaSprite == null ? "N/A" : _metaSprite.MetaSpriteType.GetDescription());
             chkMetaSpriteType.Checked = _metaSprite == null ? true : _metaSprite.MetaSpriteType == MetaSpriteType.Tileset;
-            pnlMetaSpriteEdit.Palette = _selectedPalette;
-            pnlMetaSpriteEdit.LoadFrame(_frame, _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode);
-            cbTilesetCompression.SelectedItem = !HasFrameData ? CompressionType.None : _frame.Tileset.CompressionType;
+            pnlMetaSpriteEdit.LoadFrame(_frame, _selectedPalette, _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode);
+            cbTilesetCompression.SelectedItem = !HasFrameData ? "None" : _frame.Tileset.CompressionType;
             lblCurrentFrameValue.Text = _metaSprite == null || _metaSprite.Frames.Count <= 0 ? "0 / 0" : _frameIndex + " / " + (_metaSprite.Frames.Count - 1);
 
             lstSprites.Items.Clear();

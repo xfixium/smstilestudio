@@ -32,25 +32,24 @@
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.lblInfo = new System.Windows.Forms.Label();
             this.grpPaletteList = new System.Windows.Forms.GroupBox();
-            this.lstPalettes = new SMSTileStudio.Controls.ListBoxControl();
-            this.pnlButtons = new System.Windows.Forms.Panel();
+            this.tpnlPalettes = new System.Windows.Forms.TableLayoutPanel();
             this.btnExport = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnRemove = new System.Windows.Forms.Button();
-            this.btnDuplicate = new System.Windows.Forms.Button();
+            this.lstPalettes = new SMSTileStudio.Controls.ListBoxControl();
             this.btnNew = new System.Windows.Forms.Button();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnDuplicate = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
             this.pnlGameGearLegend = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.pnlGameGearOuterBorder = new System.Windows.Forms.Panel();
+            this.pnlGameGearInnerBorder = new System.Windows.Forms.Panel();
+            this.pnlGameGear = new System.Windows.Forms.Panel();
+            this.lblGameGearColors = new System.Windows.Forms.Label();
             this.pnlPaletteEdit = new System.Windows.Forms.Panel();
             this.tpnlPalette = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlOptions = new System.Windows.Forms.Panel();
+            this.tpnlOptions = new System.Windows.Forms.TableLayoutPanel();
             this.lstPaletteReferences = new SMSTileStudio.Controls.ListBoxControl();
-            this.pnlReferences = new System.Windows.Forms.Panel();
-            this.lblPaletteName = new System.Windows.Forms.Label();
             this.lblPaletteReferences = new System.Windows.Forms.Label();
+            this.lblPaletteName = new System.Windows.Forms.Label();
             this.nudLength = new System.Windows.Forms.NumericUpDown();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblPaletteLength = new System.Windows.Forms.Label();
@@ -78,14 +77,13 @@
             this.mnuExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpPaletteList.SuspendLayout();
-            this.pnlButtons.SuspendLayout();
+            this.tpnlPalettes.SuspendLayout();
             this.pnlGameGearLegend.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.pnlGameGearOuterBorder.SuspendLayout();
+            this.pnlGameGearInnerBorder.SuspendLayout();
             this.pnlPaletteEdit.SuspendLayout();
             this.tpnlPalette.SuspendLayout();
-            this.pnlOptions.SuspendLayout();
-            this.pnlReferences.SuspendLayout();
+            this.tpnlOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
             this.tpnlColor.SuspendLayout();
             this.mnuExport.SuspendLayout();
@@ -105,7 +103,7 @@
             this.tpnlMain.RowCount = 2;
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tpnlMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tpnlMain.Size = new System.Drawing.Size(890, 583);
+            this.tpnlMain.Size = new System.Drawing.Size(770, 505);
             this.tpnlMain.TabIndex = 2;
             // 
             // lblInfo
@@ -113,27 +111,61 @@
             this.tpnlMain.SetColumnSpan(this.lblInfo, 2);
             this.lblInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblInfo.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInfo.Location = new System.Drawing.Point(3, 557);
+            this.lblInfo.Location = new System.Drawing.Point(3, 479);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(884, 26);
+            this.lblInfo.Size = new System.Drawing.Size(764, 26);
             this.lblInfo.TabIndex = 3;
             this.lblInfo.Text = "No Palette information";
             this.lblInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // grpPaletteList
             // 
-            this.grpPaletteList.Controls.Add(this.lstPalettes);
-            this.grpPaletteList.Controls.Add(this.pnlButtons);
+            this.grpPaletteList.Controls.Add(this.tpnlPalettes);
             this.grpPaletteList.Controls.Add(this.pnlGameGearLegend);
             this.grpPaletteList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpPaletteList.Location = new System.Drawing.Point(0, 0);
             this.grpPaletteList.Margin = new System.Windows.Forms.Padding(0);
             this.grpPaletteList.Name = "grpPaletteList";
             this.grpPaletteList.Padding = new System.Windows.Forms.Padding(12, 4, 12, 12);
-            this.grpPaletteList.Size = new System.Drawing.Size(196, 557);
+            this.grpPaletteList.Size = new System.Drawing.Size(196, 479);
             this.grpPaletteList.TabIndex = 0;
             this.grpPaletteList.TabStop = false;
             this.grpPaletteList.Text = "Palettes";
+            // 
+            // tpnlPalettes
+            // 
+            this.tpnlPalettes.ColumnCount = 1;
+            this.tpnlPalettes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlPalettes.Controls.Add(this.btnExport, 0, 4);
+            this.tpnlPalettes.Controls.Add(this.lstPalettes, 0, 5);
+            this.tpnlPalettes.Controls.Add(this.btnNew, 0, 0);
+            this.tpnlPalettes.Controls.Add(this.btnImport, 0, 1);
+            this.tpnlPalettes.Controls.Add(this.btnDuplicate, 0, 2);
+            this.tpnlPalettes.Controls.Add(this.btnRemove, 0, 3);
+            this.tpnlPalettes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlPalettes.Location = new System.Drawing.Point(12, 19);
+            this.tpnlPalettes.Name = "tpnlPalettes";
+            this.tpnlPalettes.RowCount = 6;
+            this.tpnlPalettes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlPalettes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlPalettes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlPalettes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlPalettes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlPalettes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlPalettes.Size = new System.Drawing.Size(172, 429);
+            this.tpnlPalettes.TabIndex = 3;
+            // 
+            // btnExport
+            // 
+            this.btnExport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExport.Location = new System.Drawing.Point(2, 96);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(168, 24);
+            this.btnExport.TabIndex = 4;
+            this.btnExport.Text = "Export Options";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnPalette_Click);
             // 
             // lstPalettes
             // 
@@ -141,138 +173,113 @@
             this.lstPalettes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstPalettes.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstPalettes.FormattingEnabled = true;
-            this.lstPalettes.HorizontalExtent = 168;
+            this.lstPalettes.HorizontalExtent = 162;
             this.lstPalettes.IntegralHeight = false;
             this.lstPalettes.ItemHeight = 15;
-            this.lstPalettes.Location = new System.Drawing.Point(12, 135);
+            this.lstPalettes.Location = new System.Drawing.Point(3, 123);
             this.lstPalettes.Name = "lstPalettes";
-            this.lstPalettes.Size = new System.Drawing.Size(172, 391);
+            this.lstPalettes.Size = new System.Drawing.Size(166, 303);
             this.lstPalettes.TabIndex = 1;
             this.lstPalettes.TextOffsetX = 2;
             this.lstPalettes.TextOffsetY = 0;
             this.lstPalettes.SelectedIndexChanged += new System.EventHandler(this.lstPalettes_SelectedIndexChanged);
             // 
-            // pnlButtons
-            // 
-            this.pnlButtons.Controls.Add(this.btnExport);
-            this.pnlButtons.Controls.Add(this.btnImport);
-            this.pnlButtons.Controls.Add(this.btnRemove);
-            this.pnlButtons.Controls.Add(this.btnDuplicate);
-            this.pnlButtons.Controls.Add(this.btnNew);
-            this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlButtons.Location = new System.Drawing.Point(12, 19);
-            this.pnlButtons.Name = "pnlButtons";
-            this.pnlButtons.Size = new System.Drawing.Size(172, 116);
-            this.pnlButtons.TabIndex = 0;
-            // 
-            // btnExport
-            // 
-            this.btnExport.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnExport.Location = new System.Drawing.Point(0, 92);
-            this.btnExport.Margin = new System.Windows.Forms.Padding(0);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(172, 23);
-            this.btnExport.TabIndex = 4;
-            this.btnExport.Text = "Export Options";
-            this.btnExport.UseVisualStyleBackColor = true;
-            this.btnExport.Click += new System.EventHandler(this.btnPalette_Click);
-            // 
-            // btnImport
-            // 
-            this.btnImport.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnImport.Location = new System.Drawing.Point(0, 69);
-            this.btnImport.Margin = new System.Windows.Forms.Padding(0);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(172, 23);
-            this.btnImport.TabIndex = 3;
-            this.btnImport.Text = "Import Palette";
-            this.btnImport.UseVisualStyleBackColor = true;
-            this.btnImport.Click += new System.EventHandler(this.btnPalette_Click);
-            // 
-            // btnRemove
-            // 
-            this.btnRemove.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnRemove.Location = new System.Drawing.Point(0, 46);
-            this.btnRemove.Margin = new System.Windows.Forms.Padding(0);
-            this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(172, 23);
-            this.btnRemove.TabIndex = 2;
-            this.btnRemove.Text = "Remove Palette";
-            this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnPalette_Click);
-            // 
-            // btnDuplicate
-            // 
-            this.btnDuplicate.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnDuplicate.Location = new System.Drawing.Point(0, 23);
-            this.btnDuplicate.Margin = new System.Windows.Forms.Padding(0);
-            this.btnDuplicate.Name = "btnDuplicate";
-            this.btnDuplicate.Size = new System.Drawing.Size(172, 23);
-            this.btnDuplicate.TabIndex = 1;
-            this.btnDuplicate.Text = "Duplicate Palette";
-            this.btnDuplicate.UseVisualStyleBackColor = true;
-            this.btnDuplicate.Click += new System.EventHandler(this.btnPalette_Click);
-            // 
             // btnNew
             // 
-            this.btnNew.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnNew.Location = new System.Drawing.Point(0, 0);
-            this.btnNew.Margin = new System.Windows.Forms.Padding(0);
+            this.btnNew.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNew.Location = new System.Drawing.Point(2, 0);
+            this.btnNew.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.btnNew.Name = "btnNew";
-            this.btnNew.Size = new System.Drawing.Size(172, 23);
+            this.btnNew.Size = new System.Drawing.Size(168, 24);
             this.btnNew.TabIndex = 0;
             this.btnNew.Text = "New Palette";
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnPalette_Click);
             // 
+            // btnImport
+            // 
+            this.btnImport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnImport.Location = new System.Drawing.Point(2, 24);
+            this.btnImport.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(168, 24);
+            this.btnImport.TabIndex = 3;
+            this.btnImport.Text = "Import Palette";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnPalette_Click);
+            // 
+            // btnDuplicate
+            // 
+            this.btnDuplicate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDuplicate.Location = new System.Drawing.Point(2, 48);
+            this.btnDuplicate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnDuplicate.Name = "btnDuplicate";
+            this.btnDuplicate.Size = new System.Drawing.Size(168, 24);
+            this.btnDuplicate.TabIndex = 1;
+            this.btnDuplicate.Text = "Duplicate Palette";
+            this.btnDuplicate.UseVisualStyleBackColor = true;
+            this.btnDuplicate.Click += new System.EventHandler(this.btnPalette_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRemove.Location = new System.Drawing.Point(2, 72);
+            this.btnRemove.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(168, 24);
+            this.btnRemove.TabIndex = 2;
+            this.btnRemove.Text = "Remove Palette";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnPalette_Click);
+            // 
             // pnlGameGearLegend
             // 
-            this.pnlGameGearLegend.Controls.Add(this.panel2);
-            this.pnlGameGearLegend.Controls.Add(this.label1);
+            this.pnlGameGearLegend.Controls.Add(this.pnlGameGearOuterBorder);
+            this.pnlGameGearLegend.Controls.Add(this.lblGameGearColors);
             this.pnlGameGearLegend.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlGameGearLegend.Location = new System.Drawing.Point(12, 526);
+            this.pnlGameGearLegend.Location = new System.Drawing.Point(12, 448);
             this.pnlGameGearLegend.Name = "pnlGameGearLegend";
             this.pnlGameGearLegend.Size = new System.Drawing.Size(172, 19);
             this.pnlGameGearLegend.TabIndex = 2;
             // 
-            // panel2
+            // pnlGameGearOuterBorder
             // 
-            this.panel2.BackColor = System.Drawing.Color.Black;
-            this.panel2.Controls.Add(this.panel3);
-            this.panel2.Location = new System.Drawing.Point(0, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(1);
-            this.panel2.Size = new System.Drawing.Size(16, 16);
-            this.panel2.TabIndex = 1;
+            this.pnlGameGearOuterBorder.BackColor = System.Drawing.Color.Black;
+            this.pnlGameGearOuterBorder.Controls.Add(this.pnlGameGearInnerBorder);
+            this.pnlGameGearOuterBorder.Location = new System.Drawing.Point(4, 3);
+            this.pnlGameGearOuterBorder.Name = "pnlGameGearOuterBorder";
+            this.pnlGameGearOuterBorder.Padding = new System.Windows.Forms.Padding(1);
+            this.pnlGameGearOuterBorder.Size = new System.Drawing.Size(16, 16);
+            this.pnlGameGearOuterBorder.TabIndex = 1;
             // 
-            // panel3
+            // pnlGameGearInnerBorder
             // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Controls.Add(this.panel4);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(1, 1);
-            this.panel3.Name = "panel3";
-            this.panel3.Padding = new System.Windows.Forms.Padding(1);
-            this.panel3.Size = new System.Drawing.Size(14, 14);
-            this.panel3.TabIndex = 2;
+            this.pnlGameGearInnerBorder.BackColor = System.Drawing.Color.White;
+            this.pnlGameGearInnerBorder.Controls.Add(this.pnlGameGear);
+            this.pnlGameGearInnerBorder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlGameGearInnerBorder.Location = new System.Drawing.Point(1, 1);
+            this.pnlGameGearInnerBorder.Name = "pnlGameGearInnerBorder";
+            this.pnlGameGearInnerBorder.Padding = new System.Windows.Forms.Padding(1);
+            this.pnlGameGearInnerBorder.Size = new System.Drawing.Size(14, 14);
+            this.pnlGameGearInnerBorder.TabIndex = 2;
             // 
-            // panel4
+            // pnlGameGear
             // 
-            this.panel4.BackColor = System.Drawing.Color.SlateBlue;
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(1, 1);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(12, 12);
-            this.panel4.TabIndex = 3;
+            this.pnlGameGear.BackColor = System.Drawing.Color.SlateBlue;
+            this.pnlGameGear.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlGameGear.Location = new System.Drawing.Point(1, 1);
+            this.pnlGameGear.Name = "pnlGameGear";
+            this.pnlGameGear.Size = new System.Drawing.Size(12, 12);
+            this.pnlGameGear.TabIndex = 3;
             // 
-            // label1
+            // lblGameGearColors
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 5);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(146, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Contains Game Gear colors";
+            this.lblGameGearColors.AutoSize = true;
+            this.lblGameGearColors.Location = new System.Drawing.Point(24, 5);
+            this.lblGameGearColors.Name = "lblGameGearColors";
+            this.lblGameGearColors.Size = new System.Drawing.Size(146, 13);
+            this.lblGameGearColors.TabIndex = 0;
+            this.lblGameGearColors.Text = "Contains Game Gear colors";
             // 
             // pnlPaletteEdit
             // 
@@ -281,7 +288,7 @@
             this.pnlPaletteEdit.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlPaletteEdit.Location = new System.Drawing.Point(199, 3);
             this.pnlPaletteEdit.Name = "pnlPaletteEdit";
-            this.pnlPaletteEdit.Size = new System.Drawing.Size(688, 551);
+            this.pnlPaletteEdit.Size = new System.Drawing.Size(568, 473);
             this.pnlPaletteEdit.TabIndex = 1;
             // 
             // tpnlPalette
@@ -294,7 +301,7 @@
             this.tpnlPalette.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.tpnlPalette.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tpnlPalette.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 180F));
-            this.tpnlPalette.Controls.Add(this.pnlOptions, 6, 0);
+            this.tpnlPalette.Controls.Add(this.tpnlOptions, 6, 0);
             this.tpnlPalette.Controls.Add(this.lblSelectColor, 2, 0);
             this.tpnlPalette.Controls.Add(this.cbSwatch, 3, 3);
             this.tpnlPalette.Controls.Add(this.pnlPalette, 2, 1);
@@ -314,23 +321,34 @@
             this.tpnlPalette.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tpnlPalette.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 315F));
             this.tpnlPalette.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlPalette.Size = new System.Drawing.Size(688, 551);
+            this.tpnlPalette.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlPalette.Size = new System.Drawing.Size(568, 473);
             this.tpnlPalette.TabIndex = 0;
             this.tpnlPalette.Visible = false;
             // 
-            // pnlOptions
+            // tpnlOptions
             // 
-            this.pnlOptions.Controls.Add(this.lstPaletteReferences);
-            this.pnlOptions.Controls.Add(this.pnlReferences);
-            this.pnlOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlOptions.Location = new System.Drawing.Point(508, 6);
-            this.pnlOptions.Margin = new System.Windows.Forms.Padding(0, 6, 0, 0);
-            this.pnlOptions.Name = "pnlOptions";
-            this.pnlOptions.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.tpnlPalette.SetRowSpan(this.pnlOptions, 6);
-            this.pnlOptions.Size = new System.Drawing.Size(180, 545);
-            this.pnlOptions.TabIndex = 5;
-            this.pnlOptions.Visible = false;
+            this.tpnlOptions.ColumnCount = 1;
+            this.tpnlOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlOptions.Controls.Add(this.lstPaletteReferences, 0, 5);
+            this.tpnlOptions.Controls.Add(this.lblPaletteReferences, 0, 4);
+            this.tpnlOptions.Controls.Add(this.lblPaletteName, 0, 0);
+            this.tpnlOptions.Controls.Add(this.nudLength, 0, 3);
+            this.tpnlOptions.Controls.Add(this.txtName, 0, 1);
+            this.tpnlOptions.Controls.Add(this.lblPaletteLength, 0, 2);
+            this.tpnlOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlOptions.Location = new System.Drawing.Point(391, 3);
+            this.tpnlOptions.Name = "tpnlOptions";
+            this.tpnlOptions.RowCount = 6;
+            this.tpnlPalette.SetRowSpan(this.tpnlOptions, 6);
+            this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlOptions.Size = new System.Drawing.Size(174, 467);
+            this.tpnlOptions.TabIndex = 10;
             // 
             // lstPaletteReferences
             // 
@@ -338,54 +356,47 @@
             this.lstPaletteReferences.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstPaletteReferences.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lstPaletteReferences.FormattingEnabled = true;
-            this.lstPaletteReferences.HorizontalExtent = 168;
+            this.lstPaletteReferences.HorizontalExtent = 164;
             this.lstPaletteReferences.HorizontalScrollbar = true;
             this.lstPaletteReferences.IntegralHeight = false;
-            this.lstPaletteReferences.Location = new System.Drawing.Point(8, 98);
+            this.lstPaletteReferences.Location = new System.Drawing.Point(3, 105);
             this.lstPaletteReferences.Name = "lstPaletteReferences";
-            this.lstPaletteReferences.Size = new System.Drawing.Size(172, 447);
+            this.lstPaletteReferences.Size = new System.Drawing.Size(168, 359);
             this.lstPaletteReferences.TabIndex = 1;
             this.lstPaletteReferences.TextOffsetX = 2;
             this.lstPaletteReferences.TextOffsetY = 0;
             // 
-            // pnlReferences
-            // 
-            this.pnlReferences.Controls.Add(this.lblPaletteName);
-            this.pnlReferences.Controls.Add(this.lblPaletteReferences);
-            this.pnlReferences.Controls.Add(this.nudLength);
-            this.pnlReferences.Controls.Add(this.txtName);
-            this.pnlReferences.Controls.Add(this.lblPaletteLength);
-            this.pnlReferences.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlReferences.Location = new System.Drawing.Point(8, 0);
-            this.pnlReferences.Name = "pnlReferences";
-            this.pnlReferences.Size = new System.Drawing.Size(172, 98);
-            this.pnlReferences.TabIndex = 0;
-            // 
-            // lblPaletteName
-            // 
-            this.lblPaletteName.AutoSize = true;
-            this.lblPaletteName.Location = new System.Drawing.Point(0, 0);
-            this.lblPaletteName.Margin = new System.Windows.Forms.Padding(0);
-            this.lblPaletteName.Name = "lblPaletteName";
-            this.lblPaletteName.Size = new System.Drawing.Size(77, 13);
-            this.lblPaletteName.TabIndex = 0;
-            this.lblPaletteName.Text = "Palette Name:";
-            this.lblPaletteName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lblPaletteReferences
             // 
             this.lblPaletteReferences.AutoSize = true;
-            this.lblPaletteReferences.Location = new System.Drawing.Point(0, 82);
-            this.lblPaletteReferences.Margin = new System.Windows.Forms.Padding(0);
+            this.lblPaletteReferences.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPaletteReferences.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPaletteReferences.Location = new System.Drawing.Point(2, 86);
+            this.lblPaletteReferences.Margin = new System.Windows.Forms.Padding(2);
             this.lblPaletteReferences.Name = "lblPaletteReferences";
-            this.lblPaletteReferences.Size = new System.Drawing.Size(137, 13);
+            this.lblPaletteReferences.Size = new System.Drawing.Size(170, 14);
             this.lblPaletteReferences.TabIndex = 4;
             this.lblPaletteReferences.Text = "Assets Using This Palette:";
             this.lblPaletteReferences.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblPaletteName
+            // 
+            this.lblPaletteName.AutoSize = true;
+            this.lblPaletteName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPaletteName.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPaletteName.Location = new System.Drawing.Point(2, 2);
+            this.lblPaletteName.Margin = new System.Windows.Forms.Padding(2);
+            this.lblPaletteName.Name = "lblPaletteName";
+            this.lblPaletteName.Size = new System.Drawing.Size(170, 14);
+            this.lblPaletteName.TabIndex = 0;
+            this.lblPaletteName.Text = "Palette Name:";
+            this.lblPaletteName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // nudLength
             // 
-            this.nudLength.Location = new System.Drawing.Point(0, 56);
+            this.nudLength.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nudLength.Location = new System.Drawing.Point(2, 62);
+            this.nudLength.Margin = new System.Windows.Forms.Padding(2);
             this.nudLength.Maximum = new decimal(new int[] {
             16,
             0,
@@ -397,7 +408,7 @@
             0,
             0});
             this.nudLength.Name = "nudLength";
-            this.nudLength.Size = new System.Drawing.Size(168, 22);
+            this.nudLength.Size = new System.Drawing.Size(170, 22);
             this.nudLength.TabIndex = 3;
             this.nudLength.Value = new decimal(new int[] {
             16,
@@ -408,10 +419,12 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(0, 16);
+            this.txtName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtName.Location = new System.Drawing.Point(2, 20);
+            this.txtName.Margin = new System.Windows.Forms.Padding(2);
             this.txtName.MaxLength = 50;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(168, 22);
+            this.txtName.Size = new System.Drawing.Size(170, 22);
             this.txtName.TabIndex = 1;
             this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtName_KeyDown);
             this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
@@ -419,10 +432,12 @@
             // lblPaletteLength
             // 
             this.lblPaletteLength.AutoSize = true;
-            this.lblPaletteLength.Location = new System.Drawing.Point(0, 40);
-            this.lblPaletteLength.Margin = new System.Windows.Forms.Padding(0);
+            this.lblPaletteLength.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPaletteLength.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPaletteLength.Location = new System.Drawing.Point(2, 44);
+            this.lblPaletteLength.Margin = new System.Windows.Forms.Padding(2);
             this.lblPaletteLength.Name = "lblPaletteLength";
-            this.lblPaletteLength.Size = new System.Drawing.Size(87, 13);
+            this.lblPaletteLength.Size = new System.Drawing.Size(170, 14);
             this.lblPaletteLength.TabIndex = 2;
             this.lblPaletteLength.Text = "Output Length:";
             this.lblPaletteLength.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -432,7 +447,7 @@
             this.lblSelectColor.AutoSize = true;
             this.tpnlPalette.SetColumnSpan(this.lblSelectColor, 2);
             this.lblSelectColor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSelectColor.Location = new System.Drawing.Point(114, 0);
+            this.lblSelectColor.Location = new System.Drawing.Point(54, 0);
             this.lblSelectColor.Margin = new System.Windows.Forms.Padding(0);
             this.lblSelectColor.Name = "lblSelectColor";
             this.lblSelectColor.Size = new System.Drawing.Size(280, 26);
@@ -445,7 +460,7 @@
             this.cbSwatch.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cbSwatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbSwatch.FormattingEnabled = true;
-            this.cbSwatch.Location = new System.Drawing.Point(245, 132);
+            this.cbSwatch.Location = new System.Drawing.Point(185, 132);
             this.cbSwatch.Name = "cbSwatch";
             this.cbSwatch.Size = new System.Drawing.Size(146, 21);
             this.cbSwatch.TabIndex = 3;
@@ -455,7 +470,7 @@
             // 
             this.tpnlPalette.SetColumnSpan(this.pnlPalette, 2);
             this.pnlPalette.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlPalette.Location = new System.Drawing.Point(118, 29);
+            this.pnlPalette.Location = new System.Drawing.Point(58, 29);
             this.pnlPalette.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pnlPalette.Name = "pnlPalette";
             this.pnlPalette.ReadOnly = false;
@@ -466,7 +481,7 @@
             // 
             this.lblColorSwatch.AutoSize = true;
             this.lblColorSwatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblColorSwatch.Location = new System.Drawing.Point(114, 129);
+            this.lblColorSwatch.Location = new System.Drawing.Point(54, 129);
             this.lblColorSwatch.Margin = new System.Windows.Forms.Padding(0);
             this.lblColorSwatch.Name = "lblColorSwatch";
             this.lblColorSwatch.Size = new System.Drawing.Size(128, 27);
@@ -486,7 +501,7 @@
             this.pnlSwatch.Image = global::SMSTileStudio.Properties.Resources.swatch_aseprite;
             this.pnlSwatch.ImageAlpha = 1F;
             this.pnlSwatch.ImageScale = 1;
-            this.pnlSwatch.Location = new System.Drawing.Point(-83, 159);
+            this.pnlSwatch.Location = new System.Drawing.Point(-143, 159);
             this.pnlSwatch.MinimumScale = 1;
             this.pnlSwatch.Name = "pnlSwatch";
             this.pnlSwatch.Size = new System.Drawing.Size(674, 309);
@@ -501,7 +516,7 @@
             // btnColorApply
             // 
             this.btnColorApply.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnColorApply.Location = new System.Drawing.Point(394, 103);
+            this.btnColorApply.Location = new System.Drawing.Point(334, 103);
             this.btnColorApply.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.btnColorApply.Name = "btnColorApply";
             this.btnColorApply.Size = new System.Drawing.Size(54, 26);
@@ -513,7 +528,7 @@
             // btnShiftLeft
             // 
             this.btnShiftLeft.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnShiftLeft.Location = new System.Drawing.Point(89, 29);
+            this.btnShiftLeft.Location = new System.Drawing.Point(29, 29);
             this.btnShiftLeft.Name = "btnShiftLeft";
             this.btnShiftLeft.Size = new System.Drawing.Size(22, 70);
             this.btnShiftLeft.TabIndex = 6;
@@ -524,7 +539,7 @@
             // btnShiftRight
             // 
             this.btnShiftRight.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnShiftRight.Location = new System.Drawing.Point(397, 29);
+            this.btnShiftRight.Location = new System.Drawing.Point(337, 29);
             this.btnShiftRight.Name = "btnShiftRight";
             this.btnShiftRight.Size = new System.Drawing.Size(22, 70);
             this.btnShiftRight.TabIndex = 7;
@@ -550,7 +565,7 @@
             this.tpnlColor.Controls.Add(this.cbGreen, 3, 0);
             this.tpnlColor.Controls.Add(this.cbBlue, 5, 0);
             this.tpnlColor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlColor.Location = new System.Drawing.Point(114, 102);
+            this.tpnlColor.Location = new System.Drawing.Point(54, 102);
             this.tpnlColor.Margin = new System.Windows.Forms.Padding(0);
             this.tpnlColor.Name = "tpnlColor";
             this.tpnlColor.RowCount = 1;
@@ -680,7 +695,7 @@
             this.lblCreatePalette.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCreatePalette.Location = new System.Drawing.Point(0, 0);
             this.lblCreatePalette.Name = "lblCreatePalette";
-            this.lblCreatePalette.Size = new System.Drawing.Size(688, 551);
+            this.lblCreatePalette.Size = new System.Drawing.Size(568, 473);
             this.lblCreatePalette.TabIndex = 6;
             this.lblCreatePalette.Text = "Create or select a palette to edit";
             this.lblCreatePalette.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -693,33 +708,33 @@
             this.mnuExportHex,
             this.mnuExportAssembly});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(240, 92);
+            this.mnuExport.Size = new System.Drawing.Size(239, 92);
             // 
             // mnuExportImage
             // 
             this.mnuExportImage.Name = "mnuExportImage";
-            this.mnuExportImage.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportImage.Size = new System.Drawing.Size(238, 22);
             this.mnuExportImage.Text = "Export as Image";
             this.mnuExportImage.Click += new System.EventHandler(this.mnuExport_Click);
             // 
             // mnuExportBinary
             // 
             this.mnuExportBinary.Name = "mnuExportBinary";
-            this.mnuExportBinary.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportBinary.Size = new System.Drawing.Size(238, 22);
             this.mnuExportBinary.Text = "Export as Binary";
             this.mnuExportBinary.Click += new System.EventHandler(this.mnuExport_Click);
             // 
             // mnuExportHex
             // 
             this.mnuExportHex.Name = "mnuExportHex";
-            this.mnuExportHex.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportHex.Size = new System.Drawing.Size(238, 22);
             this.mnuExportHex.Text = "Export as Hex (Clipboard)";
             this.mnuExportHex.Click += new System.EventHandler(this.mnuExport_Click);
             // 
             // mnuExportAssembly
             // 
             this.mnuExportAssembly.Name = "mnuExportAssembly";
-            this.mnuExportAssembly.Size = new System.Drawing.Size(239, 22);
+            this.mnuExportAssembly.Size = new System.Drawing.Size(238, 22);
             this.mnuExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuExportAssembly.Click += new System.EventHandler(this.mnuExport_Click);
             // 
@@ -729,20 +744,19 @@
             this.Controls.Add(this.tpnlMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "AssetPaletteControl";
-            this.Size = new System.Drawing.Size(890, 583);
+            this.Size = new System.Drawing.Size(770, 505);
             this.tpnlMain.ResumeLayout(false);
             this.grpPaletteList.ResumeLayout(false);
-            this.pnlButtons.ResumeLayout(false);
+            this.tpnlPalettes.ResumeLayout(false);
             this.pnlGameGearLegend.ResumeLayout(false);
             this.pnlGameGearLegend.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
+            this.pnlGameGearOuterBorder.ResumeLayout(false);
+            this.pnlGameGearInnerBorder.ResumeLayout(false);
             this.pnlPaletteEdit.ResumeLayout(false);
             this.tpnlPalette.ResumeLayout(false);
             this.tpnlPalette.PerformLayout();
-            this.pnlOptions.ResumeLayout(false);
-            this.pnlReferences.ResumeLayout(false);
-            this.pnlReferences.PerformLayout();
+            this.tpnlOptions.ResumeLayout(false);
+            this.tpnlOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).EndInit();
             this.tpnlColor.ResumeLayout(false);
             this.tpnlColor.PerformLayout();
@@ -755,7 +769,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tpnlMain;
         private System.Windows.Forms.GroupBox grpPaletteList;
-        private System.Windows.Forms.Panel pnlButtons;
         private System.Windows.Forms.Button btnRemove;
         private ListBoxControl lstPalettes;
         private System.Windows.Forms.Panel pnlPaletteEdit;
@@ -767,10 +780,8 @@
         private System.Windows.Forms.ToolTip ttMain;
         private System.Windows.Forms.ComboBox cbSwatch;
         private System.Windows.Forms.TableLayoutPanel tpnlPalette;
-        private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.Panel pnlOptions;
         private ListBoxControl lstPaletteReferences;
-        private System.Windows.Forms.Panel pnlReferences;
+        private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Label lblPaletteName;
         private System.Windows.Forms.Label lblPaletteReferences;
         private System.Windows.Forms.NumericUpDown nudLength;
@@ -788,10 +799,10 @@
         private System.Windows.Forms.Button btnShiftRight;
         private System.Windows.Forms.Label lblInfo;
         private System.Windows.Forms.Panel pnlGameGearLegend;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel pnlGameGearOuterBorder;
+        private System.Windows.Forms.Panel pnlGameGearInnerBorder;
+        private System.Windows.Forms.Panel pnlGameGear;
+        private System.Windows.Forms.Label lblGameGearColors;
         private System.Windows.Forms.TableLayoutPanel tpnlColor;
         private System.Windows.Forms.Label lblBlue;
         private System.Windows.Forms.Label lblGreen;
@@ -800,5 +811,7 @@
         private System.Windows.Forms.ComboBox cbGreen;
         private System.Windows.Forms.ComboBox cbBlue;
         private System.Windows.Forms.Button btnColorApply;
+        private System.Windows.Forms.TableLayoutPanel tpnlOptions;
+        private System.Windows.Forms.TableLayoutPanel tpnlPalettes;
     }
 }

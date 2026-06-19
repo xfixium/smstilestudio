@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -200,11 +200,12 @@ namespace SMSTileStudio.Forms
         {
             try
             {
-                _originalPixelTiles = BitmapUtility.GetPixelTiles(_image, pnlPalette.SPRPalette[0], true, false, FlipType.None);
+                var data = BitmapUtility.GetPixelTiles(_image, pnlPalette.SPRPalette[0], true, false, FlipType.None);
+                _originalPixelTiles = data.Item1; // BitmapUtility.GetPixelTiles(_image, pnlPalette.SPRPalette[0], true, false, FlipType.None);
                 _pixelTiles = _originalPixelTiles.DeepClone();
                 _tilemap.Columns = _image.Width / 8;
                 _tilemap.Rows = _image.Height / 8;
-                _tilemap.Tiles = BitmapUtility.GetTilesFromImage(_originalPixelTiles, _image, 0, FlipType.None);
+                _tilemap.Tiles = data.Item2; // BitmapUtility.GetTilesFromImage(_originalPixelTiles, _image, 0, FlipType.None);
                 SetPalettes();
                 UpdateImage();
             }

@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -171,16 +171,16 @@ namespace SMSTileStudio.Data
         /// <summary>
         /// Gets meta sprite data
         /// </summary>
-        /// <param name="getRawData">If ignoring compression and data length limitation</param>
+        /// <param name="compressor">Compressor being used, null for no compression</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetAllTilesetData(bool getRawData)
+        public byte[] GetAllTilesetData(Compressor compressor)
         {
             List<byte> bytes = new List<byte>();
             foreach (var frame in Frames)
                 if (frame.Tileset != null)
-                    bytes.AddRange(frame.Tileset.GetTilesetData(true));
+                    bytes.AddRange(frame.Tileset.GetTilesetData(null));
 
-            return getRawData ? bytes.ToArray() : GetExportData(bytes);
+            return compressor == null ? bytes.ToArray() : compressor.CompressTiles(bytes.ToArray(), bytes.Count / 32, false).ToArray();
         }
 
         /// <summary>
@@ -203,14 +203,14 @@ namespace SMSTileStudio.Data
         /// <param name="getRawData">If ignoring compression and data length limitation</param>
         /// <param name="minimumTileCount">The minimum tiles the tileset should have</param>
         /// <returns>An array of bytes</returns>
-        public byte[] GetAllTilesetData(bool getRawData, int minimumTileCount)
+        public byte[] GetAllTilesetData(Compressor compressor, int minimumTileCount)
         {
             List<byte> bytes = new List<byte>();
             foreach (var frame in Frames)
                 if (frame.Tileset != null)
-                    bytes.AddRange(frame.Tileset.GetTilesetData(true, minimumTileCount));
+                    bytes.AddRange(frame.Tileset.GetTilesetData(null, minimumTileCount));
 
-            return getRawData ? bytes.ToArray() : GetExportData(bytes);
+            return compressor == null ? bytes.ToArray() : compressor.CompressTiles(bytes.ToArray(), bytes.Count / 32, false).ToArray();
         }
 
         /// <summary>

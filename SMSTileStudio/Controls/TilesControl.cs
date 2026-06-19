@@ -1,6 +1,6 @@
 ﻿// 
 // SMS Tile Studio
-// Copyright (C) 2022 xfixium | xfixium@yahoo.com
+// Copyright (C) 2026 xfixium | xfixium@yahoo.com
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,11 @@
 // THE SOFTWARE.
 //
 
+using SMSTileStudio.Data;
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.Drawing.Drawing2D;
-using SMSTileStudio.Data;
+using System.Windows.Forms;
 
 namespace SMSTileStudio.Controls
 {
@@ -42,6 +42,7 @@ namespace SMSTileStudio.Controls
         private int _tileID = 0;
         private bool _indexed = false;
         private bool _clear = true;
+        private bool _invertGridColor = false;
 
         /// <summary>
         /// Properties
@@ -63,6 +64,7 @@ namespace SMSTileStudio.Controls
             }
         }
         public bool ClearTileId { get { return _clear; } set { _clear = value; } }
+        public bool InvertGridColor { get { return _invertGridColor; } set { _invertGridColor = value; UpdateBackBuffer(); } }
 
         /// <summary>
         /// Constructors
@@ -168,7 +170,7 @@ namespace SMSTileStudio.Controls
             int cols = (int)Math.Floor(Image.Width / (double)(SnapSize.Width));
             int rows = (int)Math.Floor(Image.Height / (double)(SnapSize.Height));
             Rectangle cell = new Rectangle(0, 0, SnapSize.Width, SnapSize.Height);
-            using (Pen gridPen = new Pen(Color.FromArgb(80, Color.Black)))
+            using (Pen gridPen = new Pen(Color.FromArgb(80, _invertGridColor ? Color.White : Color.Black)))
             {
                 for (int row = 0; row < rows; row++)
                 {

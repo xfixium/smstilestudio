@@ -220,6 +220,12 @@
     <Compile Include="Controls\TileControl.Designer.cs">
       <DependentUpon>TileControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\TileListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TileListControl.Designer.cs">
+      <DependentUpon>TileListControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TilemapControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -251,6 +257,7 @@
       <DependentUpon>TilesetImageControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\App.cs" />
+    <Compile Include="Data\Compressor.cs" />
     <Compile Include="Data\Entity.cs" />
     <Compile Include="Data\GameAsset.cs" />
     <Compile Include="Data\BitmapUtility.cs" />
@@ -258,6 +265,7 @@
     <Compile Include="Data\Dialog.cs" />
     <Compile Include="Data\Enumerations.cs" />
     <Compile Include="Data\Extensions.cs" />
+    <Compile Include="Data\ICompressor.cs" />
     <Compile Include="Data\MetaSpriteFrame.cs" />
     <Compile Include="Data\MetaTile.cs" />
     <Compile Include="Data\MetaTilemap.cs" />
