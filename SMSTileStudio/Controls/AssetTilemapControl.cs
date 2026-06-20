@@ -198,19 +198,41 @@ namespace SMSTileStudio.Controls
             if (!(sender is ToolStripMenuItem menuItem))
                 return;
 
+            // Get palettes
+            var bgPalette = cbBgPalette.SelectedItem as Palette;
+            var sprPalette = cbSprPalette.SelectedItem as Palette;
+
             // Tilemap Methods //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // Export selected palette as image
-            if (HasData && menuItem == mnuPaletteExportImage && _selectedPalette != null)
-                ExportPalette(_selectedPalette.Name.ToLower().Replace(' ', '_') + "_pal");
-            // Export selected palette as binary file
-            else if (HasData && menuItem == mnuPaletteExportBinary && _selectedPalette != null)
-                ExportPalette(_selectedPalette.Name.ToLower().Replace(' ', '_') + "_pal");
-            // Export selected palette as hex to clipboard
-            else if (HasData && menuItem == mnuPaletteExportHex && _selectedPalette != null)
-                Clipboard.SetText(_selectedPalette.GetDataString(false, BitmapUtility.CheckForGameGearColors(_selectedPalette.Colors)));
-            // Export selected palette as asm to clipboard
-            else if (HasData && menuItem == mnuPaletteExportAssembly && _selectedPalette != null)
-                Clipboard.SetText(_selectedPalette.GetDataString(true, BitmapUtility.CheckForGameGearColors(_selectedPalette.Colors)));
+            // Export bg palette as image
+            if (menuItem == mnuBGPaletteExportImage && bgPalette != null)
+                ExportPaletteImage(bgPalette.Name.ToLower().Replace(' ', '_') + "_pal", bgPalette);
+            // Export bg palette as binary file
+            else if (menuItem == mnuBGPaletteExportBinary && bgPalette != null)
+                ExportPalette(bgPalette.Name.ToLower().Replace(' ', '_') + "_pal", bgPalette);
+            // Export bg palette as hex to clipboard
+            else if (menuItem == mnuBGPaletteExportHex && bgPalette != null)
+                Clipboard.SetText(bgPalette.GetDataString(TextType.Hex, BitmapUtility.CheckForGameGearColors(bgPalette.Colors)));
+            // Export bg palette as asm to clipboard
+            else if ( menuItem == mnuBGPaletteExportAssembly && bgPalette != null)
+                Clipboard.SetText(bgPalette.GetDataString(TextType.Asm, BitmapUtility.CheckForGameGearColors(bgPalette.Colors)));
+            // Export bg palette as decimal to clipboard
+            else if (menuItem == mnuBGPaletteExportDecimal && bgPalette != null)
+                Clipboard.SetText(bgPalette.GetDataString(TextType.Decimal, BitmapUtility.CheckForGameGearColors(bgPalette.Colors)));
+            // Export spr palette as image
+            else if (menuItem == mnuSPRPaletteExportImage && sprPalette != null)
+                ExportPaletteImage(sprPalette.Name.ToLower().Replace(' ', '_') + "_pal", sprPalette);
+            // Export spr palette as binary file
+            else if (menuItem == mnuSPRPaletteExportBinary && sprPalette != null)
+                ExportPalette(sprPalette.Name.ToLower().Replace(' ', '_') + "_pal", sprPalette);
+            // Export spr palette as hex to clipboard
+            else if (menuItem == mnuSPRPaletteExportHex && sprPalette != null)
+                Clipboard.SetText(sprPalette.GetDataString(TextType.Hex, BitmapUtility.CheckForGameGearColors(sprPalette.Colors)));
+            // Export spr palette as asm to clipboard
+            else if (menuItem == mnuSPRPaletteExportAssembly && sprPalette != null)
+                Clipboard.SetText(sprPalette.GetDataString(TextType.Asm, BitmapUtility.CheckForGameGearColors(sprPalette.Colors)));
+            // Export spr palette as decimal to clipboard
+            else if (menuItem == mnuSPRPaletteExportDecimal && sprPalette != null)
+                Clipboard.SetText(sprPalette.GetDataString(TextType.Decimal, BitmapUtility.CheckForGameGearColors(sprPalette.Colors)));
             // Export tileset as image
             else if (HasData && menuItem == mnuTilesetExportImage)
                 ExportTileset(_tilemap.Name.ToLower().Replace(' ', '_') + "_tiles");
@@ -226,10 +248,13 @@ namespace SMSTileStudio.Controls
                 ExportBinaries(false);
             // Export tileset as hexadecimal to clipboard
             else if (HasTilesetData && menuItem == mnuTilesetExportHex)
-                Clipboard.SetText(_tilemap.Tileset.GetDataString(false));
+                Clipboard.SetText(_tilemap.Tileset.GetDataString(TextType.Hex));
             // Export tileset as assembly to clipboard
             else if (HasTilesetData && menuItem == mnuTilesetExportAssembly)
-                Clipboard.SetText(_tilemap.Tileset.GetDataString(true));
+                Clipboard.SetText(_tilemap.Tileset.GetDataString(TextType.Asm));
+            // Export tileset as decimal to clipboard
+            else if (HasTilesetData && menuItem == mnuTilesetExportDecimal)
+                Clipboard.SetText(_tilemap.Tileset.GetDataString(TextType.Decimal));
             // Export tilemap as image
             else if (HasData && menuItem == mnuTilemapExportImage)
                 ExportTilemap(_tilemap.Name.ToLower().Replace(' ', '_') + "_map");
@@ -242,7 +267,6 @@ namespace SMSTileStudio.Controls
             // Export tilemap as binary file
             else if (HasData && menuItem == mnuExportSGBinary)
                 ExportSGData();
-            // Export selected tilemaps as binary files
             // Export selected tilemaps as binary files
             else if (HasData && menuItem == mnuTilemapExportBinaries)
                 ExportBinaries(true);
@@ -328,8 +352,6 @@ namespace SMSTileStudio.Controls
             // Create brush from selection
             else if (HasTilesetData && menuItem == mnuCreateBrush)
             {
-                var bgPalette = cbBgPalette.SelectedItem as Palette;
-                var sprPalette = cbSprPalette.SelectedItem as Palette;
                 pnlTilemapEdit.CreateBrush(_tilemap.Tileset, bgPalette, sprPalette);
             }
             // Clear brush
@@ -1648,21 +1670,21 @@ namespace SMSTileStudio.Controls
 
         #region Exports
 
-        private void ExportPaletteImage(string filename)
+        private void ExportPaletteImage(string filename, Palette palette)
         {
-            if (!HasData || _selectedPalette == null)
+            if (!HasData || palette == null)
                 return;
 
             try
             {
                 using (SaveFileDialog dialog = new SaveFileDialog())
                 {
-                    dialog.Title = "Export Palette Image (" + _selectedPalette.Name + ")";
+                    dialog.Title = "Export Palette Image (" + palette.Name + ")";
                     dialog.Filter = "PNG Image File|*.png";
                     dialog.FileName = filename;
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
-                        using (var image = BitmapUtility.GetPaletteImage(_selectedPalette, new Size(16, 16), 16))
+                        using (var image = BitmapUtility.GetPaletteImage(palette, new Size(16, 16), 16))
                         {
                             if (image != null)
                                 image.Save(dialog.FileName, ImageFormat.Png);
@@ -1676,16 +1698,16 @@ namespace SMSTileStudio.Controls
             }
         }
 
-        private void ExportPalette(string filename)
+        private void ExportPalette(string filename, Palette palette)
         {
-            if (!HasData || _selectedPalette == null)
+            if (!HasData || palette == null)
                 return;
 
             try
             {
                 using (SaveFileDialog dialog = new SaveFileDialog())
                 {
-                    dialog.Title = "Export Binary Data (" + _selectedPalette.Name + ")";
+                    dialog.Title = "Export Binary Data (" + palette.Name + ")";
                     dialog.Filter = "Binary File|*.bin";
                     dialog.FileName = filename;
                     if (dialog.ShowDialog() == DialogResult.OK)
@@ -1694,7 +1716,7 @@ namespace SMSTileStudio.Controls
                         {
                             using (BinaryWriter bw = new BinaryWriter(fs))
                             {
-                                bw.Write(_selectedPalette.GetPaletteData(null, BitmapUtility.CheckForGameGearColors(_selectedPalette.Colors)));
+                                bw.Write(palette.GetPaletteData(null, BitmapUtility.CheckForGameGearColors(palette.Colors)));
                             }
                         }
                     }

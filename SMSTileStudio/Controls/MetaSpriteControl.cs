@@ -365,11 +365,11 @@ namespace SMSTileStudio.Controls
                         {
                             using (var tile1 = img.Clone(new Rectangle(sprite.TileID * 8, 0, 8, 8), img.PixelFormat))
                             {
-                                using (var tile2 = img.Clone(new Rectangle(sprite.TileID * 8 + 8, 0, 8, 8), img.PixelFormat))
-                                {
-                                    gfx.DrawImageUnscaled(tile1, sprite.X + origin.X + _offset.X, sprite.Y + origin.Y + _offset.Y);
-                                    gfx.DrawImageUnscaled(tile2, sprite.X + origin.X + _offset.X, sprite.Y + origin.Y + 8 + _offset.Y);
-                                }
+                                gfx.DrawImageUnscaled(tile1, sprite.X + origin.X + _offset.X, sprite.Y + origin.Y + _offset.Y);
+                            }
+                            using (var tile2 = img.Clone(new Rectangle(sprite.TileID * 8 + 8, 0, 8, 8), img.PixelFormat))
+                            {
+                                gfx.DrawImageUnscaled(tile2, sprite.X + origin.X + _offset.X, sprite.Y + origin.Y + 8 + _offset.Y);
                             }
                         }
                     }

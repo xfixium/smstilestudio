@@ -39,7 +39,6 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private Palette _palette;
         private Point _lastPosition = Point.Empty;
-        private bool _hasGameGearColor = false;
 
         /// <summary>
         /// Properties
@@ -153,6 +152,7 @@ namespace SMSTileStudio.Controls
                     {
                         palette = (Palette)App.Project.CreateAsset(GameAssetType.Palette);
                         palette.Colors = p;
+                        SetGameGearFlag();
                         App.Project.UpdateAsset(palette);
                     }
                 }
@@ -206,6 +206,7 @@ namespace SMSTileStudio.Controls
                 Color targetColor = _palette.Colors[source - 1];
                 _palette.Colors[source] = targetColor;
                 _palette.Colors[source - 1] = sourceColor;
+                SetGameGearFlag();
                 App.Project.UpdateAsset(_palette);
                 pnlPalette.SetPalette(_palette.Colors);
                 pnlPalette.SelectColor(source - 1);
@@ -218,6 +219,7 @@ namespace SMSTileStudio.Controls
                 Color targetColor = _palette.Colors[source + 1];
                 _palette.Colors[source] = targetColor;
                 _palette.Colors[source + 1] = sourceColor;
+                SetGameGearFlag();
                 App.Project.UpdateAsset(_palette);
                 pnlPalette.SetPalette(_palette.Colors);
                 pnlPalette.SelectColor(source + 1);
@@ -234,6 +236,7 @@ namespace SMSTileStudio.Controls
                 {
                     _palette.Colors[pnlPalette.SelectedIndex] = color;
                     pnlPalette.SetPalette(_palette.Colors);
+                    SetGameGearFlag();
                     UpdatePalette();
                 }
                 return;
@@ -292,9 +295,11 @@ namespace SMSTileStudio.Controls
                 }
             }
             else if (menuItem == mnuExportHex)
-                Clipboard.SetText(_palette.GetDataString(false, _hasGameGearColor));
+                Clipboard.SetText(_palette.GetDataString(TextType.Hex, _palette.GameGear));
             else if (menuItem == mnuExportAssembly)
-                Clipboard.SetText(_palette.GetDataString(true, _hasGameGearColor));
+                Clipboard.SetText(_palette.GetDataString(TextType.Asm, _palette.GameGear));
+            else if (menuItem == mnuExportDecimal)
+                Clipboard.SetText(_palette.GetDataString(TextType.Decimal, _palette.GameGear));
         }
 
         /// <summary>
@@ -350,6 +355,7 @@ namespace SMSTileStudio.Controls
             {
                 _palette.Colors[pnlPalette.SelectedIndex] = color;
                 pnlPalette.SetPalette(_palette.Colors);
+                SetGameGearFlag();
                 UpdatePalette();
             }
         }
@@ -394,6 +400,15 @@ namespace SMSTileStudio.Controls
             UpdatePalette();
         }
 
+        private void chkGameGear_CheckedChanged(object sender, EventArgs e)
+        {
+            if (lstPalettes.SelectedItem == null)
+                return;
+
+            SetGameGearFlag();
+            UpdatePalette();
+        }
+
         /// <summary>
         /// Divides a list into valid palettes
         /// </summary>
@@ -427,6 +442,11 @@ namespace SMSTileStudio.Controls
             sb.AppendLine("SMS: " + Palette.GetColor(col).ToString());
             sb.AppendLine("SMS Hex: $" + Palette.GetColor(col).ToString("X2"));
             return sb.ToString();
+        }
+
+        private void SetGameGearFlag()
+        {
+            _palette.GameGear = BitmapUtility.CheckForGameGearColors(_palette.Colors) ? true : chkGameGear.Checked;
         }
 
         /// <summary>
@@ -473,12 +493,11 @@ namespace SMSTileStudio.Controls
             txtName.Text = _palette == null ? string.Empty : _palette.Name;
             pnlPalette.SetPalette(_palette == null ? Palette.Empty : _palette.Colors);
             nudLength.Value = _palette == null ? 16 : _palette.Length;
+            chkGameGear.Checked = _palette == null ? false : _palette.GameGear;
             lblInfo.Text = _palette == null ? "No Palette information" : _palette.GetInfo();
             lstPaletteReferences.Items.Clear();
             if (_palette == null)
                 return;
-
-            _hasGameGearColor = BitmapUtility.CheckForGameGearColors(_palette.Colors);
 
             var paletteID = _palette.ID;
             foreach (var tilemap in App.Project.Tilemaps)

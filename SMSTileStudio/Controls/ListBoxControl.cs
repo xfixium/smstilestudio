@@ -246,7 +246,7 @@ namespace SMSTileStudio.Controls
             {
                 GameAsset asset = Items[e.Index] as GameAsset;
                 if (asset is Palette palette)
-                    font = BitmapUtility.CheckForGameGearColors(palette.Colors) ? new Font(font.FontFamily, font.Size, FontStyle.Bold) : font;
+                    font = palette.GameGear ? new Font(font.FontFamily, font.Size, FontStyle.Bold) : font;
             }
             return font;
         }
@@ -305,7 +305,7 @@ namespace SMSTileStudio.Controls
             {
                 GameAsset asset = Items[e.Index] as GameAsset;
                 if (asset is Palette palette)
-                    color = BitmapUtility.CheckForGameGearColors(palette.Colors) ? Color.SlateBlue : this.ForeColor;
+                    color = palette.GameGear ? Color.SlateBlue : this.ForeColor;
             }
 
             return color;

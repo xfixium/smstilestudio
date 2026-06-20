@@ -49,9 +49,9 @@
             this.btnNextFrame = new System.Windows.Forms.Button();
             this.btnDuplicate = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
-            this.chkMetaSpriteType = new System.Windows.Forms.CheckBox();
+            this.lblMetaSpriteType = new System.Windows.Forms.Label();
             this.lblTileMinimum = new System.Windows.Forms.Label();
-            this.chkSpriteType = new System.Windows.Forms.CheckBox();
+            this.lblSpriteType = new System.Windows.Forms.Label();
             this.tpnlCurrentFrame = new System.Windows.Forms.TableLayoutPanel();
             this.lblCurrentFrame = new System.Windows.Forms.Label();
             this.lblCurrentFrameValue = new System.Windows.Forms.Label();
@@ -261,9 +261,9 @@
             this.tpnlMetaSprites.Controls.Add(this.pnlFrames, 0, 0);
             this.tpnlMetaSprites.Controls.Add(this.btnDuplicate, 0, 7);
             this.tpnlMetaSprites.Controls.Add(this.btnNew, 0, 6);
-            this.tpnlMetaSprites.Controls.Add(this.chkMetaSpriteType, 0, 3);
+            this.tpnlMetaSprites.Controls.Add(this.lblMetaSpriteType, 0, 3);
             this.tpnlMetaSprites.Controls.Add(this.lblTileMinimum, 0, 4);
-            this.tpnlMetaSprites.Controls.Add(this.chkSpriteType, 0, 2);
+            this.tpnlMetaSprites.Controls.Add(this.lblSpriteType, 0, 2);
             this.tpnlMetaSprites.Controls.Add(this.tpnlCurrentFrame, 0, 1);
             this.tpnlMetaSprites.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tpnlMetaSprites.Location = new System.Drawing.Point(12, 19);
@@ -480,22 +480,20 @@
             this.btnNew.UseVisualStyleBackColor = true;
             this.btnNew.Click += new System.EventHandler(this.btnMetaSprite_Click);
             // 
-            // chkMetaSpriteType
+            // lblMetaSpriteType
             // 
-            this.chkMetaSpriteType.AutoSize = true;
-            this.tpnlMetaSprites.SetColumnSpan(this.chkMetaSpriteType, 2);
-            this.chkMetaSpriteType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkMetaSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkMetaSpriteType.ForeColor = System.Drawing.Color.SlateBlue;
-            this.chkMetaSpriteType.Location = new System.Drawing.Point(2, 60);
-            this.chkMetaSpriteType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
-            this.chkMetaSpriteType.Name = "chkMetaSpriteType";
-            this.chkMetaSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.chkMetaSpriteType.Size = new System.Drawing.Size(168, 18);
-            this.chkMetaSpriteType.TabIndex = 28;
-            this.chkMetaSpriteType.Text = "Sprite Type: N/A";
-            this.chkMetaSpriteType.UseVisualStyleBackColor = true;
-            this.chkMetaSpriteType.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            this.lblMetaSpriteType.AutoSize = true;
+            this.tpnlMetaSprites.SetColumnSpan(this.lblMetaSpriteType, 2);
+            this.lblMetaSpriteType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblMetaSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMetaSpriteType.ForeColor = System.Drawing.Color.SlateBlue;
+            this.lblMetaSpriteType.Location = new System.Drawing.Point(0, 60);
+            this.lblMetaSpriteType.Margin = new System.Windows.Forms.Padding(0, 2, 2, 2);
+            this.lblMetaSpriteType.Name = "lblMetaSpriteType";
+            this.lblMetaSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.lblMetaSpriteType.Size = new System.Drawing.Size(170, 16);
+            this.lblMetaSpriteType.TabIndex = 28;
+            this.lblMetaSpriteType.Text = "Sprite Type: N/A";
             // 
             // lblTileMinimum
             // 
@@ -510,22 +508,20 @@
             this.lblTileMinimum.Text = "Tile Minimum:";
             this.lblTileMinimum.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // chkSpriteType
+            // lblSpriteType
             // 
-            this.chkSpriteType.AutoSize = true;
-            this.tpnlMetaSprites.SetColumnSpan(this.chkSpriteType, 2);
-            this.chkSpriteType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkSpriteType.ForeColor = System.Drawing.Color.DeepPink;
-            this.chkSpriteType.Location = new System.Drawing.Point(2, 40);
-            this.chkSpriteType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
-            this.chkSpriteType.Name = "chkSpriteType";
-            this.chkSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.chkSpriteType.Size = new System.Drawing.Size(168, 18);
-            this.chkSpriteType.TabIndex = 27;
-            this.chkSpriteType.Text = "Sprite Size: N/A";
-            this.chkSpriteType.UseVisualStyleBackColor = true;
-            this.chkSpriteType.CheckedChanged += new System.EventHandler(this.chkMetaSprite_CheckedChanged);
+            this.lblSpriteType.AutoSize = true;
+            this.tpnlMetaSprites.SetColumnSpan(this.lblSpriteType, 2);
+            this.lblSpriteType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSpriteType.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSpriteType.ForeColor = System.Drawing.Color.DeepPink;
+            this.lblSpriteType.Location = new System.Drawing.Point(0, 40);
+            this.lblSpriteType.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
+            this.lblSpriteType.Name = "lblSpriteType";
+            this.lblSpriteType.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.lblSpriteType.Size = new System.Drawing.Size(170, 18);
+            this.lblSpriteType.TabIndex = 27;
+            this.lblSpriteType.Text = "Sprite Size: N/A";
             // 
             // tpnlCurrentFrame
             // 
@@ -2039,8 +2035,8 @@
         private System.Windows.Forms.Button btnSpritePaste;
         private System.Windows.Forms.Button btnSpriteCopy;
         private System.Windows.Forms.Label lblAdjustSelected;
-        private System.Windows.Forms.CheckBox chkSpriteType;
-        private System.Windows.Forms.CheckBox chkMetaSpriteType;
+        private System.Windows.Forms.Label lblSpriteType;
+        private System.Windows.Forms.Label lblMetaSpriteType;
         private System.Windows.Forms.ToolStripMenuItem mnuMetaSpriteExportDKSMSBinary;
         private System.Windows.Forms.TableLayoutPanel tpnlMetaSpriteOptions;
         private System.Windows.Forms.TableLayoutPanel tpnlTilesetOptions;

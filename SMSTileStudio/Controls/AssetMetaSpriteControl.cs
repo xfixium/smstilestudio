@@ -615,14 +615,8 @@ namespace SMSTileStudio.Controls
             if (!(sender is CheckBox checkBox))
                 return;
 
-            // Toggle meta sprite type, streamed or tileset
-            if (HasData && checkBox == chkMetaSpriteType)
-            {
-                _metaSprite.MetaSpriteType = chkMetaSpriteType.Checked ? MetaSpriteType.Tileset : MetaSpriteType.Streamed;
-                UpdateMetaSprite();
-            }
             // Toggle showing selected sprite rects
-            else if (checkBox == chkSprites)
+            if (checkBox == chkSprites)
                 pnlMetaSpriteEdit.ShowSprites = chkSprites.Checked;
             // Toggle showing the grid
             else if (checkBox == chkGrid)
@@ -643,12 +637,6 @@ namespace SMSTileStudio.Controls
             {
                 pnlMetaSpriteEdit.InvertGridColor = chkMetaSpriteInvertGrids.Checked;
                 pnlTilesetEdit.InvertGridColor= chkMetaSpriteInvertGrids.Checked;
-            }
-            // Toggle sprite type, normal or tall
-            else if (HasData && checkBox == chkSpriteType)
-            {
-                _metaSprite.SpriteMode = chkSpriteType.Checked ? SpriteModeType.Normal : SpriteModeType.Tall;
-                UpdateMetaSprite();
             }
             // Toggle tileset edit grid
             else if (checkBox == chkTilesetGrid)
@@ -1096,10 +1084,8 @@ namespace SMSTileStudio.Controls
             pnlSprPalette.SetPalette(cbSprPalette.SelectedItem == null ? null : (cbSprPalette.SelectedItem as Palette).Colors);
             _selectedPalette = cbSprPalette.SelectedItem as Palette;
             lblEmpty.Text = _metaSprite == null ? "No Meta Sprite information" : _metaSprite.GetInfo(_frameIndex);
-            chkSpriteType.Text = "Sprite Size: " + (_metaSprite == null ? "N/A" : _metaSprite.SpriteMode.GetDescription());
-            chkSpriteType.Checked = _metaSprite == null ? true : _metaSprite.SpriteMode == SpriteModeType.Normal;
-            chkMetaSpriteType.Text = "Sprite Type: " + (_metaSprite == null ? "N/A" : _metaSprite.MetaSpriteType.GetDescription());
-            chkMetaSpriteType.Checked = _metaSprite == null ? true : _metaSprite.MetaSpriteType == MetaSpriteType.Tileset;
+            lblSpriteType.Text = "Sprite Size: " + (_metaSprite == null ? "N/A" : _metaSprite.SpriteMode.GetDescription());
+            lblMetaSpriteType.Text = "Sprite Type: " + (_metaSprite == null ? "N/A" : _metaSprite.MetaSpriteType.GetDescription());
             pnlMetaSpriteEdit.LoadFrame(_frame, _selectedPalette, _metaSprite == null ? SpriteModeType.Normal : _metaSprite.SpriteMode);
             cbTilesetCompression.SelectedItem = !HasFrameData ? "None" : _frame.Tileset.CompressionType;
             lblCurrentFrameValue.Text = _metaSprite == null || _metaSprite.Frames.Count <= 0 ? "0 / 0" : _frameIndex + " / " + (_metaSprite.Frames.Count - 1);

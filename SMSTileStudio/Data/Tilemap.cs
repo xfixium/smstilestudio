@@ -418,7 +418,7 @@ namespace SMSTileStudio.Data
             StringBuilder sb = new StringBuilder();
             for (int row = 0; row < Rows; row++)
             {
-                string line = "";
+                string line = type == TextType.Asm ? (UseTileAttributes ? ".dw " : ".db ") : "";
                 for (int col = 0; col < Columns; col++)
                 {
                     byte b = (byte)Tiles[row * Columns + col].TileID;
@@ -426,8 +426,8 @@ namespace SMSTileStudio.Data
 
                     switch (type)
                     {
-                        case TextType.Asm: line += (UseTileAttributes ? ".dw " : ".db ") + "$" + (UseTileAttributes ? bytes[0].ToString("X2") + bytes[1].ToString("X2") : b.ToString("X2")) + " "; break;
-                        case TextType.Hex: line += (UseTileAttributes ? bytes[0].ToString("X2") + " " + bytes[1].ToString("X2") : b.ToString("X2")) + " "; break;
+                        case TextType.Asm: line += "$" + (UseTileAttributes ? bytes[0].ToString("X2") + bytes[1].ToString("X2") : b.ToString("X2")) + " "; break;
+                        case TextType.Hex: line += "0x" + (UseTileAttributes ? bytes[0].ToString("X2") + " " + bytes[1].ToString("X2") : b.ToString("X2")) + " "; break;
                         case TextType.Decimal: line += bytes[0].ToString() + ", " + bytes[1].ToString() + ", "; break;
                     }
                 }

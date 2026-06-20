@@ -47,6 +47,7 @@
             this.pnlPaletteEdit = new System.Windows.Forms.Panel();
             this.tpnlPalette = new System.Windows.Forms.TableLayoutPanel();
             this.tpnlOptions = new System.Windows.Forms.TableLayoutPanel();
+            this.chkGameGear = new System.Windows.Forms.CheckBox();
             this.lstPaletteReferences = new SMSTileStudio.Controls.ListBoxControl();
             this.lblPaletteReferences = new System.Windows.Forms.Label();
             this.lblPaletteName = new System.Windows.Forms.Label();
@@ -75,6 +76,7 @@
             this.mnuExportBinary = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuExportDecimal = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpPaletteList.SuspendLayout();
             this.tpnlPalettes.SuspendLayout();
@@ -277,9 +279,9 @@
             this.lblGameGearColors.AutoSize = true;
             this.lblGameGearColors.Location = new System.Drawing.Point(24, 5);
             this.lblGameGearColors.Name = "lblGameGearColors";
-            this.lblGameGearColors.Size = new System.Drawing.Size(146, 13);
+            this.lblGameGearColors.Size = new System.Drawing.Size(102, 13);
             this.lblGameGearColors.TabIndex = 0;
-            this.lblGameGearColors.Text = "Contains Game Gear colors";
+            this.lblGameGearColors.Text = "Game Gear palette";
             // 
             // pnlPaletteEdit
             // 
@@ -330,8 +332,9 @@
             // 
             this.tpnlOptions.ColumnCount = 1;
             this.tpnlOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlOptions.Controls.Add(this.lstPaletteReferences, 0, 5);
-            this.tpnlOptions.Controls.Add(this.lblPaletteReferences, 0, 4);
+            this.tpnlOptions.Controls.Add(this.chkGameGear, 0, 4);
+            this.tpnlOptions.Controls.Add(this.lstPaletteReferences, 0, 6);
+            this.tpnlOptions.Controls.Add(this.lblPaletteReferences, 0, 5);
             this.tpnlOptions.Controls.Add(this.lblPaletteName, 0, 0);
             this.tpnlOptions.Controls.Add(this.nudLength, 0, 3);
             this.tpnlOptions.Controls.Add(this.txtName, 0, 1);
@@ -339,16 +342,29 @@
             this.tpnlOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tpnlOptions.Location = new System.Drawing.Point(391, 3);
             this.tpnlOptions.Name = "tpnlOptions";
-            this.tpnlOptions.RowCount = 6;
+            this.tpnlOptions.RowCount = 7;
             this.tpnlPalette.SetRowSpan(this.tpnlOptions, 6);
             this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
             this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
             this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
             this.tpnlOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tpnlOptions.Size = new System.Drawing.Size(174, 467);
             this.tpnlOptions.TabIndex = 10;
+            // 
+            // chkGameGear
+            // 
+            this.chkGameGear.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkGameGear.Location = new System.Drawing.Point(2, 88);
+            this.chkGameGear.Margin = new System.Windows.Forms.Padding(2, 4, 2, 0);
+            this.chkGameGear.Name = "chkGameGear";
+            this.chkGameGear.Size = new System.Drawing.Size(170, 16);
+            this.chkGameGear.TabIndex = 15;
+            this.chkGameGear.Text = "Game Gear Palette";
+            this.chkGameGear.UseVisualStyleBackColor = true;
+            this.chkGameGear.CheckedChanged += new System.EventHandler(this.chkGameGear_CheckedChanged);
             // 
             // lstPaletteReferences
             // 
@@ -359,9 +375,9 @@
             this.lstPaletteReferences.HorizontalExtent = 164;
             this.lstPaletteReferences.HorizontalScrollbar = true;
             this.lstPaletteReferences.IntegralHeight = false;
-            this.lstPaletteReferences.Location = new System.Drawing.Point(3, 105);
+            this.lstPaletteReferences.Location = new System.Drawing.Point(3, 125);
             this.lstPaletteReferences.Name = "lstPaletteReferences";
-            this.lstPaletteReferences.Size = new System.Drawing.Size(168, 359);
+            this.lstPaletteReferences.Size = new System.Drawing.Size(168, 339);
             this.lstPaletteReferences.TabIndex = 1;
             this.lstPaletteReferences.TextOffsetX = 2;
             this.lstPaletteReferences.TextOffsetY = 0;
@@ -371,7 +387,7 @@
             this.lblPaletteReferences.AutoSize = true;
             this.lblPaletteReferences.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblPaletteReferences.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPaletteReferences.Location = new System.Drawing.Point(2, 86);
+            this.lblPaletteReferences.Location = new System.Drawing.Point(2, 106);
             this.lblPaletteReferences.Margin = new System.Windows.Forms.Padding(2);
             this.lblPaletteReferences.Name = "lblPaletteReferences";
             this.lblPaletteReferences.Size = new System.Drawing.Size(170, 14);
@@ -706,9 +722,10 @@
             this.mnuExportImage,
             this.mnuExportBinary,
             this.mnuExportHex,
-            this.mnuExportAssembly});
+            this.mnuExportAssembly,
+            this.mnuExportDecimal});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(239, 92);
+            this.mnuExport.Size = new System.Drawing.Size(239, 114);
             // 
             // mnuExportImage
             // 
@@ -737,6 +754,13 @@
             this.mnuExportAssembly.Size = new System.Drawing.Size(238, 22);
             this.mnuExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuExportAssembly.Click += new System.EventHandler(this.mnuExport_Click);
+            // 
+            // mnuExportDecimal
+            // 
+            this.mnuExportDecimal.Name = "mnuExportDecimal";
+            this.mnuExportDecimal.Size = new System.Drawing.Size(238, 22);
+            this.mnuExportDecimal.Text = "Export as Decimal (Clipboard)";
+            this.mnuExportDecimal.Click += new System.EventHandler(this.mnuExport_Click);
             // 
             // AssetPaletteControl
             // 
@@ -813,5 +837,7 @@
         private System.Windows.Forms.Button btnColorApply;
         private System.Windows.Forms.TableLayoutPanel tpnlOptions;
         private System.Windows.Forms.TableLayoutPanel tpnlPalettes;
+        private System.Windows.Forms.ToolStripMenuItem mnuExportDecimal;
+        private System.Windows.Forms.CheckBox chkGameGear;
     }
 }

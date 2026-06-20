@@ -30,35 +30,35 @@
         {
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.grpOptions = new System.Windows.Forms.GroupBox();
-            this.lblSprPalette = new System.Windows.Forms.Label();
-            this.cbSPRPalette = new System.Windows.Forms.ComboBox();
-            this.lblBgPalette = new System.Windows.Forms.Label();
-            this.cbBGPalette = new System.Windows.Forms.ComboBox();
-            this.lblFlippingOptions = new System.Windows.Forms.Label();
-            this.cbFlipOptions = new System.Windows.Forms.ComboBox();
-            this.btnSetAllSPRPalette = new System.Windows.Forms.Button();
+            this.tpnlTilemapOptions = new System.Windows.Forms.TableLayoutPanel();
             this.btnSetAllBGPalette = new System.Windows.Forms.Button();
+            this.pnlSprPalette = new SMSTileStudio.Controls.PaletteControl();
+            this.btnSetAllSPRPalette = new System.Windows.Forms.Button();
+            this.pnlBGPalette = new SMSTileStudio.Controls.PaletteControl();
+            this.lblBgPalette = new System.Windows.Forms.Label();
+            this.cbSPRPalette = new System.Windows.Forms.ComboBox();
             this.chkShowIndexes = new System.Windows.Forms.CheckBox();
+            this.cbFlipOptions = new System.Windows.Forms.ComboBox();
             this.chkAllowDuplicates = new System.Windows.Forms.CheckBox();
+            this.lblFlippingOptions = new System.Windows.Forms.Label();
             this.chkIgnoreEmpty = new System.Windows.Forms.CheckBox();
+            this.lblSprPalette = new System.Windows.Forms.Label();
+            this.cbBGPalette = new System.Windows.Forms.ComboBox();
             this.grpImage = new System.Windows.Forms.GroupBox();
+            this.pnlImage = new SMSTileStudio.Controls.TilemapImageControl();
             this.grpTileset = new System.Windows.Forms.GroupBox();
+            this.pnlTileset = new SMSTileStudio.Controls.PixelTileControl();
+            this.pnlPalettes = new SMSTileStudio.Controls.PaletteTilemapControl();
             this.pnlButtons = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.lblTileCount = new System.Windows.Forms.Label();
-            this.tpnlTilemapOptions = new System.Windows.Forms.TableLayoutPanel();
-            this.pnlSprPalette = new SMSTileStudio.Controls.PaletteControl();
-            this.pnlBGPalette = new SMSTileStudio.Controls.PaletteControl();
-            this.pnlImage = new SMSTileStudio.Controls.TilemapImageControl();
-            this.pnlTileset = new SMSTileStudio.Controls.PixelTileControl();
-            this.pnlPalettes = new SMSTileStudio.Controls.PaletteTilemapControl();
             this.tpnlMain.SuspendLayout();
             this.grpOptions.SuspendLayout();
+            this.tpnlTilemapOptions.SuspendLayout();
             this.grpImage.SuspendLayout();
             this.grpTileset.SuspendLayout();
             this.pnlButtons.SuspendLayout();
-            this.tpnlTilemapOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // tpnlMain
@@ -96,29 +96,86 @@
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Tilemap Options";
             // 
-            // lblSprPalette
+            // tpnlTilemapOptions
             // 
-            this.lblSprPalette.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSprPalette.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSprPalette.Location = new System.Drawing.Point(2, 136);
-            this.lblSprPalette.Margin = new System.Windows.Forms.Padding(2);
-            this.lblSprPalette.Name = "lblSprPalette";
-            this.lblSprPalette.Size = new System.Drawing.Size(165, 14);
-            this.lblSprPalette.TabIndex = 22;
-            this.lblSprPalette.Text = "Sprite Palette:";
-            this.lblSprPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tpnlTilemapOptions.ColumnCount = 1;
+            this.tpnlTilemapOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlTilemapOptions.Controls.Add(this.btnSetAllBGPalette, 0, 0);
+            this.tpnlTilemapOptions.Controls.Add(this.pnlSprPalette, 0, 7);
+            this.tpnlTilemapOptions.Controls.Add(this.btnSetAllSPRPalette, 0, 1);
+            this.tpnlTilemapOptions.Controls.Add(this.pnlBGPalette, 0, 4);
+            this.tpnlTilemapOptions.Controls.Add(this.lblBgPalette, 0, 2);
+            this.tpnlTilemapOptions.Controls.Add(this.cbSPRPalette, 0, 6);
+            this.tpnlTilemapOptions.Controls.Add(this.chkShowIndexes, 0, 12);
+            this.tpnlTilemapOptions.Controls.Add(this.cbFlipOptions, 0, 9);
+            this.tpnlTilemapOptions.Controls.Add(this.chkAllowDuplicates, 0, 11);
+            this.tpnlTilemapOptions.Controls.Add(this.lblFlippingOptions, 0, 8);
+            this.tpnlTilemapOptions.Controls.Add(this.chkIgnoreEmpty, 0, 10);
+            this.tpnlTilemapOptions.Controls.Add(this.lblSprPalette, 0, 5);
+            this.tpnlTilemapOptions.Controls.Add(this.cbBGPalette, 0, 3);
+            this.tpnlTilemapOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tpnlTilemapOptions.Location = new System.Drawing.Point(8, 23);
+            this.tpnlTilemapOptions.Name = "tpnlTilemapOptions";
+            this.tpnlTilemapOptions.RowCount = 14;
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tpnlTilemapOptions.Size = new System.Drawing.Size(169, 533);
+            this.tpnlTilemapOptions.TabIndex = 26;
             // 
-            // cbSPRPalette
+            // btnSetAllBGPalette
             // 
-            this.cbSPRPalette.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbSPRPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbSPRPalette.FormattingEnabled = true;
-            this.cbSPRPalette.Location = new System.Drawing.Point(2, 154);
-            this.cbSPRPalette.Margin = new System.Windows.Forms.Padding(2);
-            this.cbSPRPalette.Name = "cbSPRPalette";
-            this.cbSPRPalette.Size = new System.Drawing.Size(165, 21);
-            this.cbSPRPalette.TabIndex = 23;
-            this.cbSPRPalette.SelectedIndexChanged += new System.EventHandler(this.cbTilemap_SelectedIndexChanged);
+            this.btnSetAllBGPalette.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSetAllBGPalette.Location = new System.Drawing.Point(2, 0);
+            this.btnSetAllBGPalette.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnSetAllBGPalette.Name = "btnSetAllBGPalette";
+            this.btnSetAllBGPalette.Size = new System.Drawing.Size(165, 24);
+            this.btnSetAllBGPalette.TabIndex = 9;
+            this.btnSetAllBGPalette.Text = "Set All Tiles To BG Palette";
+            this.btnSetAllBGPalette.UseVisualStyleBackColor = true;
+            this.btnSetAllBGPalette.Click += new System.EventHandler(this.btnTilemap_Click);
+            // 
+            // pnlSprPalette
+            // 
+            this.pnlSprPalette.Location = new System.Drawing.Point(4, 178);
+            this.pnlSprPalette.Margin = new System.Windows.Forms.Padding(4, 2, 5, 2);
+            this.pnlSprPalette.Name = "pnlSprPalette";
+            this.pnlSprPalette.ReadOnly = false;
+            this.pnlSprPalette.Size = new System.Drawing.Size(160, 40);
+            this.pnlSprPalette.TabIndex = 25;
+            // 
+            // btnSetAllSPRPalette
+            // 
+            this.btnSetAllSPRPalette.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSetAllSPRPalette.Location = new System.Drawing.Point(2, 24);
+            this.btnSetAllSPRPalette.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.btnSetAllSPRPalette.Name = "btnSetAllSPRPalette";
+            this.btnSetAllSPRPalette.Size = new System.Drawing.Size(165, 24);
+            this.btnSetAllSPRPalette.TabIndex = 10;
+            this.btnSetAllSPRPalette.Text = "Set All Tiles To SPR Palette";
+            this.btnSetAllSPRPalette.UseVisualStyleBackColor = true;
+            this.btnSetAllSPRPalette.Click += new System.EventHandler(this.btnTilemap_Click);
+            // 
+            // pnlBGPalette
+            // 
+            this.pnlBGPalette.Location = new System.Drawing.Point(4, 92);
+            this.pnlBGPalette.Margin = new System.Windows.Forms.Padding(4, 2, 5, 2);
+            this.pnlBGPalette.Name = "pnlBGPalette";
+            this.pnlBGPalette.ReadOnly = false;
+            this.pnlBGPalette.Size = new System.Drawing.Size(160, 40);
+            this.pnlBGPalette.TabIndex = 24;
             // 
             // lblBgPalette
             // 
@@ -132,28 +189,30 @@
             this.lblBgPalette.Text = "Background Palette:";
             this.lblBgPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cbBGPalette
+            // cbSPRPalette
             // 
-            this.cbBGPalette.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbBGPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbBGPalette.FormattingEnabled = true;
-            this.cbBGPalette.Location = new System.Drawing.Point(2, 68);
-            this.cbBGPalette.Margin = new System.Windows.Forms.Padding(2);
-            this.cbBGPalette.Name = "cbBGPalette";
-            this.cbBGPalette.Size = new System.Drawing.Size(165, 21);
-            this.cbBGPalette.TabIndex = 21;
-            this.cbBGPalette.SelectedIndexChanged += new System.EventHandler(this.cbTilemap_SelectedIndexChanged);
+            this.cbSPRPalette.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbSPRPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbSPRPalette.FormattingEnabled = true;
+            this.cbSPRPalette.Location = new System.Drawing.Point(2, 154);
+            this.cbSPRPalette.Margin = new System.Windows.Forms.Padding(2);
+            this.cbSPRPalette.Name = "cbSPRPalette";
+            this.cbSPRPalette.Size = new System.Drawing.Size(165, 21);
+            this.cbSPRPalette.TabIndex = 23;
+            this.cbSPRPalette.SelectedIndexChanged += new System.EventHandler(this.cbTilemap_SelectedIndexChanged);
             // 
-            // lblFlippingOptions
+            // chkShowIndexes
             // 
-            this.lblFlippingOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblFlippingOptions.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFlippingOptions.Location = new System.Drawing.Point(2, 222);
-            this.lblFlippingOptions.Margin = new System.Windows.Forms.Padding(2);
-            this.lblFlippingOptions.Name = "lblFlippingOptions";
-            this.lblFlippingOptions.Size = new System.Drawing.Size(165, 14);
-            this.lblFlippingOptions.TabIndex = 11;
-            this.lblFlippingOptions.Text = "Flipping Options:";
+            this.chkShowIndexes.AutoSize = true;
+            this.chkShowIndexes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chkShowIndexes.Location = new System.Drawing.Point(2, 312);
+            this.chkShowIndexes.Margin = new System.Windows.Forms.Padding(2);
+            this.chkShowIndexes.Name = "chkShowIndexes";
+            this.chkShowIndexes.Size = new System.Drawing.Size(165, 20);
+            this.chkShowIndexes.TabIndex = 15;
+            this.chkShowIndexes.Text = "Show Palette Indexes";
+            this.chkShowIndexes.UseVisualStyleBackColor = true;
+            this.chkShowIndexes.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
             // cbFlipOptions
             // 
@@ -172,43 +231,6 @@
             this.cbFlipOptions.TabIndex = 12;
             this.cbFlipOptions.SelectedIndexChanged += new System.EventHandler(this.cbTilemap_SelectedIndexChanged);
             // 
-            // btnSetAllSPRPalette
-            // 
-            this.btnSetAllSPRPalette.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSetAllSPRPalette.Location = new System.Drawing.Point(2, 24);
-            this.btnSetAllSPRPalette.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.btnSetAllSPRPalette.Name = "btnSetAllSPRPalette";
-            this.btnSetAllSPRPalette.Size = new System.Drawing.Size(165, 24);
-            this.btnSetAllSPRPalette.TabIndex = 10;
-            this.btnSetAllSPRPalette.Text = "Set All Tiles To SPR Palette";
-            this.btnSetAllSPRPalette.UseVisualStyleBackColor = true;
-            this.btnSetAllSPRPalette.Click += new System.EventHandler(this.btnTilemap_Click);
-            // 
-            // btnSetAllBGPalette
-            // 
-            this.btnSetAllBGPalette.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnSetAllBGPalette.Location = new System.Drawing.Point(2, 0);
-            this.btnSetAllBGPalette.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.btnSetAllBGPalette.Name = "btnSetAllBGPalette";
-            this.btnSetAllBGPalette.Size = new System.Drawing.Size(165, 24);
-            this.btnSetAllBGPalette.TabIndex = 9;
-            this.btnSetAllBGPalette.Text = "Set All Tiles To BG Palette";
-            this.btnSetAllBGPalette.UseVisualStyleBackColor = true;
-            this.btnSetAllBGPalette.Click += new System.EventHandler(this.btnTilemap_Click);
-            // 
-            // chkShowIndexes
-            // 
-            this.chkShowIndexes.AutoSize = true;
-            this.chkShowIndexes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.chkShowIndexes.Location = new System.Drawing.Point(2, 312);
-            this.chkShowIndexes.Margin = new System.Windows.Forms.Padding(2);
-            this.chkShowIndexes.Name = "chkShowIndexes";
-            this.chkShowIndexes.Size = new System.Drawing.Size(165, 20);
-            this.chkShowIndexes.TabIndex = 15;
-            this.chkShowIndexes.Text = "Show Palette Indexes";
-            this.chkShowIndexes.UseVisualStyleBackColor = true;
-            this.chkShowIndexes.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
-            // 
             // chkAllowDuplicates
             // 
             this.chkAllowDuplicates.AutoSize = true;
@@ -221,6 +243,17 @@
             this.chkAllowDuplicates.Text = "Allow Duplicate Tiles";
             this.chkAllowDuplicates.UseVisualStyleBackColor = true;
             this.chkAllowDuplicates.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
+            // 
+            // lblFlippingOptions
+            // 
+            this.lblFlippingOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblFlippingOptions.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFlippingOptions.Location = new System.Drawing.Point(2, 222);
+            this.lblFlippingOptions.Margin = new System.Windows.Forms.Padding(2);
+            this.lblFlippingOptions.Name = "lblFlippingOptions";
+            this.lblFlippingOptions.Size = new System.Drawing.Size(165, 14);
+            this.lblFlippingOptions.TabIndex = 11;
+            this.lblFlippingOptions.Text = "Flipping Options:";
             // 
             // chkIgnoreEmpty
             // 
@@ -235,6 +268,30 @@
             this.chkIgnoreEmpty.UseVisualStyleBackColor = true;
             this.chkIgnoreEmpty.CheckedChanged += new System.EventHandler(this.chkTilemap_CheckedChanged);
             // 
+            // lblSprPalette
+            // 
+            this.lblSprPalette.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSprPalette.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSprPalette.Location = new System.Drawing.Point(2, 136);
+            this.lblSprPalette.Margin = new System.Windows.Forms.Padding(2);
+            this.lblSprPalette.Name = "lblSprPalette";
+            this.lblSprPalette.Size = new System.Drawing.Size(165, 14);
+            this.lblSprPalette.TabIndex = 22;
+            this.lblSprPalette.Text = "Sprite Palette:";
+            this.lblSprPalette.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // cbBGPalette
+            // 
+            this.cbBGPalette.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cbBGPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBGPalette.FormattingEnabled = true;
+            this.cbBGPalette.Location = new System.Drawing.Point(2, 68);
+            this.cbBGPalette.Margin = new System.Windows.Forms.Padding(2);
+            this.cbBGPalette.Name = "cbBGPalette";
+            this.cbBGPalette.Size = new System.Drawing.Size(165, 21);
+            this.cbBGPalette.TabIndex = 21;
+            this.cbBGPalette.SelectedIndexChanged += new System.EventHandler(this.cbTilemap_SelectedIndexChanged);
+            // 
             // grpImage
             // 
             this.grpImage.Controls.Add(this.pnlImage);
@@ -247,6 +304,32 @@
             this.grpImage.TabStop = false;
             this.grpImage.Text = "Original Image";
             // 
+            // pnlImage
+            // 
+            this.pnlImage.AutoScroll = true;
+            this.pnlImage.AutoScrollMinSize = new System.Drawing.Size(313, 328);
+            this.pnlImage.Canvas = new System.Drawing.Size(8, 8);
+            this.pnlImage.Centered = true;
+            this.pnlImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlImage.HatchBackColor = System.Drawing.Color.DarkGray;
+            this.pnlImage.HatchForeColor = System.Drawing.Color.White;
+            this.pnlImage.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
+            this.pnlImage.Image = null;
+            this.pnlImage.ImageAlpha = 1F;
+            this.pnlImage.ImageScale = 1;
+            this.pnlImage.Indexed = false;
+            this.pnlImage.Location = new System.Drawing.Point(8, 23);
+            this.pnlImage.MinimumScale = 1;
+            this.pnlImage.Name = "pnlImage";
+            this.pnlImage.SelectedIndex = -1;
+            this.pnlImage.Size = new System.Drawing.Size(313, 328);
+            this.pnlImage.SnapSize = new System.Drawing.Size(8, 8);
+            this.pnlImage.TabIndex = 0;
+            this.pnlImage.UseCanvas = false;
+            this.pnlImage.UseHatch = true;
+            this.pnlImage.UseMouseWheelScaling = true;
+            this.pnlImage.SelectedIndexChanged += new SMSTileStudio.Controls.TilemapImageControl.SelectedIndexChangedHandler(this.pnlImage_SelectedIndexChanged);
+            // 
             // grpTileset
             // 
             this.grpTileset.Controls.Add(this.pnlTileset);
@@ -258,6 +341,41 @@
             this.grpTileset.TabIndex = 2;
             this.grpTileset.TabStop = false;
             this.grpTileset.Text = "Tileset";
+            // 
+            // pnlTileset
+            // 
+            this.pnlTileset.AutoScroll = true;
+            this.pnlTileset.AutoScrollMinSize = new System.Drawing.Size(576, 933);
+            this.pnlTileset.Canvas = new System.Drawing.Size(8, 8);
+            this.pnlTileset.Centered = false;
+            this.pnlTileset.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTileset.HatchBackColor = System.Drawing.Color.DarkGray;
+            this.pnlTileset.HatchForeColor = System.Drawing.Color.White;
+            this.pnlTileset.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
+            this.pnlTileset.Image = null;
+            this.pnlTileset.ImageAlpha = 1F;
+            this.pnlTileset.ImageScale = 3;
+            this.pnlTileset.Indexed = false;
+            this.pnlTileset.Location = new System.Drawing.Point(8, 23);
+            this.pnlTileset.MinimumScale = 1;
+            this.pnlTileset.Name = "pnlTileset";
+            this.pnlTileset.Size = new System.Drawing.Size(209, 328);
+            this.pnlTileset.SnapSize = new System.Drawing.Size(8, 8);
+            this.pnlTileset.TabIndex = 0;
+            this.pnlTileset.UseCanvas = false;
+            this.pnlTileset.UseHatch = true;
+            this.pnlTileset.UseMouseWheelScaling = false;
+            this.pnlTileset.SelectedIndexChanged += new SMSTileStudio.Controls.PixelTileControl.SelectedIndexChangedHandler(this.pnlTileset_SelectedIndexChanged);
+            // 
+            // pnlPalettes
+            // 
+            this.tpnlMain.SetColumnSpan(this.pnlPalettes, 2);
+            this.pnlPalettes.Location = new System.Drawing.Point(194, 368);
+            this.pnlPalettes.Name = "pnlPalettes";
+            this.pnlPalettes.Size = new System.Drawing.Size(560, 199);
+            this.pnlPalettes.TabIndex = 3;
+            this.pnlPalettes.ColorShifted += new SMSTileStudio.Controls.PaletteTilemapControl.ColorShiftedHandler(this.pnlPalettes_ColorShifted);
+            this.pnlPalettes.SelectedColorChanged += new SMSTileStudio.Controls.PaletteTilemapControl.SelectedColorChangedHandler(this.pnlPalettes_SelectedColorChanged);
             // 
             // pnlButtons
             // 
@@ -306,124 +424,6 @@
             this.lblTileCount.Text = "Total Tile Count: 0";
             this.lblTileCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tpnlTilemapOptions
-            // 
-            this.tpnlTilemapOptions.ColumnCount = 1;
-            this.tpnlTilemapOptions.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlTilemapOptions.Controls.Add(this.btnSetAllBGPalette, 0, 0);
-            this.tpnlTilemapOptions.Controls.Add(this.pnlSprPalette, 0, 7);
-            this.tpnlTilemapOptions.Controls.Add(this.btnSetAllSPRPalette, 0, 1);
-            this.tpnlTilemapOptions.Controls.Add(this.pnlBGPalette, 0, 4);
-            this.tpnlTilemapOptions.Controls.Add(this.lblBgPalette, 0, 2);
-            this.tpnlTilemapOptions.Controls.Add(this.cbSPRPalette, 0, 6);
-            this.tpnlTilemapOptions.Controls.Add(this.chkShowIndexes, 0, 12);
-            this.tpnlTilemapOptions.Controls.Add(this.cbFlipOptions, 0, 9);
-            this.tpnlTilemapOptions.Controls.Add(this.chkAllowDuplicates, 0, 11);
-            this.tpnlTilemapOptions.Controls.Add(this.lblFlippingOptions, 0, 8);
-            this.tpnlTilemapOptions.Controls.Add(this.chkIgnoreEmpty, 0, 10);
-            this.tpnlTilemapOptions.Controls.Add(this.lblSprPalette, 0, 5);
-            this.tpnlTilemapOptions.Controls.Add(this.cbBGPalette, 0, 3);
-            this.tpnlTilemapOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tpnlTilemapOptions.Location = new System.Drawing.Point(8, 23);
-            this.tpnlTilemapOptions.Name = "tpnlTilemapOptions";
-            this.tpnlTilemapOptions.RowCount = 14;
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 18F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tpnlTilemapOptions.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tpnlTilemapOptions.Size = new System.Drawing.Size(169, 533);
-            this.tpnlTilemapOptions.TabIndex = 26;
-            // 
-            // pnlSprPalette
-            // 
-            this.pnlSprPalette.Location = new System.Drawing.Point(4, 178);
-            this.pnlSprPalette.Margin = new System.Windows.Forms.Padding(4, 2, 5, 2);
-            this.pnlSprPalette.Name = "pnlSprPalette";
-            this.pnlSprPalette.ReadOnly = false;
-            this.pnlSprPalette.Size = new System.Drawing.Size(160, 40);
-            this.pnlSprPalette.TabIndex = 25;
-            // 
-            // pnlBGPalette
-            // 
-            this.pnlBGPalette.Location = new System.Drawing.Point(4, 92);
-            this.pnlBGPalette.Margin = new System.Windows.Forms.Padding(4, 2, 5, 2);
-            this.pnlBGPalette.Name = "pnlBGPalette";
-            this.pnlBGPalette.ReadOnly = false;
-            this.pnlBGPalette.Size = new System.Drawing.Size(160, 40);
-            this.pnlBGPalette.TabIndex = 24;
-            // 
-            // pnlImage
-            // 
-            this.pnlImage.AutoScroll = true;
-            this.pnlImage.AutoScrollMinSize = new System.Drawing.Size(313, 328);
-            this.pnlImage.Canvas = new System.Drawing.Size(8, 8);
-            this.pnlImage.Centered = true;
-            this.pnlImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlImage.HatchBackColor = System.Drawing.Color.DarkGray;
-            this.pnlImage.HatchForeColor = System.Drawing.Color.White;
-            this.pnlImage.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
-            this.pnlImage.Image = null;
-            this.pnlImage.ImageAlpha = 1F;
-            this.pnlImage.ImageScale = 1;
-            this.pnlImage.Indexed = false;
-            this.pnlImage.Location = new System.Drawing.Point(8, 23);
-            this.pnlImage.MinimumScale = 1;
-            this.pnlImage.Name = "pnlImage";
-            this.pnlImage.SelectedIndex = -1;
-            this.pnlImage.Size = new System.Drawing.Size(313, 328);
-            this.pnlImage.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlImage.TabIndex = 0;
-            this.pnlImage.UseCanvas = false;
-            this.pnlImage.UseHatch = true;
-            this.pnlImage.UseMouseWheelScaling = true;
-            this.pnlImage.SelectedIndexChanged += new SMSTileStudio.Controls.TilemapImageControl.SelectedIndexChangedHandler(this.pnlImage_SelectedIndexChanged);
-            // 
-            // pnlTileset
-            // 
-            this.pnlTileset.AutoScroll = true;
-            this.pnlTileset.AutoScrollMinSize = new System.Drawing.Size(576, 933);
-            this.pnlTileset.Canvas = new System.Drawing.Size(8, 8);
-            this.pnlTileset.Centered = false;
-            this.pnlTileset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTileset.HatchBackColor = System.Drawing.Color.DarkGray;
-            this.pnlTileset.HatchForeColor = System.Drawing.Color.White;
-            this.pnlTileset.HatchStyle = System.Drawing.Drawing2D.HatchStyle.OutlinedDiamond;
-            this.pnlTileset.Image = null;
-            this.pnlTileset.ImageAlpha = 1F;
-            this.pnlTileset.ImageScale = 3;
-            this.pnlTileset.Indexed = false;
-            this.pnlTileset.Location = new System.Drawing.Point(8, 23);
-            this.pnlTileset.MinimumScale = 1;
-            this.pnlTileset.Name = "pnlTileset";
-            this.pnlTileset.Size = new System.Drawing.Size(209, 328);
-            this.pnlTileset.SnapSize = new System.Drawing.Size(8, 8);
-            this.pnlTileset.TabIndex = 0;
-            this.pnlTileset.UseCanvas = false;
-            this.pnlTileset.UseHatch = true;
-            this.pnlTileset.UseMouseWheelScaling = false;
-            this.pnlTileset.SelectedIndexChanged += new SMSTileStudio.Controls.PixelTileControl.SelectedIndexChangedHandler(this.pnlTileset_SelectedIndexChanged);
-            // 
-            // pnlPalettes
-            // 
-            this.tpnlMain.SetColumnSpan(this.pnlPalettes, 2);
-            this.pnlPalettes.Location = new System.Drawing.Point(194, 368);
-            this.pnlPalettes.Name = "pnlPalettes";
-            this.pnlPalettes.Size = new System.Drawing.Size(560, 199);
-            this.pnlPalettes.TabIndex = 3;
-            this.pnlPalettes.ColorShifted += new SMSTileStudio.Controls.PaletteTilemapControl.ColorShiftedHandler(this.pnlPalettes_ColorShifted);
-            this.pnlPalettes.SelectedColorChanged += new SMSTileStudio.Controls.PaletteTilemapControl.SelectedColorChangedHandler(this.pnlPalettes_SelectedColorChanged);
-            // 
             // ImportTilemapForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -442,11 +442,11 @@
             this.tpnlMain.ResumeLayout(false);
             this.tpnlMain.PerformLayout();
             this.grpOptions.ResumeLayout(false);
+            this.tpnlTilemapOptions.ResumeLayout(false);
+            this.tpnlTilemapOptions.PerformLayout();
             this.grpImage.ResumeLayout(false);
             this.grpTileset.ResumeLayout(false);
             this.pnlButtons.ResumeLayout(false);
-            this.tpnlTilemapOptions.ResumeLayout(false);
-            this.tpnlTilemapOptions.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssetTilemapControl));
             this.tpnlMain = new System.Windows.Forms.TableLayoutPanel();
             this.grpImageList = new System.Windows.Forms.GroupBox();
             this.tpnlTilemaps = new System.Windows.Forms.TableLayoutPanel();
@@ -65,6 +64,8 @@
             this.mnuSetTileType = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMirrorX = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuMirrorY = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFlipX = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuFlipY = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTilemapFromSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSelectionToTilemap = new System.Windows.Forms.ToolStripMenuItem();
@@ -251,10 +252,17 @@
             this.mnuExportAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuExportPalette = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuPaletteExportImage = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuPaletteExportBinary = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuPaletteExportHex = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuPaletteExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBGPaletteExportImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBGPaletteExportBinary = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBGPaletteExportHex = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBGPaletteExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuBGPaletteExportDecimal = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportSPRPaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSPRPaletteExportImage = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSPRPaletteExportBinary = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSPRPaletteExportHex = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSPRPaletteExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSPRPaletteExportDecimal = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportTileset = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilesetBypassCompression = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilesetUseMaskColor = new System.Windows.Forms.ToolStripMenuItem();
@@ -265,6 +273,7 @@
             this.mnuTilesetExportBinaries = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilesetExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilesetExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTilesetExportDecimal = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuExportTilemap = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapBypassCompression = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTilemapVerticalOrientation = new System.Windows.Forms.ToolStripMenuItem();
@@ -310,8 +319,6 @@
             this.mnuTileGridExportDecimal = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTileGridExportHex = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTileGridExportAssembly = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuFlipX = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuFlipY = new System.Windows.Forms.ToolStripMenuItem();
             this.tpnlMain.SuspendLayout();
             this.grpImageList.SuspendLayout();
             this.tpnlTilemaps.SuspendLayout();
@@ -755,7 +762,7 @@
             this.mnuExportSelectedIds,
             this.mnuExportSelectedIndexes});
             this.mnuSelectOptions.Name = "mnuSelectOptions";
-            this.mnuSelectOptions.Size = new System.Drawing.Size(200, 440);
+            this.mnuSelectOptions.Size = new System.Drawing.Size(200, 418);
             // 
             // mnuCreateBrush
             // 
@@ -838,6 +845,20 @@
             this.mnuMirrorY.Size = new System.Drawing.Size(199, 22);
             this.mnuMirrorY.Text = "Mirror Vertical";
             this.mnuMirrorY.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuFlipX
+            // 
+            this.mnuFlipX.Name = "mnuFlipX";
+            this.mnuFlipX.Size = new System.Drawing.Size(199, 22);
+            this.mnuFlipX.Text = "Flip Horizontal";
+            this.mnuFlipX.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuFlipY
+            // 
+            this.mnuFlipY.Name = "mnuFlipY";
+            this.mnuFlipY.Size = new System.Drawing.Size(199, 22);
+            this.mnuFlipY.Text = "Flip Vertical";
+            this.mnuFlipY.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -2409,8 +2430,8 @@
             this.pnlSelectedTile.Margin = new System.Windows.Forms.Padding(16, 0, 0, 0);
             this.pnlSelectedTile.MinimumScale = 1;
             this.pnlSelectedTile.Name = "pnlSelectedTile";
-            this.pnlSelectedTile.Palette = ((System.Collections.Generic.List<System.Drawing.Color>)(resources.GetObject("pnlSelectedTile.Palette")));
-            this.pnlSelectedTile.Pixels = ((System.Collections.Generic.List<byte>)(resources.GetObject("pnlSelectedTile.Pixels")));
+            this.pnlSelectedTile.Palette = null;
+            this.pnlSelectedTile.Pixels = null;
             this.pnlSelectedTile.SelectedColor = ((byte)(255));
             this.pnlSelectedTile.SelectedTileID = 0;
             this.pnlSelectedTile.Size = new System.Drawing.Size(144, 144);
@@ -3316,61 +3337,117 @@
             this.mnuExportAll,
             this.toolStripMenuItem2,
             this.mnuExportPalette,
+            this.exportSPRPaletteToolStripMenuItem,
             this.mnuExportTileset,
             this.mnuExportTilemap});
             this.mnuExport.Name = "mnuExport";
-            this.mnuExport.Size = new System.Drawing.Size(154, 98);
+            this.mnuExport.Size = new System.Drawing.Size(181, 142);
             // 
             // mnuExportAll
             // 
             this.mnuExportAll.Name = "mnuExportAll";
-            this.mnuExportAll.Size = new System.Drawing.Size(153, 22);
+            this.mnuExportAll.Size = new System.Drawing.Size(180, 22);
             this.mnuExportAll.Text = "Export All";
             this.mnuExportAll.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(150, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // mnuExportPalette
             // 
             this.mnuExportPalette.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuPaletteExportImage,
-            this.mnuPaletteExportBinary,
-            this.mnuPaletteExportHex,
-            this.mnuPaletteExportAssembly});
+            this.mnuBGPaletteExportImage,
+            this.mnuBGPaletteExportBinary,
+            this.mnuBGPaletteExportHex,
+            this.mnuBGPaletteExportAssembly,
+            this.mnuBGPaletteExportDecimal});
             this.mnuExportPalette.Name = "mnuExportPalette";
-            this.mnuExportPalette.Size = new System.Drawing.Size(153, 22);
-            this.mnuExportPalette.Text = "Export Palette";
+            this.mnuExportPalette.Size = new System.Drawing.Size(180, 22);
+            this.mnuExportPalette.Text = "Export BG Palette";
             // 
-            // mnuPaletteExportImage
+            // mnuBGPaletteExportImage
             // 
-            this.mnuPaletteExportImage.Name = "mnuPaletteExportImage";
-            this.mnuPaletteExportImage.Size = new System.Drawing.Size(238, 22);
-            this.mnuPaletteExportImage.Text = "Export as Image";
-            this.mnuPaletteExportImage.Click += new System.EventHandler(this.mnuTilemap_Click);
+            this.mnuBGPaletteExportImage.Name = "mnuBGPaletteExportImage";
+            this.mnuBGPaletteExportImage.Size = new System.Drawing.Size(238, 22);
+            this.mnuBGPaletteExportImage.Text = "Export as Image";
+            this.mnuBGPaletteExportImage.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuPaletteExportBinary
+            // mnuBGPaletteExportBinary
             // 
-            this.mnuPaletteExportBinary.Name = "mnuPaletteExportBinary";
-            this.mnuPaletteExportBinary.Size = new System.Drawing.Size(238, 22);
-            this.mnuPaletteExportBinary.Text = "Export as Binary";
-            this.mnuPaletteExportBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
+            this.mnuBGPaletteExportBinary.Name = "mnuBGPaletteExportBinary";
+            this.mnuBGPaletteExportBinary.Size = new System.Drawing.Size(238, 22);
+            this.mnuBGPaletteExportBinary.Text = "Export as Binary";
+            this.mnuBGPaletteExportBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuPaletteExportHex
+            // mnuBGPaletteExportHex
             // 
-            this.mnuPaletteExportHex.Name = "mnuPaletteExportHex";
-            this.mnuPaletteExportHex.Size = new System.Drawing.Size(238, 22);
-            this.mnuPaletteExportHex.Text = "Export as Hex (Clipboard)";
-            this.mnuPaletteExportHex.Click += new System.EventHandler(this.mnuTilemap_Click);
+            this.mnuBGPaletteExportHex.Name = "mnuBGPaletteExportHex";
+            this.mnuBGPaletteExportHex.Size = new System.Drawing.Size(238, 22);
+            this.mnuBGPaletteExportHex.Text = "Export as Hex (Clipboard)";
+            this.mnuBGPaletteExportHex.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuPaletteExportAssembly
+            // mnuBGPaletteExportAssembly
             // 
-            this.mnuPaletteExportAssembly.Name = "mnuPaletteExportAssembly";
-            this.mnuPaletteExportAssembly.Size = new System.Drawing.Size(238, 22);
-            this.mnuPaletteExportAssembly.Text = "Export as Assembly (Clipboard)";
-            this.mnuPaletteExportAssembly.Click += new System.EventHandler(this.mnuTilemap_Click);
+            this.mnuBGPaletteExportAssembly.Name = "mnuBGPaletteExportAssembly";
+            this.mnuBGPaletteExportAssembly.Size = new System.Drawing.Size(238, 22);
+            this.mnuBGPaletteExportAssembly.Text = "Export as Assembly (Clipboard)";
+            this.mnuBGPaletteExportAssembly.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuBGPaletteExportDecimal
+            // 
+            this.mnuBGPaletteExportDecimal.Name = "mnuBGPaletteExportDecimal";
+            this.mnuBGPaletteExportDecimal.Size = new System.Drawing.Size(238, 22);
+            this.mnuBGPaletteExportDecimal.Text = "Export as Decimal (Clipboard)";
+            this.mnuBGPaletteExportDecimal.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // exportSPRPaletteToolStripMenuItem
+            // 
+            this.exportSPRPaletteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuSPRPaletteExportImage,
+            this.mnuSPRPaletteExportBinary,
+            this.mnuSPRPaletteExportHex,
+            this.mnuSPRPaletteExportAssembly,
+            this.mnuSPRPaletteExportDecimal});
+            this.exportSPRPaletteToolStripMenuItem.Name = "exportSPRPaletteToolStripMenuItem";
+            this.exportSPRPaletteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exportSPRPaletteToolStripMenuItem.Text = "Export SPR Palette";
+            // 
+            // mnuSPRPaletteExportImage
+            // 
+            this.mnuSPRPaletteExportImage.Name = "mnuSPRPaletteExportImage";
+            this.mnuSPRPaletteExportImage.Size = new System.Drawing.Size(238, 22);
+            this.mnuSPRPaletteExportImage.Text = "Export as Image";
+            this.mnuSPRPaletteExportImage.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuSPRPaletteExportBinary
+            // 
+            this.mnuSPRPaletteExportBinary.Name = "mnuSPRPaletteExportBinary";
+            this.mnuSPRPaletteExportBinary.Size = new System.Drawing.Size(238, 22);
+            this.mnuSPRPaletteExportBinary.Text = "Export as Binary";
+            this.mnuSPRPaletteExportBinary.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuSPRPaletteExportHex
+            // 
+            this.mnuSPRPaletteExportHex.Name = "mnuSPRPaletteExportHex";
+            this.mnuSPRPaletteExportHex.Size = new System.Drawing.Size(238, 22);
+            this.mnuSPRPaletteExportHex.Text = "Export as Hex (Clipboard)";
+            this.mnuSPRPaletteExportHex.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuSPRPaletteExportAssembly
+            // 
+            this.mnuSPRPaletteExportAssembly.Name = "mnuSPRPaletteExportAssembly";
+            this.mnuSPRPaletteExportAssembly.Size = new System.Drawing.Size(238, 22);
+            this.mnuSPRPaletteExportAssembly.Text = "Export as Assembly (Clipboard)";
+            this.mnuSPRPaletteExportAssembly.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
+            // mnuSPRPaletteExportDecimal
+            // 
+            this.mnuSPRPaletteExportDecimal.Name = "mnuSPRPaletteExportDecimal";
+            this.mnuSPRPaletteExportDecimal.Size = new System.Drawing.Size(238, 22);
+            this.mnuSPRPaletteExportDecimal.Text = "Export as Decimal (Clipboard)";
+            this.mnuSPRPaletteExportDecimal.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
             // mnuExportTileset
             // 
@@ -3383,9 +3460,10 @@
             this.mnuTilesetExportBinary,
             this.mnuTilesetExportBinaries,
             this.mnuTilesetExportHex,
-            this.mnuTilesetExportAssembly});
+            this.mnuTilesetExportAssembly,
+            this.mnuTilesetExportDecimal});
             this.mnuExportTileset.Name = "mnuExportTileset";
-            this.mnuExportTileset.Size = new System.Drawing.Size(153, 22);
+            this.mnuExportTileset.Size = new System.Drawing.Size(180, 22);
             this.mnuExportTileset.Text = "Export Tileset";
             // 
             // mnuTilesetBypassCompression
@@ -3449,6 +3527,13 @@
             this.mnuTilesetExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuTilesetExportAssembly.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
+            // mnuTilesetExportDecimal
+            // 
+            this.mnuTilesetExportDecimal.Name = "mnuTilesetExportDecimal";
+            this.mnuTilesetExportDecimal.Size = new System.Drawing.Size(255, 22);
+            this.mnuTilesetExportDecimal.Text = "Export as Decimal (Clipboard)";
+            this.mnuTilesetExportDecimal.Click += new System.EventHandler(this.mnuTilemap_Click);
+            // 
             // mnuExportTilemap
             // 
             this.mnuExportTilemap.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -3466,7 +3551,7 @@
             this.mnuTilemapExportAssembly,
             this.mnuTilemapExportDecimal});
             this.mnuExportTilemap.Name = "mnuExportTilemap";
-            this.mnuExportTilemap.Size = new System.Drawing.Size(153, 22);
+            this.mnuExportTilemap.Size = new System.Drawing.Size(180, 22);
             this.mnuExportTilemap.Text = "Export Tilemap";
             // 
             // mnuTilemapBypassCompression
@@ -3790,20 +3875,6 @@
             this.mnuTileGridExportAssembly.Text = "Export as Assembly (Clipboard)";
             this.mnuTileGridExportAssembly.Click += new System.EventHandler(this.mnuTilemap_Click);
             // 
-            // mnuFlipX
-            // 
-            this.mnuFlipX.Name = "mnuFlipX";
-            this.mnuFlipX.Size = new System.Drawing.Size(199, 22);
-            this.mnuFlipX.Text = "Flip Horizontal";
-            this.mnuFlipX.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
-            // mnuFlipY
-            // 
-            this.mnuFlipY.Name = "mnuFlipY";
-            this.mnuFlipY.Size = new System.Drawing.Size(199, 22);
-            this.mnuFlipY.Text = "Flip Vertical";
-            this.mnuFlipY.Click += new System.EventHandler(this.mnuTilemap_Click);
-            // 
             // AssetTilemapControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -3947,10 +4018,10 @@
         private System.Windows.Forms.ToolStripMenuItem mnuClearBrush;
         private System.Windows.Forms.ToolStripSeparator mnuSeparator4;
         private System.Windows.Forms.ToolStripMenuItem mnuExportPalette;
-        private System.Windows.Forms.ToolStripMenuItem mnuPaletteExportImage;
-        private System.Windows.Forms.ToolStripMenuItem mnuPaletteExportBinary;
-        private System.Windows.Forms.ToolStripMenuItem mnuPaletteExportHex;
-        private System.Windows.Forms.ToolStripMenuItem mnuPaletteExportAssembly;
+        private System.Windows.Forms.ToolStripMenuItem mnuBGPaletteExportImage;
+        private System.Windows.Forms.ToolStripMenuItem mnuBGPaletteExportBinary;
+        private System.Windows.Forms.ToolStripMenuItem mnuBGPaletteExportHex;
+        private System.Windows.Forms.ToolStripMenuItem mnuBGPaletteExportAssembly;
         private System.Windows.Forms.Label lblRows;
         private System.Windows.Forms.Label lblColumns;
         private System.Windows.Forms.NumericUpDown nudRows;
@@ -4178,5 +4249,13 @@
         private System.Windows.Forms.ToolStripMenuItem mnuTilesetUpdate;
         private System.Windows.Forms.ToolStripMenuItem mnuFlipX;
         private System.Windows.Forms.ToolStripMenuItem mnuFlipY;
+        private System.Windows.Forms.ToolStripMenuItem mnuBGPaletteExportDecimal;
+        private System.Windows.Forms.ToolStripMenuItem mnuTilesetExportDecimal;
+        private System.Windows.Forms.ToolStripMenuItem exportSPRPaletteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mnuSPRPaletteExportImage;
+        private System.Windows.Forms.ToolStripMenuItem mnuSPRPaletteExportBinary;
+        private System.Windows.Forms.ToolStripMenuItem mnuSPRPaletteExportHex;
+        private System.Windows.Forms.ToolStripMenuItem mnuSPRPaletteExportAssembly;
+        private System.Windows.Forms.ToolStripMenuItem mnuSPRPaletteExportDecimal;
     }
 }

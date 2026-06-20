@@ -197,18 +197,25 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets data string
+        /// Gets a string of data in the specified format
         /// </summary>
-        /// <returns>Object assembly string</returns>
-        public string GetDataString(bool asm, bool gameGear)
+        public string GetDataString(TextType type, bool gameGear)
         {
             StringBuilder sb = new StringBuilder();
-            if (asm)
-                sb.Append(".db ");
+            if (type == TextType.Asm)
+                sb.Append((gameGear ? ".dw " : ".db "));
+            int size = (gameGear ? 2 : 1);
             byte[] data = GetPaletteData(null, gameGear);
-            for (int i = 0; i < data.Length; i++)
-                sb.Append((asm ? "$" : "") + data[i].ToString("X2") + " ");
-            return sb.ToString().Trim();
+            for (int i = 0; i < data.Length; i += size)
+            {
+                switch (type)
+                {
+                    case TextType.Asm: sb.Append("$" + (gameGear ? data[i].ToString("X2") + data[i + 1].ToString("X2") : data[i].ToString("X2")) + ", "); break;
+                    case TextType.Hex: sb.Append("0x" + (gameGear ? data[i].ToString("X2") + data[i + 1].ToString("X2") : data[i].ToString("X2")) + ", "); break;
+                    case TextType.Decimal: sb.Append((gameGear ? ((data[i] << 8) | data[i + 1]).ToString() : data[i].ToString()) + ", "); break;
+                }
+            }
+            return sb.ToString();
         }
 
         /// <summary>

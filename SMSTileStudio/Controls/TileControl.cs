@@ -117,7 +117,7 @@ namespace SMSTileStudio.Controls
         /// </summary>
         private void DrawIndexes(Graphics gfx, Point origin)
         {
-            if (_pixels.Count <= 0)
+            if (_pixels == null || _pixels.Count <= 0)
                 return;
 
             int index = 0;
@@ -168,8 +168,10 @@ namespace SMSTileStudio.Controls
         public void Clear()
         {
             Image = null;
-            _pixels.Clear();
-            _palette.Clear();
+            if (_pixels  != null)
+                _pixels.Clear();
+            if (_palette != null)
+                _palette.Clear();
             _selection = Rectangle.Empty;
             SelectedColor = 255;
             TargetColor = 255;

@@ -94,20 +94,20 @@ namespace SMSTileStudio.Data
         }
 
         /// <summary>
-        /// Gets data string
+        /// Gets a string of data in the specified format
         /// </summary>
-        /// <param name="asm">If asm formatteds</param>
-        /// <returns>Object assembly string</returns>
-        public string GetDataString(bool asm)
+        public string GetDataString(TextType type)
         {
             StringBuilder sb = new StringBuilder();
-            if (asm)
-                sb.Append(".db ");
             byte[] data = GetTilesetData(null, 0, TileCount);
-            for (int i = 0; i < data.Length / 32; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                for (int j = 0; j < 32; j++)
-                    sb.Append(((asm ? "$" : "") + data[i * j + j].ToString("X2") + " "));
+                switch (type)
+                {
+                    case TextType.Asm: sb.Append(".db $" + data[i].ToString("X2") + ", "); break;
+                    case TextType.Hex: sb.Append("0x" + data[i].ToString("X2") + ", "); break;
+                    case TextType.Decimal: sb.Append(data[i].ToString() + ", "); break;
+                }
             }
             return sb.ToString().Trim();
         }

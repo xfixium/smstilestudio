@@ -68,6 +68,12 @@ namespace SMSTileStudio.Forms
         /// </summary>
         private void btnFilterByTag_Click(object sender, EventArgs e)
         {
+            if (cbTags.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a tag to filter on.");
+                return;
+            }
+
             var tag = cbTags.SelectedItem.ToString();
             for (int i = 0; i < lstSelectedTilemaps.Items.Count; i++)
             {
