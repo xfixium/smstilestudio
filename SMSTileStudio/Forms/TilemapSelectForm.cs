@@ -20,12 +20,12 @@
 // THE SOFTWARE.
 //
 
+using SMSTileStudio.Data;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using SMSTileStudio.Data;
 
 namespace SMSTileStudio.Forms
 {

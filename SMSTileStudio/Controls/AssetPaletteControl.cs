@@ -20,15 +20,15 @@
 // THE SOFTWARE.
 //
 
+using SMSTileStudio.Data;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
-using System.Collections.Generic;
-using SMSTileStudio.Data;
 
 namespace SMSTileStudio.Controls
 {

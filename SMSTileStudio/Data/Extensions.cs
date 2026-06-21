@@ -20,14 +20,14 @@
 // THE SOFTWARE.
 //
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using System.ComponentModel;
-using System.Reflection;
-using System;
 
 namespace SMSTileStudio.Data
 {

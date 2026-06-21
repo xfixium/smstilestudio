@@ -21,9 +21,9 @@
 //
 
 using System;
-using System.Linq;
-using System.Drawing;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 namespace SMSTileStudio.Data
 {

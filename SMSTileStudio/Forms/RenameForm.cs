@@ -20,7 +20,6 @@
 // THE SOFTWARE.
 //
 
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace SMSTileStudio.Forms

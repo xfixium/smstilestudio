@@ -21,15 +21,14 @@
 //
 
 using System;
-using System.Linq;
-using System.ComponentModel;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace SMSTileStudio.Data
 {
-
     /// <summary>
-    /// Compression type enumeration
+    /// Asset type enumeration
     /// </summary>
     public enum GameAssetType : int
     {
